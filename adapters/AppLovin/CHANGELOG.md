@@ -2,9 +2,19 @@
 
 #### Next version
 
-- Added new adapter API implementation for waterfall interstitial ad.
+- Added new adapter API implementation for waterfall banner ad format.
 
-#### Version 13.6.2.0 (In progress)
+#### Version 13.6.2.1 (In progress)
+
+- Added new adapter API implementation for waterfall interstitial ad format.
+- Filter age-restricted requests for AppLovin SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
+
+#### [Version 13.6.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.2.0.zip)
+- Verified compatibility with AppLovin SDK 13.6.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.2.0.
+- AppLovin SDK version 13.6.2.
 
 #### [Version 13.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.1.0.zip)
 - Verified compatibility with AppLovin SDK 13.6.1.

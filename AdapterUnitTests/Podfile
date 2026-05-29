@@ -23,6 +23,22 @@ abstract_target 'Default' do
   target 'AdapterUnitTestKit' do
   end
 
+  # MaxAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('MaxAdapter')
+
+    pod 'GoogleMobileAdsMediationMax', :path => '../adapters/prerelease/MaxAdapter/CocoaPods/GoogleMobileAdsMediationMax.podspec.json'
+
+    # Dependencies for MaxAdapter static library.
+    target 'Adapter' do
+      project '../adapters/prerelease/MaxAdapter/MaxAdapter.xcodeproj'
+    end
+
+    target 'MaxAdapterTests' do
+    end
+
+  end
+
+
   # MetaAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MetaAdapter')
 

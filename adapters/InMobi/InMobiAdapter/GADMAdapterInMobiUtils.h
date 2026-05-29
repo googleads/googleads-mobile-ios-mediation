@@ -61,8 +61,7 @@ void GADMAdapterInMobiSetTargetingFromAdConfiguration(
 /// type and the child directed treatment bit.
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
     GADInMobiExtras *_Nullable extras,
-    GADMAdapterInMobiRequestParametersMediationType _Nonnull mediationType,
-    NSNumber *_Nullable childDirectedTreatment, NSNumber *_Nullable underAgeOfConsent);
+    GADMAdapterInMobiRequestParametersMediationType _Nonnull mediationType);
 
 /// Logs with GADMediationAdapterInMobi Prefix.
 void GADMAdapterInMobiLog(NSString *_Nonnull format, ...);

@@ -151,7 +151,7 @@
 
 - (void)loadAdWithCompletion:(GADMediationInterstitialLoadCompletionHandler _Nonnull)completion {
 #if DEBUG
-  NSAssert(!_loadAlreadyStarted, @"Trying to load a new ad while already loading/loaded one");
+  NSCAssert(!_loadAlreadyStarted, @"Trying to load a new ad while already loading/loaded one");
   _loadAlreadyStarted = YES;
 #endif
   // Store the completion handler for later use.
@@ -253,8 +253,8 @@
 
 - (void)displayedAd:(nonnull ALAd *)ad {
 #if DEBUG
-  NSAssert([ad isEqual:_interstitialAd],
-           @"AppLovinAdapter: Received ad displayed callback for an unexpected ad");
+  NSCAssert([ad isEqual:_interstitialAd],
+            @"AppLovinAdapter: Received ad displayed callback for an unexpected ad");
 #endif
   [GADMAdapterAppLovinUtils log:@"Interstitial ad displayed"];
   id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
@@ -264,8 +264,8 @@
 
 - (void)hidAd:(nonnull ALAd *)ad {
 #if DEBUG
-  NSAssert([ad isEqual:_interstitialAd],
-           @"AppLovinAdapter: Received ad hidden callback for an unexpected ad");
+  NSCAssert([ad isEqual:_interstitialAd],
+            @"AppLovinAdapter: Received ad hidden callback for an unexpected ad");
 #endif
   [GADMAdapterAppLovinUtils log:@"Interstitial ad hidden"];
   [GADMAdapterAppLovinMediationManager.sharedInstance
@@ -277,8 +277,8 @@
 
 - (void)reportClickOnAd:(nonnull ALAd *)ad {
 #if DEBUG
-  NSAssert([ad isEqual:_interstitialAd],
-           @"AppLovinAdapter: Received ad clicked callback for an unexpected ad");
+  NSCAssert([ad isEqual:_interstitialAd],
+            @"AppLovinAdapter: Received ad clicked callback for an unexpected ad");
 #endif
   [GADMAdapterAppLovinUtils log:@"Interstitial ad clicked"];
   [_delegate reportClick];

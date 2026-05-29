@@ -19,6 +19,8 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -151,6 +153,44 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [self waitForExpectations:@[ setUpExpectation ]];
   OCMVerifyAll(mockChartboost);
 
+  [mockChartboost stopMocking];
+}
+
+- (void)testSetUpCredentialsSuccessWithAgeRestrictedTreatment {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  id mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([mockChartboost startWithAppID:@"app_id"
+                                          appSignature:@"signature"
+                                            completion:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        AUTChartboostSetUpCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:4];
+        if (completionBlock) {
+          completionBlock(nil);
+        }
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  OCMExpect(
+      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+                        return obj.isChildDirected == YES;
+                      }]]);
+
+  XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
+  [GADMediationAdapterChartboost setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [setUpExpectation fulfill];
+                                      }];
+
+  [self waitForExpectations:@[ setUpExpectation ]];
   [mockChartboost stopMocking];
 }
 

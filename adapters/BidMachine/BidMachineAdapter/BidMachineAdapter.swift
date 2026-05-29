@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterBidMachine)
 final class BidMachineAdapter: NSObject, RTBAdapter {
 
-  private static let adapterVersionString = "3.6.1.0"
+  private static let adapterVersionString = "3.7.0.0"
 
   private static let supportedFormats: [AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
@@ -43,13 +43,15 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
       let sourceId = try Util.sourceId(from: configuration)
 
       // Sets COPPA compliance based on MobileAds configuration.
-      // - If either tag is true, treat as COPPA-compliant (true).
-      // - If either tag is false (and neither is true), treat as not COPPA-compliant (false).
+      // - If ageRestrictedTreatment is set to .child, treat as COPPA-compliant (true).
+      // - If either tag (TFCD or TFUA) is true, treat as COPPA-compliant (true).
+      // - If either tag (TFCD or TFUA) is false (and neither is true), treat as not COPPA-compliant (false).
       // - Otherwise, leave as nil.
+      let ageRestrictedTreatment = MobileAds.shared.requestConfiguration.ageRestrictedTreatment
       let isChild = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue
       let isUnderAge = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent?.boolValue
       var isCOPPA: Bool?
-      if isChild == true || isUnderAge == true {
+      if isChild == true || isUnderAge == true || ageRestrictedTreatment == .child {
         isCOPPA = true
       } else if isChild == false || isUnderAge == false {
         isCOPPA = false
@@ -99,15 +101,23 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-    do {
-      let format = try Util.adFormat(from: params)
-      try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
-        completionHandler(signals, nil)
+    Task {
+      do {
+        let format = try Util.adFormat(from: params)
+        try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
+          Task { @MainActor in
+            completionHandler(signals, nil)
+          }
+        }
+      } catch let error as BidMachineAdapterError {
+        Task { @MainActor in
+          completionHandler(nil, error.toNSError())
+        }
+      } catch {
+        Task { @MainActor in
+          completionHandler(nil, error as NSError)
+        }
       }
-    } catch let error as BidMachineAdapterError {
-      completionHandler(nil, error.toNSError())
-    } catch {
-      completionHandler(nil, error as NSError)
     }
   }
 
@@ -116,9 +126,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
-    bannerAdLoader = BannerAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    bannerAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.bannerAdLoader = BannerAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.bannerAdLoader?.loadAd()
+    }
   }
 
   @objc
@@ -126,9 +139,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
-    interstitialAdLoader = InterstitialAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    interstitialAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.interstitialAdLoader = InterstitialAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.interstitialAdLoader?.loadAd()
+    }
   }
 
   @objc
@@ -136,9 +152,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
-    rewardedAdLoader = RewardedAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    rewardedAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.rewardedAdLoader = RewardedAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.rewardedAdLoader?.loadAd()
+    }
   }
 
   @objc
@@ -146,9 +165,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
-    nativeAdLoader = NativeAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    nativeAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.nativeAdLoader = NativeAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.nativeAdLoader?.loadAd()
+    }
   }
 
 }

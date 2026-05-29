@@ -24,11 +24,15 @@ final class PubMaticInformationTests {
   init() {
     OpenWrapSDKClientFactory.debugClient = FakeOpenWrapSDKClient()
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
+    MobileAds.shared.requestConfiguration.ageRestrictedTreatment = .unspecified
   }
 
   deinit {
     OpenWrapSDKClientFactory.debugClient = nil
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
+    MobileAds.shared.requestConfiguration.ageRestrictedTreatment = .unspecified
   }
 
   @Test("Adapter version validation")
@@ -68,6 +72,7 @@ final class PubMaticAdapterSetUpTests {
     OpenWrapSDKClientFactory.debugClient = nil
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
     MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
+    MobileAds.shared.requestConfiguration.ageRestrictedTreatment = .unspecified
   }
 
   @Test("Adapter set up successfully")
@@ -169,6 +174,54 @@ final class PubMaticAdapterSetUpTests {
   func setUp_succeedsWithTagForUnderAgeTrue() async {
     debugClient.shouldSetUpSucceed = true
     MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == true)
+  }
+
+  @Test(
+    "Adapter set up successfully with COPPA disabled when age restricted treatment is unspecified")
+  func setUp_succeedsWithAgeRestrictedTreatmentUnspecified() async {
+    debugClient.shouldSetUpSucceed = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == false)
+  }
+
+  @Test("Adapter set up successfully with COPPA enabled when age restricted treatment is child")
+  func setUp_succeedsWithAgeRestrictedTreatmentTrue() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.ageRestrictedTreatment = .child
 
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]

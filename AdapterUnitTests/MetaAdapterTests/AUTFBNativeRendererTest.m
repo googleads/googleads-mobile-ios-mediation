@@ -82,6 +82,8 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [_fbAdSettingsMock stopMocking];
   [super tearDown];
 }
@@ -501,6 +503,22 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
+- (void)testLoadNativeAdWhenAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+
+  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, AUTMediationNativeAdConfiguration());
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
 - (void)testLoadNativeAdWhenBothChildDirectedAndUnderAgeOfConsentAreFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
@@ -549,9 +567,12 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
-- (void)testLoadNativeAdWhenBothChildDirectedAndUnderAgeOfConsentAreTrue {
+- (void)
+    testLoadNativeAdWhenBothChildDirectedAndUnderAgeOfConsentAreTrueAndAgeRestrictedTreatmentIsChild {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
 
@@ -629,6 +650,23 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
+- (void)testLoadNativeBannerAdWhenAgeRestrictedTreatmentIsChild {
+  _shouldReturnNativeBannerAd = YES;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+
+  OCMStub([(FBNativeBannerAd *)_mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeBannerAd *ad = (FBNativeBannerAd *)invocation.target;
+        [self->_nativeAdDelegate nativeBannerAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, AUTMediationNativeAdConfiguration());
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
 - (void)testLoadNativeBannerAdWhenChildDirectedAndUnderAgeOfConsentAreFalse {
   _shouldReturnNativeBannerAd = YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
@@ -680,10 +718,13 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
-- (void)testLoadNativeBannerAdWhenChildDirectedAndUnderAgeOfConsentAreTrue {
+- (void)
+    testLoadNativeBannerAdWhenChildDirectedAndUnderAgeOfConsentAreTrueAndAgeRestrictedTreatmentIsChild {
   _shouldReturnNativeBannerAd = YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
 

@@ -65,9 +65,10 @@
 
   NSString *applicationID = [applicationIDs anyObject];
   if (applicationIDs.count > 1) {
-    NSString *logMessage = [NSString stringWithFormat:
-                            @"Multiple application ID entries found: %@. Using '%@' to initialize the Vungle SDK.",
-                            applicationIDs, applicationID];
+    NSString *logMessage = [NSString
+        stringWithFormat:
+            @"Multiple application ID entries found: %@. Using '%@' to initialize the Vungle SDK.",
+            applicationIDs, applicationID];
     NSLog(@"%@", logMessage);
     NSLog(@"Please remove any application IDs you are not using from the AdMob UI.");
     [VungleMediationLogger logErrorForAd:nil message:logMessage];

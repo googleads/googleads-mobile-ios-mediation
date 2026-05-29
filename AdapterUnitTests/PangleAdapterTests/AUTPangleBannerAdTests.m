@@ -46,6 +46,9 @@
   OCMVerifyAll(_request);
   OCMVerifyAll(_ad);
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 }
 
 - (nonnull AUTKMediationBannerAdEventDelegate *)loadAdWithPlacementID:
@@ -114,14 +117,58 @@
 }
 
 - (void)testLoadAdWithSize320x50ForChildAudience {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorChildUser
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:@"ID" adSize:GADAdSizeBanner expectedError:expectedError];
+}
+
+- (void)testLoadAdWithSize320x50ForNonChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
 
   [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];
 }
 
-- (void)testLoadAdWithSize320x50ForNonChildAudience {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+- (void)testLoadAdWithSize320x50ForUnderAgeOfConsent {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorChildUser
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:@"ID" adSize:GADAdSizeBanner expectedError:expectedError];
+}
+
+- (void)testLoadAdWithSize320x50ForNonUnderAgeOfConsent {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
+
+  [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];
+}
+
+- (void)testLoadAdWithSize320x50ForAgeRestrictedChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorChildUser
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:@"ID" adSize:GADAdSizeBanner expectedError:expectedError];
+}
+
+- (void)testLoadAdWithSize320x50ForAgeRestrictedTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
+
+  [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];
+}
+
+- (void)testLoadAdWithSize320x50ForAgeRestrictedUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
 
   [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];

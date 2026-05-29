@@ -21,12 +21,16 @@
   [super setUp];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
 }
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -91,6 +95,26 @@
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpWithAgeRestrictedTreatmentChild {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpWithAgeRestrictedTreatmentTeen {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
   OCMVerifyAll(_mockPrivacy);

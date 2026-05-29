@@ -188,9 +188,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
         return
       }
       self?.bidMachineBanner = bidMachineBanner
-      nonisolated(unsafe) let nonisolatedDelegate = delegate
-      DispatchQueue.main.async {
-        bidMachineBanner.delegate = nonisolatedDelegate
+      Task {
+        @MainActor in
+        bidMachineBanner.delegate = delegate
         if let watermark {
           bidMachineBanner.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
         }
