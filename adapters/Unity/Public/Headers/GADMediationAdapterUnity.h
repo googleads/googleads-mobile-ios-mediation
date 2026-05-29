@@ -48,6 +48,16 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   GADMAdapterUnityErrorAdUnsupportedAdFormat = 111
 };
 
+/// Represents the result of a consent check for advertising purposes.
+typedef NS_ENUM(NSInteger, GADMAdapterUnityConsentResult) {
+  /// The consent status could not be determined, or consent does not apply.
+  GADMAdapterUnityConsentResultUnknown,
+  /// The user has explicitly consented.
+  GADMAdapterUnityConsentResultTrue,
+  /// The user has explicitly declined consent.
+  GADMAdapterUnityConsentResultFalse
+};
+
 @interface GADMediationAdapterUnity : NSObject <GADRTBAdapter>
 
 /// Indicates whether UnityAds SDK should be initialized in test mode.

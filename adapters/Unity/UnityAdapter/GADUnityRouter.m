@@ -70,6 +70,18 @@ typedef void (^InitCompletionHandler)(NSError *);
     }
   }
 
+  GADMAdapterUnityConsentResult consentResult =
+      GADMAdapterUnityHasACConsent(GADMAdapterUnityAdTechnologyProviderID);
+  if (consentResult == GADMAdapterUnityConsentResultTrue) {
+    UADSMetaData *gdprMetaData = [[UADSMetaData alloc] init];
+    [gdprMetaData set:@"gdpr.consent" value:@YES];
+    [gdprMetaData commit];
+  } else if (consentResult == GADMAdapterUnityConsentResultFalse) {
+    UADSMetaData *gdprMetaData = [[UADSMetaData alloc] init];
+    [gdprMetaData set:@"gdpr.consent" value:@NO];
+    [gdprMetaData commit];
+  }
+
   static dispatch_once_t unityInitToken;
   dispatch_once(&unityInitToken, ^{
     GADMAdapterUnityConfigureMediationService();
