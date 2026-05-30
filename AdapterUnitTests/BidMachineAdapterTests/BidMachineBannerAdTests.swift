@@ -35,6 +35,29 @@ final class BidMachineRTBBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
+    adConfig.adSize = AdSizeBanner
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+  }
+
+  @Test("RTB banner ad load succeeds for MREC size")
+  func load_succeeds_forMREC() async {
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
+    adConfig.adSize = AdSizeMediumRectangle
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+  }
+
+  @Test("RTB banner ad load succeeds for leaderboard size")
+  func load_succeeds_forLeaderboard() async {
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
+    adConfig.adSize = AdSizeLeaderboard
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
@@ -46,6 +69,7 @@ final class BidMachineRTBBannerAdTests {
 
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadBannerAdFailure(
@@ -58,6 +82,7 @@ final class BidMachineRTBBannerAdTests {
 
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadBannerAdFailure(
@@ -70,6 +95,7 @@ final class BidMachineRTBBannerAdTests {
 
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadBannerAdFailure(
@@ -81,6 +107,7 @@ final class BidMachineRTBBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
@@ -95,6 +122,7 @@ final class BidMachineRTBBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)

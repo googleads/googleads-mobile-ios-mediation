@@ -1,5 +1,9 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Next version
+
+- Fixed RTB banner size propagation.
+
 #### [Version 3.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.7.0.0.zip)
 - Verified compatibility with BidMachine SDK version 3.7.0.
 
