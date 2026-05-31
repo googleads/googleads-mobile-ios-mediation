@@ -1,5 +1,8 @@
 ## Verve iOS Mediation Adapter Changelog
 
+#### Next Version
+- Filter age-restricted requests for Verve SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
+
 #### [Version 3.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.8.1.0.zip)
 - Verified compatibility with HyBid SDK version 3.8.1.
 

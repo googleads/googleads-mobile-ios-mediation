@@ -19,6 +19,14 @@ final class VerveAdapter: NSObject, RTBAdapter {
 
   private static let version = "3.8.1.0"
 
+  private static var isChildUser: Bool {
+    let isChild = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue
+    let isUnderAge = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent?.boolValue
+    let ageRestrictedTreatment = MobileAds.shared.requestConfiguration.ageRestrictedTreatment
+
+    return isChild == true || isUnderAge == true || ageRestrictedTreatment == .child
+  }
+
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
 
@@ -36,19 +44,18 @@ final class VerveAdapter: NSObject, RTBAdapter {
     with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
+    if Self.isChildUser {
+      completionHandler(
+        VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user.")
+          .toNSError())
+      return
+    }
+
     do {
       let sourceId = try Util.appToken(from: configuration)
-      var isCOPPA: Bool?
-      if let COPPA = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment {
-        isCOPPA = COPPA.boolValue
-      }
-      var isTFUA: Bool?
-      if let TFUA = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent {
-        isTFUA = TFUA.boolValue
-      }
 
       HybidClientFactory.createClient().initialize(
-        with: sourceId, COPPA: isCOPPA, TFUA: isTFUA
+        with: sourceId
       ) { error in
         completionHandler(error?.toNSError())
       }
@@ -98,6 +105,13 @@ final class VerveAdapter: NSObject, RTBAdapter {
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
+    if Self.isChildUser {
+      completionHandler(
+        "",
+        VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user.")
+          .toNSError())
+      return
+    }
     let client = HybidClientFactory.createClient()
     completionHandler(client.collectSignals(), nil)
   }
@@ -107,6 +121,13 @@ final class VerveAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
+    if Self.isChildUser {
+      _ = completionHandler(
+        nil,
+        VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user.")
+          .toNSError())
+      return
+    }
     nonisolated(unsafe) let adConfiguration = adConfiguration
     nonisolated(unsafe) let completionHandler = completionHandler
     nonisolated(unsafe) let nonisolatedSelf = self
@@ -122,6 +143,13 @@ final class VerveAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
+    if Self.isChildUser {
+      _ = completionHandler(
+        nil,
+        VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user.")
+          .toNSError())
+      return
+    }
     interstitialAdLoader = InterstitialAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     interstitialAdLoader?.loadAd()
@@ -132,6 +160,13 @@ final class VerveAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
+    if Self.isChildUser {
+      _ = completionHandler(
+        nil,
+        VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user.")
+          .toNSError())
+      return
+    }
     rewardedAdLoader = RewardedAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     rewardedAdLoader?.loadAd()
@@ -151,6 +186,13 @@ final class VerveAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
+    if Self.isChildUser {
+      _ = completionHandler(
+        nil,
+        VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user.")
+          .toNSError())
+      return
+    }
     nativeAdLoader = NativeAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     nativeAdLoader?.loadAd()
