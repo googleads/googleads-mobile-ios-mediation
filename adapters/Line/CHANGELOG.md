@@ -1,6 +1,6 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 3.1.0b1.0 (In progress)
 - Resize the Line adapter's information icon image.
 
 #### [Version 3.0.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.0.1.1.zip)
