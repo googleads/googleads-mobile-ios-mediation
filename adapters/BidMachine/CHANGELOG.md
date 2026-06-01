@@ -1,6 +1,6 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 3.7.1.0 (In progress)
 
 - Fixed RTB banner size propagation.
 
