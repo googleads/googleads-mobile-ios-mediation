@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterVerve)
 final class VerveAdapter: NSObject, RTBAdapter {
 
-  private static let version = "3.8.1.0"
+  private static let version = "3.8.1.1"
 
   private static var isChildUser: Bool {
     let isChild = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue
