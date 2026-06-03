@@ -2,6 +2,7 @@
 
 #### Next version
 - Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the Unity Ads SDK if GDPR applies.
+- Maps `ageRestrictedTreatment` to Unity Ads SDK's privacy settings.
 
 #### Version 4.19.0.0 (In progress)
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
