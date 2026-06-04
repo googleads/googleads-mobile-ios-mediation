@@ -16,7 +16,7 @@
     "BidMachineAdapter-3.7.1.0/GoogleBidMachineAdapter.xcframework"
   ],
   "dependencies": {
-    "Google-Mobile-Ads-SDK": "~> 13.3.0",
+    "Google-Mobile-Ads-SDK": "~> 13.3",
     "BidMachine": "3.7.1"
   },
   "preserve_paths": [
