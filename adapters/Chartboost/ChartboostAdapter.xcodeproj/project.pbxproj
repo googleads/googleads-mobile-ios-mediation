@@ -35,7 +35,7 @@
 		458DB68322F4B7A8008D000B /* GADMChartboostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67422F4B7A3008D000B /* GADMChartboostError.m */; };
 		458DB68522F4B7A8008D000B /* GADMAdapterChartboostUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67622F4B7A4008D000B /* GADMAdapterChartboostUtils.h */; };
 		458DB68622F4B7A8008D000B /* GADMAdapterChartboostRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67722F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.h */; };
-		458DB68722F4B7A8008D000B /* GADMAdapterChartboostUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.m */; };
+		458DB68722F4B7A8008D000B /* GADMAdapterChartboostUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.swift */; };
 		458DB68822F4B7A8008D000B /* GADMAdapterChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67922F4B7A5008D000B /* GADMAdapterChartboost.h */; };
 		458DB68922F4B7A8008D000B /* GADMAdapterChartboostRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67A22F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.m */; };
 		458DB68A22F4B7A8008D000B /* GADMAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */; };
@@ -47,7 +47,7 @@
 		AD6E39D72EA167D100818296 /* GADMediationAdapterChartboostInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AF512B2A35EE00CA4FC8 /* GADMediationAdapterChartboostInterstitialAd.m */; };
 		AD6E39D82EA167D100818296 /* GADMChartboostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67422F4B7A3008D000B /* GADMChartboostError.m */; };
 		AD6E39D92EA167D100818296 /* GADMAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */; };
-		AD6E39DA2EA167D100818296 /* GADMAdapterChartboostUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.m */; };
+		AD6E39DA2EA167D100818296 /* GADMAdapterChartboostUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.swift */; };
 		AD6E39DB2EA167D100818296 /* GADMediationAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB68122F4B7A8008D000B /* GADMediationAdapterChartboost.m */; };
 		AD6E39DC2EA167D100818296 /* GADMAdapterChartboostRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67A22F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.m */; };
 		AD6E39DD2EA167D100818296 /* GADMediationAdapterChartboostBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AF992B2A471200CA4FC8 /* GADMediationAdapterChartboostBannerAd.m */; };
@@ -63,7 +63,7 @@
 		ADA6B9192CF14610009C8FDA /* GADMediationAdapterChartboostInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AF512B2A35EE00CA4FC8 /* GADMediationAdapterChartboostInterstitialAd.m */; };
 		ADA6B91A2CF14610009C8FDA /* GADMChartboostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67422F4B7A3008D000B /* GADMChartboostError.m */; };
 		ADA6B91B2CF14610009C8FDA /* GADMAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */; };
-		ADA6B91C2CF14610009C8FDA /* GADMAdapterChartboostUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.m */; };
+		ADA6B91C2CF14610009C8FDA /* GADMAdapterChartboostUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.swift */; };
 		ADA6B91D2CF14610009C8FDA /* GADMediationAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB68122F4B7A8008D000B /* GADMediationAdapterChartboost.m */; };
 		ADA6B91E2CF14610009C8FDA /* GADMAdapterChartboostRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67A22F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.m */; };
 		ADA6B91F2CF14610009C8FDA /* GADMediationAdapterChartboostBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AF992B2A471200CA4FC8 /* GADMediationAdapterChartboostBannerAd.m */; };
@@ -120,7 +120,8 @@
 		458DB67422F4B7A3008D000B /* GADMChartboostError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMChartboostError.m; sourceTree = "<group>"; };
 		458DB67622F4B7A4008D000B /* GADMAdapterChartboostUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostUtils.h; sourceTree = "<group>"; };
 		458DB67722F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostRewardedAd.h; sourceTree = "<group>"; };
-		458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboostUtils.m; sourceTree = "<group>"; };
+		458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADMAdapterChartboostUtils.swift; sourceTree = "<group>"; };
+		AD00C4992B871596007C85F3 /* ChartboostAdapter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChartboostAdapter-Bridging-Header.h"; sourceTree = "<group>"; };
 		458DB67922F4B7A5008D000B /* GADMAdapterChartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboost.h; sourceTree = "<group>"; };
 		458DB67A22F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboostRewardedAd.m; sourceTree = "<group>"; };
 		458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboost.m; sourceTree = "<group>"; };
@@ -188,7 +189,8 @@
 				458DB67722F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.h */,
 				458DB67A22F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.m */,
 				458DB67622F4B7A4008D000B /* GADMAdapterChartboostUtils.h */,
-				458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.m */,
+				458DB67822F4B7A5008D000B /* GADMAdapterChartboostUtils.swift */,
+				AD00C4992B871596007C85F3 /* ChartboostAdapter-Bridging-Header.h */,
 				458DB67F22F4B7A7008D000B /* GADMChartboostError.h */,
 				458DB67422F4B7A3008D000B /* GADMChartboostError.m */,
 				458DB67C22F4B7A6008D000B /* GADMediationAdapterChartboost.h */,
@@ -482,7 +484,7 @@
 				ADA1AF522B2A35EE00CA4FC8 /* GADMediationAdapterChartboostInterstitialAd.m in Sources */,
 				458DB68322F4B7A8008D000B /* GADMChartboostError.m in Sources */,
 				458DB68A22F4B7A8008D000B /* GADMAdapterChartboost.m in Sources */,
-				458DB68722F4B7A8008D000B /* GADMAdapterChartboostUtils.m in Sources */,
+				458DB68722F4B7A8008D000B /* GADMAdapterChartboostUtils.swift in Sources */,
 				458DB69022F4B7A8008D000B /* GADMediationAdapterChartboost.m in Sources */,
 				458DB68922F4B7A8008D000B /* GADMAdapterChartboostRewardedAd.m in Sources */,
 				ADA1AF9A2B2A471200CA4FC8 /* GADMediationAdapterChartboostBannerAd.m in Sources */,
@@ -503,7 +505,7 @@
 				AD6E39D72EA167D100818296 /* GADMediationAdapterChartboostInterstitialAd.m in Sources */,
 				AD6E39D82EA167D100818296 /* GADMChartboostError.m in Sources */,
 				AD6E39D92EA167D100818296 /* GADMAdapterChartboost.m in Sources */,
-				AD6E39DA2EA167D100818296 /* GADMAdapterChartboostUtils.m in Sources */,
+				AD6E39DA2EA167D100818296 /* GADMAdapterChartboostUtils.swift in Sources */,
 				AD6E39DB2EA167D100818296 /* GADMediationAdapterChartboost.m in Sources */,
 				AD6E39DC2EA167D100818296 /* GADMAdapterChartboostRewardedAd.m in Sources */,
 				AD6E39DD2EA167D100818296 /* GADMediationAdapterChartboostBannerAd.m in Sources */,
@@ -517,7 +519,7 @@
 				ADA6B9192CF14610009C8FDA /* GADMediationAdapterChartboostInterstitialAd.m in Sources */,
 				ADA6B91A2CF14610009C8FDA /* GADMChartboostError.m in Sources */,
 				ADA6B91B2CF14610009C8FDA /* GADMAdapterChartboost.m in Sources */,
-				ADA6B91C2CF14610009C8FDA /* GADMAdapterChartboostUtils.m in Sources */,
+				ADA6B91C2CF14610009C8FDA /* GADMAdapterChartboostUtils.swift in Sources */,
 				ADA6B91D2CF14610009C8FDA /* GADMediationAdapterChartboost.m in Sources */,
 				ADA6B91E2CF14610009C8FDA /* GADMAdapterChartboostRewardedAd.m in Sources */,
 				ADA6B91F2CF14610009C8FDA /* GADMediationAdapterChartboostBannerAd.m in Sources */,
@@ -538,6 +540,9 @@
 		00DD262622F107B10039C1D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -545,6 +550,9 @@
 		00DD262722F107B10039C1D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -552,12 +560,18 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 			};
 			name = Release;
 		};
@@ -565,6 +579,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -608,6 +625,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -645,6 +665,9 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -652,6 +675,9 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -660,6 +686,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -718,6 +747,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -773,6 +805,9 @@
 		AD6E39E92EA167D100818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
@@ -781,6 +816,9 @@
 		AD6E39EA2EA167D100818296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
@@ -789,6 +827,9 @@
 		ADA6B92B2CF14610009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -797,6 +838,9 @@
 		ADA6B92C2CF14610009C8FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapter/ChartboostAdapter-Bridging-Header.h";
+				PRODUCT_MODULE_NAME = ChartboostAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};

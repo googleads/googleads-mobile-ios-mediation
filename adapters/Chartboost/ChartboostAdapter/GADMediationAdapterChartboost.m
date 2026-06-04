@@ -20,11 +20,11 @@
 #endif
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostRewardedAd.h"
-#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMediationAdapterChartboost.h"
 #import "GADMediationAdapterChartboostBannerAd.h"
 #import "GADMediationAdapterChartboostInterstitialAd.h"
+#import "ChartboostAdapter-Swift.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost banner ad wrapper.
@@ -50,8 +50,7 @@
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             GADMAdapterChartboostMinimumOSVersion];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorMinimumOSVersion description:logMessage];
     completionHandler(error);
     return;
   }
@@ -63,14 +62,13 @@
     NSString *appSignature = cred.settings[GADMAdapterChartboostAppSignature];
 
     if (appID.length && appSignature.length) {
-      GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+      [GADMAdapterChartboostUtils mutableDictionary:credentials setObject:appSignature forKey:appID];
     }
   }
 
   if (!credentials.count) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"Chartboost mediation configurations did not contain a valid appID and app signature.");
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorInvalidServerParameters
+                                                   description:@"Chartboost mediation configurations did not contain a valid appID and app signature."];
     completionHandler(error);
     return;
   }
@@ -85,16 +83,15 @@
           appSignature);
   }
 
-  GADMAdapterChartboostSetCOPPAUsingRequestConfiguration();
+  [GADMAdapterChartboostUtils setCOPPAUsingRequestConfiguration];
 
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
                   completion:^(CHBStartError *cbError) {
                     NSError *error = nil;
                     if (cbError) {
-                      error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK failed to initialize.");
+                      error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorInitializationFailure
+                                                            description:@"Chartboost SDK failed to initialize."];
                       NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
                     }
                     completionHandler(error);
