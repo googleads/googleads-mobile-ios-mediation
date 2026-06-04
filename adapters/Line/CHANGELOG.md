@@ -1,6 +1,7 @@
 ## LINE iOS Mediation Adapter Changelog
 
 #### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 - Resize the Line adapter's information icon image.
 
 #### [Version 3.0.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.0.1.1.zip)
