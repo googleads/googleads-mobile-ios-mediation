@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "Ads-Global": "7.9.1.1",
-    "Google-Mobile-Ads-SDK": "~> 13.3.0"
+    "Google-Mobile-Ads-SDK": "~> 13.3"
   },
   "pod_target_xcconfig": {
     "VALID_ARCHS[sdk=iphonesimulator*]": "arm64 x86_64",

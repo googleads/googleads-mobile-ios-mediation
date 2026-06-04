@@ -1,5 +1,8 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
 #### [Version 7.9.1.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.9.1.1.1.zip)
 - Filter age-restricted requests for Pangle SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
 
