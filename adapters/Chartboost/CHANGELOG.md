@@ -1,5 +1,8 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
 #### [Version 9.12.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.12.0.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to Chartboost SDK's COPPA API.
 
