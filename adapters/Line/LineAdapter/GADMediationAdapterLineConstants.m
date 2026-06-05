@@ -14,7 +14,7 @@
 
 #import "GADMediationAdapterLineConstants.h"
 
-NSString *const GADMediationAdapterLineVersion = @"3.0.1.1";
+NSString *const GADMediationAdapterLineVersion = @"3.1.0b2.0";
 
 NSString *const GADMediationAdapterLineCredentialKeyApplicationID = @"application_id";
 
