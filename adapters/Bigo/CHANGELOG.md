@@ -1,6 +1,7 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
 #### Version 5.2.1.0 (In progress)
+- Update the minimum Google Mobile Ads SDK dependency to 13.3.0 to use the new privacy APIs.
 
 #### [Version 5.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.2.0.0.zip)
 - Verified compatibility with BIGO Ads SDK version 5.2.0.
