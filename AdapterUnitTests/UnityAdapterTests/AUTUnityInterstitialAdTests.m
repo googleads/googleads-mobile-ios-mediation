@@ -22,6 +22,8 @@
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -163,6 +165,96 @@
 
   OCMVerifyAll(metaDataMock);
 }
+
+- (void)testLoadWaterfallInterstitialAdWhenAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadWaterfallInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadWaterfallInterstitialAdWhenAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadWaterfallInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadWaterfallInterstitialAdWhenAgeRestrictedTreatmentIsTeenAndLegacyIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadWaterfallInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadWaterfallInterstitialAdWhenAgeRestrictedTreatmentIsUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadWaterfallInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadWaterfallInterstitialAdWhenAgeRestrictedTreatmentIsChildAndLegacyIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadWaterfallInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadWaterfallInterstitialAdWhenAgeRestrictedTreatmentIsTeenAndLegacyIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadWaterfallInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
 - (void)loadBiddingInterstitialAd {
   OCMStub(OCMClassMethod([self.unityAdsClassMock
                       load:AUTUnityPlacementID
@@ -301,6 +393,95 @@
   id metaDataMock = OCMClassMock([UADSMetaData class]);
   OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
   OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadBiddingInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadBiddingInterstitialAdWhenAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadBiddingInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadBiddingInterstitialAdWhenAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadBiddingInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadBiddingInterstitialAdWhenAgeRestrictedTreatmentIsTeenAndLegacyIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadBiddingInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadBiddingInterstitialAdWhenAgeRestrictedTreatmentIsUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadBiddingInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadBiddingInterstitialAdWhenAgeRestrictedTreatmentIsChildAndLegacyIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  [self loadBiddingInterstitialAd];
+
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testLoadBiddingInterstitialAdWhenAgeRestrictedTreatmentIsTeenAndLegacyIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
   OCMExpect([metaDataMock commit]);
 
   [self loadBiddingInterstitialAd];
