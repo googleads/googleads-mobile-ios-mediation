@@ -66,7 +66,6 @@
 		7007D6D72F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7007D6D62F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m */; };
 		7007D6D82F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7007D6D62F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m */; };
 		7007D6D92F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7007D6D62F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m */; };
-		7007D6DA2F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7007D6D62F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m */; };
 		706F98F72EBBE6F70044229E /* GADMWaterfallAppLovinAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 706F98F62EBBE6F70044229E /* GADMWaterfallAppLovinAppOpenRenderer.m */; };
 		706F98F82EBBE6F70044229E /* GADMWaterfallAppLovinAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 706F98F62EBBE6F70044229E /* GADMWaterfallAppLovinAppOpenRenderer.m */; };
 		706F98F92EBBE6F70044229E /* GADMWaterfallAppLovinAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 706F98F62EBBE6F70044229E /* GADMWaterfallAppLovinAppOpenRenderer.m */; };
@@ -76,11 +75,9 @@
 		70765BD52F89890300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70765BD42F8988F300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h */; };
 		70765BD62F89890300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70765BD42F8988F300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h */; };
 		70765BD72F89890300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70765BD42F8988F300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h */; };
-		70765BD82F89890300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70765BD42F8988F300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h */; };
 		70765BDA2F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70765BD92F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m */; };
 		70765BDB2F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70765BD92F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m */; };
 		70765BDC2F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70765BD92F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m */; };
-		70765BDD2F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70765BD92F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m */; };
 		AD6E3A202EA1680000818296 /* GADMAdapterAppLovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454A17B92332B7C10022ACF9 /* GADMAdapterAppLovinBannerDelegate.m */; };
 		AD6E3A212EA1680000818296 /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
 		AD6E3A222EA1680000818296 /* GADMAdapterAppLovinUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */; };
@@ -421,7 +418,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70765BD82F89890300CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,8 +661,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7007D6DA2F6B0CA500712CFD /* GADMWaterfallAppLovinInterstitialRenderer.m in Sources */,
-				70765BDD2F89898700CD2DC7 /* GADMWaterfallAppLovinBannerRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
