@@ -1,8 +1,12 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Version 3.0.1.2 (In progress)
+#### [Version 3.0.1.2](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.0.1.2.zip)
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
-- Resize the Line adapter's information icon image.
+- Fixed an issue where the AdChoices icon for native ads were too large.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- FiveAd SDK version 3.0.1.
 
 #### [Version 3.0.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.0.1.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to FiveAd SDK's COPPA API.
