@@ -1,6 +1,6 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 7.7.4.0 (In progress)
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 
 #### [Version 7.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.3.0.zip)
