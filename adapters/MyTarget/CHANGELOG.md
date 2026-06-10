@@ -1,6 +1,6 @@
 ## myTarget iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.44.0.0 (In progress)
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 
 #### [Version 5.43.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.43.0.0.zip)
