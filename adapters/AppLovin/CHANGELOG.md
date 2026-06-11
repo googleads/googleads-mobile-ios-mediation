@@ -1,9 +1,14 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Version 13.6.3.0 (In progress)
+#### [Version 13.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.3.0.zip)
+- Verified compatibility with AppLovin SDK 13.6.3.
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 - Added new adapter API implementation for waterfall banner and interstitial ad formats.
 - Filter age-restricted requests for AppLovin SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- AppLovin SDK version 13.6.3.
 
 #### [Version 13.6.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.2.0.zip)
 - Verified compatibility with AppLovin SDK 13.6.2.
