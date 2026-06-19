@@ -1,5 +1,15 @@
 ## Verve iOS Mediation Adapter Changelog
 
+#### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
+#### [Version 3.8.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.8.1.1.zip)
+- Filter age-restricted requests for Verve SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- HyBid SDK version 3.8.1.
+
 #### [Version 3.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.8.1.0.zip)
 - Verified compatibility with HyBid SDK version 3.8.1.
 

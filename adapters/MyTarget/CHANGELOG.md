@@ -1,5 +1,15 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Version 5.44.1.0 (In progress)
+
+#### [Version 5.44.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.44.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.44.0.
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- MyTarget SDK version 5.44.0.
+
 #### [Version 5.43.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.43.0.0.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to myTarget SDK's COPPA API.
 

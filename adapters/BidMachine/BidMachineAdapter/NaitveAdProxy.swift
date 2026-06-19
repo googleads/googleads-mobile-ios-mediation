@@ -69,7 +69,7 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy {
   // MARK: -  GADMediationNativeAd
 
   var headline: String? { nativeAd.title }
-  var body: String? { nativeAd.description }
+  var body: String? { nativeAd.body }
   var callToAction: String? { nativeAd.cta }
   var icon: NativeAdImage? {
     guard let urlString = nativeAd.icon,

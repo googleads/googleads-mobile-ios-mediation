@@ -1,5 +1,8 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
+#### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
 #### [Version 5.1.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.1.1.zip)
 - Added support for video asset in native ads using mediaView API.
 

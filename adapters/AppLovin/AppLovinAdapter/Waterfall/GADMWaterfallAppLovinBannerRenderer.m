@@ -160,7 +160,7 @@
 
 - (void)loadAdWithCompletion:(GADMediationBannerLoadCompletionHandler _Nonnull __strong)completion {
 #if DEBUG
-  NSAssert(!_loadAlreadyStarted, @"Trying to load a new ad while already loading/loaded one");
+  NSCAssert(!_loadAlreadyStarted, @"Trying to load a new ad while already loading/loaded one");
   _loadAlreadyStarted = YES;
 #endif
   // Store the completion handler for later use.
@@ -256,7 +256,7 @@
 
 - (void)displayedAdInView:(nonnull UIView *)view {
 #if DEBUG
-  NSAssert([view isEqual:_adView],
+  NSCAssert([view isEqual:_adView],
            @"AppLovinAdapter: Received ad displayed callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner displayed"];
@@ -265,7 +265,7 @@
 
 - (void)hidAdInView:(nonnull UIView *)view {
 #if DEBUG
-  NSAssert([view isEqual:_adView],
+  NSCAssert([view isEqual:_adView],
            @"AppLovinAdapter: Received ad hidden callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner dismissed"];
@@ -274,7 +274,7 @@
 
 - (void)reportClickOnAdInView:(nonnull UIView *)view {
 #if DEBUG
-  NSAssert([view isEqual:_adView],
+  NSCAssert([view isEqual:_adView],
            @"AppLovinAdapter: Received ad click callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner clicked"];
@@ -283,7 +283,7 @@
 
 - (void)didPresentFullscreenForAdView:(nonnull ALAdView *)adView {
 #if DEBUG
-  NSAssert([adView isEqual:_adView],
+  NSCAssert([adView isEqual:_adView],
            @"AppLovinAdapter: Received fullscreen present callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner presented fullscreen"];
@@ -295,7 +295,7 @@
 
 - (void)willDismissFullscreenForAdView:(nonnull ALAdView *)adView {
 #if DEBUG
-  NSAssert([adView isEqual:_adView],
+  NSCAssert([adView isEqual:_adView],
            @"AppLovinAdapter: Received will-dismiss-fullscreen callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner will dismiss fullscreen"];
@@ -304,7 +304,7 @@
 
 - (void)didDismissFullscreenForAdView:(nonnull ALAdView *)adView {
 #if DEBUG
-  NSAssert([adView isEqual:_adView],
+  NSCAssert([adView isEqual:_adView],
            @"AppLovinAdapter: Received did-dismiss-fullscreen callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner did dismiss fullscreen"];
@@ -313,7 +313,7 @@
 
 - (void)willLeaveApplicationForAdView:(nonnull ALAdView *)adView {
 #if DEBUG
-  NSAssert([adView isEqual:_adView],
+  NSCAssert([adView isEqual:_adView],
            @"AppLovinAdapter: Received will-leave-application callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner left application"];
@@ -323,7 +323,7 @@
 - (void)didFailToDisplayInAdView:(nonnull ALAdView *)adView
                        withError:(ALAdViewDisplayErrorCode)code {
 #if DEBUG
-  NSAssert([adView isEqual:_adView],
+  NSCAssert([adView isEqual:_adView],
            @"AppLovinAdapter: Received display failure callback for an unexpected view");
 #endif
   [GADMAdapterAppLovinUtils log:@"Banner failed to display: %ld", (long)code];

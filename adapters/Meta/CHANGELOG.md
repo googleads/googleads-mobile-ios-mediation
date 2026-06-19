@@ -1,5 +1,8 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
+#### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
 #### [Version 6.21.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.21.1.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to Meta Audience Network SDK's COPPA API.
 
