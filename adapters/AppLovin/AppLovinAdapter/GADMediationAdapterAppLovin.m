@@ -20,13 +20,10 @@
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
-#import "GADMWaterfallAppLovinAppOpenRenderer.h"
 #import "GADMWaterfallAppLovinBannerRenderer.h"
 #import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
-  /// AppLovin app open ad wrapper.
-  GADMWaterfallAppLovinAppOpenRenderer *_waterfallAppOpenRenderer;
 
   GADMWaterfallAppLovinBannerRenderer *_waterfallBannerRenderer;
 
@@ -162,38 +159,6 @@
 
 #pragma mark - GADMediationAdapter load Ad
 
-- (void)loadAppOpenAdForAdConfiguration:
-            (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
-                      completionHandler:
-                          (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
-  if ([GADMAdapterAppLovinUtils isChildUser]) {
-    completionHandler(nil, GADMAdapterAppLovinChildUserError());
-    return;
-  }
-
-  NSString *SDKKey =
-      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:adConfiguration.credentials.settings];
-  if (!SDKKey) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorMissingSDKKey, @"AppLovin SDK Key is missing.");
-    completionHandler(nil, error);
-    return;
-  }
-  __weak GADMediationAdapterAppLovin *weakSelf = self;
-  [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
-                                     completionHandler:^(void) {
-                                       GADMediationAdapterAppLovin *strongSelf = weakSelf;
-                                       if (!strongSelf) {
-                                         return;
-                                       }
-
-                                       strongSelf->_waterfallAppOpenRenderer =
-                                           [[GADMWaterfallAppLovinAppOpenRenderer alloc]
-                                               initWithAdConfiguration:adConfiguration
-                                                     completionHandler:completionHandler];
-                                       [strongSelf->_waterfallAppOpenRenderer loadAd];
-                                     }];
-}
 
 // Note: Banner ads are supported by AppLovin only for Waterfall and not for Bidding. So, all banner
 // ad load requests are assumed to be for Waterfall.
