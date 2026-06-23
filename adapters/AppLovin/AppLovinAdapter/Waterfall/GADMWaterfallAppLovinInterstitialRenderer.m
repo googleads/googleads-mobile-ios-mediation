@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import "GADMWaterfallAppLovinInterstitialRenderer.h"
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinMediationManager.h"
-#import "GADMAdapterAppLovinUtils.h"
 
 #include <GoogleMobileAds/GoogleMobileAds.h>
 #include <stdatomic.h>
@@ -100,8 +100,10 @@
 - (void)videoPlaybackEndedInAd:(nonnull ALAd *)ad
              atPlaybackPercent:(nonnull NSNumber *)percentPlayed
                   fullyWatched:(BOOL)wasFullyWatched {
-  [GADMAdapterAppLovinUtils log:@"Interstitial video playback ended at playback percent: %lu%%",
-                                (unsigned long)percentPlayed.unsignedIntegerValue];
+  [GADMAdapterAppLovinUtils
+      log:[NSString
+              stringWithFormat:@"Interstitial video playback ended at playback percent: %lu%%",
+                               (unsigned long)percentPlayed.unsignedIntegerValue]];
 }
 
 @end
@@ -173,9 +175,9 @@
 
   ALSdk *sharedALSdk = [ALSdk shared];
   if (!sharedALSdk) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance. ");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance. "];
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -184,21 +186,23 @@
   // Unable to resolve a valid zone - error out
   if (!_zoneIdentifier) {
     NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
-    NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
+    NSError *zoneIdentifierError =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorInvalidServerParameters
+                                    description:errorString];
     _adLoadCompletionHandler(nil, zoneIdentifierError);
     return;
   }
 
-  [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@", _zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Requesting interstitial for zone: %@", _zoneIdentifier]];
 
   GADMAdapterAppLovinMediationManager *sharedManager =
       GADMAdapterAppLovinMediationManager.sharedInstance;
   if ([sharedManager containsAndAddInterstitialZoneIdentifier:_zoneIdentifier]) {
-    NSError *adAlreadyLoadedError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAdAlreadyLoaded,
-        @"Can't request a second ad for the same zone identifier without showing "
-        @"the first ad.");
+    NSError *adAlreadyLoadedError = [GADMAdapterAppLovinUtils
+        errorWithCode:GADMAdapterAppLovinErrorAdAlreadyLoaded
+          description:@"Can't request a second ad for the same zone identifier without showing "
+                      @"the first ad."];
     _adLoadCompletionHandler(nil, adAlreadyLoadedError);
     return;
   }
@@ -221,19 +225,20 @@
 #pragma mark - GADMediationInterstitalAd implementation
 
 - (void)presentFromViewController:(UIViewController *)viewController {
-  [GADMAdapterAppLovinUtils log:@"Showing interstitial ad for zone: %@.", _zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Showing interstitial ad for zone: %@.", _zoneIdentifier]];
   [_interstitial showAd:_interstitialAd];
 }
 
 #pragma mark - Handle ad lifecycle events
 
 - (void)loadedAd:(nonnull ALAd *)ad {
-  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled();
+  BOOL isMultipleAdsEnabled = [GADMAdapterAppLovinUtils isMultipleAdsLoadingEnabled];
   if (isMultipleAdsEnabled) {
     [GADMAdapterAppLovinMediationManager.sharedInstance
         removeInterstitialZoneIdentifier:_zoneIdentifier];
   }
-  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad];
+  [GADMAdapterAppLovinUtils log:[NSString stringWithFormat:@"Interstitial did load ad: %@", ad]];
   dispatch_once(&_interstitialAdOnceToken, ^{
     self->_interstitialAd = ad;
   });
@@ -245,7 +250,7 @@
 - (void)failedToLoadAdWithError:(int)code {
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeInterstitialZoneIdentifier:_zoneIdentifier];
-  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
+  NSError *error = [GADMAdapterAppLovinUtils sdkErrorWithCode:code];
   if (_adLoadCompletionHandler) {
     _adLoadCompletionHandler(nil, error);
   }

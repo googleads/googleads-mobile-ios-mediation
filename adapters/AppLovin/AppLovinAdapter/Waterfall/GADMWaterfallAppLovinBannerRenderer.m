@@ -15,7 +15,7 @@
 #import "GADMWaterfallAppLovinBannerRenderer.h"
 #import <Foundation/Foundation.h>
 #include <stdatomic.h>
-#import "GADMAdapterAppLovinUtils.h"
+#import "AppLovinAdapter-Swift.h"
 
 #pragma mark - Ad lifecyle events declaration
 
@@ -181,9 +181,9 @@
 
   ALSdk *sharedALSdk = [ALSdk shared];
   if (!sharedALSdk) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance. ");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance. "];
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -192,16 +192,18 @@
   // Unable to resolve a valid zone - error out
   if (!_zoneIdentifier) {
     NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
-    NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
+    NSError *zoneIdentifierError =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorInvalidServerParameters
+                                    description:errorString];
     _adLoadCompletionHandler(nil, zoneIdentifierError);
     return;
   }
 
   GADAdSize adSize = _adConfiguration.adSize;
 
-  [GADMAdapterAppLovinUtils log:@"NEW API: Requesting banner of size %@ for zone: %@.",
-                                NSStringFromGADAdSize(adSize), _zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"NEW API: Requesting banner of size %@ for zone: %@.",
+                                     NSStringFromGADAdSize(adSize), _zoneIdentifier]];
 
   // Convert requested size to AppLovin Ad Size.
   ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils appLovinAdSizeFromRequestedSize:adSize];
@@ -209,28 +211,24 @@
     NSString *errorMessage = [NSString
         stringWithFormat:@"Adapter requested to display a banner ad of unsupported size: %@",
                          NSStringFromGADAdSize(adSize)];
-    NSError *adSizeError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorBannerSizeMismatch, errorMessage);
+    NSError *adSizeError =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorBannerSizeMismatch
+                                    description:errorMessage];
     _adLoadCompletionHandler(nil, adSizeError);
     return;
   }
 
-  _adView = [[ALAdView alloc] initWithSdk:sharedALSdk size:appLovinAdSize];
+  GADMWaterfallAppLovinBannerDelegate *appLovinDelegate =
+      [[GADMWaterfallAppLovinBannerDelegate alloc] initWithParentRenderer:self];
+
+  id<GADMAdapterAppLovinClient> client = [GADMAdapterAppLovinClientFactory createClient];
+  _adView = [client loadBannerAdForZoneIdentifier:_zoneIdentifier.length ? _zoneIdentifier : nil
+                                             size:appLovinAdSize
+                                              sdk:sharedALSdk
+                                         delegate:appLovinDelegate];
 
   CGSize size = CGSizeFromGADAdSize(adSize);
   _adView.frame = CGRectMake(0, 0, size.width, size.height);
-
-  GADMWaterfallAppLovinBannerDelegate *appLovinDelegate =
-      [[GADMWaterfallAppLovinBannerDelegate alloc] initWithParentRenderer:self];
-  _adView.adLoadDelegate = appLovinDelegate;
-  _adView.adDisplayDelegate = appLovinDelegate;
-  _adView.adEventDelegate = appLovinDelegate;
-
-  if (_zoneIdentifier.length) {
-    [sharedALSdk.adService loadNextAdForZoneIdentifier:_zoneIdentifier andNotify:appLovinDelegate];
-  } else {
-    [sharedALSdk.adService loadNextAd:appLovinAdSize andNotify:appLovinDelegate];
-  }
 }
 
 - (UIView *)view {
@@ -240,7 +238,7 @@
 #pragma mark - Handle ad lifecycle events
 
 - (void)loadedAd:(nonnull ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad];
+  [GADMAdapterAppLovinUtils log:[NSString stringWithFormat:@"Banner did load ad: %@", ad]];
   [_adView render:ad];
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
@@ -248,7 +246,7 @@
 }
 
 - (void)failedToLoadAdWithError:(int)code {
-  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
+  NSError *error = [GADMAdapterAppLovinUtils sdkErrorWithCode:code];
   if (_adLoadCompletionHandler) {
     _adLoadCompletionHandler(nil, error);
   }
@@ -326,8 +324,9 @@
   NSCAssert([adView isEqual:_adView],
            @"AppLovinAdapter: Received display failure callback for an unexpected view");
 #endif
-  [GADMAdapterAppLovinUtils log:@"Banner failed to display: %ld", (long)code];
-  [_delegate didFailToPresentWithError:GADMAdapterAppLovinSDKErrorWithCode(code)];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Banner failed to display: %ld", (long)code]];
+  [_delegate didFailToPresentWithError:[GADMAdapterAppLovinUtils sdkErrorWithCode:code]];
 }
 
 @end
