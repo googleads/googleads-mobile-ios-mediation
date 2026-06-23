@@ -30,6 +30,16 @@ typedef NS_ENUM(NSInteger, GADMAdapterMyTargetErrorCode) {
   GADMAdapterMyTargetErrorMissingNativeAssets = 105
 };
 
+/// Represents the result of a consent check for advertising purposes.
+typedef NS_ENUM(NSInteger, GADMAdapterMyTargetConsentResult) {
+  /// The consent status could not be determined, or consent does not apply.
+  GADMAdapterMyTargetConsentResultUnknown,
+  /// The user has explicitly consented.
+  GADMAdapterMyTargetConsentResultTrue,
+  /// The user has explicitly declined consent.
+  GADMAdapterMyTargetConsentResultFalse
+};
+
 @interface GADMediationAdapterMyTarget : NSObject <GADMediationAdapter>
 
 @end
