@@ -14,7 +14,7 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+@protocol GADRTBAdapter;
 
 #import "GADMediationAdapterAppLovin.h"
 
@@ -62,5 +62,8 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
+
+/// Creates an AppLovin banner ad view (for testing / Swift initialization workaround).
++ (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size;
 
 @end

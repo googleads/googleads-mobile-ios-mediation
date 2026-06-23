@@ -14,13 +14,14 @@
 
 #import "GADMediationAdapterAppLovin.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinRewardedRenderer.h"
-#import "GADMAdapterAppLovinUtils.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
-#import "GADMWaterfallAppLovinBannerRenderer.h"
 #import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
@@ -39,7 +40,7 @@
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    completionHandler(GADMAdapterAppLovinChildUserError());
+    completionHandler([GADMAdapterAppLovinUtils childUserError]);
     return;
   }
 
@@ -50,28 +51,30 @@
   for (GADMediationCredentials *credentials in configuration.credentials) {
     NSString *SDKKey = credentials.settings[GADMAdapterAppLovinSDKKey];
     if ([GADMAdapterAppLovinUtils isValidAppLovinSDKKey:SDKKey]) {
-      GADMAdapterAppLovinMutableSetAddObject(SDKKeys, SDKKey);
+      [GADMAdapterAppLovinUtils mutableSet:SDKKeys addObject:SDKKey];
     }
   }
 
   if (!SDKKeys.count) {
     NSString *errorString = @"No SDK keys are found. Please add valid SDK keys in the AdMob UI.";
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorMissingSDKKey, errorString);
+    NSError *error = [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorMissingSDKKey
+                                                 description:errorString];
     completionHandler(error);
     return;
   }
 
   NSString *SDKKey = [SDKKeys anyObject];
   if (SDKKeys.count > 1) {
-    [GADMAdapterAppLovinUtils log:@"More than one SDK key was found. The adapter will use %@ to "
-                                  @"initialize the AppLovin SDK.",
-                                  SDKKey];
+    [GADMAdapterAppLovinUtils
+        log:[NSString stringWithFormat:@"More than one SDK key was found. The adapter will use %@ "
+                                       @"to initialize the AppLovin SDK.",
+                                       SDKKey]];
   }
 
   [GADMAdapterAppLovinUtils
-      log:@"Found %lu SDK keys. Please remove any SDK keys you are not using from the AdMob UI.",
-          (unsigned long)SDKKeys.count];
+      log:[NSString stringWithFormat:@"Found %lu SDK keys. Please remove any SDK keys you are not "
+                                     @"using from the AdMob UI.",
+                                     (unsigned long)SDKKeys.count]];
   [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
                                      completionHandler:^(void) {
                                        completionHandler(nil);
@@ -116,24 +119,24 @@
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    completionHandler(nil, [GADMAdapterAppLovinUtils childUserError]);
     return;
   }
 
   [GADMAdapterAppLovinUtils log:@"AppLovin adapter collecting signals."];
   // Check if supported ad format.
   if (params.configuration.credentials.firstObject.format == GADAdFormatNative) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorUnsupportedAdFormat,
-        @"Requested to collect signal for unsupported native ad format. Ignoring...");
+    NSError *error = [GADMAdapterAppLovinUtils
+        errorWithCode:GADMAdapterAppLovinErrorUnsupportedAdFormat
+          description:@"Requested to collect signal for unsupported native ad format. Ignoring..."];
     completionHandler(nil, error);
     return;
   }
 
   if (!ALSdk.shared) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance.");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance."];
     completionHandler(nil, error);
     return;
   }
@@ -141,17 +144,19 @@
   [ALSdk.shared.adService collectBidTokenWithCompletion:^(NSString *_Nullable bidToken,
                                                           NSString *_Nullable errorMessage) {
     if (errorMessage) {
-      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-          GADMAdapterAppLovinErrorFailedToReturnBidToken, errorMessage);
+      NSError *error =
+          [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorFailedToReturnBidToken
+                                      description:errorMessage];
       completionHandler(nil, error);
       return;
     }
     if (bidToken.length > 0) {
-      [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", bidToken];
+      [GADMAdapterAppLovinUtils
+          log:[NSString stringWithFormat:@"Generated bid token %@.", bidToken]];
       completionHandler(bidToken, nil);
     } else {
-      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-          GADMAdapterAppLovinErrorEmptyBidToken, @"Bid token is empty.");
+      NSError *error = [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorEmptyBidToken
+                                                   description:@"Bid token is empty."];
       completionHandler(nil, error);
     }
   }];
@@ -165,15 +170,15 @@
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    completionHandler(nil, [GADMAdapterAppLovinUtils childUserError]);
     return;
   }
 
   NSString *SDKKey =
       [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:adConfiguration.credentials.settings];
   if (!SDKKey) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorMissingSDKKey, @"AppLovin SDK Key is missing.");
+    NSError *error = [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorMissingSDKKey
+                                                 description:@"AppLovin SDK Key is missing."];
     completionHandler(nil, error);
     return;
   }
@@ -198,7 +203,7 @@
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    completionHandler(nil, [GADMAdapterAppLovinUtils childUserError]);
     return;
   }
 
@@ -212,8 +217,8 @@
     NSString *SDKKey = [GADMAdapterAppLovinUtils
         retrieveSDKKeyFromCredentials:adConfiguration.credentials.settings];
     if (!SDKKey) {
-      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-          GADMAdapterAppLovinErrorMissingSDKKey, @"AppLovin SDK Key is missing.");
+      NSError *error = [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorMissingSDKKey
+                                                   description:@"AppLovin SDK Key is missing."];
       completionHandler(nil, error);
       return;
     }
@@ -239,7 +244,7 @@
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    completionHandler(nil, [GADMAdapterAppLovinUtils childUserError]);
     return;
   }
 
@@ -259,6 +264,10 @@
                                                      completionHandler:completionHandler];
                                        [strongSelf->_rewardedRenderer requestRewardedAd];
                                      }];
+}
+
++ (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size {
+  return [[ALAdView alloc] initWithSdk:sdk size:size];
 }
 
 @end

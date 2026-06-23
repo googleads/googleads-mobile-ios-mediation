@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import "GADMAppLovinRewardedDelegate.h"
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinMediationManager.h"
-#import "GADMAdapterAppLovinUtils.h"
 
 @implementation GADMAppLovinRewardedDelegate {
   /// AppLovin rewarded ad renderer to which the events are delegated.
@@ -36,12 +36,12 @@
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Rewarded ad did load ad: %@", ad];
+  [GADMAdapterAppLovinUtils log:[NSString stringWithFormat:@"Rewarded ad did load ad: %@", ad]];
 
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
   parentRenderer.ad = ad;
 
-  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled();
+  BOOL isMultipleAdsEnabled = [GADMAdapterAppLovinUtils isMultipleAdsLoadingEnabled];
   if (isMultipleAdsEnabled) {
     [GADMAdapterAppLovinMediationManager.sharedInstance
         removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
@@ -59,7 +59,7 @@
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
   if (parentRenderer.adLoadCompletionHandler) {
-    NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
+    NSError *error = [GADMAdapterAppLovinUtils sdkErrorWithCode:code];
     parentRenderer.adLoadCompletionHandler(nil, error);
   }
 }
@@ -100,8 +100,9 @@
 - (void)videoPlaybackEndedInAd:(nonnull ALAd *)ad
              atPlaybackPercent:(nonnull NSNumber *)percentPlayed
                   fullyWatched:(BOOL)wasFullyWatched {
-  [GADMAdapterAppLovinUtils log:@"Rewarded ad playback ended at playback percent: %lu%%",
-                                (unsigned long)percentPlayed.unsignedIntegerValue];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Rewarded ad playback ended at playback percent: %lu%%",
+                                     (unsigned long)percentPlayed.unsignedIntegerValue]];
 
   id<GADMediationRewardedAdEventDelegate> delegate = _parentRenderer.delegate;
   if (wasFullyWatched) {
@@ -115,18 +116,24 @@
 - (void)rewardValidationRequestForAd:(nonnull ALAd *)ad
           didExceedQuotaWithResponse:(nonnull NSDictionary *)response {
   [GADMAdapterAppLovinUtils
-      log:@"Rewarded ad validation request for ad did exceed quota with response: %@", response];
+      log:[NSString stringWithFormat:
+                        @"Rewarded ad validation request for ad did exceed quota with response: %@",
+                        response]];
 }
 
 - (void)rewardValidationRequestForAd:(nonnull ALAd *)ad didFailWithError:(NSInteger)responseCode {
   [GADMAdapterAppLovinUtils
-      log:@"Rewarded ad validation request for ad failed with error code: %ld", (long)responseCode];
+      log:[NSString
+              stringWithFormat:@"Rewarded ad validation request for ad failed with error code: %ld",
+                               (long)responseCode]];
 }
 
 - (void)rewardValidationRequestForAd:(nonnull ALAd *)ad
              wasRejectedWithResponse:(nonnull NSDictionary *)response {
   [GADMAdapterAppLovinUtils
-      log:@"Rewarded ad validation request was rejected with response: %@", response];
+      log:[NSString
+              stringWithFormat:@"Rewarded ad validation request was rejected with response: %@",
+                               response]];
 }
 
 - (void)rewardValidationRequestForAd:(nonnull ALAd *)ad
@@ -134,7 +141,7 @@
   NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:response[@"amount"]];
   NSString *currency = response[@"currency"];
 
-  [GADMAdapterAppLovinUtils log:@"Rewarded %@ %@", amount, currency];
+  [GADMAdapterAppLovinUtils log:[NSString stringWithFormat:@"Rewarded %@ %@", amount, currency]];
 }
 
 @end

@@ -6098,6 +6098,7 @@
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/Public/Headers\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Waterfall\"",
+					"\"$(OBJROOT)/AppLovinAdapter.build/$(CONFIGURATION)-$(PLATFORM_NAME)/AdapterWithoutValidationScript.build/DerivedSources\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -6170,6 +6171,7 @@
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/Public/Headers\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Waterfall\"",
+					"\"$(OBJROOT)/AppLovinAdapter.build/$(CONFIGURATION)-$(PLATFORM_NAME)/AdapterWithoutValidationScript.build/DerivedSources\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
