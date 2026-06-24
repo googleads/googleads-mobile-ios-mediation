@@ -173,6 +173,7 @@ class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
   func downLoadImageAsset(
     completionHandler: @escaping (PubMaticAdapterError?) -> Void
   ) {
+    nonisolated(unsafe) let completionHandler = completionHandler
     // Load an icon image
     nonisolated(unsafe) var nativeAdIcon: NativeAdImage?
     downloadImage(from: nativeAd.iconAsset().imageURL) { [weak self] image, error in

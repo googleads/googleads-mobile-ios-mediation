@@ -91,15 +91,17 @@ final class NativeAdLoader: NSObject {
       return handler
     }
 
-    guard let loadCompletionHandler else { return }
+    guard let handler = loadCompletionHandler else { return }
 
     // var mediaView: UIView? {}  API is getting called on background thread, which logs
     // the warning of UI operarions done on background thread.
     // To fix this: GMA SDK's load completion handler needed to be called on the main thread
-    DispatchQueue.main.async { [weak self] in
-      guard let self else { return }
-      let eventDelegate = loadCompletionHandler(ad, error)
-      self.nativeAdProxy?.eventDelegate = eventDelegate
+    nonisolated(unsafe) let unsafeHandler = handler
+    nonisolated(unsafe) let loadedAd = ad
+    nonisolated(unsafe) let loader = self
+    DispatchQueue.main.async {
+      let eventDelegate = unsafeHandler(loadedAd, error)
+      loader.nativeAdProxy?.eventDelegate = eventDelegate
     }
   }
 
