@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterAppLovinMediationManager.h"
-#import "GADMAdapterAppLovinUtils.h"
+#import "AppLovinAdapter-Swift.h"
 
 @implementation GADMAdapterAppLovinMediationManager {
   /// A set of zone identifiers used to request interstitial ads from AppLovin.
@@ -50,23 +50,23 @@
   zoneIdentifier = [zoneIdentifier copy];
   dispatch_sync(_lockQueue, ^{
     containsZone = [self->_requestedInterstitialZoneIdentifiers containsObject:zoneIdentifier];
-    GADMAdapterAppLovinMutableSetAddObject(self->_requestedInterstitialZoneIdentifiers,
-                                           zoneIdentifier);
+    [GADMAdapterAppLovinUtils mutableSet:self->_requestedInterstitialZoneIdentifiers
+                               addObject:zoneIdentifier];
   });
   return containsZone;
 }
 
 - (void)removeInterstitialZoneIdentifier:(nonnull NSString *)zoneIdentifier {
   dispatch_async(_lockQueue, ^{
-    GADMAdapterAppLovinMutableSetRemoveObject(self->_requestedInterstitialZoneIdentifiers,
-                                              zoneIdentifier);
+    [GADMAdapterAppLovinUtils mutableSet:self->_requestedInterstitialZoneIdentifiers
+                            removeObject:zoneIdentifier];
   });
 }
 
 - (void)removeRewardedZoneIdentifier:(nonnull NSString *)zoneIdentifier {
   dispatch_async(_lockQueue, ^{
-    GADMAdapterAppLovinMutableSetRemoveObject(self->_requestedRewardedZoneIdentifiers,
-                                              zoneIdentifier);
+    [GADMAdapterAppLovinUtils mutableSet:self->_requestedRewardedZoneIdentifiers
+                            removeObject:zoneIdentifier];
   });
 }
 
@@ -75,7 +75,8 @@
   zoneIdentifier = [zoneIdentifier copy];
   dispatch_sync(_lockQueue, ^{
     containsZone = [self->_requestedRewardedZoneIdentifiers containsObject:zoneIdentifier];
-    GADMAdapterAppLovinMutableSetAddObject(self->_requestedRewardedZoneIdentifiers, zoneIdentifier);
+    [GADMAdapterAppLovinUtils mutableSet:self->_requestedRewardedZoneIdentifiers
+                               addObject:zoneIdentifier];
   });
   return containsZone;
 }
