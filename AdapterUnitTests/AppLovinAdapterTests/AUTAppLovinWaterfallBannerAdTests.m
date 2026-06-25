@@ -20,6 +20,8 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+#import "AppLovinAdapter-Swift.h"
+#import "AppLovinAdapterTests-Swift.h"
 
 #import "GADMAdapterAppLovinConstant.h"
 
@@ -53,6 +55,9 @@ static NSString *const kZoneId = @"1234567890123456";
 
   /// Mock loaded ad.
   id _adMock;
+
+  /// Fake AppLovin client wrapper.
+  OAUTFakeAppLovinClient *_fakeClient;
 }
 
 - (void)setUp {
@@ -63,10 +68,6 @@ static NSString *const kZoneId = @"1234567890123456";
   _appLovinAdViewMock = OCMClassMock([ALAdView class]);
   _serviceMock = OCMClassMock([ALAdService class]);
 
-  OCMStub([_appLovinAdViewMock alloc]).andReturn(_appLovinAdViewMock);
-  OCMStub([_appLovinAdViewMock initWithSdk:_appLovinSdkMock size:ALAdSize.banner])
-      .andReturn(_appLovinAdViewMock);
-
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
   OCMStub(([_appLovinSdkMock
@@ -74,6 +75,10 @@ static NSString *const kZoneId = @"1234567890123456";
                 completionHandler:[OCMArg invokeBlockWithArgs:[NSNull null], nil]]));
 
   _adMock = OCMClassMock([ALAd class]);
+
+  _fakeClient = [[OAUTFakeAppLovinClient alloc] init];
+  _fakeClient.mockAdView = _appLovinAdViewMock;
+  GADMAdapterAppLovinClientFactory.debugClient = _fakeClient;
 }
 
 - (void)tearDown {
@@ -82,6 +87,8 @@ static NSString *const kZoneId = @"1234567890123456";
   // Reset child-directed and under-age tags.
   requestConfiguration.tagForChildDirectedTreatment = nil;
   requestConfiguration.tagForUnderAgeOfConsent = nil;
+
+  GADMAdapterAppLovinClientFactory.debugClient = nil;
 
   [super tearDown];
 }
@@ -95,17 +102,13 @@ static NSString *const kZoneId = @"1234567890123456";
   credentials.settings = @{@"sdkKey" : kSDKKey};
   config.credentials = credentials;
   config.adSize = GADAdSizeBanner;
-  OCMStub([_serviceMock loadNextAd:ALAdSize.banner
-                         andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                           self->_appLovinDelegate = obj;
-                           return obj;
-                         }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
-      });
+
+  _fakeClient.mockAdToLoad = _adMock;
+  _fakeClient.shouldTriggerLoadSuccess = YES;
 
   AUTKMediationBannerAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadBannerAd(adapter, config);
+  _appLovinDelegate = _fakeClient.delegate;
   XCTAssertNotNil(eventDelegate);
   return eventDelegate;
 }
@@ -123,14 +126,9 @@ static NSString *const kZoneId = @"1234567890123456";
   credentials.settings = @{@"sdkKey" : kSDKKey, @"zone_id" : kZoneId};
   config.credentials = credentials;
   config.adSize = GADAdSizeBanner;
-  OCMStub([_serviceMock loadNextAdForZoneIdentifier:kZoneId
-                                          andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                            self->_appLovinDelegate = obj;
-                                            return obj;
-                                          }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
-      });
+
+  _fakeClient.mockAdToLoad = _adMock;
+  _fakeClient.shouldTriggerLoadSuccess = YES;
 
   AUTKMediationBannerAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadBannerAd(adapter, config);
@@ -143,14 +141,10 @@ static NSString *const kZoneId = @"1234567890123456";
   credentials.settings = @{@"sdkKey" : kSDKKey, @"zone_id" : kZoneId};
   config.credentials = credentials;
   config.adSize = GADAdSizeBanner;
-  OCMStub([_serviceMock loadNextAdForZoneIdentifier:kZoneId
-                                          andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                            self->_appLovinDelegate = obj;
-                                            return obj;
-                                          }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didFailToLoadAdWithError:1001];
-      });
+
+  _fakeClient.shouldTriggerLoadFailure = YES;
+  _fakeClient.errorCodeToTrigger = 1001;
+
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinSDKErrorDomain
                                                       code:1001
                                                   userInfo:nil];

@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import "GADMAppLovinRTBInterstitialDelegate.h"
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinMediationManager.h"
-#import "GADMAdapterAppLovinUtils.h"
 
 @implementation GADMAppLovinRTBInterstitialDelegate {
   /// AppLovin interstitial ad renderer to which the events are delegated.
@@ -36,7 +36,7 @@
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad];
+  [GADMAdapterAppLovinUtils log:[NSString stringWithFormat:@"Interstitial did load ad: %@", ad]];
 
   GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = _parentRenderer;
   parentRenderer.ad = ad;
@@ -50,7 +50,7 @@
 - (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
   GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = _parentRenderer;
   if (parentRenderer.adLoadCompletionHandler) {
-    NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
+    NSError *error = [GADMAdapterAppLovinUtils sdkErrorWithCode:code];
     parentRenderer.adLoadCompletionHandler(nil, error);
   }
 }
@@ -86,8 +86,10 @@
 - (void)videoPlaybackEndedInAd:(nonnull ALAd *)ad
              atPlaybackPercent:(nonnull NSNumber *)percentPlayed
                   fullyWatched:(BOOL)wasFullyWatched {
-  [GADMAdapterAppLovinUtils log:@"Interstitial video playback ended at playback percent: %lu%%",
-                                (unsigned long)percentPlayed.unsignedIntegerValue];
+  [GADMAdapterAppLovinUtils
+      log:[NSString
+              stringWithFormat:@"Interstitial video playback ended at playback percent: %lu%%",
+                               (unsigned long)percentPlayed.unsignedIntegerValue]];
 }
 
 @end

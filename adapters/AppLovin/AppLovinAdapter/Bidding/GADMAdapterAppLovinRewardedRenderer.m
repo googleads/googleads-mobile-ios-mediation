@@ -14,11 +14,11 @@
 
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinMediationManager.h"
-#import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRewardedDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
 
@@ -71,9 +71,9 @@
 
 - (void)requestRewardedAd {
   if (!ALSdk.shared) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance. ");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance. "];
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -100,8 +100,9 @@
   // Unable to resolve a valid zone - error out
   if (!self.zoneIdentifier) {
     NSString *errorMessage = @"Invalid custom zone entered. Please double-check your credentials.";
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, errorMessage);
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorInvalidServerParameters
+                                    description:errorMessage];
 
     _adLoadCompletionHandler(nil, error);
     return;
@@ -111,17 +112,18 @@
   GADMAdapterAppLovinMediationManager *sharedInstance =
       GADMAdapterAppLovinMediationManager.sharedInstance;
   if ([sharedInstance containsAndAddRewardedZoneIdentifier:zoneIdentifier]) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAdAlreadyLoaded,
-        @"Can't request a second ad for the same zone identifier without showing the "
-        @"first ad.");
+    NSError *error = [GADMAdapterAppLovinUtils
+        errorWithCode:GADMAdapterAppLovinErrorAdAlreadyLoaded
+          description:@"Can't request a second ad for the same zone identifier without showing the "
+                      @"first ad."];
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  [GADMAdapterAppLovinUtils log:@"Requesting rewarded ad for zone: %@", zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Requesting rewarded ad for zone: %@", zoneIdentifier]];
 
-           // If this is a default Zone, create the incentivized ad normally.
+  // If this is a default Zone, create the incentivized ad normally.
   if ([GADMAdapterAppLovinDefaultZoneIdentifier isEqual:_zoneIdentifier]) {
     // Loading an ad for default zone must be done through zone-agnostic
     // `ALIncentivizedInterstitialAd` instance
@@ -136,11 +138,13 @@
 
 - (void)presentFromViewController:(UIViewController *)viewController {
   if (_ad) {
-    [GADMAdapterAppLovinUtils log:@"Showing rewarded video for zone: %@", _zoneIdentifier];
+    [GADMAdapterAppLovinUtils
+        log:[NSString stringWithFormat:@"Showing rewarded video for zone: %@", _zoneIdentifier]];
     [_incent showAd:_ad andNotify:_appLovinDelegate];
   } else {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorShow, @"Attempting to show rewarded video before one was loaded");
+    NSError *error = [GADMAdapterAppLovinUtils
+        errorWithCode:GADMAdapterAppLovinErrorShow
+          description:@"Attempting to show rewarded video before one was loaded"];
     [_delegate didFailToPresentWithError:error];
   }
 }
