@@ -16,7 +16,7 @@
     "MolocoAdapter-4.7.0.0/MolocoAdapter.xcframework"
   ],
   "dependencies": {
-    "MolocoSDKiOS": "4.7.0",
+    "MolocoSDKiOS": "4.8.0",
     "Google-Mobile-Ads-SDK": "~> 13.3"
   },
   "preserve_paths": [
