@@ -23,6 +23,9 @@ abstract_target 'Default' do
   target 'AdapterUnitTestKit' do
   end
 
+  target 'UnitTestHostApp' do
+  end
+
   # MaxAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MaxAdapter')
 
@@ -120,12 +123,9 @@ abstract_target 'Default' do
   # AppLovinAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('AppLovinAdapter')
 
-    pod 'GoogleMobileAdsMediationAppLovin', :path => '../adapters/AppLovin/CocoaPods/GoogleMobileAdsMediationAppLovin.podspec.json'
+    pod 'GoogleMobileAdsMediationAppLovin', :path => '../adapters/AppLovin'
 
-    # Dependencies for AppLovinAdapter static library.
-    target 'AdapterWithoutValidationScript' do
-      project '../adapters/AppLovin/AppLovinAdapter.xcodeproj'
-    end
+
 
     # Dependencies for AppLovinAdapter unit tests.
     target 'AppLovinAdapterTests' do
@@ -133,6 +133,7 @@ abstract_target 'Default' do
     end
 
     target 'AppLovinAdapterLatencyTests' do
+      pod 'OCMock'
     end
 
   end
@@ -417,4 +418,22 @@ abstract_target 'Default' do
 
   end
 
+end
+
+post_install do |installer|
+  puts "=== PODS POST_INSTALL HOOK EXECUTING ==="
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator'
+    config.build_settings['SDKROOT'] = 'iphoneos'
+    config.build_settings.delete('VALID_ARCHS')
+    puts "Pods Project Level config set: #{config.name} -> SUPPORTED_PLATFORMS = #{config.build_settings['SUPPORTED_PLATFORMS']}, SDKROOT = #{config.build_settings['SDKROOT']}"
+  end
+  installer.pods_project.targets.each do |target|
+    puts "Configuring platform settings for Pod target: #{target.name}"
+    target.build_configurations.each do |config|
+      config.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator'
+      config.build_settings['SDKROOT'] = 'iphoneos'
+      config.build_settings.delete('VALID_ARCHS')
+    end
+  end
 end
