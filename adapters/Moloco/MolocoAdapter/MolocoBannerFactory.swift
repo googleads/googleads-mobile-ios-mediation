@@ -19,16 +19,15 @@ import UIKit
 /// Protocol for a factory of Moloco banner ads.
 public protocol MolocoBannerFactory {
 
+  /// Creates a Moloco banner ad for the given size. The size covers fixed
+  /// (standard, MREC) and adaptive (inline, anchored) banners.
   @MainActor
   @available(iOS 13.0, *)
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
-    UIView & MolocoAd
-  )?
-
-  @MainActor
-  @available(iOS 13.0, *)
-  func createMREC(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
-    UIView & MolocoAd
-  )?
+  func createBanner(
+    for adUnit: String,
+    size: MolocoBannerAdSize,
+    delegate: MolocoBannerDelegate,
+    watermarkData: Data?
+  ) -> (UIView & MolocoAd)?
 
 }

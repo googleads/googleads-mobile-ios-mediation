@@ -73,34 +73,22 @@ extension MolocoSdkImpl: MolocoBannerFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
-    UIView & MolocoAd
-  )? {
+  func createBanner(
+    for adUnit: String,
+    size: MolocoBannerAdSize,
+    delegate: MolocoBannerDelegate,
+    watermarkData: Data?
+  ) -> (UIView & MolocoAd)? {
     guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
       return nil
     }
-    let bannerAd = Moloco.shared.createBanner(
+    let bannerAd = Moloco.shared.createMolocoBanner(
       params: MolocoCreateAdParams(
         adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData),
+      size: size,
       viewController: rootViewController)
     bannerAd?.delegate = delegate
     return bannerAd
-  }
-
-  @MainActor
-  @available(iOS 13.0, *)
-  func createMREC(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
-    UIView & MolocoAd
-  )? {
-    guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
-      return nil
-    }
-    let mrecBannerAd = Moloco.shared.createMREC(
-      params: MolocoCreateAdParams(
-        adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData),
-      viewController: rootViewController)
-    mrecBannerAd?.delegate = delegate
-    return mrecBannerAd
   }
 
 }

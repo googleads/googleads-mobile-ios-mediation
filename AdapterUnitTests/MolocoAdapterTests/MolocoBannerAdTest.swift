@@ -13,7 +13,9 @@ final class MolocoBannerAdTest: XCTestCase {
 
   static let testWatermarkData = Data()
 
-  @MainActor func testFakeBannerFactory() throws {
+  @MainActor
+  @available(iOS 13.0, *)
+  func testFakeBannerFactory() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
     let adConfiguration = MediationBannerAdConfiguration()
     let bannerLoader = BannerAdLoader(
@@ -22,7 +24,7 @@ final class MolocoBannerAdTest: XCTestCase {
       return nil
     }
     let banner = molocoBannerFactory.createBanner(
-      for: Self.testAdUnitID, delegate: bannerLoader,
+      for: Self.testAdUnitID, size: .standard, delegate: bannerLoader,
       watermarkData: MolocoBannerAdTest.testWatermarkData)
     let fakeMolocoBanner = try XCTUnwrap(banner as? FakeMolocoBanner)
 
@@ -46,8 +48,6 @@ final class MolocoBannerAdTest: XCTestCase {
     XCTAssertEqual(
       molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
-    XCTAssertEqual(
-      molocoBannerFactory.bannerApiUsed, FakeMolocoBannerFactory.BannerApiUsed.regularBanner)
   }
 
   func testMRECLoadSuccess() {
@@ -65,7 +65,12 @@ final class MolocoBannerAdTest: XCTestCase {
     XCTAssertEqual(
       molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
-    XCTAssertEqual(molocoBannerFactory.bannerApiUsed, FakeMolocoBannerFactory.BannerApiUsed.MREC)
+    // The MREC ad size resolves to the MREC banner format. (The loaded
+    // MolocoBannerAdSize itself is opaque to the test, so routing is asserted at
+    // the resolver.)
+    if #available(iOS 13.0, *) {
+      XCTAssertEqual(BannerAdLoader.resolvedBannerFormat(from: mediationAdConfig.adSize), .mrec)
+    }
   }
 
   func testBannerLoadFailure() {
