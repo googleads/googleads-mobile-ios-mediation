@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMWaterfallAppLovinBannerRenderer.h"
+#import <AppLovinAdapter/AppLovinAdapter-Swift.h>
 #import <Foundation/Foundation.h>
 #include <stdatomic.h>
 #import "GADMAdapterAppLovinUtils.h"
@@ -215,22 +216,17 @@
     return;
   }
 
-  _adView = [[ALAdView alloc] initWithSdk:sharedALSdk size:appLovinAdSize];
+  GADMWaterfallAppLovinBannerDelegate *appLovinDelegate =
+      [[GADMWaterfallAppLovinBannerDelegate alloc] initWithParentRenderer:self];
+
+  id<GADMAdapterAppLovinClient> client = [GADMAdapterAppLovinClientFactory createClient];
+  _adView = [client loadBannerAdForZoneIdentifier:_zoneIdentifier.length ? _zoneIdentifier : nil
+                                             size:appLovinAdSize
+                                              sdk:sharedALSdk
+                                         delegate:appLovinDelegate];
 
   CGSize size = CGSizeFromGADAdSize(adSize);
   _adView.frame = CGRectMake(0, 0, size.width, size.height);
-
-  GADMWaterfallAppLovinBannerDelegate *appLovinDelegate =
-      [[GADMWaterfallAppLovinBannerDelegate alloc] initWithParentRenderer:self];
-  _adView.adLoadDelegate = appLovinDelegate;
-  _adView.adDisplayDelegate = appLovinDelegate;
-  _adView.adEventDelegate = appLovinDelegate;
-
-  if (_zoneIdentifier.length) {
-    [sharedALSdk.adService loadNextAdForZoneIdentifier:_zoneIdentifier andNotify:appLovinDelegate];
-  } else {
-    [sharedALSdk.adService loadNextAd:appLovinAdSize andNotify:appLovinDelegate];
-  }
 }
 
 - (UIView *)view {

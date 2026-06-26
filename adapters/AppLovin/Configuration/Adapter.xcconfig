@@ -38,7 +38,6 @@ HEADER_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framew
 SDKROOT = iphoneos
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 ONLY_ACTIVE_ARCH = NO
-VALID_ARCHS = arm64 x86_64
 TARGETED_DEVICE_FAMILY = 1,2
 BITCODE_GENERATION_MODE = bitcode
 ENABLE_BITCODE = NO

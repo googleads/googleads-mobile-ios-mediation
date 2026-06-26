@@ -18,6 +18,17 @@
 
 #import "GADMediationAdapterAppLovin.h"
 
+@protocol GADMAdapterAppLovinClient <NSObject>
+
+- (nullable ALAdView *)loadBannerAdForZoneIdentifier:(nullable NSString *)zoneIdentifier
+                                                size:(nonnull ALAdSize *)size
+                                                 sdk:(nonnull ALSdk *)sdk
+                                            delegate:
+                                                (nonnull id<ALAdLoadDelegate, ALAdDisplayDelegate,
+                                                            ALAdViewEventDelegate>)delegate;
+
+@end
+
 typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   /// Banner Size Mismatch.
   GADMAdapterAppLovinErrorBannerSizeMismatch = 101,
