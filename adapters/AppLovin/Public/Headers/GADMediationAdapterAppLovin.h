@@ -14,7 +14,8 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@protocol GADRTBAdapter;
 
 #import "GADMediationAdapterAppLovin.h"
 
@@ -62,5 +63,11 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
+
+/// Factory method to create ALAdView, allowing unit tests to stub allocations.
++ (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size;
+
+/// Factory method to create ALInterstitialAd, allowing unit tests to stub allocations.
++ (nonnull ALInterstitialAd *)createInterstitialAdWithSdk:(nonnull ALSdk *)sdk;
 
 @end
