@@ -22,7 +22,6 @@
 #import <XCTest/XCTest.h>
 
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 /// Tests for loading and showing AppLovin interstitial ads through Waterfall.
 @interface AUTAppLovinWaterfallInterstitialAdTests : XCTestCase
