@@ -19,6 +19,7 @@
 #endif
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import "ChartboostAdapter.h"
 #import "GADMediationAdapterChartboost.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v)                    \
@@ -57,6 +58,20 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
     GADMAdapterChartboostErrorCode code, NSString *_Nonnull description);
+
+/// Checks whether the user provided consent to a Google Ad Tech Provider (ATP) in Google’s
+/// Additional Consent technical specification. For more details, see [Google’s Additional Consent
+/// technical specification](https://support.google.com/admob/answer/9681920).
+///
+/// Returns `GADMAdapterChartboostConsentResultUnknown` if GDPR does not apply or if positive or
+/// negative consent was not explicitly detected.
+///
+/// Parameters
+/// - `vendorId`: a Google Ad Tech Provider (ATP) ID from [Additional Consent
+/// Providers](https://storage.googleapis.com/tcfac/additional-consent-providers.csv).
+///
+/// Returns: A `GADMAdapterChartboostConsentResult` indicating consent for the given ATP.
+GADMAdapterChartboostConsentResult GADMAdapterChartboostHasACConsent(NSInteger vendorId);
 
 /// Returns the closest CHBBannerSize size from the requested GADAdSize.
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(

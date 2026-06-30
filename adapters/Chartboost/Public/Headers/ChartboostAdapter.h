@@ -14,3 +14,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+/// Represents the result of a consent check for advertising purposes.
+typedef NS_ENUM(NSInteger, GADMAdapterChartboostConsentResult) {
+  /// The consent status could not be determined, or consent does not apply.
+  GADMAdapterChartboostConsentResultUnknown,
+  /// The user has explicitly consented.
+  GADMAdapterChartboostConsentResultTrue,
+  /// The user has explicitly declined consent.
+  GADMAdapterChartboostConsentResultFalse
+};
