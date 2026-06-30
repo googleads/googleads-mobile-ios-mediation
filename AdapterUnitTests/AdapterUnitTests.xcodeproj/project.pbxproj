@@ -34,7 +34,6 @@
 		707FFE2C2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */; };
 		707FFE702B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */; };
 		70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */; };
-		70A82CE82F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A82CE72F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m */; };
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
 		70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
@@ -278,6 +277,7 @@
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
 		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		BC376AF06A5317F53E4581B1 /* AppLovinWaterfallBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F292A070847C383632201B /* AppLovinWaterfallBannerTests.swift */; };
 		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD00AE352FB25C0200F2F45B /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD00ADDC2FB25BFB00F2F45B /* placeholder.swift */; };
 		CD00AE382FB25CC300F2F45B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD00AE372FB25CC300F2F45B /* libc++.tbd */; };
@@ -303,6 +303,7 @@
 		CDCA7FA12F841AC30000EF1B /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		CDD2215A2F7B301300ED9C43 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD221592F7B301300ED9C43 /* libc++.1.tbd */; };
 		E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */; };
+		E89FAB2E98333B0851943DE9 /* FakeAppLovinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6009D844F8F5FA7608B541FB /* FakeAppLovinClient.swift */; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
@@ -1566,6 +1567,7 @@
 		44ACFB122AB129D000035A73 /* AppLovinAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLovinAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinAdapterTests.m; sourceTree = "<group>"; };
 		44E132202F8979FE00BC75A9 /* IMobileAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IMobileAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		6009D844F8F5FA7608B541FB /* FakeAppLovinClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FakeAppLovinClient.swift; sourceTree = "<group>"; };
 		7003A9492B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeAppOpenAdTests.m; sourceTree = "<group>"; };
 		7007D79E2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinWaterfallInterstitialAdTests.m; sourceTree = "<group>"; };
 		701E23692AAD8ADD00BAB0B3 /* PangleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1584,7 +1586,6 @@
 		707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeUtilsTests.m; sourceTree = "<group>"; };
 		707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRouterTests.m; sourceTree = "<group>"; };
 		70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoBidTokenGetter.swift; sourceTree = "<group>"; };
-		70A82CE72F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinWaterfallBannerAdTests.m; sourceTree = "<group>"; };
 		70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceUtilsTests.m; sourceTree = "<group>"; };
 		70B709F12AB27C2300348FE7 /* PangleAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PangleAdapterTests.xctestplan; sourceTree = "<group>"; };
@@ -1845,6 +1846,7 @@
 		CDC3033C2F994F140071A719 /* MaxAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaxAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD221592F7B301300ED9C43 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMaioBannerAdTests.m; sourceTree = "<group>"; };
+		E3F292A070847C383632201B /* AppLovinWaterfallBannerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLovinWaterfallBannerTests.swift; sourceTree = "<group>"; };
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
 		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
 		F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeAdTest.swift; sourceTree = "<group>"; };
@@ -2319,7 +2321,8 @@
 				CD97F91F2F69D10E008A3EB5 /* AppLovinAdapterTests-Bridging-Header.h */,
 				CD73B2BA2F69E62A00E86C91 /* placeholder.swift */,
 				7007D79E2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m */,
-				70A82CE72F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m */,
+				6009D844F8F5FA7608B541FB /* FakeAppLovinClient.swift */,
+				E3F292A070847C383632201B /* AppLovinWaterfallBannerTests.swift */,
 			);
 			path = AppLovinAdapterTests;
 			sourceTree = "<group>";
@@ -5116,12 +5119,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADF3B9B92AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m in Sources */,
-				70A82CE82F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m in Sources */,
 				CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */,
 				7007D79F2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m in Sources */,
 				AD91F07A2B605EA90095A061 /* AUTAppLovinUtilsTests.m in Sources */,
 				ADF3B9B72AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m in Sources */,
 				44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */,
+				E89FAB2E98333B0851943DE9 /* FakeAppLovinClient.swift in Sources */,
+				BC376AF06A5317F53E4581B1 /* AppLovinWaterfallBannerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6106,6 +6110,7 @@
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/Public/Headers\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Waterfall\"",
+					"\"$(OBJROOT)/AppLovinAdapter.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AdapterWithoutValidationScript.build/DerivedSources\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -6178,6 +6183,7 @@
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/Public/Headers\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Waterfall\"",
+					"\"$(OBJROOT)/AppLovinAdapter.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AdapterWithoutValidationScript.build/DerivedSources\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;

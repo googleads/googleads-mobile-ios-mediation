@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #import <AppLovinSDK/AppLovinSDK.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@protocol GADMAdNetworkAdapter;
+@protocol GADMAdNetworkConnector;
 
 /// An adapter class that requests ads from AppLovin SDK.
 @interface GADMAdapterAppLovin : NSObject <GADMAdNetworkAdapter>
