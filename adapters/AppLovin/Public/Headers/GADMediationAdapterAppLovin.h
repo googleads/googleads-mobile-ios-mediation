@@ -14,7 +14,8 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@protocol GADRTBAdapter;
 
 #import "GADMediationAdapterAppLovin.h"
 
@@ -62,5 +63,12 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
+
++ (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size;
+
++ (nonnull ALInterstitialAd *)createInterstitialAdWithSdk:(nonnull ALSdk *)sdk;
+
++ (nonnull ALIncentivizedInterstitialAd *)createIncentivizedInterstitialAdWithSdk:
+    (nonnull ALSdk *)sdk;
 
 @end

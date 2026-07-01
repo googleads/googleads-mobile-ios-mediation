@@ -8,7 +8,6 @@
 #import <XCTest/XCTest.h>
 
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMAppLovinRewardedDelegate.h"
 
 @interface AUTAppLovinRewardedAdTests : XCTestCase
 @end
@@ -24,7 +23,9 @@
   id _serviceMock;
 
   /// An ad loader.
-  __block GADMAppLovinRewardedDelegate *_adLoader;
+  // TODO(b/529681616): Restore concrete type GADMAppLovinRewardedDelegate after migrating tests to
+  // Swift.
+  __block id _adLoader;
 }
 
 - (void)setUp {
@@ -83,7 +84,10 @@
                                    andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
                                      self->_adLoader = obj;
                                      return
-                                         [obj isKindOfClass:[GADMAppLovinRewardedDelegate class]];
+                                         // TODO(b/529681616): Check class directly after migrating
+                                         // tests to Swift.
+                                         [obj isKindOfClass:NSClassFromString(
+                                                                @"GADMAppLovinRewardedDelegate")];
                                    }]])
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader adService:self->_serviceMock didLoadAd:adMock];
@@ -156,7 +160,10 @@
                                           andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
                                             self->_adLoader = obj;
                                             return [obj
-                                                isKindOfClass:[GADMAppLovinRewardedDelegate class]];
+                                                // TODO(b/529681616): Check class directly after
+                                                // migrating tests to Swift.
+                                                isKindOfClass:NSClassFromString(
+                                                                  @"GADMAppLovinRewardedDelegate")];
                                           }]])
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader adService:self->_serviceMock didLoadAd:adMock];
