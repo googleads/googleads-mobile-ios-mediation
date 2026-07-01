@@ -8,7 +8,6 @@
 #import <XCTest/XCTest.h>
 
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMAdapterAppLovinInterstitialDelegate.h"
 #import "GADMAppLovinRTBInterstitialDelegate.h"
 
 /// Tests for loading and showing AppLovin interstitial ads through RTB.
