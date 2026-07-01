@@ -1,7 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Version 8.4.8.0 (In progress)
+#### [Version 8.4.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.8.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.4.8.
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.6.0.
+- DT Exchange SDK version 8.4.8.
 
 #### [Version 8.4.7.1](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.7.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to DT Exchange SDK's COPPA API.
