@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRTBInterstitialDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
 
@@ -59,9 +59,9 @@
 
 - (void)loadAd {
   if (!ALSdk.shared) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance. ");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance. "];
     _adLoadCompletionHandler(nil, error);
     return;
   }

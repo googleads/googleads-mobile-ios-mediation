@@ -14,13 +14,13 @@
 
 #import "GADMAdapterAppLovin.h"
 
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinBannerDelegate.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinInterstitialDelegate.h"
 #import "GADMAdapterAppLovinMediationManager.h"
-#import "GADMAdapterAppLovinUtils.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #pragma clang diagnostic push
@@ -88,14 +88,14 @@
 
 - (void)loadInterstitial {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    [_connector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
+    [_connector adapter:self didFailAd:[GADMAdapterAppLovinUtils childUserError]];
     return;
   }
 
   if (!ALSdk.shared) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance. ");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance. "];
     [_connector adapter:self didFailAd:error];
     return;
   }
@@ -104,21 +104,23 @@
   // Unable to resolve a valid zone - error out
   if (!_zoneIdentifier) {
     NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
-    NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
+    NSError *zoneIdentifierError =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorInvalidServerParameters
+                                    description:errorString];
     [_connector adapter:self didFailAd:zoneIdentifierError];
     return;
   }
 
-  [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@", self.zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Requesting interstitial for zone: %@", self.zoneIdentifier]];
 
   GADMAdapterAppLovinMediationManager *sharedManager =
       GADMAdapterAppLovinMediationManager.sharedInstance;
   if ([sharedManager containsAndAddInterstitialZoneIdentifier:_zoneIdentifier]) {
-    NSError *adAlreadyLoadedError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAdAlreadyLoaded,
-        @"Can't request a second ad for the same zone identifier without showing "
-        @"the first ad.");
+    NSError *adAlreadyLoadedError = [GADMAdapterAppLovinUtils
+        errorWithCode:GADMAdapterAppLovinErrorAdAlreadyLoaded
+          description:@"Can't request a second ad for the same zone identifier without showing "
+                      @"the first ad."];
     [_connector adapter:self didFailAd:adAlreadyLoadedError];
     return;
   }
@@ -140,7 +142,8 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [GADMAdapterAppLovinUtils log:@"Showing interstitial ad for zone: %@.", _zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Showing interstitial ad for zone: %@.", _zoneIdentifier]];
   [_interstitial showAd:_interstitialAd];
 }
 
@@ -158,14 +161,14 @@
 
 - (void)loadBannerWithSize:(GADAdSize)adSize {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    [_connector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
+    [_connector adapter:self didFailAd:[GADMAdapterAppLovinUtils childUserError]];
     return;
   }
 
   if (!ALSdk.shared) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
-        @"Failed to retrieve ALSdk shared instance. ");
+    NSError *error =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                                    description:@"Failed to retrieve ALSdk shared instance. "];
     [_connector adapter:self didFailAd:error];
     return;
   }
@@ -175,14 +178,16 @@
   // Unable to resolve a valid zone - error out.
   if (!_zoneIdentifier) {
     NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
-    NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
+    NSError *zoneIdentifierError =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorInvalidServerParameters
+                                    description:errorString];
     [_connector adapter:self didFailAd:zoneIdentifierError];
     return;
   }
 
-  [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@.",
-                                NSStringFromGADAdSize(adSize), _zoneIdentifier];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Requesting banner of size %@ for zone: %@.",
+                                     NSStringFromGADAdSize(adSize), _zoneIdentifier]];
 
   // Convert requested size to AppLovin Ad Size.
   ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils appLovinAdSizeFromRequestedSize:adSize];
@@ -191,8 +196,9 @@
     NSString *errorMessage = [NSString
         stringWithFormat:@"Adapter requested to display a banner ad of unsupported size: %@",
                          appLovinAdSize];
-    NSError *adSizeError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorBannerSizeMismatch, errorMessage);
+    NSError *adSizeError =
+        [GADMAdapterAppLovinUtils errorWithCode:GADMAdapterAppLovinErrorBannerSizeMismatch
+                                    description:errorMessage];
     [_connector adapter:self didFailAd:adSizeError];
     return;
   }

@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #import "GADMAdapterAppLovinBannerDelegate.h"
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovin.h"
-#import "GADMAdapterAppLovinUtils.h"
 
 @implementation GADMAdapterAppLovinBannerDelegate {
   /// AppLovin banner ad renderer to which the events are delegated.
@@ -35,14 +35,14 @@
 
 - (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad {
   GADMAdapterAppLovin *parentAdapter = _parentAdapter;
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad];
+  [GADMAdapterAppLovinUtils log:[NSString stringWithFormat:@"Banner did load ad: %@", ad]];
   [parentAdapter.adView render:ad];
   [parentAdapter.connector adapter:parentAdapter didReceiveAdView:parentAdapter.adView];
 }
 
 - (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
   GADMAdapterAppLovin *parentAdapter = _parentAdapter;
-  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
+  NSError *error = [GADMAdapterAppLovinUtils sdkErrorWithCode:code];
   [parentAdapter.connector adapter:parentAdapter didFailAd:error];
 }
 
@@ -91,7 +91,8 @@
 - (void)ad:(nonnull ALAd *)ad
     didFailToDisplayInAdView:(nonnull ALAdView *)adView
                    withError:(ALAdViewDisplayErrorCode)code {
-  [GADMAdapterAppLovinUtils log:@"Banner failed to display: %ld", (long)code];
+  [GADMAdapterAppLovinUtils
+      log:[NSString stringWithFormat:@"Banner failed to display: %ld", (long)code]];
 }
 
 @end

@@ -14,8 +14,8 @@
 
 #import "GADMAdapterAppLovinInitializer.h"
 
+#import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMAdapterAppLovinUtils.h"
 #import "GADMediationAdapterAppLovin.h"
 
 @implementation GADMAdapterAppLovinInitializer

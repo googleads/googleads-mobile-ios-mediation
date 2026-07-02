@@ -14,7 +14,8 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@protocol GADRTBAdapter;
 
 #import "GADMediationAdapterAppLovin.h"
 
