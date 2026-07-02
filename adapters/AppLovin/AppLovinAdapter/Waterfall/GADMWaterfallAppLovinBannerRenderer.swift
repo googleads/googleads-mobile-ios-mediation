@@ -95,7 +95,8 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
       return
     }
 
-    let adView = GADMediationAdapterAppLovin.createAdView(with: sharedALSdk, size: appLovinAdSize)
+    let adView =
+      GADMediationAdapterAppLovin.createAdView(with: sharedALSdk, size: appLovinAdSize) as! ALAdView
     let size = cgSize(for: adSize)
     adView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 

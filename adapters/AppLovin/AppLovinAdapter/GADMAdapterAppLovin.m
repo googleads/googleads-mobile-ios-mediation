@@ -17,9 +17,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "AppLovinAdapter-Swift.h"
-#import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinInterstitialDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #pragma clang diagnostic push
@@ -47,7 +45,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return GADMAdapterAppLovinAdapterVersion;
+  return GADMAdapterAppLovinConstant.adapterVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
