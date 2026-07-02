@@ -22,12 +22,6 @@ public class GADMAdapterAppLovinUtils: NSObject {
   private static let sdkKeyLength = 86
   private static let zoneIdentifierLength = 16
 
-  @objc public static func mutableSetAddObject(_ set: NSMutableSet?, object: Any?) {
-    if let set, let object {
-      set.add(object)
-    }
-  }
-
   @objc public static func mutableArrayAddObject(_ array: NSMutableArray?, object: Any?) {
     if let array, let object {
       array.add(object)
@@ -82,7 +76,7 @@ public class GADMAdapterAppLovinUtils: NSObject {
     -> Error
   {
     return NSError(
-      domain: GADMAdapterAppLovinErrorDomain,
+      domain: GADMAdapterAppLovinConstant.errorDomain,
       code: code.rawValue,
       userInfo: [NSLocalizedFailureReasonErrorKey: description]
     )
@@ -90,7 +84,7 @@ public class GADMAdapterAppLovinUtils: NSObject {
 
   @objc public static func sdkError(withCode code: Int) -> Error {
     return NSError(
-      domain: GADMAdapterAppLovinSDKErrorDomain,
+      domain: GADMAdapterAppLovinConstant.sdkErrorDomain,
       code: code,
       userInfo: [NSLocalizedFailureReasonErrorKey: "AppLovin SDK returned a failure callback."]
     )
@@ -115,7 +109,7 @@ public class GADMAdapterAppLovinUtils: NSObject {
   @objc public static func retrieveSDKKey(fromCredentials credentials: [AnyHashable: Any])
     -> String?
   {
-    if let serverSDKKey = credentials[GADMAdapterAppLovinSDKKey] as? String,
+    if let serverSDKKey = credentials[GADMAdapterAppLovinConstant.sdkKey] as? String,
       isValidAppLovinSDKKey(serverSDKKey)
     {
       return serverSDKKey
@@ -138,8 +132,8 @@ public class GADMAdapterAppLovinUtils: NSObject {
   }
 
   private static func retrieveZoneIdentifier(from dict: [AnyHashable: Any]?) -> String? {
-    guard let dict = dict else { return GADMAdapterAppLovinDefaultZoneIdentifier }
-    let customZoneIdentifier = dict[GADMAdapterAppLovinZoneIdentifierKey] as? String
+    guard let dict = dict else { return GADMAdapterAppLovinConstant.defaultZoneIdentifier }
+    let customZoneIdentifier = dict[GADMAdapterAppLovinConstant.zoneIdentifierKey] as? String
 
     // Custom zone found and is valid.
     if let customZoneIdentifier, customZoneIdentifier.count == Self.zoneIdentifierLength {
@@ -150,7 +144,7 @@ public class GADMAdapterAppLovinUtils: NSObject {
     if customZoneIdentifier?.isEmpty ?? true {
       log(
         "WARNING: Please provide a custom zone in your AdMob configuration. Using default zone...")
-      return GADMAdapterAppLovinDefaultZoneIdentifier
+      return GADMAdapterAppLovinConstant.defaultZoneIdentifier
     }
 
     // Custom zone is invalid - return nil (adapter will fail the ad load).

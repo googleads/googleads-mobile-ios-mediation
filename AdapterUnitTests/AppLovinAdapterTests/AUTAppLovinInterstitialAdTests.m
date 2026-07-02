@@ -1,3 +1,4 @@
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -6,10 +7,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
-#import "GADMAdapterAppLovinConstant.h"
-#import "GADMAdapterAppLovinInterstitialDelegate.h"
-#import "GADMAppLovinRTBInterstitialDelegate.h"
 
 /// Tests for loading and showing AppLovin interstitial ads through RTB.
 @interface AUTAppLovinInterstitialAdTests : XCTestCase
@@ -24,6 +21,8 @@
   id _interstitialAdMock;
   /// Mock for ALAdService
   id _serviceMock;
+  /// Mock for GADMediationAdapterAppLovin class.
+  id _adapterClassMock;
 
   /// An ad loader.
   __block GADMAppLovinRTBInterstitialDelegate *_adLoader;
@@ -39,9 +38,10 @@
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _interstitialAdMock = OCMClassMock([ALInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
+  _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
 
-  OCMStub([_interstitialAdMock alloc]).andReturn(_interstitialAdMock);
-  OCMStub([_interstitialAdMock initWithSdk:_appLovinSdkMock]).andReturn(_interstitialAdMock);
+  OCMStub(ClassMethod([_adapterClassMock createInterstitialAdWith:OCMOCK_ANY]))
+      .andReturn(_interstitialAdMock);
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
 }
@@ -106,7 +106,7 @@
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
@@ -117,7 +117,7 @@
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
@@ -129,7 +129,7 @@
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);

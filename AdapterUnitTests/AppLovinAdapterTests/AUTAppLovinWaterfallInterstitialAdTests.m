@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -20,9 +21,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
-#import "GADMAdapterAppLovinConstant.h"
-#import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 /// Tests for loading and showing AppLovin interstitial ads through Waterfall.
 @interface AUTAppLovinWaterfallInterstitialAdTests : XCTestCase
@@ -43,6 +41,8 @@ static NSString *const kZoneId = @"1234567890123456";
   id _interstitialAdMock;
   /// Mock for ALAdService
   id _serviceMock;
+  /// Mock for GADMediationAdapterAppLovin class
+  id _adapterClassMock;
 
   /// Delegate for handling AppLovin SDK callbacks.
   id<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate> _appLovinDelegate;
@@ -58,9 +58,11 @@ static NSString *const kZoneId = @"1234567890123456";
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _interstitialAdMock = OCMClassMock([ALInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
+  _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
 
-  OCMStub([_interstitialAdMock alloc]).andReturn(_interstitialAdMock);
-  OCMStub([_interstitialAdMock initWithSdk:_appLovinSdkMock]).andReturn(_interstitialAdMock);
+  OCMStub(ClassMethod([_adapterClassMock createInterstitialAdWith:OCMOCK_ANY]))
+      .andReturn(_interstitialAdMock);
+
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
   OCMStub(([_appLovinSdkMock
@@ -147,9 +149,10 @@ static NSString *const kZoneId = @"1234567890123456";
         [self->_appLovinDelegate adService:self->_serviceMock didFailToLoadAdWithError:1001];
       });
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinSDKErrorDomain
-                                                      code:1001
-                                                  userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.sdkErrorDomain
+                                 code:1001
+                             userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 
@@ -163,7 +166,7 @@ static NSString *const kZoneId = @"1234567890123456";
   config.credentials = credentials;
 
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                  code:GADMAdapterAppLovinErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
@@ -176,7 +179,7 @@ static NSString *const kZoneId = @"1234567890123456";
   credentials.settings = @{@"zone_id" : kZoneId};
   config.credentials = credentials;
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorMissingSDKKey
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
@@ -187,7 +190,7 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
@@ -198,7 +201,7 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
@@ -257,7 +260,7 @@ static NSString *const kZoneId = @"1234567890123456";
 
   [adapter loadInterstitialForAdConfiguration:config completionHandler:completionHandler];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorAdAlreadyLoaded
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);

@@ -1,3 +1,4 @@
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -6,8 +7,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
-#import "GADMAdapterAppLovinConstant.h"
 
 @interface AUTAppLovinAdapterTests : XCTestCase
 
@@ -58,7 +57,7 @@
   ALSdkInitializationConfigurationBuilder *builderMock =
       OCMClassMock([ALSdkInitializationConfigurationBuilder class]);
   OCMExpect([builderMock setMediationProvider:ALMediationProviderAdMob]);
-  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinAdapterVersion]);
+  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion]);
   OCMStub(ClassMethod([configMock configurationWithSdkKey:testSdkKey builderBlock:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^block)(ALSdkInitializationConfigurationBuilder *builder);
@@ -75,7 +74,7 @@
       });
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterAppLovinSDKKey : testSdkKey};
+  credentials.settings = @{GADMAdapterAppLovinConstant.sdkKey : testSdkKey};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterAppLovin class], credentials);
   OCMVerifyAll(appLovinSdkMock);
   OCMVerifyAll(builderMock);
@@ -96,7 +95,7 @@
   ALSdkInitializationConfigurationBuilder *builderMock =
       OCMClassMock([ALSdkInitializationConfigurationBuilder class]);
   OCMExpect([builderMock setMediationProvider:ALMediationProviderAdMob]);
-  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinAdapterVersion]);
+  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion]);
   OCMStub(ClassMethod([configMock configurationWithSdkKey:[OCMArg checkWithBlock:^BOOL(id obj) {
                                     return [testSdkKey1 isEqualToString:obj] ||
                                            [testSdkKey2 isEqualToString:obj];
@@ -117,10 +116,10 @@
       });
 
   AUTKMediationCredentials *credentials1 = [[AUTKMediationCredentials alloc] init];
-  credentials1.settings = @{GADMAdapterAppLovinSDKKey : testSdkKey1};
+  credentials1.settings = @{GADMAdapterAppLovinConstant.sdkKey : testSdkKey1};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterAppLovin class], credentials1);
   AUTKMediationCredentials *credentials2 = [[AUTKMediationCredentials alloc] init];
-  credentials2.settings = @{GADMAdapterAppLovinSDKKey : testSdkKey2};
+  credentials2.settings = @{GADMAdapterAppLovinConstant.sdkKey : testSdkKey2};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterAppLovin class], credentials2);
 
   OCMVerify(times(2), [appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY
@@ -131,7 +130,7 @@
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
@@ -142,7 +141,7 @@
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
@@ -154,7 +153,7 @@
       GADAgeRestrictedTreatmentChild;
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
@@ -163,17 +162,17 @@
 
 - (void)testSetUpFailureWithInvalidSdkKey {
   NSString *testSdkKey = @"notValid";
-  NSError *error = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *error = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                               code:GADMAdapterAppLovinErrorMissingSDKKey
                                           userInfo:nil];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterAppLovinSDKKey : testSdkKey};
+  credentials.settings = @{GADMAdapterAppLovinConstant.sdkKey : testSdkKey};
   AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
                                                       credentials, error);
 }
 
 - (void)testSetUpFailureWithMissingSdkKey {
-  NSError *error = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *error = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                               code:GADMAdapterAppLovinErrorMissingSDKKey
                                           userInfo:nil];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
