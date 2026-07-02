@@ -62,8 +62,4 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorAdNotReady = 116
 };
 
-@interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
-
-+ (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size;
-
-@end
+@class GADMediationAdapterAppLovin;
