@@ -14,5 +14,6 @@
 
 // Not including framework imports to prevent Xcode dependency scanner failures
 
+#import "GADMAdapterAppLovin.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMediationAdapterAppLovin.h"

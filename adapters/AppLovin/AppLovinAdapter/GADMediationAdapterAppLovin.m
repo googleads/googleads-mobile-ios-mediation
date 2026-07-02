@@ -21,7 +21,6 @@
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
-#import "GADMWaterfallAppLovinBannerRenderer.h"
 #import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
@@ -114,6 +113,10 @@
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMAdapterAppLovinExtras class];
+}
+
++ (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size {
+  return [[ALAdView alloc] initWithSdk:sdk size:size];
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params

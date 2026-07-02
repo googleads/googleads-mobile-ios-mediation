@@ -14,8 +14,9 @@
 
 #import "GADMAdapterAppLovin.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
 #import "AppLovinAdapter-Swift.h"
-#import "GADMAdapterAppLovinBannerDelegate.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinInterstitialDelegate.h"
