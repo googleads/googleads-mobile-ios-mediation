@@ -4,6 +4,10 @@
 # AdapterUnitTests.xcodeproj's dependencies are installed via Cocoapod, it adds
 # pod-configurations to each of the adapter xcodeproj which the AdapterUnitTests
 # depends on. This shell script completely removes the traces.
+#
+# By default, this script selectively deintegrates only the adapters listed in the
+# ADAPTER_TARGETS environment variable (comma-separated). To deintegrate all
+# adapters, leave ADAPTER_TARGETS unset or empty.
 
 set -euo pipefail
 
@@ -18,10 +22,22 @@ fi
 if [ -d ./AdapterUnitTests.xcworkspace ]; then
   rm -r ./AdapterUnitTests.xcworkspace
 fi
+if [ -d ./build/DerivedData ]; then
+  rm -rf ./build/DerivedData
+fi
 
 # Clean up pod configurations from all the adapter projects.
 for adapter_xcodeproj_location in $(find ../adapters -name '*.xcodeproj'); do
   adapter_xcodeproj_dir=$(dirname "$adapter_xcodeproj_location")
+  adapter_name=$(basename "$adapter_xcodeproj_dir")
+
+  # If ADAPTER_TARGETS is set, only deintegrate the specified adapters.
+  if [ -n "${ADAPTER_TARGETS:-}" ]; then
+    if [[ ! ",${ADAPTER_TARGETS}," =~ ",${adapter_name}," ]]; then
+      continue
+    fi
+  fi
+
   cd "$adapter_xcodeproj_dir"
   pod deintegrate
   cd -
