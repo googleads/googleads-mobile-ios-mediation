@@ -18,9 +18,7 @@
 #import "GADMAdapterAppLovinBannerDelegate.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinInterstitialDelegate.h"
-#import "GADMAdapterAppLovinMediationManager.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #pragma clang diagnostic push

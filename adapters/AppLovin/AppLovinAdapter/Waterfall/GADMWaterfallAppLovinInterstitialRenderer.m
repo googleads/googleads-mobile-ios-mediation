@@ -13,12 +13,9 @@
 // limitations under the License.
 
 #import "GADMWaterfallAppLovinInterstitialRenderer.h"
-#import "AppLovinAdapter-Swift.h"
-#import "GADMAdapterAppLovinInitializer.h"
-#import "GADMAdapterAppLovinMediationManager.h"
-
 #include <GoogleMobileAds/GoogleMobileAds.h>
 #include <stdatomic.h>
+#import "AppLovinAdapter-Swift.h"
 
 #pragma mark - Ad lifecyle events declaration
 

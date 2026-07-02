@@ -15,7 +15,6 @@
 #import "GADMAppLovinRewardedDelegate.h"
 #import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMAdapterAppLovinMediationManager.h"
 
 @implementation GADMAppLovinRewardedDelegate {
   /// AppLovin rewarded ad renderer to which the events are delegated.

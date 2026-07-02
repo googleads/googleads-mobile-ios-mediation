@@ -19,7 +19,6 @@
 #import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 #import "GADMWaterfallAppLovinBannerRenderer.h"

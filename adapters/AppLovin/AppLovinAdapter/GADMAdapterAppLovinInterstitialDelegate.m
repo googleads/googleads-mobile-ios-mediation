@@ -14,7 +14,6 @@
 
 #import "GADMAdapterAppLovinInterstitialDelegate.h"
 #import "AppLovinAdapter-Swift.h"
-#import "GADMAdapterAppLovinMediationManager.h"
 
 @implementation GADMAdapterAppLovinInterstitialDelegate {
   /// AppLovin interstitial ad renderer to which the events are delegated.
