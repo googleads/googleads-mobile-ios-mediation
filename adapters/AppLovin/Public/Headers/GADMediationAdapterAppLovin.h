@@ -14,7 +14,8 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@protocol GADRTBAdapter;
 
 #import "GADMediationAdapterAppLovin.h"
 
@@ -61,6 +62,4 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorAdNotReady = 116
 };
 
-@interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
-
-@end
+@class GADMediationAdapterAppLovin;

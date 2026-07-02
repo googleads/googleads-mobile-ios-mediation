@@ -1,4 +1,4 @@
-#import "GADMAdapterAppLovinUtils.h"
+#import "AppLovinAdapter-Swift.h"
 
 #import <XCTest/XCTest.h>
 
@@ -8,7 +8,7 @@
 @implementation AUTAppLovinUtilsTests
 
 - (void)testMultipleAdsEnabled {
-  XCTAssertTrue(GADMAdapterAppLovinIsMultipleAdsLoadingEnabled());
+  XCTAssertTrue([GADMAdapterAppLovinUtils isMultipleAdsLoadingEnabled]);
 }
 
 @end

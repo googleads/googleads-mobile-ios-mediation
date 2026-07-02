@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -32,6 +33,7 @@
 @end
 
 // AppLovin expects an SDK Key of 86 characters
+
 static NSString *const kSDKKey =
     @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
 // AppLovin expects a zone ID of 16 characters
@@ -47,6 +49,8 @@ static NSString *const kZoneId = @"1234567890123456";
   id _appLovinAdViewMock;
   /// Mock for ALAdService
   id _serviceMock;
+  /// Mock for GADMediationAdapterAppLovin class
+  id _adapterClassMock;
 
   /// Delegate for handling AppLovin SDK callbacks.
   id<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate> _appLovinDelegate;
@@ -62,9 +66,9 @@ static NSString *const kZoneId = @"1234567890123456";
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _appLovinAdViewMock = OCMClassMock([ALAdView class]);
   _serviceMock = OCMClassMock([ALAdService class]);
+  _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
 
-  OCMStub([_appLovinAdViewMock alloc]).andReturn(_appLovinAdViewMock);
-  OCMStub([_appLovinAdViewMock initWithSdk:_appLovinSdkMock size:ALAdSize.banner])
+  OCMStub(ClassMethod([_adapterClassMock createAdViewWith:OCMOCK_ANY size:OCMOCK_ANY]))
       .andReturn(_appLovinAdViewMock);
 
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
