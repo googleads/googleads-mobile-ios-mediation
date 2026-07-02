@@ -1,5 +1,8 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
+#### Next Version
+- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+
 #### [Version 5.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.1.0.zip)
 - Verified compatibility with PubMatic OpenWrap SDK version 5.1.1.
 

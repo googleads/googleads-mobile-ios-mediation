@@ -23,8 +23,6 @@ final class FakeHyBidClient: NSObject, HybidClient {
 
   func initialize(
     with appToken: String,
-    COPPA: Bool?,
-    TFUA: Bool?,
     completionHandler: @escaping (VerveAdapterError?) -> Void
   ) {
     if shouldInitializationSucceed {

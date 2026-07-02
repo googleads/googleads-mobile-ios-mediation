@@ -1,0 +1,78 @@
+name: Mediation Adapters CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-paths:
+    runs-on: ubuntu-latest
+    outputs:
+      example: ${{ steps.filter.outputs.example }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check changes
+        id: filter
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -q "^example/"; then
+            echo "example=true" >> $GITHUB_OUTPUT
+          else
+            echo "example=false" >> $GITHUB_OUTPUT
+          fi
+
+  Build:
+    needs: check-paths
+    if: ${{ needs.check-paths.outputs.example == 'true' }}
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      # Available Xcode versions:
+      # https://github.com/actions/runner-images/blob/main/images/macos/toolsets/toolset-15.json
+      - name: Select Xcode version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+          echo "Selected Xcode version:"
+          /usr/bin/xcodebuild -version
+
+      - name: Update & Install Pods for Mediation Example
+        run: |
+          cd ./example
+          export BUILD_SNIPPETS=1
+          pod repo update
+          pod install
+
+      - name: Install xcpretty
+        run: sudo gem install xcpretty
+
+      - name: Build Mediation MediationExample Project Scheme
+        run: |
+          cd ./example
+          xcodebuild clean build analyze -workspace MediationExample.xcworkspace -scheme "MediationExample" -sdk iphonesimulator -arch x86_64 | xcpretty && exit ${PIPESTATUS[0]}
+
+  all-checks-passed:
+    needs: [check-paths, Build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Status
+        run: |
+          if [[ "${{ needs.check-paths.result }}" == "failure" || "${{ needs.check-paths.result }}" == "cancelled" ]]; then
+            echo "check-paths failed or was cancelled."
+            exit 1
+          fi
+          if [[ "${{ needs.Build.result }}" == "failure" || "${{ needs.Build.result }}" == "cancelled" ]]; then
+            echo "Build failed or was cancelled."
+            exit 1
+          fi
+          echo "All checks completed successfully or were skipped."

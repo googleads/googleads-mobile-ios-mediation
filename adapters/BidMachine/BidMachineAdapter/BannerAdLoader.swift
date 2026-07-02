@@ -80,7 +80,7 @@ final class BannerAdLoader {
 
     do {
       try client.loadRTBBannerAd(
-        with: bidResponse, delegate: self, watermark: watermark
+        with: bidResponse, size: adConfiguration.adSize, delegate: self, watermark: watermark
       ) {
         [weak self] error in
         guard let self else { return }

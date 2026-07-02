@@ -45,13 +45,22 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   }
 
   nonisolated func collectSignals(
-    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void
+    for adFormat: GoogleMobileAds.AdFormat,
+    size: AdSize?,
+    completionHandler: @escaping (String?) -> Void
   )
     throws
   {
     if !FakeBidMachineClient.supportedFormats.contains(adFormat) {
       throw BidMachineAdapterError(
         errorCode: .invalidRTBRequestParameters, description: "test description.")
+    }
+    if adFormat == .banner {
+      guard size != nil else {
+        throw BidMachineAdapterError(
+          errorCode: .invalidRTBRequestParameters,
+          description: "Banner ad format requires ad size.")
+      }
     }
     completionHandler("Test signals")
   }
@@ -93,6 +102,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   func loadRTBBannerAd(
     with bidResponse: String,
+    size: AdSize,
     delegate: any BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
