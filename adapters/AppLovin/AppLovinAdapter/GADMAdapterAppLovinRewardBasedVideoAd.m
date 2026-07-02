@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterAppLovinRewardBasedVideoAd.h"
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 @implementation GADMAdapterAppLovinRewardBasedVideoAd
