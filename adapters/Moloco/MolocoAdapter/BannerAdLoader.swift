@@ -71,15 +71,37 @@ final class BannerAdLoader: NSObject {
     DispatchQueue.main.async { [weak self] in
       guard let self else { return }
 
-      if isAdSizeEqualToSize(size1: adConfiguration.adSize, size2: AdSizeMediumRectangle) {
-        self.bannerAdView = self.molocoBannerFactory.createMREC(
-          for: molocoAdUnitID, delegate: self, watermarkData: adConfiguration.watermark)
-      } else {
-        self.bannerAdView = self.molocoBannerFactory.createBanner(
-          for: molocoAdUnitID, delegate: self, watermarkData: adConfiguration.watermark)
-      }
+      let molocoSize = BannerAdLoader.molocoBannerAdSize(from: adConfiguration.adSize)
+      self.bannerAdView = self.molocoBannerFactory.createBanner(
+        for: molocoAdUnitID, size: molocoSize, delegate: self,
+        watermarkData: adConfiguration.watermark)
       self.bannerAdView?.load(bidResponse: bidResponse)
     }
+  }
+
+  /// Maps a Google Mobile Ads `AdSize` to the matching Moloco `MolocoBannerAdSize`.
+  ///
+  /// 1. Exact fixed sizes → `.standard` / `.mrec`.
+  /// 2. Height matches the anchored adaptive size for this width → `.anchoredAdaptive`.
+  /// 3. Fallback (inline adaptive, leaderboard, custom) → `.inlineAdaptive`.
+  ///
+  /// Mirrors the Moloco Android adapter. Google's inline-adaptive `height == 0`
+  /// signal does not exist on iOS, so inline is the fallback; Moloco iOS has no
+  /// tablet/leaderboard fixed size, so those resolve to inline by width.
+  @available(iOS 13.0, *)
+  static func molocoBannerAdSize(from adSize: AdSize) -> MolocoBannerAdSize {
+    if isAdSizeEqualToSize(size1: adSize, size2: AdSizeBanner) {
+      return .standard
+    }
+    if isAdSizeEqualToSize(size1: adSize, size2: AdSizeMediumRectangle) {
+      return .mrec
+    }
+    let width = adSize.size.width
+    let anchored = currentOrientationAnchoredAdaptiveBanner(width: width)
+    if isAdSizeEqualToSize(size1: adSize, size2: anchored) {
+      return .anchoredAdaptive(width: Int(width))
+    }
+    return .inlineAdaptive(width: Int(width))
   }
 
 }
