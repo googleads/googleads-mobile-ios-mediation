@@ -19,7 +19,6 @@
 #import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinInterstitialDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #pragma clang diagnostic push

@@ -66,4 +66,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
 
 + (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size;
 
++ (nonnull ALInterstitialAd *)createInterstitialAdWithSdk:(nonnull ALSdk *)sdk;
+
 @end
