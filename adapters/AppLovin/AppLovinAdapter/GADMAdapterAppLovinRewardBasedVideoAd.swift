@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterAppLovinRewardBasedVideoAd.h"
-#import "GADMediationAdapterAppLovin.h"
+import Foundation
+import GoogleMobileAds
 
-@implementation GADMAdapterAppLovinRewardBasedVideoAd
+@MainActor
+@objc(GADMAdapterAppLovinRewardBasedVideoAd)
+public final class GADMAdapterAppLovinRewardBasedVideoAd: NSObject {
 
-/// TODO(Google): Remove this class once Google's server points to GADMediationAdapterAppLovin
-/// directly to ask for a rewarded ad on waterfall mediation requests.
-+ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-  return [GADMediationAdapterAppLovin class];
+  /// TODO(Google): Remove this class once Google's server points to GADMediationAdapterAppLovin
+  /// directly to ask for a rewarded ad on waterfall mediation requests.
+  @objc public nonisolated static func mainAdapterClass() -> any MediationAdapter.Type {
+    return GADMediationAdapterAppLovin.self
+  }
 }
-
-@end

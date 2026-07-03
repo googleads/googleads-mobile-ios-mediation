@@ -27,13 +27,13 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   /// The loaded AppLovin banner ad view. This backing property is marked `nonisolated(unsafe)`
   /// so that it can be safely returned from the SDK's non-isolated `view` computed property.
   /// It is only mutated on the Main Actor during ad loading.
-  nonisolated(unsafe) private var adView: ALAdView?
+  nonisolated(unsafe) private var adView: (any AppLovinAdView)?
 
   /// A placeholder view returned if `view` is queried before the ad loads. Since UIKit initializers
   /// are isolated to MainActor, this is pre-allocated on init and returned as an immutable reference.
   /// The Google Mobile Ads SDK should never call `view` before the ad is loaded, but this is kept
   /// as a defensive measure.
-  nonisolated(unsafe) private let dummyView: UIView
+  private let dummyView: UIView
   private weak var delegate: MediationBannerAdEventDelegate?
   private var loadAlreadyStarted = false
 
@@ -58,7 +58,8 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
       return completion(ad, error)
     }
 
-    guard let sharedALSdk = ALSdk.shared() as ALSdk? else {
+    let client = AppLovinClientFactory.createClient()
+    guard client.isSDKInitialized else {
       let error = GADMAdapterAppLovinUtils.error(
         withCode: .appLovinSDKNotInitialized,
         description: "AppLovin SDK not initialized."
@@ -68,7 +69,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
     }
 
     zoneIdentifier = GADMAdapterAppLovinUtils.zoneIdentifier(forAdConfiguration: adConfiguration)
-    guard let zoneIdentifier = zoneIdentifier else {
+    guard let zoneIdentifier else {
       let errorString = "Invalid custom zone entered. Please double-check your credentials."
       let error = GADMAdapterAppLovinUtils.error(
         withCode: GADMAdapterAppLovinErrorCode.invalidServerParameters,
@@ -95,7 +96,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
       return
     }
 
-    let adView = GADMediationAdapterAppLovin.createAdView(with: sharedALSdk, size: appLovinAdSize)
+    let adView = client.createAdView(size: appLovinAdSize)
     let size = cgSize(for: adSize)
     adView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
@@ -105,19 +106,15 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
     adView.adEventDelegate = appLovinDelegate
     self.adView = adView
 
-    if zoneIdentifier.isEmpty {
-      sharedALSdk.adService.loadNextAd(appLovinAdSize, andNotify: appLovinDelegate)
-    } else {
-      sharedALSdk.adService.loadNextAd(
-        forZoneIdentifier: zoneIdentifier, andNotify: appLovinDelegate)
-    }
+    client.loadNextAd(
+      size: appLovinAdSize, zoneIdentifier: zoneIdentifier, andNotify: appLovinDelegate)
   }
 
   // MARK: - MediationBannerAd
   /// Conforms to GADMediationBannerAd. The view property is accessed non-isolatedly by the
   /// Google Mobile Ads SDK.
   nonisolated public var view: UIView {
-    return (adView as UIView?) ?? dummyView
+    return adView?.view ?? dummyView
   }
 
   // MARK: - Ad Lifecycle Events
@@ -137,7 +134,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func displayedAdInView(_ view: UIView) {
     #if DEBUG
       assert(
-        view === adView as UIView?,
+        view === adView?.view,
         "AppLovinAdapter: Received ad displayed callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner displayed")
@@ -147,7 +144,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func hidAdInView(_ view: UIView) {
     #if DEBUG
       assert(
-        view === adView as UIView?,
+        view === adView?.view,
         "AppLovinAdapter: Received ad hidden callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner dismissed")
@@ -157,7 +154,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func reportClickOnAdInView(_ view: UIView) {
     #if DEBUG
       assert(
-        view === adView as UIView?,
+        view === adView?.view,
         "AppLovinAdapter: Received ad click callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner clicked")
@@ -167,7 +164,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func didPresentFullscreenForAdView(_ adView: ALAdView) {
     #if DEBUG
       assert(
-        adView === self.adView,
+        adView === self.adView?.view,
         "AppLovinAdapter: Received fullscreen present callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner presented fullscreen")
@@ -180,7 +177,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func willDismissFullscreenForAdView(_ adView: ALAdView) {
     #if DEBUG
       assert(
-        adView === self.adView,
+        adView === self.adView?.view,
         "AppLovinAdapter: Received will-dismiss-fullscreen callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner will dismiss fullscreen")
@@ -190,7 +187,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func didDismissFullscreenForAdView(_ adView: ALAdView) {
     #if DEBUG
       assert(
-        adView === self.adView,
+        adView === self.adView?.view,
         "AppLovinAdapter: Received did-dismiss-fullscreen callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner did dismiss fullscreen")
@@ -200,7 +197,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   fileprivate func willLeaveApplicationForAdView(_ adView: ALAdView) {
     #if DEBUG
       assert(
-        adView === self.adView,
+        adView === self.adView?.view,
         "AppLovinAdapter: Received will-leave-application callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner left application")
@@ -212,7 +209,7 @@ public class GADMWaterfallAppLovinBannerRenderer: NSObject, MediationBannerAd {
   ) {
     #if DEBUG
       assert(
-        adView === self.adView,
+        adView === self.adView?.view,
         "AppLovinAdapter: Received display failure callback for an unexpected view")
     #endif
     GADMAdapterAppLovinUtils.log("Banner failed to display: \(code.rawValue)")

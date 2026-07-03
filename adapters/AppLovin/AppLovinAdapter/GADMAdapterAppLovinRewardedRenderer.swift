@@ -20,7 +20,9 @@ import GoogleMobileAds
 /// Renderer for AppLovin waterfall rewarded ad. Loads a rewarded ad and handles ad lifecycle
 /// events.
 @objc(GADMAdapterAppLovinRewardedRenderer)
-public final class GADMAdapterAppLovinRewardedRenderer: NSObject, MediationRewardedAd {
+public final class GADMAdapterAppLovinRewardedRenderer: NSObject,
+  @preconcurrency MediationRewardedAd
+{
 
   /// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
   @objc public var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
@@ -116,7 +118,7 @@ public final class GADMAdapterAppLovinRewardedRenderer: NSObject, MediationRewar
     GADMAdapterAppLovinUtils.log("Requesting rewarded ad for zone: \(zoneIdentifier)")
 
     // If this is a default zone, create the incentivized ad normally.
-    if zoneIdentifier == GADMAdapterAppLovinDefaultZoneIdentifier {
+    if zoneIdentifier == GADMAdapterAppLovinConstant.defaultZoneIdentifier {
       // Loading an ad for default zone must be done through zone-agnostic
       // `ALIncentivizedInterstitialAd` instance
       incent?.preloadAndNotify(appLovinDelegate!)

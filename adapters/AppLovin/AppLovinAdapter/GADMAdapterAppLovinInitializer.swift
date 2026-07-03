@@ -22,22 +22,7 @@ public class GADMAdapterAppLovinInitializer: NSObject {
   @objc public static func initialize(
     withSDKKey sdkKey: String, completionHandler: @escaping @Sendable @MainActor () -> Void
   ) {
-    if ALSdk.shared().isInitialized {
-      completionHandler()
-      return
-    }
-
-    let config = ALSdkInitializationConfiguration(sdkKey: sdkKey) { builder in
-      builder.mediationProvider = ALMediationProviderAdMob
-      builder.pluginVersion = GADMAdapterAppLovinAdapterVersion
-    }
-
-    ALSdk.shared().initialize(with: config) { configuration in
-      // TODO(b/529681616): Migrate this initializer to async/await.
-      DispatchQueue.main.async {
-        GADMAdapterAppLovinUtils.log("Finished initializing ALSDK.")
-        completionHandler()
-      }
-    }
+    let client = AppLovinClientFactory.createClient()
+    client.initialize(withSDKKey: sdkKey, completionHandler: completionHandler)
   }
 }

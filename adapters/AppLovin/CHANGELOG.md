@@ -1,11 +1,15 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
 #### Next version
+- Migrated legacy adapter and reward-based video ad shim to Swift.
+- Migrated bidding interstitial renderer and delegate to Swift.
 - Migrated GADMAdapterAppLovinUtils to Swift.
 - Migrated GADMediationAdapterAppLovin initializers and mediation managers to Swift.
 - Migrated waterfall banner renderer and delegate to Swift.
 - Migrated waterfall interstitial renderer and delegate to Swift.
 - Migrated waterfall rewarded renderer and delegate to Swift.
+- Migrated the main entry adapter class GADMediationAdapterAppLovin to Swift.
+- Migrated GADMAdapterAppLovinConstant to Swift.
 
 #### [Version 13.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.3.0.zip)
 - Verified compatibility with AppLovin SDK 13.6.3.

@@ -3,8 +3,6 @@
 #import <XCTest/XCTest.h>
 #import <AdapterUnitTestKit/AUTKLatencyTests.h>
 
-#import "GADMAdapterAppLovinConstant.h"
-
 @interface AUTAppLovinLatencyTests : XCTestCase
 @end
 

@@ -37,17 +37,12 @@
 		18FA7C1AD24DA435168BCDD7 /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
 		1A85C139660EB7AE8D7D425D /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
 		1CBF201CED64B290AFC5AACC /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
-		1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */; };
+		1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.swift */; };
 		1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
-		1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */; };
-		1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */; };
-		1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */; };
-		1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */; };
-		1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */; };
-		23FB830D26A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830126A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h */; };
-		23FB830E26A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m */; };
-		23FB831326A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */; };
-		23FB831426A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */; };
+		1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.swift */; };
+		1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift */; };
+		23FB830E26A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift */; };
+		23FB831426A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift */; };
 		28BAF05A557C1BC3B00FC511 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
 		2EE4C832630D92EE67AD778B /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */; };
 		2EF60660C49863FAD0882835 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
@@ -57,48 +52,37 @@
 		3E65654BE6FA53472E6FC121 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
 		456B94BD174A20F8033533DA /* GADMAdapterAppLovinBannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */; };
 		45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		45BFFBCE2228ADE100C96A67 /* GADMediationAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */; };
 		4CBAE6A85EAE4E33F59C8E90 /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
 		6EE3224DFAAF6193C8E10A49 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
 		7573CB9EE98C811FEF404624 /* GADMAppLovinRewardedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */; };
 		7B465FAD1B02CA2596D4C03E /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */; };
 		7E2DB74CAE8148043D252EB9 /* GADMAppLovinRewardedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */; };
+		7E45D4B9A714BA896FDAAB52 /* GADMediationAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */; };
 		7F02EAA4943E84D50F786D3E /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
 		80560E488034B7C41B47317F /* GADMAdapterAppLovinBannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */; };
 		80D36947BCB012D9CDB78879 /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		8FE1DAD1144371239DB89C34 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */; };
+		A0A39A332348D73F04F245A1 /* GADMediationAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */; };
 		A61968D88E38A81137841D5E /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
 		AD6E3A212EA1680000818296 /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
-		AD6E3A252EA1680000818296 /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */; };
-		AD6E3A262EA1680000818296 /* GADMAdapterAppLovinConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */; };
-		AD6E3A282EA1680000818296 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m */; };
-		AD6E3A292EA1680000818296 /* GADMediationAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */; };
-		AD6E3A2A2EA1680000818296 /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */; };
-		AD6E3A2D2EA1680000818296 /* GADMAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */; };
-		AD6E3A312EA1680000818296 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830126A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h */; };
+		AD6E3A252EA1680000818296 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift */; };
+		AD6E3A262EA1680000818296 /* GADMAdapterAppLovinConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.swift */; };
+		AD6E3A282EA1680000818296 /* GADMAppLovinRTBInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift */; };
+		AD6E3A2A2EA1680000818296 /* GADMAdapterAppLovinRewardBasedVideoAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift */; };
+		AD6E3A2D2EA1680000818296 /* GADMAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.swift */; };
 		AD6E3A322EA1680000818296 /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6E3A332EA1680000818296 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6E3A352EA1680000818296 /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD6E3A362EA1680000818296 /* GADMAdapterAppLovinConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */; };
-		AD6E3A372EA1680000818296 /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */; };
-		AD6E3A382EA1680000818296 /* GADMAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */; };
-		AD6E3A392EA1680000818296 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */; };
 		AD8D2E1330A597242604A486 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */; };
 		ADA6B8F22CF145F8009C8FDA /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
-		ADA6B8F62CF145F8009C8FDA /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */; };
-		ADA6B8F72CF145F8009C8FDA /* GADMAdapterAppLovinConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */; };
-		ADA6B8F92CF145F8009C8FDA /* GADMAppLovinRTBInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m */; };
-		ADA6B8FA2CF145F8009C8FDA /* GADMediationAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */; };
-		ADA6B8FB2CF145F8009C8FDA /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */; };
-		ADA6B8FE2CF145F8009C8FDA /* GADMAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */; };
-		ADA6B9022CF145F8009C8FDA /* GADMAppLovinRTBInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830126A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h */; };
+		ADA6B8F62CF145F8009C8FDA /* GADMRTBAdapterAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift */; };
+		ADA6B8F72CF145F8009C8FDA /* GADMAdapterAppLovinConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.swift */; };
+		ADA6B8F92CF145F8009C8FDA /* GADMAppLovinRTBInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift */; };
+		ADA6B8FB2CF145F8009C8FDA /* GADMAdapterAppLovinRewardBasedVideoAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift */; };
+		ADA6B8FE2CF145F8009C8FDA /* GADMAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.swift */; };
 		ADA6B9032CF145F8009C8FDA /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA6B9042CF145F8009C8FDA /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA6B9062CF145F8009C8FDA /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ADA6B9072CF145F8009C8FDA /* GADMAdapterAppLovinConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */; };
-		ADA6B9082CF145F8009C8FDA /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */; };
-		ADA6B9092CF145F8009C8FDA /* GADMAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */; };
-		ADA6B90A2CF145F8009C8FDA /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */; };
 		ADD347942D2B2C230019419D /* GADMAdapterAppLovinExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; };
 		ADD347952D2B2C230019419D /* GADMediationAdapterAppLovin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; };
 		ADD347962D2B2C230019419D /* AppLovinAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; };
@@ -110,6 +94,11 @@
 		C178D109E398FB41EA695A8D /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		CDB37064910D2264BBCBE0D0 /* GADMAppLovinRewardedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */; };
 		D9F8D67C07FF148E33F6D174 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
+		E84503C05AAE48B621A147F2 /* GADMediationAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */; };
+		EEAA00000000000000000002 /* AppLovinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA00000000000000000001 /* AppLovinClient.swift */; };
+		EEAA00000000000000000003 /* AppLovinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA00000000000000000001 /* AppLovinClient.swift */; };
+		EEAA00000000000000000004 /* AppLovinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA00000000000000000001 /* AppLovinClient.swift */; };
+		EEAA00000000000000000005 /* AppLovinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA00000000000000000001 /* AppLovinClient.swift */; };
 		EEBBDF581913C6FA021DA7D5 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
 		F8BF9E28337CC294E8ED49A7 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
 /* End PBXBuildFile section */
@@ -160,18 +149,13 @@
 /* Begin PBXFileReference section */
 		009589E122F10666006E2408 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMWaterfallAppLovinInterstitialRenderer.swift; sourceTree = "<group>"; };
-		1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovin.m; sourceTree = "<group>"; };
+		1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovin.swift; sourceTree = "<group>"; };
 		1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinExtras.m; sourceTree = "<group>"; };
-		1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinRewardBasedVideoAd.h; sourceTree = "<group>"; };
-		1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinConstant.h; sourceTree = "<group>"; };
-		1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinConstant.m; sourceTree = "<group>"; };
-		1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovin.h; sourceTree = "<group>"; };
-		1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinRewardBasedVideoAd.m; sourceTree = "<group>"; };
+		1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinConstant.swift; sourceTree = "<group>"; };
+		1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinRewardBasedVideoAd.swift; sourceTree = "<group>"; };
 		1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMWaterfallAppLovinBannerRenderer.swift; sourceTree = "<group>"; };
-		23FB830126A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRTBInterstitialDelegate.h; sourceTree = "<group>"; };
-		23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRTBInterstitialDelegate.m; sourceTree = "<group>"; };
-		23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMRTBAdapterAppLovinInterstitialRenderer.h; sourceTree = "<group>"; };
-		23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMRTBAdapterAppLovinInterstitialRenderer.m; sourceTree = "<group>"; };
+		23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAppLovinRTBInterstitialDelegate.swift; sourceTree = "<group>"; };
+		23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMRTBAdapterAppLovinInterstitialRenderer.swift; sourceTree = "<group>"; };
 		2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinBannerDelegate.swift; sourceTree = "<group>"; };
 		359ADF9C1EFDA83600E2DBFE /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppLovinAdapter.h; sourceTree = "<group>"; };
@@ -179,7 +163,6 @@
 		359ADFA21EFDBDEB00E2DBFE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinInterstitialDelegate.swift; sourceTree = "<group>"; };
 		45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterAppLovin.h; sourceTree = "<group>"; };
-		45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterAppLovin.m; sourceTree = "<group>"; };
 		697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinMediationManager.swift; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -193,7 +176,9 @@
 		AD6E3A432EA1680000818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6B9142CF145F8009C8FDA /* libStaticAppLovinAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticAppLovinAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinExtras.h; sourceTree = "<group>"; };
+		BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMediationAdapterAppLovin.swift; sourceTree = "<group>"; };
 		D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinInitializer.swift; sourceTree = "<group>"; };
+		EEAA00000000000000000001 /* AppLovinClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLovinClient.swift; sourceTree = "<group>"; };
 		EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAppLovinRewardedDelegate.swift; sourceTree = "<group>"; };
 		F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinRewardedRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,10 +218,8 @@
 		23FB82FC26A7474700ECBBE0 /* Bidding */ = {
 			isa = PBXGroup;
 			children = (
-				23FB830126A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h */,
-				23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m */,
-				23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */,
-				23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */,
+				23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift */,
+				23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift */,
 			);
 			path = Bidding;
 			sourceTree = "<group>";
@@ -284,22 +267,20 @@
 			children = (
 				706F98F52EBBE6E40044229E /* Waterfall */,
 				23FB82FC26A7474700ECBBE0 /* Bidding */,
-				1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */,
-				1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */,
-				1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */,
-				1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */,
+				1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.swift */,
+				1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.swift */,
 				1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */,
-				1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */,
-				1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */,
-				45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */,
+				1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift */,
 				9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */,
 				A636E656068920D0F9BC3B73 /* AppLovinAdapter-Bridging-Header.h */,
 				D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */,
+				EEAA00000000000000000001 /* AppLovinClient.swift */,
 				697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */,
 				2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */,
 				3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */,
 				F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */,
 				EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */,
+				BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */,
 			);
 			path = AppLovinAdapter;
 			sourceTree = "<group>";
@@ -345,14 +326,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23FB830D26A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */,
 				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
 				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
 				45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */,
-				1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */,
-				1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
-				1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */,
-				23FB831326A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,14 +343,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3A312EA1680000818296 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */,
 				AD6E3A322EA1680000818296 /* AppLovinAdapter.h in Headers */,
 				AD6E3A332EA1680000818296 /* GADMAdapterAppLovinExtras.h in Headers */,
 				AD6E3A352EA1680000818296 /* GADMediationAdapterAppLovin.h in Headers */,
-				AD6E3A362EA1680000818296 /* GADMAdapterAppLovinConstant.h in Headers */,
-				AD6E3A372EA1680000818296 /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
-				AD6E3A382EA1680000818296 /* GADMAdapterAppLovin.h in Headers */,
-				AD6E3A392EA1680000818296 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,14 +353,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADA6B9022CF145F8009C8FDA /* GADMAppLovinRTBInterstitialDelegate.h in Headers */,
 				ADA6B9032CF145F8009C8FDA /* AppLovinAdapter.h in Headers */,
 				ADA6B9042CF145F8009C8FDA /* GADMAdapterAppLovinExtras.h in Headers */,
 				ADA6B9062CF145F8009C8FDA /* GADMediationAdapterAppLovin.h in Headers */,
-				ADA6B9072CF145F8009C8FDA /* GADMAdapterAppLovinConstant.h in Headers */,
-				ADA6B9082CF145F8009C8FDA /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
-				ADA6B9092CF145F8009C8FDA /* GADMAdapterAppLovin.h in Headers */,
-				ADA6B90A2CF145F8009C8FDA /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,14 +526,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */,
-				23FB831426A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */,
-				1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */,
-				23FB830E26A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */,
-				45BFFBCE2228ADE100C96A67 /* GADMediationAdapterAppLovin.m in Sources */,
-				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
-				1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */,
+				23FB831426A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift in Sources */,
+				1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.swift in Sources */,
+				23FB830E26A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.swift in Sources */,
+				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.swift in Sources */,
+				1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.swift in Sources */,
 				AE13E328C9AE7109ABDC5D48 /* GADMAdapterAppLovinUtils.swift in Sources */,
 				A61968D88E38A81137841D5E /* GADMAdapterAppLovinInitializer.swift in Sources */,
+				EEAA00000000000000000002 /* AppLovinClient.swift in Sources */,
 				F8BF9E28337CC294E8ED49A7 /* GADMAdapterAppLovinMediationManager.swift in Sources */,
 				80560E488034B7C41B47317F /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				BFC84688517F518B203E4190 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
@@ -575,6 +541,7 @@
 				2EE4C832630D92EE67AD778B /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */,
 				AD8D2E1330A597242604A486 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */,
 				CDB37064910D2264BBCBE0D0 /* GADMAppLovinRewardedDelegate.swift in Sources */,
+				E84503C05AAE48B621A147F2 /* GADMediationAdapterAppLovin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +551,7 @@
 			files = (
 				38C4631546031C6804393530 /* GADMAdapterAppLovinUtils.swift in Sources */,
 				1CBF201CED64B290AFC5AACC /* GADMAdapterAppLovinInitializer.swift in Sources */,
+				EEAA00000000000000000003 /* AppLovinClient.swift in Sources */,
 				1A85C139660EB7AE8D7D425D /* GADMAdapterAppLovinMediationManager.swift in Sources */,
 				BFC4CFDBCC972965898E9009 /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				EEBBDF581913C6FA021DA7D5 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
@@ -595,14 +563,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6E3A212EA1680000818296 /* GADMAdapterAppLovinExtras.m in Sources */,
-				AD6E3A252EA1680000818296 /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */,
-				AD6E3A262EA1680000818296 /* GADMAdapterAppLovinConstant.m in Sources */,
-				AD6E3A282EA1680000818296 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */,
-				AD6E3A292EA1680000818296 /* GADMediationAdapterAppLovin.m in Sources */,
-				AD6E3A2A2EA1680000818296 /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
-				AD6E3A2D2EA1680000818296 /* GADMAdapterAppLovin.m in Sources */,
+				AD6E3A252EA1680000818296 /* GADMRTBAdapterAppLovinInterstitialRenderer.swift in Sources */,
+				AD6E3A262EA1680000818296 /* GADMAdapterAppLovinConstant.swift in Sources */,
+				AD6E3A282EA1680000818296 /* GADMAppLovinRTBInterstitialDelegate.swift in Sources */,
+				AD6E3A2A2EA1680000818296 /* GADMAdapterAppLovinRewardBasedVideoAd.swift in Sources */,
+				AD6E3A2D2EA1680000818296 /* GADMAdapterAppLovin.swift in Sources */,
 				80D36947BCB012D9CDB78879 /* GADMAdapterAppLovinUtils.swift in Sources */,
 				4CBAE6A85EAE4E33F59C8E90 /* GADMAdapterAppLovinInitializer.swift in Sources */,
+				EEAA00000000000000000004 /* AppLovinClient.swift in Sources */,
 				6EE3224DFAAF6193C8E10A49 /* GADMAdapterAppLovinMediationManager.swift in Sources */,
 				3248B9D82A9932CD5B2C6570 /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				7F02EAA4943E84D50F786D3E /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
@@ -610,6 +578,7 @@
 				BE69914A1154C50D3838DE06 /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */,
 				8FE1DAD1144371239DB89C34 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */,
 				7573CB9EE98C811FEF404624 /* GADMAppLovinRewardedDelegate.swift in Sources */,
+				7E45D4B9A714BA896FDAAB52 /* GADMediationAdapterAppLovin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,14 +587,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA6B8F22CF145F8009C8FDA /* GADMAdapterAppLovinExtras.m in Sources */,
-				ADA6B8F62CF145F8009C8FDA /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */,
-				ADA6B8F72CF145F8009C8FDA /* GADMAdapterAppLovinConstant.m in Sources */,
-				ADA6B8F92CF145F8009C8FDA /* GADMAppLovinRTBInterstitialDelegate.m in Sources */,
-				ADA6B8FA2CF145F8009C8FDA /* GADMediationAdapterAppLovin.m in Sources */,
-				ADA6B8FB2CF145F8009C8FDA /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
-				ADA6B8FE2CF145F8009C8FDA /* GADMAdapterAppLovin.m in Sources */,
+				ADA6B8F62CF145F8009C8FDA /* GADMRTBAdapterAppLovinInterstitialRenderer.swift in Sources */,
+				ADA6B8F72CF145F8009C8FDA /* GADMAdapterAppLovinConstant.swift in Sources */,
+				ADA6B8F92CF145F8009C8FDA /* GADMAppLovinRTBInterstitialDelegate.swift in Sources */,
+				ADA6B8FB2CF145F8009C8FDA /* GADMAdapterAppLovinRewardBasedVideoAd.swift in Sources */,
+				ADA6B8FE2CF145F8009C8FDA /* GADMAdapterAppLovin.swift in Sources */,
 				C178D109E398FB41EA695A8D /* GADMAdapterAppLovinUtils.swift in Sources */,
 				18FA7C1AD24DA435168BCDD7 /* GADMAdapterAppLovinInitializer.swift in Sources */,
+				EEAA00000000000000000005 /* AppLovinClient.swift in Sources */,
 				2EF60660C49863FAD0882835 /* GADMAdapterAppLovinMediationManager.swift in Sources */,
 				456B94BD174A20F8033533DA /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				090DDE0D80D2C6E75E36FFEF /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
@@ -633,6 +602,7 @@
 				0BFE7A26945192C63ECE17AA /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */,
 				7B465FAD1B02CA2596D4C03E /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */,
 				7E2DB74CAE8148043D252EB9 /* GADMAppLovinRewardedDelegate.swift in Sources */,
+				A0A39A332348D73F04F245A1 /* GADMediationAdapterAppLovin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,34 +620,38 @@
 		009589DD22F105E9006E2408 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		009589DE22F105E9006E2408 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 			};
 			name = Release;
 		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
+				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
+				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -720,8 +694,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -759,8 +733,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -773,6 +747,7 @@
 				DEFINES_MODULE = YES;
 				PRODUCT_MODULE_NAME = AppLovinAdapter;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 			};
@@ -844,6 +819,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
@@ -922,6 +898,7 @@
 				PRODUCT_MODULE_NAME = AppLovinAdapter;
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 			};
@@ -948,6 +925,7 @@
 				PRODUCT_MODULE_NAME = AppLovinAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AppLovinAdapter/AppLovinAdapter-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 			};
