@@ -23,8 +23,7 @@
 #include <stdatomic.h>
 
 #import "ChartboostAdapter-Swift.h"
-#import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostError.h"
+#import "GADMediationAdapterChartboost.h"
 
 @interface GADMediationAdapterChartboostInterstitialAd () <CHBInterstitialDelegate>
 @end
@@ -77,25 +76,26 @@
           stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
+    NSError *error =
+        [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorInvalidServerParameters
+                                      description:@"App ID and/or App Signature cannot be nil."];
     _completionHandler(nil, error);
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
+  if (![GADMAdapterChartboostUtils isOSVersionSupported]) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    NSError *error =
+        [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorMinimumOSVersion
+                                      description:logMessage];
     _completionHandler(nil, error);
     return;
   }
 
-  NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
+  NSString *adLocation = [GADMAdapterChartboostUtils locationFrom:_adConfig];
   GADMediationAdapterChartboostInterstitialAd *weakSelf = self;
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
@@ -111,7 +111,7 @@
                       return;
                     }
 
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
+                    CHBMediation *mediation = [GADMAdapterChartboostUtils mediation];
                     strongSelf->_interstitial =
                         [[CHBInterstitial alloc] initWithLocation:adLocation
                                                         mediation:mediation
@@ -122,8 +122,8 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (!_interstitial.isCached) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorAdNotCached, @"Interstitial ad not cached.");
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorAdNotCached
+                                                   description:@"Interstitial ad not cached."];
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
@@ -134,7 +134,7 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   if (error) {
-    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
+    NSError *loadError = [GADMChartboostError errorForCacheError:error];
     NSLog(@"Failed to load interstitial ad from Chartboost: %@", loadError.localizedDescription);
     _completionHandler(nil, loadError);
     return;
@@ -149,7 +149,7 @@
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   if (error) {
-    NSError *showError = GADMChartboostErrorForCHBShowError(error);
+    NSError *showError = [GADMChartboostError errorForShowError:error];
     NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
 
     // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
@@ -162,7 +162,7 @@
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
   [_adEventDelegate reportClick];
   if (error) {
-    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
+    NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost interstitial ad: %@",
           clickError.localizedDescription);
   }

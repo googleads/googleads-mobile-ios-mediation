@@ -20,8 +20,6 @@
 #endif
 #import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostRewardedAd.h"
-#import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostError.h"
 #import "GADMediationAdapterChartboost.h"
 #import "GADMediationAdapterChartboostBannerAd.h"
 #import "GADMediationAdapterChartboostInterstitialAd.h"
@@ -45,19 +43,20 @@
 }
 
 + (void)startChartBoostWithCredentialsArray:(nonnull NSArray<GADMediationCredentials *> *)credentialsArray completionHandler:(void (^)(NSError *_Nullable error))completionHandler {
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
+  if (![GADMAdapterChartboostUtils isOSVersionSupported]) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    NSError *error =
+        [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorMinimumOSVersion
+                                      description:logMessage];
     completionHandler(error);
     return;
   }
 
-  GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
+  GADMAdapterChartboostConsentResult consentResult = [GADMAdapterChartboostUtils
+      hasACConsent:[GADMAdapterChartboostConstants adTechnologyProviderID]];
   if (consentResult == GADMAdapterChartboostConsentResultTrue) {
     [Chartboost addDataUseConsent:[CHBGDPRDataUseConsent gdprConsent:CHBGDPRConsentBehavioral]];
   } else if (consentResult == GADMAdapterChartboostConsentResultFalse) {
@@ -71,14 +70,15 @@
     NSString *appSignature = cred.settings[[GADMAdapterChartboostConstants appSignature]];
 
     if (appID.length && appSignature.length) {
-      GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+      [GADMAdapterChartboostUtils setObject:credentials key:appID value:appSignature];
     }
   }
 
   if (!credentials.count) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"Chartboost mediation configurations did not contain a valid appID and app signature.");
+    NSError *error = [GADMAdapterChartboostUtils
+        errorWithCode:GADMAdapterChartboostErrorInvalidServerParameters
+          description:@"Chartboost mediation configurations did not contain a valid appID and "
+                      @"app signature."];
     completionHandler(error);
     return;
   }
@@ -89,7 +89,7 @@
           credentials.allKeys);
   }
 
-  GADMAdapterChartboostSetCOPPAUsingRequestConfiguration();
+  [GADMAdapterChartboostUtils setCOPPAUsingRequestConfiguration];
 
   NSString *appID = credentials.allKeys.firstObject;
   NSString *appSignature = credentials[appID];
@@ -101,9 +101,9 @@
                   completion:^(CHBStartError *cbError) {
                     NSError *error = nil;
                     if (cbError) {
-                      error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK failed to initialize.");
+                      error = [GADMAdapterChartboostUtils
+                          errorWithCode:GADMAdapterChartboostErrorInitializationFailure
+                            description:@"Chartboost SDK failed to initialize."];
                       NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
                     }
                     completionHandler(error);

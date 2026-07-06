@@ -23,8 +23,7 @@
 #include <stdatomic.h>
 
 #import "ChartboostAdapter-Swift.h"
-#import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostError.h"
+#import "GADMediationAdapterChartboost.h"
 
 @interface GADMediationAdapterChartboostBannerAd () <CHBBannerDelegate>
 @end
@@ -77,34 +76,35 @@
           stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
+    NSError *error =
+        [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorInvalidServerParameters
+                                      description:@"App ID and/or App Signature cannot be nil."];
     _completionHandler(nil, error);
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
+  if (![GADMAdapterChartboostUtils isOSVersionSupported]) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    NSError *error =
+        [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorMinimumOSVersion
+                                      description:logMessage];
     _completionHandler(nil, error);
     return;
   }
 
   // Convert requested size to Chartboost Ad Size.
   NSError *error = nil;
-  CHBBannerSize chartboostAdSize =
-      GADMAdapterChartboostBannerSizeFromAdSize(_adConfig.adSize, &error);
+  CHBBannerSize chartboostAdSize = [GADMAdapterChartboostUtils bannerSizeFromAdSize:_adConfig.adSize
+                                                                              error:&error];
   if (error) {
     _completionHandler(nil, error);
     return;
   }
 
-  NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
+  NSString *adLocation = [GADMAdapterChartboostUtils locationFrom:_adConfig];
   GADMediationAdapterChartboostBannerAd *weakSelf = self;
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
@@ -120,7 +120,7 @@
                       return;
                     }
 
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
+                    CHBMediation *mediation = [GADMAdapterChartboostUtils mediation];
                     strongSelf->_banner = [[CHBBanner alloc] initWithSize:chartboostAdSize
                                                                  location:adLocation
                                                                 mediation:mediation
@@ -139,7 +139,7 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   if (error) {
-    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
+    NSError *loadError = [GADMChartboostError errorForCacheError:error];
     NSLog(@"Failed to load banner ad from Chartboost: %@", loadError.localizedDescription);
     _completionHandler(nil, loadError);
     return;
@@ -151,7 +151,7 @@
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   if (error) {
-    NSError *showError = GADMChartboostErrorForCHBShowError(error);
+    NSError *showError = [GADMChartboostError errorForShowError:error];
     NSLog(@"Failed to show banner ad from Chartboost: %@", showError.localizedDescription);
 
     [_adEventDelegate didFailToPresentWithError:showError];
@@ -162,7 +162,7 @@
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
   [_adEventDelegate reportClick];
   if (error) {
-    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
+    NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost banner ad: %@",
           clickError.localizedDescription);
   }

@@ -8,7 +8,6 @@
 #import <XCTest/XCTest.h>
 
 #import "ChartboostAdapter-Swift.h"
-#import "GADMAdapterChartboostUtils.h"
 
 typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
