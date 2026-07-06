@@ -16,7 +16,7 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 #import "GADMChartboostError.h"
 
 #pragma mark - Private utility method prototypes
@@ -58,13 +58,13 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
     id<GADMAdNetworkConnector> _Nonnull connector) {
   return GADMAdapterChartboostLocationFromString(
-      connector.credentials[GADMAdapterChartboostAdLocation]);
+      connector.credentials[[GADMAdapterChartboostConstants adLocation]]);
 }
 
 NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfiguration) {
   return GADMAdapterChartboostLocationFromString(
-      adConfiguration.credentials.settings[GADMAdapterChartboostAdLocation]);
+      adConfiguration.credentials.settings[[GADMAdapterChartboostConstants adLocation]]);
 }
 
 NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
@@ -85,14 +85,14 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
                                  GADMobileAds.sharedInstance.versionNumber.patchVersion];
   return [[CHBMediation alloc] initWithName:@"AdMob"
                              libraryVersion:versionString
-                             adapterVersion:GADMAdapterChartboostVersion];
+                             adapterVersion:[GADMAdapterChartboostConstants adapterVersion]];
 }
 
 NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
     GADMAdapterChartboostErrorCode code, NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:GADMAdapterChartboostErrorDomain
+  NSError *error = [NSError errorWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                        code:code
                                    userInfo:userInfo];
   return error;
