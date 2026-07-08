@@ -84,8 +84,14 @@ static BOOL _isTestMode = NO;
     UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat:format];
     [UnityAds getTokenWith:config
                 completion:^(NSString *_Nullable token) {
-                  NSString *unityToken = token ?: @"";
-                  completionHandler(unityToken, nil);
+                  if (token.length == 0) {
+                    completionHandler(
+                        nil, GADMAdapterUnityErrorWithCodeAndDescription(
+                                 GADMAdapterUnityErrorTokenGenerationFailed,
+                                 @"Unity Ads returned a null or empty bidding token."));
+                    return;
+                  }
+                  completionHandler(token, nil);
                 }];
   } else {
     completionHandler(
