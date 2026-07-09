@@ -13,7 +13,7 @@
 #import "ChartboostSDK.h"
 #endif
 
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 
 typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
@@ -86,9 +86,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : location,
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : location,
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
@@ -131,18 +131,19 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   configuration.adSize = GADAdSizeBanner;
   configuration.topViewController = [[UIViewController alloc] init];
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
-                                                      code:201
-                                                  userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:201
+                             userInfo:nil];
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
 }
@@ -157,16 +158,16 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   configuration.topViewController = [[UIViewController alloc] init];
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorBannerSizeMismatch
                              userInfo:nil];
 
@@ -219,9 +220,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
@@ -236,14 +237,14 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testMissingAppID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppSignature : @"signature",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appSignature] : @"signature",
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
 
@@ -253,15 +254,15 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testAppIDOnlyWhitespace {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"    ",
-    GADMAdapterChartboostAppSignature : @"signature",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"    ",
+    [GADMAdapterChartboostConstants appSignature] : @"signature",
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
 
@@ -271,15 +272,15 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testSignatureOnlyWhitespace {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"    ",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"    ",
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
 
@@ -289,14 +290,14 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testMissingSignature {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
 
@@ -309,15 +310,15 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppSignature : @"signature",
-    GADMAdapterChartboostAppID : @"app_id",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appSignature] : @"signature",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorMinimumOSVersion
                              userInfo:nil];
 

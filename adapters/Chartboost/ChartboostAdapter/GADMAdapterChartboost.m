@@ -14,7 +14,6 @@
 
 #import "GADMAdapterChartboost.h"
 
-#import "GADMAdapterChartboostConstants.h"
 #import "GADMChartboostError.h"
 #import "GADMediationAdapterChartboost.h"
 

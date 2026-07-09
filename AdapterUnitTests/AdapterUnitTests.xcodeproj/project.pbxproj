@@ -6904,6 +6904,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../adapters/ChartboostAdapter/ChartboostAdapter\"",
 					"\"$(SRCROOT)/../adapters/ChartboostAdapter/Public/Headers\"",
+					"\"$(OBJROOT)/ChartboostAdapter.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AdapterWithoutValidationScript.build/DerivedSources\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -6919,7 +6920,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapterTests/ChartboostAdapterTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -6974,6 +6975,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../adapters/ChartboostAdapter/ChartboostAdapter\"",
 					"\"$(SRCROOT)/../adapters/ChartboostAdapter/Public/Headers\"",
+					"\"$(OBJROOT)/ChartboostAdapter.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AdapterWithoutValidationScript.build/DerivedSources\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -6987,7 +6989,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "ChartboostAdapterTests/ChartboostAdapterTests-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
