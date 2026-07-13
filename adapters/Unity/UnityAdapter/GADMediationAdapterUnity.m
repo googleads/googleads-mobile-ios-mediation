@@ -87,7 +87,7 @@ static BOOL _isTestMode = NO;
                   if (token.length == 0) {
                     completionHandler(
                         nil, GADMAdapterUnityErrorWithCodeAndDescription(
-                                 GADMAdapterUnityErrorTokenGenerationFailed,
+                                 GADMAdapterUnityErrorEmptyBiddingToken,
                                  @"Unity Ads returned a null or empty bidding token."));
                     return;
                   }

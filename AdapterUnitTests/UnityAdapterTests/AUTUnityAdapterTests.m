@@ -237,7 +237,7 @@
       collectSignalsForRequestParameters:params
                        completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
                          XCTAssertNil(signals);
-                         XCTAssertEqual(error.code, GADMAdapterUnityErrorTokenGenerationFailed);
+                         XCTAssertEqual(error.code, GADMAdapterUnityErrorEmptyBiddingToken);
                          XCTAssertEqualObjects(error.domain, GADMAdapterUnityErrorDomain);
                          [expectation fulfill];
                        }];
@@ -269,7 +269,7 @@
       collectSignalsForRequestParameters:params
                        completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
                          XCTAssertNil(signals);
-                         XCTAssertEqual(error.code, GADMAdapterUnityErrorTokenGenerationFailed);
+                         XCTAssertEqual(error.code, GADMAdapterUnityErrorEmptyBiddingToken);
                          XCTAssertEqualObjects(error.domain, GADMAdapterUnityErrorDomain);
                          [expectation fulfill];
                        }];
