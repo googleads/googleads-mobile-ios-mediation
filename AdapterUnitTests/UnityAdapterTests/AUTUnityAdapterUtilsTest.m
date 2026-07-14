@@ -66,6 +66,15 @@
   XCTAssertEqual(consentResult, GADMAdapterUnityConsentResultUnknown);
 }
 
+- (void)testACConsentResultEmptyAdditionalConsent {
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"" forKey:@"IABTCF_AddtlConsent"];
+
+  GADMAdapterUnityConsentResult consentResult =
+      GADMAdapterUnityHasACConsent(GADMAdapterUnityAdTechnologyProviderID);
+  XCTAssertEqual(consentResult, GADMAdapterUnityConsentResultUnknown);
+}
+
 - (void)testACConsentResultUnknownSpecVersion {
   [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
   [_userDefaults setObject:@"0~3234.1~dv.2.3" forKey:@"IABTCF_AddtlConsent"];
@@ -172,6 +181,24 @@
   GADMAdapterUnityConsentResult consentResult =
       GADMAdapterUnityHasACConsent(GADMAdapterUnityAdTechnologyProviderID);
   XCTAssertEqual(consentResult, GADMAdapterUnityConsentResultUnknown);
+}
+
+- (void)testACConsentResultVersionTwoSpecWithEmptyDisclosed {
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"2~~dv.3.4" forKey:@"IABTCF_AddtlConsent"];
+
+  GADMAdapterUnityConsentResult consentResult =
+      GADMAdapterUnityHasACConsent(GADMAdapterUnityAdTechnologyProviderID);
+  XCTAssertEqual(consentResult, GADMAdapterUnityConsentResultUnknown);
+}
+
+- (void)testACConsentResultVersionTwoSpecWithEmptyDisclosedWithUnityDisclosed {
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"2~~dv.3234.3" forKey:@"IABTCF_AddtlConsent"];
+
+  GADMAdapterUnityConsentResult consentResult =
+      GADMAdapterUnityHasACConsent(GADMAdapterUnityAdTechnologyProviderID);
+  XCTAssertEqual(consentResult, GADMAdapterUnityConsentResultFalse);
 }
 
 @end

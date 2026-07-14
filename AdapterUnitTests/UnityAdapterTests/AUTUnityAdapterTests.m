@@ -12,7 +12,22 @@
 @interface AUTUnityAdapterTests : AUTUnityTestCase
 @end
 
-@implementation AUTUnityAdapterTests
+@implementation AUTUnityAdapterTests {
+  NSUserDefaults *_userDefaults;
+}
+
+- (void)setUp {
+  [super setUp];
+
+  _userDefaults = NSUserDefaults.standardUserDefaults;
+}
+
+- (void)tearDown {
+  [_userDefaults removeObjectForKey:@"IABTCF_gdprApplies"];
+  [_userDefaults removeObjectForKey:@"IABTCF_AddtlConsent"];
+
+  [super tearDown];
+}
 
 - (void)testAdapterSetUp {
   id unityAdClassMock = OCMClassMock([UnityAds class]);
@@ -241,6 +256,76 @@
                          [expectation fulfill];
                        }];
   [self waitForExpectations:@[ expectation ]];
+}
+
+#pragma mark - Additional Consent Initialization tests
+
+- (void)testSetUpCredentialsUnknownACConsent {
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  [metaDataMock setExpectationOrderMatters:YES];
+
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMReject([metaDataMock set:@"gdpr.consent" value:@YES]);
+  OCMReject([metaDataMock commit]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterUnityGameID : AUTUnityGameID};
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  [GADMediationAdapterUnity setUpWithConfiguration:configuration
+                                 completionHandler:^(NSError *_Nullable error) {
+                                   XCTAssertNil(error);
+                                 }];
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testSetUpCredentialsHasTrueACConsent {
+  // Sets AC Consent to True
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"2~1.3234~dv" forKey:@"IABTCF_AddtlConsent"];
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  [metaDataMock setExpectationOrderMatters:YES];
+
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"gdpr.consent" value:@YES]);
+  OCMExpect([metaDataMock commit]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterUnityGameID : AUTUnityGameID};
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  [GADMediationAdapterUnity setUpWithConfiguration:configuration
+                                 completionHandler:^(NSError *_Nullable error) {
+                                   XCTAssertNil(error);
+                                 }];
+  OCMVerifyAll(metaDataMock);
+}
+
+- (void)testSetUpCredentialsHasFalseACConsent {
+  // Sets AC Consent to False
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"2~1.2~dv.3.3234" forKey:@"IABTCF_AddtlConsent"];
+
+  id metaDataMock = OCMClassMock([UADSMetaData class]);
+  [metaDataMock setExpectationOrderMatters:YES];
+
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock set:@"gdpr.consent" value:@NO]);
+  OCMExpect([metaDataMock commit]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterUnityGameID : AUTUnityGameID};
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  [GADMediationAdapterUnity setUpWithConfiguration:configuration
+                                 completionHandler:^(NSError *_Nullable error) {
+                                   XCTAssertNil(error);
+                                 }];
+  OCMVerifyAll(metaDataMock);
 }
 
 @end
