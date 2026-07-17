@@ -236,8 +236,41 @@
   [adapter
       collectSignalsForRequestParameters:params
                        completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
-                         XCTAssertNil(error);
-                         XCTAssertEqualObjects(signals, @"");
+                         XCTAssertNil(signals);
+                         XCTAssertEqual(error.code, GADMAdapterUnityErrorEmptyBiddingToken);
+                         XCTAssertEqualObjects(error.domain, GADMAdapterUnityErrorDomain);
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+}
+
+- (void)testEmptySignalCollections {
+  id unityAdsMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"");
+      });
+
+  GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Empty signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatBanner;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertEqual(error.code, GADMAdapterUnityErrorEmptyBiddingToken);
+                         XCTAssertEqualObjects(error.domain, GADMAdapterUnityErrorDomain);
                          [expectation fulfill];
                        }];
   [self waitForExpectations:@[ expectation ]];

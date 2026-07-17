@@ -48,6 +48,7 @@
 		2397666627725C3A00B6E431 /* GADMUnityInterstitialMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665E27725C3A00B6E431 /* GADMUnityInterstitialMediationAdapterProxy.m */; };
 		2397666727725C3A00B6E431 /* GADUnityBaseMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665F27725C3A00B6E431 /* GADUnityBaseMediationAdapterProxy.m */; };
 		2397666827725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397666027725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.m */; };
+		3C657E3AE0DB4F54C98227D6 /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC147AF43395B062CA684FE /* Pods_Default_AdapterWithoutValidationScript.framework */; };
 		419E44CB251BFD60004DD07C /* GADMAdapterUnityUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44BC251BFD60004DD07C /* GADMAdapterUnityUtils.h */; };
 		419E44D3251BFD60004DD07C /* GADMAdapterUnityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */; };
 		419E44D4251BFD60004DD07C /* GADMAdapterUnityConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */; };
@@ -144,6 +145,7 @@
 		00DD269322F10D040039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		00DF0F6A256593E7006A9764 /* GADMAdapterUnity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnity.m; sourceTree = "<group>"; };
 		00DF0F6B256593E7006A9764 /* GADMAdapterUnity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnity.h; sourceTree = "<group>"; };
+		0AC147AF43395B062CA684FE /* Pods_Default_AdapterWithoutValidationScript.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Default_AdapterWithoutValidationScript.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		236B3F69276AC52300337A5E /* GADUnityRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADUnityRouter.h; sourceTree = "<group>"; };
 		236B3F6A276AC52300337A5E /* GADUnityRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADUnityRouter.m; sourceTree = "<group>"; };
 		2397665027725BCA00B6E431 /* NSErrorUnity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSErrorUnity.h; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		2397665E27725C3A00B6E431 /* GADMUnityInterstitialMediationAdapterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMUnityInterstitialMediationAdapterProxy.m; sourceTree = "<group>"; };
 		2397665F27725C3A00B6E431 /* GADUnityBaseMediationAdapterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADUnityBaseMediationAdapterProxy.m; sourceTree = "<group>"; };
 		2397666027725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMUnityRewardedMediationAdapterProxy.m; sourceTree = "<group>"; };
+		2FF9D7ECF0CFF9908B526B01 /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; sourceTree = "<group>"; };
 		419E44BC251BFD60004DD07C /* GADMAdapterUnityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityUtils.h; sourceTree = "<group>"; };
 		419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityUtils.m; sourceTree = "<group>"; };
 		419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityConstants.h; sourceTree = "<group>"; };
@@ -176,6 +179,7 @@
 		AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnityAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E38742EA165F600818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BABB2CF1471F009C8FDA /* libStaticUnityAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticUnityAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0955FA371B19CC740BA5E7F /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C657E3AE0DB4F54C98227D6 /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +215,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		202AB74F8E71D82AC96D5B05 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B0955FA371B19CC740BA5E7F /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */,
+				2FF9D7ECF0CFF9908B526B01 /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../AdapterUnitTests/Pods;
+			sourceTree = "<group>";
+		};
 		2397664F27725B8E00B6E431 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +249,14 @@
 				2397665F27725C3A00B6E431 /* GADUnityBaseMediationAdapterProxy.m */,
 			);
 			path = MediationAdapterProxy;
+			sourceTree = "<group>";
+		};
+		493A23455E3746428CF95E6F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0AC147AF43395B062CA684FE /* Pods_Default_AdapterWithoutValidationScript.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
@@ -301,6 +324,8 @@
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
+				202AB74F8E71D82AC96D5B05 /* Pods */,
+				493A23455E3746428CF95E6F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -426,6 +451,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6E38712EA165F600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
 			buildPhases = (
+				68E97D7604FE6E5FD9DB9F4C /* [CP] Check Pods Manifest.lock */,
 				AD6E38572EA165F600818296 /* Sources */,
 				AD6E38622EA165F600818296 /* Frameworks */,
 				AD6E38632EA165F600818296 /* CopyFiles */,
@@ -526,6 +552,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
+		68E97D7604FE6E5FD9DB9F4C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Default-AdapterWithoutValidationScript-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -848,6 +896,7 @@
 		};
 		AD6E38722EA165F600818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0955FA371B19CC740BA5E7F /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
@@ -856,6 +905,7 @@
 		};
 		AD6E38732EA165F600818296 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FF9D7ECF0CFF9908B526B01 /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
