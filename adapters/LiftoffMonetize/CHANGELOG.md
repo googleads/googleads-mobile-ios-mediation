@@ -1,5 +1,7 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Version 7.7.5.0 (In progress)
+
 #### [Version 7.7.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.4.0.zip)
 - Verified compatibility with Vungle SDK 7.7.4.
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
