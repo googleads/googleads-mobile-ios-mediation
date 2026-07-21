@@ -50,7 +50,9 @@ final class PubMaticNativeAdTests {
       adapter.loadNativeAd(for: config) { ad, error in
         #expect(error == nil)
         #expect(ad != nil)
-        continuation.resume()
+        DispatchQueue.main.async {
+          continuation.resume()
+        }
         return AUTKMediationNativeAdEventDelegate()
       }
     }
@@ -224,7 +226,9 @@ final class PubMaticNativeAdTests {
       adapter.loadNativeAd(for: config) { ad, error in
         #expect(error == nil)
         loadedAd = try! #require(ad)
-        continuation.resume()
+        DispatchQueue.main.async {
+          continuation.resume()
+        }
         return AUTKMediationNativeAdEventDelegate()
       }
     }
@@ -238,7 +242,7 @@ final class PubMaticNativeAdTests {
     #expect(loadedAd?.callToAction == "cta")
     #expect(loadedAd?.price == "price")
     #expect(loadedAd?.advertiser == "advertiser")
-    #expect(loadedAd?.hasVideoContent == false)
+    #expect(loadedAd?.hasVideoContent == true)
     #expect(loadedAd?.handlesUserImpressions!() == true)
     #expect(loadedAd?.handlesUserClicks!() == true)
     #expect(loadedAd?.starRating == NSDecimalNumber(string: "123"))
