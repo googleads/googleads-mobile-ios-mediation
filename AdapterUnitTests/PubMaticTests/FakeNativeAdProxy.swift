@@ -22,7 +22,7 @@ final class FakeNativeAdProxy: NativeAdProxyImpl, @unchecked Sendable {
 
   var shouldDownloadSucceed = true
 
-  override func downLoadImageAssets(
+  override func downLoadImageAsset(
     completionHandler: @escaping (PubMaticAdapterError?) -> Void
   ) {
     if shouldDownloadSucceed {

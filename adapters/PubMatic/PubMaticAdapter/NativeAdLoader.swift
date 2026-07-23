@@ -85,11 +85,24 @@ final class NativeAdLoader: NSObject {
   }
 
   private func handleLoadedAd(_ ad: MediationNativeAd?, error: Error?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      let eventDelegate = adLoadCompletionHandler(ad, error)
-      nativeAdProxy?.eventDelegate = eventDelegate
-      self.adLoadCompletionHandler = nil
+    let loadCompletionHandler: GADMediationNativeLoadCompletionHandler? = adLoadCompletionQueue.sync
+    {
+      let handler = adLoadCompletionHandler
+      adLoadCompletionHandler = nil
+      return handler
+    }
+
+    guard let handler = loadCompletionHandler else { return }
+
+    // var mediaView: UIView? {}  API is getting called on background thread, which logs
+    // the warning of UI operarions done on background thread.
+    // To fix this: GMA SDK's load completion handler needed to be called on the main thread
+    nonisolated(unsafe) let unsafeHandler = handler
+    nonisolated(unsafe) let loadedAd = ad
+    nonisolated(unsafe) let loader = self
+    DispatchQueue.main.async {
+      let eventDelegate = unsafeHandler(loadedAd, error)
+      loader.nativeAdProxy?.eventDelegate = eventDelegate
     }
   }
 
@@ -110,7 +123,7 @@ extension NativeAdLoader: @preconcurrency POBNativeAdLoaderDelegate {
     // POBNativeAd's image assets come in string URLs. The adapter needs to
     // download them before notifying Google Mobile Ads SDK.
     nativeAdProxy = NativeAdProxyFactory.createProxy(with: nativeAd)
-    nativeAdProxy?.downLoadImageAssets(completionHandler: { [weak self] error in
+    nativeAdProxy?.downLoadImageAsset(completionHandler: { [weak self] error in
       guard let self else { return }
 
       guard error == nil else {
