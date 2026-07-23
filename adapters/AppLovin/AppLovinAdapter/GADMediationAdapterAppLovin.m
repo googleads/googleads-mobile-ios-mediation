@@ -21,7 +21,6 @@
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
-#import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
 
@@ -117,6 +116,10 @@
 
 + (nonnull ALAdView *)createAdViewWithSdk:(nonnull ALSdk *)sdk size:(nonnull ALAdSize *)size {
   return [[ALAdView alloc] initWithSdk:sdk size:size];
+}
+
++ (nonnull ALInterstitialAd *)createInterstitialAdWithSdk:(nonnull ALSdk *)sdk {
+  return [[ALInterstitialAd alloc] initWithSdk:sdk];
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
