@@ -130,14 +130,7 @@
 #pragma mark - GADMediationAppOpenAd Methods
 
 - (void)presentFromViewController:(UIViewController *)rootViewController {
-  if ([_appOpenAd canPlayAd]) {
     [_appOpenAd presentWith:rootViewController];
-  } else {
-    [_adEventDelegate
-        didFailToPresentWithError:GADMAdapterVungleErrorWithCodeAndDescription(
-                                      GADMAdapterVungleErrorCannotPlayAd,
-                                      @"Failed to show app open ad from Liftoff Monetize.")];
-  }
 }
 
 #pragma mark - VungleInterstitialDelegate
