@@ -1,6 +1,6 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Version 7.7.5.1(In progress)
+#### Version 7.7.5.1 (In progress)
 - Remove canPlayAd check for AppOpen ads — let SDK handle unready state via failedToPlay
 
 #### Version 7.7.5.0 (In progress)

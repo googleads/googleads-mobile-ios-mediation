@@ -347,9 +347,8 @@ static NSString *const kBidResponse = @"bidResponse";
   return [self loadAppOpenAdAndAssertLoadSuccess];
 }
 
-- (void)testAppOpenAdPresentCallsPresentOnLiftoffSdkIfLiftoffCanPlayAd {
+- (void)testAppOpenAdPresentCallsPresentOnLiftoffSdk {
   AUTKMediationAppOpenAdEventDelegate *eventDelegate = [self loadAppOpenAdAndGetEventDelegate];
-  OCMStub([_appOpenMock canPlayAd]).andReturn(YES);
   UIViewController *rootViewController = [[UIViewController alloc] init];
 
   [eventDelegate.appOpenAd presentFromViewController:rootViewController];
@@ -357,22 +356,15 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMVerify([_appOpenMock presentWith:rootViewController]);
 }
 
-- (void)testAppOpenAdPresentInvokesPresentErrorIfLiftoffCannotPlayAd {
+- (void)testAppOpenAdPresentCallsPresentOnLiftoffSdkEvenIfLiftoffCannotPlayAd {
   AUTKMediationAppOpenAdEventDelegate *eventDelegate = [self loadAppOpenAdAndGetEventDelegate];
   OCMStub([_appOpenMock canPlayAd]).andReturn(NO);
   UIViewController *rootViewController = [[UIViewController alloc] init];
 
   [eventDelegate.appOpenAd presentFromViewController:rootViewController];
 
-  NSError *expectedError = [NSError
-      errorWithDomain:GADMAdapterVungleErrorDomain
-                 code:GADMAdapterVungleErrorCannotPlayAd
-             userInfo:@{
-               NSLocalizedDescriptionKey : @"Failed to show app open ad from Liftoff Monetize.",
-               NSLocalizedFailureReasonErrorKey :
-                   @"Failed to show app open ad from Liftoff Monetize."
-             }];
-  XCTAssertEqualObjects(eventDelegate.didFailToPresentError, expectedError);
+  OCMVerify([_appOpenMock presentWith:rootViewController]);
+  XCTAssertNil(eventDelegate.didFailToPresentError);
 }
 
 - (void)testAdWillPresentInvokesWillPresentFullScreenViewOnDelegate {
