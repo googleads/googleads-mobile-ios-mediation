@@ -20,14 +20,7 @@ import UIKit
 /// A fake implementation of MolocoBannerFactory that creates a FakeBannerRewarded.
 final class FakeMolocoBannerFactory {
 
-  enum BannerApiUsed {
-    case regularBanner
-    case MREC
-  }
-
   var fakeMolocoBanner: FakeMolocoBanner?
-
-  var bannerApiUsed: BannerApiUsed?
 
   /// Var to capture the ad unit ID that was used to create the Moloco banner ad object.
   /// Used for assertion. It is initlialized to a value that is never asserted for.
@@ -57,21 +50,12 @@ final class FakeMolocoBannerFactory {
 
 extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
-    UIView & MolocoAd
-  )? {
-    bannerApiUsed = BannerApiUsed.regularBanner
-    adUnitIDUsedToCreateMolocoAd = adUnit
-    fakeMolocoBanner = FakeMolocoBanner(
-      bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,
-      showError: showError)
-    return fakeMolocoBanner
-  }
-
-  func createMREC(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
-    UIView & MolocoAd
-  )? {
-    bannerApiUsed = BannerApiUsed.MREC
+  @MainActor
+  @available(iOS 13.0, *)
+  func createBanner(
+    for adUnit: String, size: MolocoBannerAdSize, delegate: MolocoBannerDelegate,
+    watermarkData: Data?
+  ) -> (UIView & MolocoAd)? {
     adUnitIDUsedToCreateMolocoAd = adUnit
     fakeMolocoBanner = FakeMolocoBanner(
       bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,
