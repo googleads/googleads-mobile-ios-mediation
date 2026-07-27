@@ -19,7 +19,6 @@
 #import "AppLovinAdapter-Swift.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
@@ -120,6 +119,11 @@
 
 + (nonnull ALInterstitialAd *)createInterstitialAdWithSdk:(nonnull ALSdk *)sdk {
   return [[ALInterstitialAd alloc] initWithSdk:sdk];
+}
+
++ (nonnull ALIncentivizedInterstitialAd *)createIncentivizedInterstitialAdWithSdk:
+    (nonnull ALSdk *)sdk {
+  return [[ALIncentivizedInterstitialAd alloc] initWithSdk:sdk];
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params

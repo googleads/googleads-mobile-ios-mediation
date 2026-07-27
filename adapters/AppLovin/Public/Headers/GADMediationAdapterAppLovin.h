@@ -68,4 +68,7 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
 
 + (nonnull ALInterstitialAd *)createInterstitialAdWithSdk:(nonnull ALSdk *)sdk;
 
++ (nonnull ALIncentivizedInterstitialAd *)createIncentivizedInterstitialAdWithSdk:
+    (nonnull ALSdk *)sdk;
+
 @end

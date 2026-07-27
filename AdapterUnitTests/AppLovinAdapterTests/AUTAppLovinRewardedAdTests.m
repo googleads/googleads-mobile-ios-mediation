@@ -1,3 +1,4 @@
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -8,7 +9,6 @@
 #import <XCTest/XCTest.h>
 
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMAppLovinRewardedDelegate.h"
 
 @interface AUTAppLovinRewardedAdTests : XCTestCase
 @end
@@ -24,6 +24,7 @@
   id _serviceMock;
 
   /// An ad loader.
+  // TODO: b/529681616 - Consider removing __block for this property.
   __block GADMAppLovinRewardedDelegate *_adLoader;
 }
 
