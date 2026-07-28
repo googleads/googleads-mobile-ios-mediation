@@ -17,7 +17,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <XCTest/XCTest.h>
 
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostUtils.h"
 
 @interface AUTChartboostAdapterUtilsTests : XCTestCase
@@ -40,7 +40,7 @@
   [_userDefaults setObject:@-1 forKey:@"IABTCF_gdprApplies"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -48,13 +48,13 @@
   [_userDefaults setObject:@0 forKey:@"IABTCF_gdprApplies"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
 - (void)testACConsentResultMissingGDPRApplies {
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -62,7 +62,7 @@
   [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -71,7 +71,7 @@
   [_userDefaults setObject:@"" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -80,7 +80,7 @@
   [_userDefaults setObject:@"0~2898.1~dv.2.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -89,7 +89,7 @@
   [_userDefaults setObject:@"a~2898.1~dv.2.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -98,7 +98,7 @@
   [_userDefaults setObject:@"1~" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -107,7 +107,7 @@
   [_userDefaults setObject:@"1~1.2898" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultTrue);
 }
 
@@ -116,7 +116,7 @@
   [_userDefaults setObject:@"1~1.2" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -125,7 +125,7 @@
   [_userDefaults setObject:@"1~2898.1~dv.2.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -134,7 +134,7 @@
   [_userDefaults setObject:@"2~2898.1~ax.2.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -143,7 +143,7 @@
   [_userDefaults setObject:@"2~2898.1" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -152,7 +152,7 @@
   [_userDefaults setObject:@"2~1.2898~dv.2.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultTrue);
 }
 
@@ -161,7 +161,7 @@
   [_userDefaults setObject:@"2~1.2898~dv" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultTrue);
 }
 
@@ -170,7 +170,7 @@
   [_userDefaults setObject:@"2~1.2~dv.2898.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultFalse);
 }
 
@@ -179,7 +179,7 @@
   [_userDefaults setObject:@"2~1.2~dv.3.4" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -188,7 +188,7 @@
   [_userDefaults setObject:@"2~~dv.3.4" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultUnknown);
 }
 
@@ -197,7 +197,7 @@
   [_userDefaults setObject:@"2~~dv.2898.3" forKey:@"IABTCF_AddtlConsent"];
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultFalse);
 }
 

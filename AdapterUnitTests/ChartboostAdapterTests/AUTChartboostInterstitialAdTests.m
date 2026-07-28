@@ -13,7 +13,7 @@
 #import "ChartboostSDK.h"
 #endif
 
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 
 typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
@@ -86,9 +86,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : location,
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : location,
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
@@ -129,17 +129,18 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
-                                                      code:201
-                                                  userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:201
+                             userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
 }
 
@@ -242,9 +243,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"signature"
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
@@ -257,14 +258,14 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testMissingAppID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppSignature : @"signature",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appSignature] : @"signature",
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
@@ -273,15 +274,15 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testAppIDOnlyWhitespace {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"    ",
-    GADMAdapterChartboostAppSignature : @"signature",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"    ",
+    [GADMAdapterChartboostConstants appSignature] : @"signature",
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
@@ -290,15 +291,15 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testSignatureOnlyWhitespace {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
-    GADMAdapterChartboostAppSignature : @"    ",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"    ",
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
@@ -307,14 +308,14 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testMissingSignature {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppID : @"app_id",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
@@ -326,15 +327,15 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMAdapterChartboostAdLocation : @"ad_location",
-    GADMAdapterChartboostAppSignature : @"signature",
-    GADMAdapterChartboostAppID : @"app_id",
+    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
+    [GADMAdapterChartboostConstants appSignature] : @"signature",
+    [GADMAdapterChartboostConstants appID] : @"app_id",
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterChartboostErrorDomain
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorMinimumOSVersion
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);

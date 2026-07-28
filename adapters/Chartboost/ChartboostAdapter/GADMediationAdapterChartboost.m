@@ -18,7 +18,7 @@
 #else
 #import "ChartboostSDK.h"
 #endif
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
@@ -45,11 +45,11 @@
 }
 
 + (void)startChartBoostWithCredentialsArray:(nonnull NSArray<GADMediationCredentials *> *)credentialsArray completionHandler:(void (^)(NSError *_Nullable error))completionHandler {
-  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            GADMAdapterChartboostMinimumOSVersion];
+            [GADMAdapterChartboostConstants minimumOSVersion]];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     completionHandler(error);
@@ -57,7 +57,7 @@
   }
 
   GADMAdapterChartboostConsentResult consentResult =
-      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+      GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   if (consentResult == GADMAdapterChartboostConsentResultTrue) {
     [Chartboost addDataUseConsent:[CHBGDPRDataUseConsent gdprConsent:CHBGDPRConsentBehavioral]];
   } else if (consentResult == GADMAdapterChartboostConsentResultFalse) {
@@ -67,8 +67,8 @@
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in credentialsArray) {
-    NSString *appID = cred.settings[GADMAdapterChartboostAppID];
-    NSString *appSignature = cred.settings[GADMAdapterChartboostAppSignature];
+    NSString *appID = cred.settings[[GADMAdapterChartboostConstants appID]];
+    NSString *appSignature = cred.settings[[GADMAdapterChartboostConstants appSignature]];
 
     if (appID.length && appSignature.length) {
       GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
@@ -128,7 +128,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSString *versionString = GADMAdapterChartboostVersion;
+  NSString *versionString = [GADMAdapterChartboostConstants adapterVersion];
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};

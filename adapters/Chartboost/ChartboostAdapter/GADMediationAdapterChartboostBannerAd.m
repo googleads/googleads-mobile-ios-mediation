@@ -22,7 +22,7 @@
 
 #include <stdatomic.h>
 
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 
@@ -70,10 +70,11 @@
 }
 
 - (void)loadBannerAd {
-  NSString *appID = [_adConfig.credentials.settings[GADMAdapterChartboostAppID]
+  NSString *appID = [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appID]]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [_adConfig.credentials.settings[GADMAdapterChartboostAppSignature]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+  NSString *appSignature =
+      [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appSignature]]
+          stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
@@ -83,11 +84,11 @@
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            GADMAdapterChartboostMinimumOSVersion];
+            [GADMAdapterChartboostConstants minimumOSVersion]];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     _completionHandler(nil, error);

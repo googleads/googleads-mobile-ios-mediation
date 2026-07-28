@@ -7,7 +7,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "GADMAdapterChartboostConstants.h"
+#import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostUtils.h"
 
 typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
@@ -69,7 +69,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [GADMediationAdapterChartboost
       setUpWithConfiguration:configuration
            completionHandler:^(NSError *_Nullable error) {
-             XCTAssertEqualObjects(error.domain, GADMAdapterChartboostErrorDomain);
+             XCTAssertEqualObjects(error.domain, [GADMAdapterChartboostConstants errorDomain]);
              XCTAssertEqual(error.code, GADMAdapterChartboostErrorMinimumOSVersion);
 
              [setUpExpectation fulfill];
@@ -91,8 +91,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                          }]]));
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -128,19 +130,21 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                          }]]));
 
   AUTKMediationCredentials *credentials1 = [[AUTKMediationCredentials alloc] init];
-  credentials1.settings = @{GADMAdapterChartboostAppID : @"bad_app_id"};
+  credentials1.settings = @{[GADMAdapterChartboostConstants appID] : @"bad_app_id"};
 
   AUTKMediationCredentials *credentials2 = [[AUTKMediationCredentials alloc] init];
-  credentials2.settings = @{GADMAdapterChartboostAppSignature : @"bad_signature"};
+  credentials2.settings = @{[GADMAdapterChartboostConstants appSignature] : @"bad_signature"};
 
   AUTKMediationCredentials *credentials3 = [[AUTKMediationCredentials alloc] init];
-  credentials3.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials3.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationCredentials *credentials4 = [[AUTKMediationCredentials alloc] init];
   credentials4.settings = @{
-    GADMAdapterChartboostAppID : @"ignored_app_id",
-    GADMAdapterChartboostAppSignature : @"ignored_signature"
+    [GADMAdapterChartboostConstants appID] : @"ignored_app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"ignored_signature"
   };
 
   // Expectation is that the first two credentials are ignored due to being invalid, third is used,
@@ -182,8 +186,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
       });
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -220,8 +226,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                          }]]));
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -230,7 +238,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [GADMediationAdapterChartboost
       setUpWithConfiguration:configuration
            completionHandler:^(NSError *_Nullable error) {
-             XCTAssertEqualObjects(error.domain, GADMAdapterChartboostErrorDomain);
+             XCTAssertEqualObjects(error.domain, [GADMAdapterChartboostConstants errorDomain]);
              XCTAssertEqual(error.code, GADMAdapterChartboostErrorInitializationFailure);
              [setUpExpectation fulfill];
            }];
@@ -246,7 +254,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [GADMediationAdapterChartboost
       setUpWithConfiguration:configuration
            completionHandler:^(NSError *_Nullable error) {
-             XCTAssertEqualObjects(error.domain, GADMAdapterChartboostErrorDomain);
+             XCTAssertEqualObjects(error.domain, [GADMAdapterChartboostConstants errorDomain]);
              XCTAssertEqual(error.code, GADMAdapterChartboostErrorInvalidServerParameters);
 
              [setUpExpectation fulfill];
@@ -257,7 +265,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testSetUpCredentialsMissingAppID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{[GADMAdapterChartboostConstants appSignature] : @"signature"};
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -266,7 +274,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [GADMediationAdapterChartboost
       setUpWithConfiguration:configuration
            completionHandler:^(NSError *_Nullable error) {
-             XCTAssertEqualObjects(error.domain, GADMAdapterChartboostErrorDomain);
+             XCTAssertEqualObjects(error.domain, [GADMAdapterChartboostConstants errorDomain]);
              XCTAssertEqual(error.code, GADMAdapterChartboostErrorInvalidServerParameters);
 
              [setUpExpectation fulfill];
@@ -277,7 +285,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testSetUpCredentialsMissingSignature {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterChartboostAppID : @"app_id"};
+  credentials.settings = @{[GADMAdapterChartboostConstants appID] : @"app_id"};
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -286,7 +294,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [GADMediationAdapterChartboost
       setUpWithConfiguration:configuration
            completionHandler:^(NSError *_Nullable error) {
-             XCTAssertEqualObjects(error.domain, GADMAdapterChartboostErrorDomain);
+             XCTAssertEqualObjects(error.domain, [GADMAdapterChartboostConstants errorDomain]);
              XCTAssertEqual(error.code, GADMAdapterChartboostErrorInvalidServerParameters);
 
              [setUpExpectation fulfill];
@@ -310,8 +318,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                          }]]));
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -348,8 +358,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                          }]]));
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
@@ -389,8 +401,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                          }]]));
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
 
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
