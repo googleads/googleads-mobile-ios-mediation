@@ -2,6 +2,7 @@
 
 #### Next Version
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
+- Clean up Xcode project configurations.
 
 #### [Version 2.3.4.7](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.7.zip)
 - Filter age-restricted requests for i-mobile SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
