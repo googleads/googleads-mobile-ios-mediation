@@ -34,7 +34,6 @@
 		707FFE2C2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */; };
 		707FFE702B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */; };
 		70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */; };
-		70A82CE82F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A82CE72F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m */; };
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
 		70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
@@ -303,6 +302,8 @@
 		CDCA7FA12F841AC30000EF1B /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		CDD2215A2F7B301300ED9C43 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD221592F7B301300ED9C43 /* libc++.1.tbd */; };
 		E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */; };
+		EEAB00000000000000000002 /* AppLovinWaterfallBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAB00000000000000000001 /* AppLovinWaterfallBannerTests.swift */; };
+		EEAB00000000000000000004 /* FakeAppLovinClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAB00000000000000000003 /* FakeAppLovinClient.swift */; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
@@ -1584,7 +1585,6 @@
 		707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeUtilsTests.m; sourceTree = "<group>"; };
 		707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRouterTests.m; sourceTree = "<group>"; };
 		70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoBidTokenGetter.swift; sourceTree = "<group>"; };
-		70A82CE72F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinWaterfallBannerAdTests.m; sourceTree = "<group>"; };
 		70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceUtilsTests.m; sourceTree = "<group>"; };
 		70B709F12AB27C2300348FE7 /* PangleAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PangleAdapterTests.xctestplan; sourceTree = "<group>"; };
@@ -1845,6 +1845,8 @@
 		CDC3033C2F994F140071A719 /* MaxAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaxAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD221592F7B301300ED9C43 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMaioBannerAdTests.m; sourceTree = "<group>"; };
+		EEAB00000000000000000001 /* AppLovinWaterfallBannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLovinWaterfallBannerTests.swift; sourceTree = "<group>"; };
+		EEAB00000000000000000003 /* FakeAppLovinClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeAppLovinClient.swift; sourceTree = "<group>"; };
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
 		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
 		F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeAdTest.swift; sourceTree = "<group>"; };
@@ -2319,7 +2321,8 @@
 				CD97F91F2F69D10E008A3EB5 /* AppLovinAdapterTests-Bridging-Header.h */,
 				CD73B2BA2F69E62A00E86C91 /* placeholder.swift */,
 				7007D79E2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m */,
-				70A82CE72F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m */,
+				EEAB00000000000000000001 /* AppLovinWaterfallBannerTests.swift */,
+				EEAB00000000000000000003 /* FakeAppLovinClient.swift */,
 			);
 			path = AppLovinAdapterTests;
 			sourceTree = "<group>";
@@ -5116,7 +5119,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADF3B9B92AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m in Sources */,
-				70A82CE82F964A3700C58EF8 /* AUTAppLovinWaterfallBannerAdTests.m in Sources */,
+				EEAB00000000000000000002 /* AppLovinWaterfallBannerTests.swift in Sources */,
+				EEAB00000000000000000004 /* FakeAppLovinClient.swift in Sources */,
 				CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */,
 				7007D79F2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m in Sources */,
 				AD91F07A2B605EA90095A061 /* AUTAppLovinUtilsTests.m in Sources */,

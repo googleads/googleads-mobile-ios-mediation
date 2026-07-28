@@ -8,8 +8,6 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "GADMAdapterAppLovinConstant.h"
-
 @interface AUTAppLovinRewardedAdTests : XCTestCase
 @end
 
@@ -22,6 +20,8 @@
   id _rewardedAdMock;
   /// Mock for ALAdService
   id _serviceMock;
+  /// Mock for GADMediationAdapterAppLovin class
+  id _adapterClassMock;
 
   /// An ad loader.
   // TODO: b/529681616 - Consider removing __block for this property.
@@ -35,9 +35,11 @@
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _rewardedAdMock = OCMClassMock([ALIncentivizedInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
+  _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
 
-  OCMStub([_rewardedAdMock alloc]).andReturn(_rewardedAdMock);
-  OCMStub([_rewardedAdMock initWithSdk:_appLovinSdkMock]).andReturn(_rewardedAdMock);
+  OCMStub(ClassMethod([_adapterClassMock createIncentivizedInterstitialAdWith:OCMOCK_ANY]))
+      .andReturn(_rewardedAdMock);
+
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
 
@@ -109,7 +111,7 @@
   AUTKMediationRewardedAdConfiguration *config =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
@@ -120,7 +122,7 @@
   AUTKMediationRewardedAdConfiguration *config =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
@@ -132,7 +134,7 @@
   AUTKMediationRewardedAdConfiguration *config =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
