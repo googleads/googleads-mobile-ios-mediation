@@ -22,12 +22,6 @@ public class GADMAdapterAppLovinUtils: NSObject {
   private static let sdkKeyLength = 86
   private static let zoneIdentifierLength = 16
 
-  @objc public static func mutableSetAddObject(_ set: NSMutableSet?, object: Any?) {
-    if let set, let object {
-      set.add(object)
-    }
-  }
-
   @objc public static func mutableArrayAddObject(_ array: NSMutableArray?, object: Any?) {
     if let array, let object {
       array.add(object)

@@ -19,7 +19,9 @@ import GoogleMobileAds
 @MainActor
 /// Renderer for AppLovin waterfall interstitial ad. Loads an interstitial ad and handles ad lifecycle events.
 @objc(GADMWaterfallAppLovinInterstitialRenderer)
-public class GADMWaterfallAppLovinInterstitialRenderer: NSObject, MediationInterstitialAd {
+public class GADMWaterfallAppLovinInterstitialRenderer: NSObject,
+  @preconcurrency MediationInterstitialAd
+{
 
   private let adConfiguration: MediationInterstitialAdConfiguration
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?

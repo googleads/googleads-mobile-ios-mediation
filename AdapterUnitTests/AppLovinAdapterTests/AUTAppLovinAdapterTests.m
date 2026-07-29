@@ -1,3 +1,4 @@
+#import "AppLovinAdapter-Swift.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>

@@ -13,6 +13,8 @@
 @interface AUTAppLovinRewardedAdTests : XCTestCase
 @end
 
+#import "AppLovinAdapter-Swift.h"
+
 @implementation AUTAppLovinRewardedAdTests {
   /// An adapter instance that is used to test loading an ad.
   GADMediationAdapterAppLovin *_adapter;
@@ -22,6 +24,8 @@
   id _rewardedAdMock;
   /// Mock for ALAdService
   id _serviceMock;
+  /// Mock for GADMediationAdapterAppLovin class
+  id _adapterClassMock;
 
   /// An ad loader.
   // TODO: b/529681616 - Consider removing __block for this property.
@@ -35,9 +39,11 @@
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _rewardedAdMock = OCMClassMock([ALIncentivizedInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
+  _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
 
-  OCMStub([_rewardedAdMock alloc]).andReturn(_rewardedAdMock);
-  OCMStub([_rewardedAdMock initWithSdk:_appLovinSdkMock]).andReturn(_rewardedAdMock);
+  OCMStub(ClassMethod([_adapterClassMock createIncentivizedInterstitialAdWith:OCMOCK_ANY]))
+      .andReturn(_rewardedAdMock);
+
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
 

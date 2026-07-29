@@ -20,7 +20,9 @@ import GoogleMobileAds
 /// Renderer for AppLovin waterfall rewarded ad. Loads a rewarded ad and handles ad lifecycle
 /// events.
 @objc(GADMAdapterAppLovinRewardedRenderer)
-public final class GADMAdapterAppLovinRewardedRenderer: NSObject, MediationRewardedAd {
+public final class GADMAdapterAppLovinRewardedRenderer: NSObject,
+  @preconcurrency MediationRewardedAd
+{
 
   /// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
   @objc public var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
