@@ -15,6 +15,7 @@
 
 @implementation AUTMyTargetAdapterTests {
   id _mockPrivacy;
+  NSUserDefaults *_userDefaults;
 }
 
 - (void)setUp {
@@ -24,6 +25,8 @@
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
   _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
+
+  _userDefaults = NSUserDefaults.standardUserDefaults;
 }
 
 - (void)tearDown {
@@ -31,6 +34,9 @@
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
+
+  [_userDefaults removeObjectForKey:@"IABTCF_gdprApplies"];
+  [_userDefaults removeObjectForKey:@"IABTCF_AddtlConsent"];
   [super tearDown];
 }
 
@@ -123,6 +129,40 @@
 - (void)testNetworkExtrasClass {
   XCTAssertEqual([GADMediationAdapterMyTarget networkExtrasClass],
                  [GADMAdapterMyTargetExtras class]);
+}
+
+#pragma mark - Additional Consent Initialization tests
+
+- (void)testSetUpCredentialsUnknownACConsent {
+  OCMReject(ClassMethod([_mockPrivacy setUserConsent:OCMOCK_ANY]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpCredentialsHasTrueACConsent {
+  // Sets AC Consent to True
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"2~1.1067~dv" forKey:@"IABTCF_AddtlConsent"];
+
+  OCMExpect(ClassMethod([_mockPrivacy setUserConsent:YES]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpCredentialsHasFalseACConsent {
+  // Sets AC Consent to False
+  [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
+  [_userDefaults setObject:@"2~1.2~dv.1067.3" forKey:@"IABTCF_AddtlConsent"];
+
+  OCMExpect(ClassMethod([_mockPrivacy setUserConsent:NO]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
 }
 
 @end
