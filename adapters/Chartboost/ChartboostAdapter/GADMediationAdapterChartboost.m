@@ -21,7 +21,6 @@
 #import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostError.h"
 #import "GADMediationAdapterChartboost.h"
 #import "GADMediationAdapterChartboostBannerAd.h"
 #import "GADMediationAdapterChartboostInterstitialAd.h"

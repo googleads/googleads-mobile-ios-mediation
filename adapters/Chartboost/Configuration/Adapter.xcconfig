@@ -63,4 +63,6 @@ OTHER_CFLAGS = -fobjc-arc -fstack-protector-all
 
 PRODUCT_MODULE_NAME = ChartboostAdapter
 SWIFT_VERSION = 6.0
+SWIFT_OBJC_BRIDGING_HEADER = ChartboostAdapter/ChartboostAdapter-Bridging-Header.h
+
 

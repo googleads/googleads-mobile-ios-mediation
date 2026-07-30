@@ -24,7 +24,6 @@
 
 #import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostError.h"
 
 @interface GADMAdapterChartboostRewardedAd () <CHBRewardedDelegate>
 @end
@@ -133,7 +132,7 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   if (error) {
-    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
+    NSError *loadError = [GADMChartboostError errorForCacheError:error];
     NSLog(@"Failed to load rewarded ad from Chartboost: %@", loadError.localizedDescription);
     _completionHandler(nil, loadError);
     return;
@@ -153,7 +152,7 @@
   }
 
   if (error) {
-    NSError *showError = GADMChartboostErrorForCHBShowError(error);
+    NSError *showError = [GADMChartboostError errorForShowError:error];
     NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
     [adEventDelegate didFailToPresentWithError:showError];
     return;
@@ -178,7 +177,7 @@
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
   [_adEventDelegate reportClick];
   if (error) {
-    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
+    NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost rewarded ad: %@",
           clickError.localizedDescription);
   }

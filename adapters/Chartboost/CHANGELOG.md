@@ -2,6 +2,7 @@
 
 #### Next version
 - Ported GADMAdapterChartboostConstants to Swift.
+- Ported GADMChartboostError to Swift.
 
 #### [Version 9.13.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.13.0.0.zip)
 

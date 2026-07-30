@@ -56,8 +56,8 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
-    GADMAdapterChartboostErrorCode code, NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(NSInteger code,
+                                                                   NSString *_Nonnull description);
 
 /// Checks whether the user provided consent to a Google Ad Tech Provider (ATP) in Google’s
 /// Additional Consent technical specification. For more details, see [Google’s Additional Consent

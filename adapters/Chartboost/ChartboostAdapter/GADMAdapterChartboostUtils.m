@@ -17,7 +17,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "ChartboostAdapter-Swift.h"
-#import "GADMChartboostError.h"
 
 #pragma mark - Private utility method prototypes
 
@@ -88,8 +87,8 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
                              adapterVersion:[GADMAdapterChartboostConstants adapterVersion]];
 }
 
-NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
-    GADMAdapterChartboostErrorCode code, NSString *_Nonnull description) {
+NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(NSInteger code,
+                                                                   NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:[GADMAdapterChartboostConstants errorDomain]

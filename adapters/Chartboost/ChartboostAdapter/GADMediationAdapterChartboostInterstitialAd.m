@@ -24,7 +24,6 @@
 
 #import "ChartboostAdapter-Swift.h"
 #import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostError.h"
 
 @interface GADMediationAdapterChartboostInterstitialAd () <CHBInterstitialDelegate>
 @end
@@ -134,7 +133,7 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   if (error) {
-    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
+    NSError *loadError = [GADMChartboostError errorForCacheError:error];
     NSLog(@"Failed to load interstitial ad from Chartboost: %@", loadError.localizedDescription);
     _completionHandler(nil, loadError);
     return;
@@ -149,7 +148,7 @@
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   if (error) {
-    NSError *showError = GADMChartboostErrorForCHBShowError(error);
+    NSError *showError = [GADMChartboostError errorForShowError:error];
     NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
 
     // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
@@ -162,7 +161,7 @@
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
   [_adEventDelegate reportClick];
   if (error) {
-    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
+    NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost interstitial ad: %@",
           clickError.localizedDescription);
   }
