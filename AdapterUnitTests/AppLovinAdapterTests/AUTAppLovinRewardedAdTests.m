@@ -8,12 +8,8 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "GADMAdapterAppLovinConstant.h"
-
 @interface AUTAppLovinRewardedAdTests : XCTestCase
 @end
-
-#import "AppLovinAdapter-Swift.h"
 
 @implementation AUTAppLovinRewardedAdTests {
   /// An adapter instance that is used to test loading an ad.
@@ -115,7 +111,7 @@
   AUTKMediationRewardedAdConfiguration *config =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
@@ -126,7 +122,7 @@
   AUTKMediationRewardedAdConfiguration *config =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
@@ -138,7 +134,7 @@
   AUTKMediationRewardedAdConfiguration *config =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);

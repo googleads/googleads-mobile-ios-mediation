@@ -17,7 +17,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "AppLovinAdapter-Swift.h"
-#import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMediationAdapterAppLovin.h"
 
@@ -46,7 +45,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return GADMAdapterAppLovinAdapterVersion;
+  return GADMAdapterAppLovinConstant.adapterVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {

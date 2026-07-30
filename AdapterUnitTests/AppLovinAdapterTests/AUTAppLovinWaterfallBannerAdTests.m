@@ -22,8 +22,6 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "GADMAdapterAppLovinConstant.h"
-
 /// Tests for loading and showing AppLovin banner ads through Waterfall.
 ///
 /// This test class tests loading Waterfall Banner ads through GADMediationAdapterAppLovin and also
@@ -155,9 +153,10 @@ static NSString *const kZoneId = @"1234567890123456";
       .andDo(^(NSInvocation *invocation) {
         [self->_appLovinDelegate adService:self->_serviceMock didFailToLoadAdWithError:1001];
       });
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinSDKErrorDomain
-                                                      code:1001
-                                                  userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.sdkErrorDomain
+                                 code:1001
+                             userInfo:nil];
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
 }
@@ -170,7 +169,7 @@ static NSString *const kZoneId = @"1234567890123456";
   config.adSize = GADAdSizeSkyscraper;
 
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                  code:GADMAdapterAppLovinErrorBannerSizeMismatch
                              userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
@@ -184,7 +183,7 @@ static NSString *const kZoneId = @"1234567890123456";
   credentials.settings = @{@"sdkKey" : kSDKKey, @"zone_id" : invalidZoneID};
   config.credentials = credentials;
   NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                  code:GADMAdapterAppLovinErrorInvalidServerParameters
                              userInfo:nil];
 
@@ -196,7 +195,7 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{@"zone_id" : kZoneId};
   config.credentials = credentials;
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorMissingSDKKey
                                                   userInfo:nil];
 
@@ -224,7 +223,7 @@ static NSString *const kZoneId = @"1234567890123456";
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
@@ -249,7 +248,7 @@ static NSString *const kZoneId = @"1234567890123456";
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
@@ -260,7 +259,7 @@ static NSString *const kZoneId = @"1234567890123456";
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
@@ -271,7 +270,7 @@ static NSString *const kZoneId = @"1234567890123456";
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
@@ -282,7 +281,7 @@ static NSString *const kZoneId = @"1234567890123456";
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
@@ -313,7 +312,8 @@ static NSString *const kZoneId = @"1234567890123456";
   [_appLovinDelegate ad:_adMock didFailToDisplayInAdView:_appLovinAdViewMock withError:1005];
 
   XCTAssertEqual(delegate.didFailToPresentError.code, 1005);
-  XCTAssertEqual(delegate.didFailToPresentError.domain, GADMAdapterAppLovinSDKErrorDomain);
+  XCTAssertEqualObjects(delegate.didFailToPresentError.domain,
+                        GADMAdapterAppLovinConstant.sdkErrorDomain);
 }
 
 - (void)testAdClick {

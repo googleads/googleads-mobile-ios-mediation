@@ -48,7 +48,7 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
 
     // Compile SDK keys from configuration credentials.
     for credentials in configuration.credentials {
-      if let sdkKey = credentials.settings[GADMAdapterAppLovinSDKKey] as? String,
+      if let sdkKey = credentials.settings[GADMAdapterAppLovinConstant.sdkKey] as? String,
         GADMAdapterAppLovinUtils.isValidAppLovinSDKKey(sdkKey)
       {
         sdkKeys.insert(sdkKey)
@@ -83,7 +83,7 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
   }
 
   @objc public static func adapterVersion() -> VersionNumber {
-    let versionString = GADMAdapterAppLovinAdapterVersion
+    let versionString = GADMAdapterAppLovinConstant.adapterVersion
     let versionComponents = versionString.components(separatedBy: ".")
     GADMAdapterAppLovinUtils.log("AppLovin adapter version: \(versionString)")
     var version = VersionNumber()

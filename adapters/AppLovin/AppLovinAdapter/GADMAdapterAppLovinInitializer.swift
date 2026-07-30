@@ -29,7 +29,7 @@ public class GADMAdapterAppLovinInitializer: NSObject {
 
     let config = ALSdkInitializationConfiguration(sdkKey: sdkKey) { builder in
       builder.mediationProvider = ALMediationProviderAdMob
-      builder.pluginVersion = GADMAdapterAppLovinAdapterVersion
+      builder.pluginVersion = GADMAdapterAppLovinConstant.adapterVersion
     }
 
     ALSdk.shared().initialize(with: config) { configuration in

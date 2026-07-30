@@ -14,7 +14,6 @@
 
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 #import "AppLovinAdapter-Swift.h"
-#import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAppLovinRTBInterstitialDelegate.h"
 #import "GADMediationAdapterAppLovin.h"

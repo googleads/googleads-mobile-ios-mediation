@@ -118,7 +118,7 @@ public final class GADMAdapterAppLovinRewardedRenderer: NSObject,
     GADMAdapterAppLovinUtils.log("Requesting rewarded ad for zone: \(zoneIdentifier)")
 
     // If this is a default zone, create the incentivized ad normally.
-    if zoneIdentifier == GADMAdapterAppLovinDefaultZoneIdentifier {
+    if zoneIdentifier == GADMAdapterAppLovinConstant.defaultZoneIdentifier {
       // Loading an ad for default zone must be done through zone-agnostic
       // `ALIncentivizedInterstitialAd` instance
       incent?.preloadAndNotify(appLovinDelegate!)
