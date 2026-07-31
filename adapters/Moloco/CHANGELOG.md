@@ -1,6 +1,6 @@
 ## Moloco iOS Mediation Adapter Changelog
 
-#### [Version 4.8.1.1](In Progress)
+#### [Version 4.8.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.8.1.1.zip)
 - Added support for adaptive banner ad sizes.
 
 Built and tested with:
