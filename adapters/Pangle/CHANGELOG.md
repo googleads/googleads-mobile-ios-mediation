@@ -5,9 +5,10 @@
 
 #### [Version 8.2.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-8.2.0.7.0.zip)
 - Verified compatibility with Pangle SDK version 8.2.0.7.
+- Updated the Google Mobile Ads SDK dependency to version `13.6`.
 
 Built and tested with:
-- Google Mobile Ads SDK version 13.6.0.
+- Google Mobile Ads SDK version 13.7.0.
 - Pangle SDK version 8.2.0.7.
 
 #### [Version 8.1.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-8.1.1.1.0.zip)
