@@ -206,7 +206,7 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   XCTAssertNil(nativeAd.starRating);
   XCTAssertNil(nativeAd.store);
   XCTAssertNil(nativeAd.images);
-  XCTAssertTrue([nativeAd.adChoicesView isKindOfClass:[FBAdOptionsView class]]);
+  XCTAssertNil(nativeAd.adChoicesView);
   XCTAssertTrue([nativeAd.icon isKindOfClass:[GADNativeAdImage class]]);
   XCTAssertTrue(nativeAd.hasVideoContent);
   XCTAssertTrue([nativeAd.mediaView isKindOfClass:[FBMediaView class]]);
@@ -235,7 +235,7 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   XCTAssertNil(nativeAd.starRating);
   XCTAssertNil(nativeAd.store);
   XCTAssertNil(nativeAd.images);
-  XCTAssertTrue([nativeAd.adChoicesView isKindOfClass:[FBAdOptionsView class]]);
+  XCTAssertNil(nativeAd.adChoicesView);
   XCTAssertTrue([nativeAd.icon isKindOfClass:[GADNativeAdImage class]]);
   XCTAssertTrue(nativeAd.hasVideoContent);
   XCTAssertNil(nativeAd.mediaView);  // NativeBannerAd has no mediaView
@@ -259,6 +259,8 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   NSDictionary<GADNativeAssetIdentifier, UIView *> *clickableViews =
       @{GADNativeIconAsset : iconView};
 
+  OCMExpect([(FBNativeAd *)_mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopRight]);
   OCMExpect([(FBNativeAd *)_mockFBNativeAd registerViewForInteraction:view
                                                             mediaView:mediaView
                                                         iconImageView:iconView
@@ -291,6 +293,8 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   NSDictionary<GADNativeAssetIdentifier, UIView *> *clickableViews =
       @{GADNativeIconAsset : iconView};
 
+  OCMExpect([(FBNativeBannerAd *)_mockFBNativeBannerAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopRight]);
   OCMExpect([(FBNativeBannerAd *)_mockFBNativeBannerAd registerViewForInteraction:view
                                                                     iconImageView:iconView
                                                                    viewController:vc
@@ -302,6 +306,124 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
               viewController:vc];
 
   OCMVerifyAll(_mockFBNativeBannerAd);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionTopLeft {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionTopLeftCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  OCMExpect([(FBNativeAd *)_mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopLeft]);
+
+  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerifyAll(_mockFBNativeAd);
+}
+
+- (void)testNativeBannerAdPreferredAdOptionsViewPositionTopLeft {
+  _shouldReturnNativeBannerAd = YES;
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionTopLeftCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  OCMExpect([(FBNativeBannerAd *)_mockFBNativeBannerAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopLeft]);
+
+  OCMStub([(FBNativeBannerAd *)_mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeBannerAd *ad = (FBNativeBannerAd *)invocation.target;
+        [self->_nativeAdDelegate nativeBannerAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerifyAll(_mockFBNativeBannerAd);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionTopRight {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionTopRightCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  OCMExpect([(FBNativeAd *)_mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopRight]);
+
+  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerifyAll(_mockFBNativeAd);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionBottomRight {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionBottomRightCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  OCMExpect([(FBNativeAd *)_mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionBottomRight]);
+
+  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerifyAll(_mockFBNativeAd);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionBottomLeft {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionBottomLeftCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  OCMExpect([(FBNativeAd *)_mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionBottomLeft]);
+
+  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerifyAll(_mockFBNativeAd);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionDefault {
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = nil;
+
+  OCMExpect([(FBNativeAd *)_mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopRight]);
+
+  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerifyAll(_mockFBNativeAd);
 }
 
 - (void)testNativeAdUnregisterView {

@@ -60,3 +60,19 @@ void GADMAdapterFacebookSetMixedAudienceIfNeeded(void) {
     [FBAdSettings setMixedAudience:NO];
   }
 }
+
+FBNativeAdOptionsViewPosition FBNativeAdOptionsViewPositionForGADAdChoicesPosition(
+    GADAdChoicesPosition position) {
+  switch (position) {
+    case GADAdChoicesPositionTopLeftCorner:
+      return FBNativeAdOptionsViewPositionTopLeft;
+    case GADAdChoicesPositionTopRightCorner:
+      return FBNativeAdOptionsViewPositionTopRight;
+    case GADAdChoicesPositionBottomRightCorner:
+      return FBNativeAdOptionsViewPositionBottomRight;
+    case GADAdChoicesPositionBottomLeftCorner:
+      return FBNativeAdOptionsViewPositionBottomLeft;
+    default:
+      return FBNativeAdOptionsViewPositionTopRight;
+  }
+}
