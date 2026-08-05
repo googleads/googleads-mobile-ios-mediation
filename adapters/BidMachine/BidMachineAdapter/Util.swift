@@ -19,6 +19,7 @@ final class Util {
 
   private enum MediationConfigurationSettingKey: String {
     case sourceId = "source_id"
+    case placementId = "placement_id"
   }
 
   /// Prints the message with `BidMachineAdapter` prefix.
@@ -63,6 +64,29 @@ final class Util {
     }
 
     return sourceId
+  }
+
+  /// Retrieves a placement ID from the provided mediation ad configuration.
+  ///
+  /// The placement ID is an optional setting. BidMachine uses it to attribute the request in its
+  /// reporting, so it is forwarded whenever the publisher configured one, but its absence is not
+  /// an error and must not fail the ad load.
+  ///
+  /// - Returns: A placement ID from the configuration, or nil if the configuration contains none.
+  static func placementId(from config: MediationAdConfiguration) -> String? {
+    return config.credentials.settings[MediationConfigurationSettingKey.placementId.rawValue]
+      as? String
+  }
+
+  /// Retrieves a placement ID from the provided RTB parameters.
+  ///
+  /// Uses the first credential found because the other credentials should have the same placement
+  /// ID for a given ad unit.
+  ///
+  /// - Returns: A placement ID from the parameters, or nil if the parameters contain none.
+  static func placementId(from params: RTBRequestParameters) -> String? {
+    return params.configuration.credentials.first?.settings[
+      MediationConfigurationSettingKey.placementId.rawValue] as? String
   }
 
   /// Retrieves an ad format from the provided RTB parameters.
