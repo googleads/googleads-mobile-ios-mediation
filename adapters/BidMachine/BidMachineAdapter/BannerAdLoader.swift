@@ -52,7 +52,11 @@ final class BannerAdLoader {
 
   private func loadWaterfallAd() {
     do {
-      try client.loadWaterfallBannerAd(size: adConfiguration.adSize, delegate: self) {
+      // FIX(placement_id): `placementId:` argument added.
+      try client.loadWaterfallBannerAd(
+        size: adConfiguration.adSize, placementId: Util.placementId(from: adConfiguration),
+        delegate: self
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
@@ -79,8 +83,10 @@ final class BannerAdLoader {
     }
 
     do {
+      // FIX(placement_id): `placementId:` argument added.
       try client.loadRTBBannerAd(
-        with: bidResponse, size: adConfiguration.adSize, delegate: self, watermark: watermark
+        with: bidResponse, size: adConfiguration.adSize,
+        placementId: Util.placementId(from: adConfiguration), delegate: self, watermark: watermark
       ) {
         [weak self] error in
         guard let self else { return }

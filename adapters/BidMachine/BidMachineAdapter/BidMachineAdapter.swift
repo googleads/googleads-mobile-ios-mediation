@@ -105,7 +105,13 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
       do {
         let format = try Util.adFormat(from: params)
         let adSize: AdSize? = isAdSizeValid(size: params.adSize) ? params.adSize : nil
-        try BidMachineClientFactory.createClient().collectSignals(for: format, size: adSize) {
+        // FIX(placement_id): new. Without this the bid token / signal collection request went out
+        // with an empty placement_id, so bidding traffic was unattributed in BidMachine's
+        // reporting. Mirrors Android's BidMachineMediationAdapter.collectSignals().
+        let placementId = Util.placementId(from: params)
+        try BidMachineClientFactory.createClient().collectSignals(
+          for: format, size: adSize, placementId: placementId
+        ) {
           signals in
           Task { @MainActor in
             completionHandler(signals, nil)

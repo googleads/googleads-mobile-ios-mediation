@@ -19,6 +19,11 @@ final class Util {
 
   private enum MediationConfigurationSettingKey: String {
     case sourceId = "source_id"
+    // FIX(placement_id): added. Before this change `source_id` was the only server-parameter key
+    // the iOS adapter knew about, so the publisher's placement ID was never read and BidMachine
+    // received an empty `placement_id`. The Android adapter reads the same key
+    // (BidMachineMediationAdapter.kt: PLACEMENT_ID_KEY = "placement_id").
+    case placementId = "placement_id"
   }
 
   /// Prints the message with `BidMachineAdapter` prefix.
@@ -63,6 +68,32 @@ final class Util {
     }
 
     return sourceId
+  }
+
+  // FIX(placement_id): both `placementId` readers below are new. Used by the four ad loaders
+  // (ad configuration variant) and by signal collection (RTB parameters variant).
+
+  /// Retrieves a placement ID from the provided mediation ad configuration.
+  ///
+  /// The placement ID is an optional setting. BidMachine uses it to attribute the request in its
+  /// reporting, so it is forwarded whenever the publisher configured one, but its absence is not
+  /// an error and must not fail the ad load.
+  ///
+  /// - Returns: A placement ID from the configuration, or nil if the configuration contains none.
+  static func placementId(from config: MediationAdConfiguration) -> String? {
+    return config.credentials.settings[MediationConfigurationSettingKey.placementId.rawValue]
+      as? String
+  }
+
+  /// Retrieves a placement ID from the provided RTB parameters.
+  ///
+  /// Uses the first credential found because the other credentials should have the same placement
+  /// ID for a given ad unit.
+  ///
+  /// - Returns: A placement ID from the parameters, or nil if the parameters contain none.
+  static func placementId(from params: RTBRequestParameters) -> String? {
+    return params.configuration.credentials.first?.settings[
+      MediationConfigurationSettingKey.placementId.rawValue] as? String
   }
 
   /// Retrieves an ad format from the provided RTB parameters.
