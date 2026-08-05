@@ -1,9 +1,12 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Version 7.7.6.0 (In progress)
+#### [Version 7.7.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.6.0.zip)
+- Verified compatibility with Vungle SDK 7.7.6.
+- Updated the adapter to rely on the Vungle SDK to check if an app open ad is ready to play.
 
-#### Version 7.7.5.1 (In progress)
-- Remove canPlayAd check for AppOpen ads — let SDK handle unready state via failedToPlay
+Built and tested with:
+- Google Mobile Ads SDK version 13.7.0.
+- Vungle SDK version 7.7.6.
 
 #### [Version 7.7.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.5.0.zip)
 - Verified compatibility with Vungle SDK 7.7.5.
