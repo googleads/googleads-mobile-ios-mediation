@@ -1,6 +1,6 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 2.3.4.8 (In progress)
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 - Clean up Xcode project configurations.
 
