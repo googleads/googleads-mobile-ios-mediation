@@ -206,7 +206,7 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   XCTAssertNil(nativeAd.starRating);
   XCTAssertNil(nativeAd.store);
   XCTAssertNil(nativeAd.images);
-  XCTAssertTrue([nativeAd.adChoicesView isKindOfClass:[FBAdOptionsView class]]);
+  XCTAssertNil(nativeAd.adChoicesView);
   XCTAssertTrue([nativeAd.icon isKindOfClass:[GADNativeAdImage class]]);
   XCTAssertTrue(nativeAd.hasVideoContent);
   XCTAssertTrue([nativeAd.mediaView isKindOfClass:[FBMediaView class]]);
@@ -235,14 +235,15 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   XCTAssertNil(nativeAd.starRating);
   XCTAssertNil(nativeAd.store);
   XCTAssertNil(nativeAd.images);
-  XCTAssertTrue([nativeAd.adChoicesView isKindOfClass:[FBAdOptionsView class]]);
+  XCTAssertNil(nativeAd.adChoicesView);
   XCTAssertTrue([nativeAd.icon isKindOfClass:[GADNativeAdImage class]]);
   XCTAssertTrue(nativeAd.hasVideoContent);
   XCTAssertNil(nativeAd.mediaView);  // NativeBannerAd has no mediaView
 }
 
 - (void)testNativeAdRegisterViews {
-  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
       .andDo(^(NSInvocation *invocation) {
         FBNativeAd *ad = (FBNativeAd *)invocation.target;
         [self->_nativeAdDelegate nativeAdDidLoad:ad];
@@ -259,11 +260,11 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   NSDictionary<GADNativeAssetIdentifier, UIView *> *clickableViews =
       @{GADNativeIconAsset : iconView};
 
-  OCMExpect([(FBNativeAd *)_mockFBNativeAd registerViewForInteraction:view
-                                                            mediaView:mediaView
-                                                        iconImageView:iconView
-                                                       viewController:vc
-                                                       clickableViews:@[ iconView ]]);
+  OCMExpect([mockFBNativeAd registerViewForInteraction:view
+                                             mediaView:mediaView
+                                         iconImageView:iconView
+                                        viewController:vc
+                                        clickableViews:@[ iconView ]]);
 
   [nativeAd didRenderInView:view
          clickableAssetViews:clickableViews
@@ -275,7 +276,8 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
 
 - (void)testNativeBannerAdRegisterViews {
   _shouldReturnNativeBannerAd = YES;
-  OCMStub([(FBNativeBannerAd *)_mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
+  FBNativeBannerAd *mockFBNativeBannerAd = (FBNativeBannerAd *)_mockFBNativeBannerAd;
+  OCMStub([mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
       .andDo(^(NSInvocation *invocation) {
         FBNativeBannerAd *ad = (FBNativeBannerAd *)invocation.target;
         [self->_nativeAdDelegate nativeBannerAdDidLoad:ad];
@@ -291,10 +293,10 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   NSDictionary<GADNativeAssetIdentifier, UIView *> *clickableViews =
       @{GADNativeIconAsset : iconView};
 
-  OCMExpect([(FBNativeBannerAd *)_mockFBNativeBannerAd registerViewForInteraction:view
-                                                                    iconImageView:iconView
-                                                                   viewController:vc
-                                                                   clickableViews:@[ iconView ]]);
+  OCMExpect([mockFBNativeBannerAd registerViewForInteraction:view
+                                               iconImageView:iconView
+                                              viewController:vc
+                                              clickableViews:@[ iconView ]]);
 
   [nativeAd didRenderInView:view
          clickableAssetViews:clickableViews
@@ -304,8 +306,121 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   OCMVerifyAll(_mockFBNativeBannerAd);
 }
 
+- (void)testNativeAdPreferredAdOptionsViewPositionTopLeft {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionTopLeftCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerify([mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopLeft]);
+}
+
+- (void)testNativeBannerAdPreferredAdOptionsViewPositionTopLeft {
+  _shouldReturnNativeBannerAd = YES;
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionTopLeftCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  FBNativeBannerAd *mockFBNativeBannerAd = (FBNativeBannerAd *)_mockFBNativeBannerAd;
+  OCMStub([mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeBannerAd *ad = (FBNativeBannerAd *)invocation.target;
+        [self->_nativeAdDelegate nativeBannerAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerify([mockFBNativeBannerAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopLeft]);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionTopRight {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionTopRightCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerify([mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopRight]);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionBottomRight {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionBottomRightCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerify([mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionBottomRight]);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionBottomLeft {
+  GADNativeAdViewAdOptions *options = [[GADNativeAdViewAdOptions alloc] init];
+  options.preferredAdChoicesPosition = GADAdChoicesPositionBottomLeftCorner;
+
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = @[ options ];
+
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerify([mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionBottomLeft]);
+}
+
+- (void)testNativeAdPreferredAdOptionsViewPositionDefault {
+  AUTKMediationNativeAdConfiguration *config = AUTMediationNativeAdConfiguration();
+  config.options = nil;
+
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBNativeAd *ad = (FBNativeAd *)invocation.target;
+        [self->_nativeAdDelegate nativeAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, config);
+  OCMVerify([mockFBNativeAd
+      setPreferredAdOptionsViewPosition:FBNativeAdOptionsViewPositionTopRight]);
+}
+
 - (void)testNativeAdUnregisterView {
-  OCMStub([(FBNativeAd *)_mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
+  FBNativeAd *mockFBNativeAd = (FBNativeAd *)_mockFBNativeAd;
+  OCMStub([mockFBNativeAd loadAdWithBidPayload:AUTKNativeBidResponse])
       .andDo(^(NSInvocation *invocation) {
         FBNativeAd *ad = (FBNativeAd *)invocation.target;
         [self->_nativeAdDelegate nativeAdDidLoad:ad];
@@ -315,14 +430,15 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
       AUTKWaitAndAssertLoadNativeAd(_adapter, AUTMediationNativeAdConfiguration());
   id<GADMediationNativeAd> nativeAd = delegate.nativeAd;
 
-  OCMExpect([(FBNativeAd *)_mockFBNativeAd unregisterView]);
+  OCMExpect([mockFBNativeAd unregisterView]);
   [nativeAd didUntrackView:nil];
   OCMVerifyAll(_mockFBNativeAd);
 }
 
 - (void)testNativeBannerAdUnregisterView {
   _shouldReturnNativeBannerAd = YES;
-  OCMStub([(FBNativeBannerAd *)_mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
+  FBNativeBannerAd *mockFBNativeBannerAd = (FBNativeBannerAd *)_mockFBNativeBannerAd;
+  OCMStub([mockFBNativeBannerAd loadAdWithBidPayload:AUTKNativeBidResponse])
       .andDo(^(NSInvocation *invocation) {
         FBNativeBannerAd *ad = (FBNativeBannerAd *)invocation.target;
         [self->_nativeAdDelegate nativeBannerAdDidLoad:ad];
@@ -332,7 +448,7 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
       AUTKWaitAndAssertLoadNativeAd(_adapter, AUTMediationNativeAdConfiguration());
   id<GADMediationNativeAd> nativeAd = delegate.nativeAd;
 
-  OCMExpect([(FBNativeBannerAd *)_mockFBNativeBannerAd unregisterView]);
+  OCMExpect([mockFBNativeBannerAd unregisterView]);
   [nativeAd didUntrackView:nil];
   OCMVerifyAll(_mockFBNativeBannerAd);
 }

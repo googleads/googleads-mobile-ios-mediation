@@ -30,6 +30,19 @@
 
 @end
 
+static Class gGADNativeAdViewAdOptionsClass = nil;
+static Class gFBNativeAdClass = nil;
+static Class gFBNativeBannerAdClass = nil;
+
+static void GADFBInitializeClassReferences(void) {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    gGADNativeAdViewAdOptionsClass = [GADNativeAdViewAdOptions class];
+    gFBNativeAdClass = [FBNativeAd class];
+    gFBNativeBannerAdClass = [FBNativeBannerAd class];
+  });
+}
+
 @implementation GADFBNativeRenderer {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
@@ -44,11 +57,11 @@
   ///  the GADMediatedUnifiedNativeAd subclass
   NSDictionary *_extraAssets;
 
-  /// Meta Audience Network AdOptions view.
-  FBAdOptionsView *_adOptionsView;
-
   /// Holds the state for impression being logged.
   atomic_flag _impressionLogged;
+
+  /// Preferred position of the AdOptions view inside Meta Audience Network native ad.
+  FBNativeAdOptionsViewPosition _preferredAdOptionsViewPosition;
 
   /// Meta Audience Network media view.
   FBMediaView *_mediaView;
@@ -58,6 +71,7 @@
             (nonnull GADMediationNativeAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  GADFBInitializeClassReferences();
   // Store the ad config and completion handler for later use.
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
@@ -83,13 +97,28 @@
     return;
   }
 
+  // This is the default position of the AdOptions view inside Meta Audience Network native ad.
+  _preferredAdOptionsViewPosition = FBNativeAdOptionsViewPositionTopRight;
+  for (GADAdLoaderOptions *loaderOptions in adConfiguration.options) {
+    if ([loaderOptions isKindOfClass:gGADNativeAdViewAdOptionsClass]) {
+      GADNativeAdViewAdOptions *nativeAdViewOptions = (GADNativeAdViewAdOptions *)loaderOptions;
+      _preferredAdOptionsViewPosition = FBNativeAdOptionsViewPositionForGADAdChoicesPosition(
+          nativeAdViewOptions.preferredAdChoicesPosition);
+      break;
+    }
+  }
+
   _nativeAd = [FBNativeAdBase nativeAdWithPlacementId:placementID
                                            bidPayload:adConfiguration.bidResponse
                                                 error:nil];
-  if ([_nativeAd isKindOfClass:[FBNativeAd class]]) {
-    ((FBNativeAd *)_nativeAd).delegate = self;
-  } else if ([_nativeAd isKindOfClass:[FBNativeBannerAd class]]) {
-    ((FBNativeBannerAd *)_nativeAd).delegate = self;
+  if ([_nativeAd isKindOfClass:gFBNativeAdClass]) {
+    FBNativeAd *nativeAd = (FBNativeAd *)_nativeAd;
+    nativeAd.delegate = self;
+    nativeAd.preferredAdOptionsViewPosition = _preferredAdOptionsViewPosition;
+  } else if ([_nativeAd isKindOfClass:gFBNativeBannerAdClass]) {
+    FBNativeBannerAd *nativeBannerAd = (FBNativeBannerAd *)_nativeAd;
+    nativeBannerAd.delegate = self;
+    nativeBannerAd.preferredAdOptionsViewPosition = _preferredAdOptionsViewPosition;
   }
 
   // Adds a watermark to the ad.
@@ -99,18 +128,6 @@
 
   // Load ad.
   [_nativeAd loadAdWithBidPayload:adConfiguration.bidResponse];
-}
-
-- (void)loadAdOptionsView {
-  if (!_adOptionsView) {
-    _adOptionsView = [[FBAdOptionsView alloc] init];
-    _adOptionsView.backgroundColor = [UIColor clearColor];
-    [NSLayoutConstraint activateConstraints:@[
-      [_adOptionsView.heightAnchor constraintEqualToConstant:FBAdOptionsViewHeight],
-      [_adOptionsView.widthAnchor constraintEqualToConstant:FBAdOptionsViewWidth],
-    ]];
-  }
-  _adOptionsView.nativeAd = _nativeAd;
 }
 
 - (nullable NSString *)advertiser {
@@ -130,7 +147,7 @@
 }
 
 - (nullable UIView *)adChoicesView {
-  return _adOptionsView;
+  return nil;
 }
 
 - (nullable GADNativeAdImage *)icon {
@@ -170,23 +187,26 @@
     nonclickableAssetViews:
         (NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(UIViewController *)viewController {
+  GADFBInitializeClassReferences();
   NSArray *assets = clickableAssetViews.allValues;
   UIImageView *iconView = nil;
   if ([clickableAssetViews[GADNativeIconAsset] isKindOfClass:[UIImageView class]]) {
     iconView = (UIImageView *)clickableAssetViews[GADNativeIconAsset];
   }
 
-  if ([_nativeAd isKindOfClass:[FBNativeAd class]]) {
-    [(FBNativeAd *)_nativeAd registerViewForInteraction:view
-                                              mediaView:_mediaView
-                                          iconImageView:iconView
-                                         viewController:viewController
-                                         clickableViews:assets];
-  } else if ([_nativeAd isKindOfClass:[FBNativeBannerAd class]]) {
-    [(FBNativeBannerAd *)_nativeAd registerViewForInteraction:view
-                                                iconImageView:iconView
-                                               viewController:viewController
-                                               clickableViews:assets];
+  if ([_nativeAd isKindOfClass:gFBNativeAdClass]) {
+    FBNativeAd *nativeAd = (FBNativeAd *)_nativeAd;
+    [nativeAd registerViewForInteraction:view
+                               mediaView:_mediaView
+                           iconImageView:iconView
+                          viewController:viewController
+                          clickableViews:assets];
+  } else if ([_nativeAd isKindOfClass:gFBNativeBannerAdClass]) {
+    FBNativeBannerAd *nativeBannerAd = (FBNativeBannerAd *)_nativeAd;
+    [nativeBannerAd registerViewForInteraction:view
+                                 iconImageView:iconView
+                                viewController:viewController
+                                clickableViews:assets];
   }
 }
 
@@ -249,15 +269,15 @@
 #pragma mark - Common delegate methods
 
 - (void)nativeAdBaseDidLoad:(FBNativeAdBase *)nativeAd {
+  GADFBInitializeClassReferences();
   if (_nativeAd) {
     [_nativeAd unregisterView];
   }
   _nativeAd = nativeAd;
-  if ([nativeAd isKindOfClass:[FBNativeAd class]]) {
+  if ([nativeAd isKindOfClass:gFBNativeAdClass]) {
     _mediaView = [[FBMediaView alloc] init];
     _mediaView.delegate = self;
   }
-  [self loadAdOptionsView];
   _adEventDelegate = _adLoadCompletionHandler(self, nil);
 }
 

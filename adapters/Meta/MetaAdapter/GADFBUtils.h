@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <Foundation/Foundation.h>
 #import "GADMediationAdapterFacebook.h"
 
@@ -37,3 +38,7 @@ void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set, NSObjec
 /// Sets the mixed audience configuration in the Meta Audience Network SDK if either Google's tag
 /// for child-directed treatment or the tag for under age of consent is set
 void GADMAdapterFacebookSetMixedAudienceIfNeeded(void);
+
+/// Converts GADAdChoicesPosition to FBNativeAdOptionsViewPosition.
+FBNativeAdOptionsViewPosition FBNativeAdOptionsViewPositionForGADAdChoicesPosition(
+    GADAdChoicesPosition position);
