@@ -80,9 +80,13 @@ final class Util {
 
   /// Retrieves a placement ID from the provided RTB parameters.
   ///
-  /// Uses the first credential found because the other credentials should have the same placement
-  /// ID for a given ad unit.
+  /// Uses the first credential found. The ad unit may have multiple mediation groups, each with a
+  /// different BidMachine placement ID, and the actual mediation group is resolved only after
+  /// signal collection is completed. So the credentials may contain multiple different placement
+  /// IDs at this point.
   ///
+  // TODO: Update the API to take a list of placement IDs during signal collection once the
+  // BidMachine SDK supports it.
   /// - Returns: A placement ID from the parameters, or nil if the parameters contain none.
   static func placementId(from params: RTBRequestParameters) -> String? {
     return params.configuration.credentials.first?.settings[
