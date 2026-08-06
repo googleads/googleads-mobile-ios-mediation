@@ -12,27 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <AppLovinSDK/AppLovinSDK.h>
+#import <Foundation/Foundation.h>
 
-@protocol GADMAdNetworkAdapter;
-@protocol GADMAdNetworkConnector;
-
-/// An adapter class that requests ads from AppLovin SDK.
-@interface GADMAdapterAppLovin : NSObject <GADMAdNetworkAdapter>
-
-/// Connector from Google Mobile Ads SDK to receive ad configurations.
-@property(nonatomic, weak, nullable, readonly) id<GADMAdNetworkConnector> connector;
-
-/// An AppLovin interstitial ad.
-@property(nonatomic, nullable) ALAd *interstitialAd;
-
-/// An AppLovin banner ad view.
-@property(nonatomic, readonly, nullable) ALAdView *adView;
-
-/// The AppLovin zone identifier used to load an ad.
-@property(nonatomic, readonly, nullable) NSString *zoneIdentifier;
-
-/// The AdMob UI settings.
-@property(nonatomic, copy, nonnull, readonly) NSDictionary<NSString *, id> *settings;
+/// The adapter class that Google Serving refers to for loading AppLovin Banner and Interstitial
+/// Waterfall ads.
+@interface GADMAdapterAppLovin : NSObject
 
 @end

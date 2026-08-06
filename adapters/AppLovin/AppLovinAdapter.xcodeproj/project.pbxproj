@@ -33,8 +33,6 @@
 
 /* Begin PBXBuildFile section */
 		090DDE0D80D2C6E75E36FFEF /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
-		0BFE7A26945192C63ECE17AA /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */; };
-		0C8243CD3016664385E9555D /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 462E0D0AC6A4CB17E9BFEBDC /* Pods_Default_AdapterWithoutValidationScript.framework */; };
 		18FA7C1AD24DA435168BCDD7 /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
 		1A85C139660EB7AE8D7D425D /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
 		1CBF201CED64B290AFC5AACC /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
@@ -49,13 +47,10 @@
 		23FB831326A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */; };
 		23FB831426A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */; };
 		28BAF05A557C1BC3B00FC511 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
-		2EE4C832630D92EE67AD778B /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */; };
 		2EF60660C49863FAD0882835 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
-		3248B9D82A9932CD5B2C6570 /* GADMAdapterAppLovinBannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */; };
 		359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38C4631546031C6804393530 /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		3E65654BE6FA53472E6FC121 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
-		456B94BD174A20F8033533DA /* GADMAdapterAppLovinBannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */; };
 		45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CBAE6A85EAE4E33F59C8E90 /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
 		6EE3224DFAAF6193C8E10A49 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
@@ -64,7 +59,6 @@
 		7E2DB74CAE8148043D252EB9 /* GADMAppLovinRewardedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */; };
 		7E45D4B9A714BA896FDAAB52 /* GADMediationAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */; };
 		7F02EAA4943E84D50F786D3E /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
-		80560E488034B7C41B47317F /* GADMAdapterAppLovinBannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */; };
 		80D36947BCB012D9CDB78879 /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		8FE1DAD1144371239DB89C34 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */; };
 		A0A39A332348D73F04F245A1 /* GADMediationAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */; };
@@ -101,8 +95,6 @@
 		ADD347962D2B2C230019419D /* AppLovinAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; };
 		AE13E328C9AE7109ABDC5D48 /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BE69914A1154C50D3838DE06 /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */; };
-		BFC4CFDBCC972965898E9009 /* GADMAdapterAppLovinBannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */; };
 		BFC84688517F518B203E4190 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
 		C178D109E398FB41EA695A8D /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		CDB37064910D2264BBCBE0D0 /* GADMAppLovinRewardedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */; };
@@ -169,15 +161,11 @@
 		23FB830226A7474700ECBBE0 /* GADMAppLovinRTBInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRTBInterstitialDelegate.m; sourceTree = "<group>"; };
 		23FB830726A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMRTBAdapterAppLovinInterstitialRenderer.h; sourceTree = "<group>"; };
 		23FB830826A7474700ECBBE0 /* GADMRTBAdapterAppLovinInterstitialRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMRTBAdapterAppLovinInterstitialRenderer.m; sourceTree = "<group>"; };
-		2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinBannerDelegate.swift; sourceTree = "<group>"; };
 		359ADF9C1EFDA83600E2DBFE /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppLovinAdapter.h; sourceTree = "<group>"; };
 		359ADFA11EFDBDC900E2DBFE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		359ADFA21EFDBDEB00E2DBFE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		386C5777F8FD66F1650584AA /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; sourceTree = "<group>"; };
-		3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinInterstitialDelegate.swift; sourceTree = "<group>"; };
 		45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterAppLovin.h; sourceTree = "<group>"; };
-		462E0D0AC6A4CB17E9BFEBDC /* Pods_Default_AdapterWithoutValidationScript.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Default_AdapterWithoutValidationScript.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinMediationManager.swift; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -187,7 +175,6 @@
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GADMAdapterAppLovinUtils.swift; sourceTree = "<group>"; };
 		A636E656068920D0F9BC3B73 /* AppLovinAdapter-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AppLovinAdapter-Bridging-Header.h"; sourceTree = "<group>"; };
-		AB39811579E088D3FD6785ED /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; sourceTree = "<group>"; };
 		AD00C4052B8705A5007C85F3 /* AppLovinAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E3A432EA1680000818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6B9142CF145F8009C8FDA /* libStaticAppLovinAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticAppLovinAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,7 +204,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C8243CD3016664385E9555D /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,16 +256,6 @@
 			path = Waterfall;
 			sourceTree = "<group>";
 		};
-		775FEBFB14DAC18CD5BA575E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AB39811579E088D3FD6785ED /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */,
-				386C5777F8FD66F1650584AA /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */,
-			);
-			name = Pods;
-			path = ../../AdapterUnitTests/Pods;
-			sourceTree = "<group>";
-		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,8 +281,6 @@
 				A636E656068920D0F9BC3B73 /* AppLovinAdapter-Bridging-Header.h */,
 				D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */,
 				697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */,
-				2A86DC931B1FBCA4982F4216 /* GADMAdapterAppLovinBannerDelegate.swift */,
-				3B42FE2D2333F5830471F61B /* GADMAdapterAppLovinInterstitialDelegate.swift */,
 				F1EE36A028D6D7A6E79A92B0 /* GADMAdapterAppLovinRewardedRenderer.swift */,
 				EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */,
 				BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */,
@@ -334,8 +308,6 @@
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
-				775FEBFB14DAC18CD5BA575E /* Pods */,
-				8693AC9D9BEFC093BEBAEE13 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -348,14 +320,6 @@
 				AD6E3A432EA1680000818296 /* libAdapter.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		8693AC9D9BEFC093BEBAEE13 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				462E0D0AC6A4CB17E9BFEBDC /* Pods_Default_AdapterWithoutValidationScript.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,7 +418,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6E3A402EA1680000818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
 			buildPhases = (
-				7E096AB6423BAB7CA1C9169D /* [CP] Check Pods Manifest.lock */,
 				AD6E3A1F2EA1680000818296 /* Sources */,
 				AD6E3A2E2EA1680000818296 /* Frameworks */,
 				AD6E3A2F2EA1680000818296 /* CopyFiles */,
@@ -570,28 +533,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
-		7E096AB6423BAB7CA1C9169D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Default-AdapterWithoutValidationScript-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -608,10 +549,8 @@
 				AE13E328C9AE7109ABDC5D48 /* GADMAdapterAppLovinUtils.swift in Sources */,
 				A61968D88E38A81137841D5E /* GADMAdapterAppLovinInitializer.swift in Sources */,
 				F8BF9E28337CC294E8ED49A7 /* GADMAdapterAppLovinMediationManager.swift in Sources */,
-				80560E488034B7C41B47317F /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				BFC84688517F518B203E4190 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
 				28BAF05A557C1BC3B00FC511 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */,
-				2EE4C832630D92EE67AD778B /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */,
 				AD8D2E1330A597242604A486 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */,
 				CDB37064910D2264BBCBE0D0 /* GADMAppLovinRewardedDelegate.swift in Sources */,
 				E84503C05AAE48B621A147F2 /* GADMediationAdapterAppLovin.swift in Sources */,
@@ -625,7 +564,6 @@
 				38C4631546031C6804393530 /* GADMAdapterAppLovinUtils.swift in Sources */,
 				1CBF201CED64B290AFC5AACC /* GADMAdapterAppLovinInitializer.swift in Sources */,
 				1A85C139660EB7AE8D7D425D /* GADMAdapterAppLovinMediationManager.swift in Sources */,
-				BFC4CFDBCC972965898E9009 /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				EEBBDF581913C6FA021DA7D5 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,10 +581,8 @@
 				80D36947BCB012D9CDB78879 /* GADMAdapterAppLovinUtils.swift in Sources */,
 				4CBAE6A85EAE4E33F59C8E90 /* GADMAdapterAppLovinInitializer.swift in Sources */,
 				6EE3224DFAAF6193C8E10A49 /* GADMAdapterAppLovinMediationManager.swift in Sources */,
-				3248B9D82A9932CD5B2C6570 /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				7F02EAA4943E84D50F786D3E /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
 				3E65654BE6FA53472E6FC121 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */,
-				BE69914A1154C50D3838DE06 /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */,
 				8FE1DAD1144371239DB89C34 /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */,
 				7573CB9EE98C811FEF404624 /* GADMAppLovinRewardedDelegate.swift in Sources */,
 				7E45D4B9A714BA896FDAAB52 /* GADMediationAdapterAppLovin.swift in Sources */,
@@ -666,10 +602,8 @@
 				C178D109E398FB41EA695A8D /* GADMAdapterAppLovinUtils.swift in Sources */,
 				18FA7C1AD24DA435168BCDD7 /* GADMAdapterAppLovinInitializer.swift in Sources */,
 				2EF60660C49863FAD0882835 /* GADMAdapterAppLovinMediationManager.swift in Sources */,
-				456B94BD174A20F8033533DA /* GADMAdapterAppLovinBannerDelegate.swift in Sources */,
 				090DDE0D80D2C6E75E36FFEF /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
 				D9F8D67C07FF148E33F6D174 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */,
-				0BFE7A26945192C63ECE17AA /* GADMAdapterAppLovinInterstitialDelegate.swift in Sources */,
 				7B465FAD1B02CA2596D4C03E /* GADMAdapterAppLovinRewardedRenderer.swift in Sources */,
 				7E2DB74CAE8148043D252EB9 /* GADMAppLovinRewardedDelegate.swift in Sources */,
 				A0A39A332348D73F04F245A1 /* GADMediationAdapterAppLovin.swift in Sources */,
@@ -960,7 +894,6 @@
 		};
 		AD6E3A412EA1680000818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB39811579E088D3FD6785ED /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -974,7 +907,6 @@
 		};
 		AD6E3A422EA1680000818296 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 386C5777F8FD66F1650584AA /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
