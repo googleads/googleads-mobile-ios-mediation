@@ -1,6 +1,6 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 2.2.1.3 (In progress)
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 - Clean up Xcode project configurations.
 
