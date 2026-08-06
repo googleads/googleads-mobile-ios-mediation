@@ -8,8 +8,6 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "GADMAppLovinRTBInterstitialDelegate.h"
-
 /// Tests for loading and showing AppLovin interstitial ads through RTB.
 @interface AUTAppLovinInterstitialAdTests : XCTestCase
 @end
@@ -23,6 +21,8 @@
   id _interstitialAdMock;
   /// Mock for ALAdService
   id _serviceMock;
+  /// Mock for GADMediationAdapterAppLovin class.
+  id _adapterClassMock;
 
   /// An ad loader.
   __block GADMAppLovinRTBInterstitialDelegate *_adLoader;
@@ -38,9 +38,10 @@
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _interstitialAdMock = OCMClassMock([ALInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
+  _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
 
-  OCMStub([_interstitialAdMock alloc]).andReturn(_interstitialAdMock);
-  OCMStub([_interstitialAdMock initWithSdk:_appLovinSdkMock]).andReturn(_interstitialAdMock);
+  OCMStub(ClassMethod([_adapterClassMock createInterstitialAdWith:OCMOCK_ANY]))
+      .andReturn(_interstitialAdMock);
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
 }

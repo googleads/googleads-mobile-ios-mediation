@@ -16,5 +16,4 @@
 
 #import "GADMAdapterAppLovin.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 #import "GADMediationAdapterAppLovin.h"
