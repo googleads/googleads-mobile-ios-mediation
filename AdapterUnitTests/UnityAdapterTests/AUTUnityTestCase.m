@@ -1,5 +1,6 @@
 #import "AUTUnityTestCase.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <OCMock/OCMock.h>
 #import <UnityAds/UnityAds.h>
 
@@ -17,6 +18,14 @@
         [invocation getArgument:&initializationDelegate atIndex:4];
         [initializationDelegate initializationComplete];
       });
+}
+
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [super tearDown];
 }
 
 @end

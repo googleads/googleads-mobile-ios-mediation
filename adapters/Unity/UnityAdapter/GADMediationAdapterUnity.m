@@ -225,17 +225,22 @@ static BOOL _isTestMode = NO;
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  GADAgeRestrictedTreatment ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
   UADSMetaData *userMetaData = [[UADSMetaData alloc] init];
 
   BOOL isChildDirected = [tagForChildDirectedTreatment isEqual:@YES];
+  BOOL isAgeRestrictedTreatmentChild = ageRestrictedTreatment == GADAgeRestrictedTreatmentChild;
+  BOOL isAgeRestrictedTreatmentTeen = ageRestrictedTreatment == GADAgeRestrictedTreatmentTeen;
   BOOL isUnderAge = [tagForUnderAgeOfConsent isEqual:@YES];
   BOOL isNotChildDirected = [tagForChildDirectedTreatment isEqual:@NO];
   BOOL isNotUnderAge = [tagForUnderAgeOfConsent isEqual:@NO];
 
   // If at least one signal indicates adult, and other api does not signal child, we are adult for
   // this session
-  if (!isChildDirected && !isUnderAge && (isNotChildDirected || isNotUnderAge)) {
+  if ((!isChildDirected && !isUnderAge && !isAgeRestrictedTreatmentChild) &&
+      (isNotChildDirected || isNotUnderAge || isAgeRestrictedTreatmentTeen)) {
     [userMetaData set:@"user.nonbehavioral" value:@NO];
   }
   // If there is any child signal, conflicts between api's, or both unspecified, we treat them as

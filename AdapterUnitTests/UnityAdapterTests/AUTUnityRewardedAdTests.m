@@ -19,11 +19,6 @@
   OCMStub(ClassMethod([self.unityAdsClassMock isInitialized])).andReturn(YES);
 }
 
-- (void)tearDown {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-  [super tearDown];
-}
 
 - (void)loadWaterfallRewardedAd {
   OCMStub(OCMClassMethod([self.unityAdsClassMock load:AUTUnityPlacementID
@@ -45,124 +40,14 @@
   AUTKWaitAndAssertLoadRewardedAd(self.adapter, configuration);
 }
 
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsTrueAndTagForUnderAgeOfConsentIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
+- (void)testLoadWaterfallRewardedAdUpdatesPrivacyPreferences {
+  id adapterClassMock = OCMClassMock([GADMediationAdapterUnity class]);
+  OCMExpect(OCMClassMethod([adapterClassMock updatePrivacyPreferences]));
 
   [self loadWaterfallRewardedAd];
 
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsTrueAndTagForUnderAgeOfConsentIsFalse {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsTrueAndTagForUnderAgeOfConsentIsUnspecified {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsFalseAndTagForUnderAgeOfConsentIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsUnspecifiedAndTagForUnderAgeOfConsentIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsFalseAndTagForUnderAgeOfConsentIsFalse {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsFalseAndTagForUnderAgeOfConsentIsUnspecified {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadWaterfallRewardedAdWhenTagForChildDirectedTreatmentIsUnspecifiedAndTagForUnderAgeOfConsentIsFalse {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadWaterfallRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
+  OCMVerifyAll(adapterClassMock);
+  [adapterClassMock stopMocking];
 }
 
 - (void)loadBiddingRewardedAd {
@@ -191,124 +76,14 @@
   AUTKWaitAndAssertLoadRewardedAd(self.adapter, configuration);
 }
 
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsTrueAndTagForUnderAgeOfConsentIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
+- (void)testLoadBiddingRewardedAdUpdatesPrivacyPreferences {
+  id adapterClassMock = OCMClassMock([GADMediationAdapterUnity class]);
+  OCMExpect(OCMClassMethod([adapterClassMock updatePrivacyPreferences]));
 
   [self loadBiddingRewardedAd];
 
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsTrueAndTagForUnderAgeOfConsentIsFalse {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsTrueAndTagForUnderAgeOfConsentIsUnspecified {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsFalseAndTagForUnderAgeOfConsentIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsUnspecifiedAndTagForUnderAgeOfConsentIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsFalseAndTagForUnderAgeOfConsentIsFalse {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsFalseAndTagForUnderAgeOfConsentIsUnspecified {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
-}
-
-- (void)
-    testLoadBiddingRewardedAdWhenTagForChildDirectedTreatmentIsUnspecifiedAndTagForUnderAgeOfConsentIsFalse {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [self loadBiddingRewardedAd];
-
-  OCMVerifyAll(metaDataMock);
+  OCMVerifyAll(adapterClassMock);
+  [adapterClassMock stopMocking];
 }
 
 - (void)testLoadBiddingRewardedAdWithEmptySignal {
