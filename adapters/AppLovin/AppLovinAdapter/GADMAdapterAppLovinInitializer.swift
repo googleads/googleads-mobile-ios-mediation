@@ -22,7 +22,13 @@ public class GADMAdapterAppLovinInitializer: NSObject {
   @objc public static func initialize(
     withSDKKey sdkKey: String, completionHandler: @escaping @Sendable @MainActor () -> Void
   ) {
-    if ALSdk.shared().isInitialized {
+    // TODO(timilehin): Return an error here if the SDK is not null.
+    guard let sharedSdk = ALSdk.shared() as ALSdk? else {
+      completionHandler()
+      return
+    }
+
+    if sharedSdk.isInitialized {
       completionHandler()
       return
     }
@@ -32,7 +38,7 @@ public class GADMAdapterAppLovinInitializer: NSObject {
       builder.pluginVersion = GADMAdapterAppLovinConstant.adapterVersion
     }
 
-    ALSdk.shared().initialize(with: config) { configuration in
+    sharedSdk.initialize(with: config) { configuration in
       // TODO(b/529681616): Migrate this initializer to async/await.
       DispatchQueue.main.async {
         GADMAdapterAppLovinUtils.log("Finished initializing ALSDK.")

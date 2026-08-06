@@ -53,6 +53,10 @@
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
 
+  [_appLovinSdkMock stopMocking];
+  [_interstitialAdMock stopMocking];
+  [_serviceMock stopMocking];
+
   [super tearDown];
 }
 
@@ -132,6 +136,26 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorChildUser
                                                   userInfo:nil];
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfALSdkSharedReturnsNil {
+  [_appLovinSdkMock stopMocking];
+  _appLovinSdkMock = OCMClassMock([ALSdk class]);
+  OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(nil);
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  NSString *sdkKey =
+      @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+  credentials.settings = @{@"sdkKey" : sdkKey};
+  config.credentials = credentials;
+  config.bidResponse = @"bidresponse";
+
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                 code:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                             userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 

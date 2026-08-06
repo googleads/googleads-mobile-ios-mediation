@@ -363,4 +363,33 @@
   [self waitForExpectations:@[ signalsExpectation ]];
 }
 
+- (void)testCollectSignalsFailureIfALSdkSharedReturnsNil {
+  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
+  id appLovinSdkMock = OCMClassMock([ALSdk class]);
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(nil);
+
+  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
+
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+  AUTKRTBMediationSignalsConfiguration *configuration =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  parameters.configuration = configuration;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  NSString *sdkKey =
+      @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+  credentials.settings = @{@"sdkKey" : sdkKey};
+
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertEqual(error.code, GADMAdapterAppLovinErrorAppLovinSDKNotInitialized);
+                         [signalsExpectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ signalsExpectation ]];
+}
+
 @end

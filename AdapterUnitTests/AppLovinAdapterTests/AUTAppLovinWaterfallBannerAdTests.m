@@ -85,6 +85,12 @@ static NSString *const kZoneId = @"1234567890123456";
   requestConfiguration.tagForChildDirectedTreatment = nil;
   requestConfiguration.tagForUnderAgeOfConsent = nil;
 
+  [_appLovinSdkMock stopMocking];
+  [_appLovinAdViewMock stopMocking];
+  [_serviceMock stopMocking];
+  [_adapterClassMock stopMocking];
+  [_adMock stopMocking];
+
   [super tearDown];
 }
 
@@ -198,6 +204,24 @@ static NSString *const kZoneId = @"1234567890123456";
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                                       code:GADMAdapterAppLovinErrorMissingSDKKey
                                                   userInfo:nil];
+
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfALSdkSharedReturnsNil {
+  [_appLovinSdkMock stopMocking];
+  _appLovinSdkMock = OCMClassMock([ALSdk class]);
+  OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(nil);
+  AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"sdkKey" : kSDKKey, @"zone_id" : kZoneId};
+  config.credentials = credentials;
+  config.adSize = GADAdSizeBanner;
+
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                 code:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                             userInfo:nil];
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
 }
