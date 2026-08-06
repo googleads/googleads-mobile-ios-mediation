@@ -1,4 +1,4 @@
-// Copyright 2017 Google LLC
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterAppLovinRewardBasedVideoAd.h"
-#import "AppLovinAdapter-Swift.h"
-#import "GADMediationAdapterAppLovin.h"
+import Foundation
+import GoogleMobileAds
 
-@implementation GADMAdapterAppLovinRewardBasedVideoAd
+/// The adapter class that Google Serving refers to for loading AppLovin Banner and Interstitial
+/// Waterfall ads.
+///
+/// Using the function mainAdapterClass, Google Mobile Ads SDK infers that the actual
+/// implementation is in GADMediationAdapterAppLovin.
+@MainActor
+@objc(GADMAdapterAppLovin)
+public final class GADMAdapterAppLovin: NSObject {
 
-/// TODO(Google): Remove this class once Google's server points to GADMediationAdapterAppLovin
-/// directly to ask for a rewarded ad on waterfall mediation requests.
-+ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-  return [GADMediationAdapterAppLovin class];
+  @objc public nonisolated static func mainAdapterClass() -> any MediationAdapter.Type {
+    return GADMediationAdapterAppLovin.self
+  }
 }
-
-@end
