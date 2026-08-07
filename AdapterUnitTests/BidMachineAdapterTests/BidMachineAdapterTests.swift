@@ -458,6 +458,57 @@ final class BidMachineAdapterSignalsCollectionTests {
     }
   }
 
+  @Test("The adapter forwards the placement ID from the request parameters when collecting signals.")
+  func signalCollection_forwardsPlacementId_whenRequestParametersContainPlacementId() async {
+    let client = FakeBidMachineClient()
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .interstitial
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+    #expect(client.placementId == "test_placement_id")
+  }
+
+  @Test("The adapter collects signals without a placement ID when the request parameters contain none.")
+  func signalCollection_succeeds_whenRequestParametersContainNoPlacementId() async {
+    let client = FakeBidMachineClient()
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .interstitial
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+    #expect(client.placementId == nil)
+  }
+
   @Test("The adapter fails to collect signals for an app open ad request.")
   func signalCollection_fails_whenRequestFormatIsAppOpen() async {
     let credentials = AUTKMediationCredentials()
