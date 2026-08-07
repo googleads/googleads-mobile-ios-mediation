@@ -105,7 +105,10 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
       do {
         let format = try Util.adFormat(from: params)
         let adSize: AdSize? = isAdSizeValid(size: params.adSize) ? params.adSize : nil
-        try BidMachineClientFactory.createClient().collectSignals(for: format, size: adSize) {
+        let placementId = Util.placementId(from: params)
+        try BidMachineClientFactory.createClient().collectSignals(
+          for: format, size: adSize, placementId: placementId
+        ) {
           signals in
           Task { @MainActor in
             completionHandler(signals, nil)
