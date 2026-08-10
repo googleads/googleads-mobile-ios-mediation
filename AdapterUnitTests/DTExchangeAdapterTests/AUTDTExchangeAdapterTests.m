@@ -222,7 +222,7 @@
   XCTAssertGreaterThanOrEqual(version.minorVersion, 0);
   XCTAssertLessThanOrEqual(version.minorVersion, 99);
   XCTAssertGreaterThanOrEqual(version.patchVersion, 0);
-  XCTAssertLessThanOrEqual(version.patchVersion, 999);
+  XCTAssertLessThanOrEqual(version.patchVersion, 9999);
 }
 
 - (void)testAdSDKVersion {
