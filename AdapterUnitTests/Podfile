@@ -5,16 +5,47 @@
 # export ADAPTER_TARGETS="TargetName1,TargetName2"
 # pod install
 
+require 'json'
+
 project 'AdapterUnitTests.xcodeproj'
 
 use_frameworks!
 workspace 'AdapterUnitTests'
 
-platform :ios, '16.0'
+ADAPTER_PODSPECS = Dir.glob(File.expand_path('../adapters/**/CocoaPods/*.podspec.json', __dir__)).each_with_object({}) do |path, map|
+  adapter_dir_name = File.basename(File.expand_path('../../', path))
+  map[adapter_dir_name] = path
+end.freeze
+
+def podspec_ios_version(podspec_rel_path)
+  return nil if podspec_rel_path.nil? || podspec_rel_path.strip.empty?
+  podspec_path = File.expand_path(podspec_rel_path, __dir__)
+  return nil unless File.exist?(podspec_path)
+
+  spec = JSON.parse(File.read(podspec_path))
+  spec.dig('platforms', 'ios')&.to_s
+rescue StandardError => e
+  Pod::UI.warn "Failed to parse #{podspec_rel_path}: #{e.message}" if defined?(Pod::UI)
+  nil
+end
+
+adapter_targets = ENV['ADAPTER_TARGETS']&.split(',')&.map(&:strip)&.reject(&:empty?) || []
+
+target_podspecs = if adapter_targets.any?
+  adapter_targets.map { |t| ADAPTER_PODSPECS[t] }.compact
+else
+  ADAPTER_PODSPECS.values
+end
+
+versions = target_podspecs.map { |path| podspec_ios_version(path) }.compact
+
+target_ios_version = versions.select { |v| Gem::Version.correct?(v.to_s) }.max_by do |v|
+  Gem::Version.new(v.to_s)
+end || '13.0'
+
+platform :ios, target_ios_version
 
 install! 'cocoapods', :deterministic_uuids => false
-
-adapter_targets = ENV['ADAPTER_TARGETS']&.split(',') || []
 
 abstract_target 'Default' do
 
@@ -26,7 +57,7 @@ abstract_target 'Default' do
   # MaxAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MaxAdapter')
 
-    pod 'GoogleMobileAdsMediationMax', :path => '../adapters/prerelease/MaxAdapter/CocoaPods/GoogleMobileAdsMediationMax.podspec.json'
+    pod 'GoogleMobileAdsMediationMax', :path => ADAPTER_PODSPECS['MaxAdapter']
 
     # Dependencies for MaxAdapter static library.
     target 'Adapter' do
@@ -42,7 +73,7 @@ abstract_target 'Default' do
   # MetaAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MetaAdapter')
 
-    pod 'GoogleMobileAdsMediationFacebook', :path => '../adapters/MetaAdapter/CocoaPods/GoogleMobileAdsMediationFacebook.podspec.json'
+    pod 'GoogleMobileAdsMediationFacebook', :path => ADAPTER_PODSPECS['MetaAdapter']
 
     # Dependencies for MetaAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -60,7 +91,7 @@ abstract_target 'Default' do
   # LineAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('LineAdapter')
 
-    pod 'GoogleMobileAdsMediationLine', :path => '../adapters/Line/CocoaPods/GoogleMobileAdsMediationLine.podspec.json'
+    pod 'GoogleMobileAdsMediationLine', :path => ADAPTER_PODSPECS['LineAdapter']
 
     # Dependencies for LineAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -80,7 +111,7 @@ abstract_target 'Default' do
   # DTExchangeAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('DTExchangeAdapter')
 
-    pod 'GoogleMobileAdsMediationFyber', :path => '../adapters/DTExchange/CocoaPods/GoogleMobileAdsMediationFyber.podspec.json'
+    pod 'GoogleMobileAdsMediationFyber', :path => ADAPTER_PODSPECS['DTExchangeAdapter']
 
     # Dependencies for DTExchangeAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -100,7 +131,7 @@ abstract_target 'Default' do
   # UnityAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('UnityAdapter')
 
-    pod 'GoogleMobileAdsMediationUnity', :path => '../adapters/Unity/CocoaPods/GoogleMobileAdsMediationUnity.podspec.json'
+    pod 'GoogleMobileAdsMediationUnity', :path => ADAPTER_PODSPECS['UnityAdapter']
 
     # Dependencies for DTExchangeAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -120,7 +151,7 @@ abstract_target 'Default' do
   # AppLovinAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('AppLovinAdapter')
 
-    pod 'GoogleMobileAdsMediationAppLovin', :path => '../adapters/AppLovin/CocoaPods/GoogleMobileAdsMediationAppLovin.podspec.json'
+    pod 'GoogleMobileAdsMediationAppLovin', :path => ADAPTER_PODSPECS['AppLovinAdapter']
 
     # Dependencies for AppLovinAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -140,7 +171,7 @@ abstract_target 'Default' do
   # PangleAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('PangleAdapter')
 
-    pod 'GoogleMobileAdsMediationPangle', :path => '../adapters/Pangle/CocoaPods/GoogleMobileAdsMediationPangle.podspec.json'
+    pod 'GoogleMobileAdsMediationPangle', :path => ADAPTER_PODSPECS['PangleAdapter']
 
     # Dependencies for PangleAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -160,7 +191,7 @@ abstract_target 'Default' do
   # MintegralAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MintegralAdapter')
 
-    pod 'GoogleMobileAdsMediationMintegral', :path => '../adapters/Mintegral/CocoaPods/GoogleMobileAdsMediationMintegral.podspec.json'
+    pod 'GoogleMobileAdsMediationMintegral', :path => ADAPTER_PODSPECS['MintegralAdapter']
 
     # Dependencies for MintegralAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -180,7 +211,7 @@ abstract_target 'Default' do
   # ChartboostAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('ChartboostAdapter')
 
-    pod 'GoogleMobileAdsMediationChartboost', :path => '../adapters/Chartboost/CocoaPods/GoogleMobileAdsMediationChartboost.podspec.json'
+    pod 'GoogleMobileAdsMediationChartboost', :path => ADAPTER_PODSPECS['ChartboostAdapter']
 
     # Dependencies for ChartboostAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -200,7 +231,7 @@ abstract_target 'Default' do
   # IronSourceAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('IronSourceAdapter')
 
-    pod 'GoogleMobileAdsMediationIronSource', :path => '../adapters/IronSource/CocoaPods/GoogleMobileAdsMediationIronSource.podspec.json'
+    pod 'GoogleMobileAdsMediationIronSource', :path => ADAPTER_PODSPECS['IronSourceAdapter']
 
     # Dependencies for IronSourceAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -220,7 +251,7 @@ abstract_target 'Default' do
   # LiftoffMonetizeAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('LiftoffMonetizeAdapter')
 
-    pod 'GoogleMobileAdsMediationVungle', :path => '../adapters/LiftoffMonetize/CocoaPods/GoogleMobileAdsMediationVungle.podspec.json'
+    pod 'GoogleMobileAdsMediationVungle', :path => ADAPTER_PODSPECS['LiftoffMonetizeAdapter']
 
     # Dependencies for LiftoffMonetizeAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -241,7 +272,7 @@ abstract_target 'Default' do
   # MaioAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MaioAdapter')
 
-    pod 'GoogleMobileAdsMediationMaio', :path => '../adapters/Maio/CocoaPods/GoogleMobileAdsMediationMaio.podspec.json'
+    pod 'GoogleMobileAdsMediationMaio', :path => ADAPTER_PODSPECS['MaioAdapter']
 
     # Dependencies for MaioAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -261,7 +292,7 @@ abstract_target 'Default' do
   # MyTargetAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MyTargetAdapter')
 
-    pod 'GoogleMobileAdsMediationMyTarget', :path => '../adapters/MyTarget/CocoaPods/GoogleMobileAdsMediationMyTarget.podspec.json'
+    pod 'GoogleMobileAdsMediationMyTarget', :path => ADAPTER_PODSPECS['MyTargetAdapter']
 
     # Dependencies for MyTargetAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -281,7 +312,7 @@ abstract_target 'Default' do
   # IMobileAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('IMobileAdapter')
 
-    pod 'GoogleMobileAdsMediationIMobile', :path => '../adapters/I-Mobile/CocoaPods/GoogleMobileAdsMediationIMobile.podspec.json'
+    pod 'GoogleMobileAdsMediationIMobile', :path => ADAPTER_PODSPECS['IMobileAdapter']
 
     # Dependencies for IMobileAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -301,7 +332,7 @@ abstract_target 'Default' do
   # MolocoAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MolocoAdapter')
 
-    pod 'GoogleMobileAdsMediationMoloco', :path => '../adapters/Moloco/CocoaPods/GoogleMobileAdsMediationMoloco.podspec.json'
+    pod 'GoogleMobileAdsMediationMoloco', :path => ADAPTER_PODSPECS['MolocoAdapter']
 
     # Dependencies for MolocoAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -316,7 +347,7 @@ abstract_target 'Default' do
   # AmazonAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('AmazonAdapter')
 
-    pod 'GoogleMobileAdsMediationAmazon', :path => '../adapters/prerelease/AmazonAdapter/CocoaPods/GoogleMobileAdsMediationAmazon.podspec.json'
+    pod 'GoogleMobileAdsMediationAmazon', :path => ADAPTER_PODSPECS['AmazonAdapter']
 
     # Dependencies for AmazonAdapter static library.
     target 'Adapter' do
@@ -331,7 +362,7 @@ abstract_target 'Default' do
   # PubMaticAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('PubMaticAdapter')
 
-    pod 'GoogleMobileAdsMediationPubMatic', :path => '../adapters/PubMatic/CocoaPods/GoogleMobileAdsMediationPubMatic.podspec.json'
+    pod 'GoogleMobileAdsMediationPubMatic', :path => ADAPTER_PODSPECS['PubMaticAdapter']
 
     # Dependencies for PubMaticAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -349,7 +380,7 @@ abstract_target 'Default' do
   # BidMachine and its test target.
   if adapter_targets.empty? || adapter_targets.include?('BidMachineAdapter')
 
-    pod 'GoogleMobileAdsMediationBidMachine', :path => '../adapters/BidMachine/CocoaPods/GoogleMobileAdsMediationBidMachine.podspec.json'
+    pod 'GoogleMobileAdsMediationBidMachine', :path => ADAPTER_PODSPECS['BidMachineAdapter']
 
     # Dependencies for BidMachine static library.
     target 'AdapterWithoutValidationScript' do
@@ -368,7 +399,7 @@ abstract_target 'Default' do
   # VerveAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('VerveAdapter')
 
-    pod 'GoogleMobileAdsMediationVerve', :path => '../adapters/Verve/CocoaPods/GoogleMobileAdsMediationVerve.podspec.json'
+    pod 'GoogleMobileAdsMediationVerve', :path => ADAPTER_PODSPECS['VerveAdapter']
 
     # Dependencies for Verve static library.
     target 'AdapterWithoutValidationScript' do
@@ -386,7 +417,7 @@ abstract_target 'Default' do
   # InMobi and its test target.
   if adapter_targets.empty? || adapter_targets.include?('InMobiAdapter')
 
-    pod 'GoogleMobileAdsMediationInMobi', :path => '../adapters/InMobiAdapter/CocoaPods/GoogleMobileAdsMediationInMobi.podspec.json'
+    pod 'GoogleMobileAdsMediationInMobi', :path => ADAPTER_PODSPECS['InMobiAdapter']
 
     # Dependencies for InMobi static library.
     target 'AdapterWithoutValidationScript' do
@@ -405,7 +436,7 @@ abstract_target 'Default' do
   # BigoAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('BigoAdapter')
 
-    pod 'GoogleMobileAdsMediationBigo', :path => '../adapters/Bigo/CocoaPods/GoogleMobileAdsMediationBigo.podspec.json'
+    pod 'GoogleMobileAdsMediationBigo', :path => ADAPTER_PODSPECS['BigoAdapter']
 
     # Dependencies for BigoAdapter static library.
     target 'AdapterWithoutValidationScript' do
@@ -417,4 +448,41 @@ abstract_target 'Default' do
 
   end
 
+end
+
+post_install do |installer|
+  # Deduplicate multiple platform variants of the same pod target (e.g. Google-Mobile-Ads-SDK-iOS13.0 vs -iOS15.0)
+  # to prevent Xcode multiple commands produce / race condition errors during parallel builds.
+  grouped = {}
+  installer.pods_project.targets.each do |t|
+    if t.name =~ /^(.*)-iOS(\d+\.\d+)(.*)$/
+      base = $1
+      ver = $2
+      suffix = $3
+      key = "#{base}#{suffix}"
+      grouped[key] ||= []
+      grouped[key] << { target: t, version: Gem::Version.new(ver), base: base, suffix: suffix }
+    end
+  end
+
+  grouped.each do |_key, list|
+    next if list.size <= 1
+    sorted = list.sort_by { |item| item[:version] }
+    highest = sorted.last[:target]
+    sorted[0...-1].each do |lower|
+      lower_target = lower[:target]
+      unless lower_target.dependencies.any? { |d| d.target == highest }
+        lower_target.add_dependency(highest)
+      end
+      lower_target.build_phases.each do |bp|
+        if bp.isa == 'PBXShellScriptBuildPhase' && bp.name == '[CP] Copy XCFrameworks'
+          bp.output_file_list_paths = []
+          bp.output_paths = []
+          bp.input_file_list_paths = []
+          bp.input_paths = []
+          bp.shell_script = "echo \"Using XCFramework from #{highest.name}\""
+        end
+      end
+    end
+  end
 end
