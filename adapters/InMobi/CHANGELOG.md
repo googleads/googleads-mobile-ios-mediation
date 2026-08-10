@@ -1,5 +1,7 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 11.4.1.0 (In progress)
+
 #### [Version 11.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.4.0.0.zip)
 - Verified compatibility with InMobi SDK 11.4.0.
 - Updated the minimum Google Mobile Ads iOS SDK version to `13.3` to relax and allow minor versions.
