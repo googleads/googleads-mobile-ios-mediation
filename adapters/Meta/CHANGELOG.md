@@ -1,6 +1,7 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
 #### Version 6.22.0.0 (In progress)
+- Now requires minimum iOS version 15.0.
 - Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 - Updated native ads to use the Meta Audience Network SDK's managed AdOptions view position API.
 
