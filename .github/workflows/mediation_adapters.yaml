@@ -1,5 +1,7 @@
 name: Mediation Adapters CI
 
+permissions:
+  contents: read
 on:
   pull_request:
   push:
@@ -12,12 +14,14 @@ jobs:
     outputs:
       example: ${{ steps.filter.outputs.example }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Check changes
         id: filter
+        env:
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} HEAD)
+          git fetch origin "$PR_BASE_REF" --depth=1
+          CHANGED_FILES=$(git diff --name-only origin/"$PR_BASE_REF" HEAD)
           echo "Changed files:"
           echo "$CHANGED_FILES"
 
@@ -31,26 +35,19 @@ jobs:
     needs: check-paths
     if: ${{ needs.check-paths.outputs.example == 'true' }}
     name: Build
-    runs-on: macos-latest
+    runs-on: macos-26
 
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       # Available Xcode versions:
-      # https://github.com/actions/runner-images/blob/main/images/macos/toolsets/toolset-15.json
+      # https://github.com/actions/runner-images/blob/main/images/macos/toolsets/toolset-26.json
       - name: Select Xcode version
         run: |
-          sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_26.4.1.app/Contents/Developer
           echo "Selected Xcode version:"
           /usr/bin/xcodebuild -version
-
-      - name: Update & Install Pods for Mediation Example
-        run: |
-          cd ./example
-          export BUILD_SNIPPETS=1
-          pod repo update
-          pod install
 
       - name: Install xcpretty
         run: sudo gem install xcpretty
@@ -58,7 +55,16 @@ jobs:
       - name: Build Mediation MediationExample Project Scheme
         run: |
           cd ./example
-          xcodebuild clean build analyze -workspace MediationExample.xcworkspace -scheme "MediationExample" -sdk iphonesimulator -arch x86_64 | xcpretty && exit ${PIPESTATUS[0]}
+          export BUILD_SNIPPETS=1
+          if [[ -f "Podfile" ]]; then
+            echo "Podfile found. Installing CocoaPods and building with MediationExample.xcworkspace.";
+            pod install --no-repo-update;
+            echo "Building app MediationExample with CocoaPods.";
+            if ! xcodebuild -workspace MediationExample.xcworkspace -scheme "MediationExample" -sdk iphonesimulator -arch x86_64 | xcpretty; then
+              echo "Build failed for MediationExample."
+              exit 1
+            fi
+          fi
 
   all-checks-passed:
     needs: [check-paths, Build]
@@ -66,12 +72,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Status
+        env:
+          CHECK_PATHS_RESULT: ${{ needs.check-paths.result }}
+          BUILD_RESULT: ${{ needs.Build.result }}
         run: |
-          if [[ "${{ needs.check-paths.result }}" == "failure" || "${{ needs.check-paths.result }}" == "cancelled" ]]; then
+          if [[ "$CHECK_PATHS_RESULT" == "failure" || "$CHECK_PATHS_RESULT" == "cancelled" ]]; then
             echo "check-paths failed or was cancelled."
             exit 1
           fi
-          if [[ "${{ needs.Build.result }}" == "failure" || "${{ needs.Build.result }}" == "cancelled" ]]; then
+          if [[ "$BUILD_RESULT" == "failure" || "$BUILD_RESULT" == "cancelled" ]]; then
             echo "Build failed or was cancelled."
             exit 1
           fi

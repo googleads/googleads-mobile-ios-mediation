@@ -9,14 +9,14 @@
     },
     "authors": "Google LLC",
     "platforms": {
-        "ios": "12.0"
+        "ios": "13.0"
     },
     "source_files": "**/*.{h,m,swift}",
     "requires_arc": true,
     "static_framework": true,
     "swift_version": "5.0",
     "dependencies": {
-        "Google-Mobile-Ads-SDK": "~> 12.0",
+        "Google-Mobile-Ads-SDK": "~> 13.0",
         "GoogleMobileAdsMediationAppLovin": [],
         "GoogleMobileAdsMediationFacebook": [],
         "GoogleMobileAdsMediationFyber": [],

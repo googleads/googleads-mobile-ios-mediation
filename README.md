@@ -1,5 +1,7 @@
 # Google Mobile Ads SDK for iOS
 
+[![Mediation Adapters CI](https://github.com/googleads/googleads-mobile-ios-mediation/actions/workflows/mediation_adapters.yaml/badge.svg)](https://github.com/googleads/googleads-mobile-ios-mediation/actions/workflows/mediation_adapters.yaml)
+
 The Google Mobile Ads SDK is the latest generation in Google mobile advertising
 featuring refined ad formats and streamlined APIs for access to mobile ad
 networks and advertising solutions. The SDK enables mobile app developers to
