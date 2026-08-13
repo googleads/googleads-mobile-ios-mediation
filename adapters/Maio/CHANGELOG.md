@@ -1,10 +1,13 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Version 2.2.2.0 (In progress)
+#### [Version 2.2.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.2.0.zip)
+- Verified compatibility with maio SDK version 2.2.2.
+- Now requires minimum iOS version `15.0`.
+- Updated the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
 
-#### Version 2.2.1.3 (In progress)
-- Update the minimum iOS version to relax Google Mobile Ads SDK dependency to allow minor versions.
-- Clean up Xcode project configurations.
+Built and tested with:
+- Google Mobile Ads SDK version 13.7.0.
+- Maio SDK version 2.2.2.
 
 #### [Version 2.2.1.2](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.1.2.zip)
 - Filter age-restricted requests for maio SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
