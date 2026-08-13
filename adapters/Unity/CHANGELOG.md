@@ -1,5 +1,9 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+
+- Updated to fail signal collection on empty bidding token.
+
 #### Version 4.19.0.1 (In progress)
 - Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the Unity Ads SDK if GDPR applies.
 

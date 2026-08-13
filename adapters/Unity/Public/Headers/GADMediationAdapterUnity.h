@@ -45,7 +45,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   /// UnityAds returned an initialization error
   GADMAdapterUnityErrorAdInitializationFailure = 110,
   /// Unsupported ad format.
-  GADMAdapterUnityErrorAdUnsupportedAdFormat = 111
+  GADMAdapterUnityErrorAdUnsupportedAdFormat = 111,
+  /// UnityAds returned a null or empty bidding token.
+  GADMAdapterUnityErrorEmptyBiddingToken = 112
 };
 
 /// Represents the result of a consent check for advertising purposes.
