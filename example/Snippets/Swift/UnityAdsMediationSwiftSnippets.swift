@@ -22,14 +22,6 @@ import UnityAds
 /// https://developers.google.com/ad-manager/mobile-ads-sdk/ios/mediation/unity
 private class UnityAdsMediationSwiftSnippets {
 
-  private func setGDPRConsent() {
-    // [START set_gdpr_meta_data]
-    let gdprMetaData = UADSMetaData()
-    gdprMetaData.set("gdpr.consent", value: true)
-    gdprMetaData.commit()
-    // [END set_gdpr_meta_data]
-  }
-
   private func setPrivacyConsent() {
     // [START set_ccpa_meta_data]
     let ccpaMetaData = UADSMetaData()
