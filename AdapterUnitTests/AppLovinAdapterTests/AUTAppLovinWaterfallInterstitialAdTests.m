@@ -39,9 +39,9 @@ static NSString *const kZoneId = @"1234567890123456";
   id _appLovinSdkMock;
   /// Mock for ALInterstitialAd.
   id _interstitialAdMock;
-  /// Mock for ALAdService
+  /// Mock for ALAdService.
   id _serviceMock;
-  /// Mock for GADMediationAdapterAppLovin class
+  /// Mock for GADMediationAdapterAppLovin class.
   id _adapterClassMock;
 
   /// Delegate for handling AppLovin SDK callbacks.
@@ -76,6 +76,17 @@ static NSString *const kZoneId = @"1234567890123456";
   // Reset child-directed and under-age tags.
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+
+  [GADMAdapterAppLovinMediationManager.sharedInstance removeInterstitialZoneIdentifier:kZoneId];
+  [GADMAdapterAppLovinMediationManager.sharedInstance removeInterstitialZoneIdentifier:@""];
+  [GADMAdapterAppLovinMediationManager.sharedInstance
+      removeInterstitialZoneIdentifier:@"1234567890123457"];
+  [GADMAdapterAppLovinMediationManager.sharedInstance
+      removeInterstitialZoneIdentifier:@"1234567890123458"];
+  [GADMAdapterAppLovinMediationManager.sharedInstance
+      removeInterstitialZoneIdentifier:@"1234567890123459"];
 
   [_appLovinSdkMock stopMocking];
   [_interstitialAdMock stopMocking];
@@ -86,22 +97,37 @@ static NSString *const kZoneId = @"1234567890123456";
   [super tearDown];
 }
 
-- (nonnull AUTKMediationInterstitialAdEventDelegate *)loadAd {
+- (nonnull AUTKMediationInterstitialAdEventDelegate *)loadAdWithZoneID:(nullable NSString *)zoneID {
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{@"sdkKey" : kSdkKey};
+  if (zoneID) {
+    credentials.settings = @{@"sdkKey" : kSdkKey, @"zone_id" : zoneID};
+  } else {
+    credentials.settings = @{@"sdkKey" : kSdkKey};
+  }
   config.credentials = credentials;
 
-  OCMStub([_serviceMock loadNextAd:ALAdSize.interstitial
-                         andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                           self->_appLovinDelegate = obj;
-                           return obj;
-                         }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:_adMock];
-      });
+  if (zoneID) {
+    OCMStub([_serviceMock loadNextAdForZoneIdentifier:zoneID
+                                            andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                              self->_appLovinDelegate = obj;
+                                              return obj;
+                                            }]])
+        .andDo(^(NSInvocation *invocation) {
+          [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
+        });
+  } else {
+    OCMStub([_serviceMock loadNextAd:ALAdSize.interstitial
+                           andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
+                             self->_appLovinDelegate = obj;
+                             return obj;
+                           }]])
+        .andDo(^(NSInvocation *invocation) {
+          [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
+        });
+  }
 
   AUTKMediationInterstitialAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadInterstitialAd(adapter, config);
@@ -110,34 +136,18 @@ static NSString *const kZoneId = @"1234567890123456";
   return eventDelegate;
 }
 
+- (nonnull AUTKMediationInterstitialAdEventDelegate *)loadAd {
+  return [self loadAdWithZoneID:nil];
+}
+
 #pragma mark - Ad Load events
 
 - (void)testLoadInterstitialAdWithoutZoneId {
-  [self loadAd];
+  [self loadAdWithZoneID:nil];
 }
 
 - (void)testLoadInterstitialAdWithZoneId {
-  AUTKMediationInterstitialAdConfiguration *config =
-      [[AUTKMediationInterstitialAdConfiguration alloc] init];
-  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{@"sdkKey" : kSdkKey, @"zone_id" : kZoneId};
-  config.credentials = credentials;
-  id adMock = OCMClassMock([ALAd class]);
-
-  OCMStub([_serviceMock loadNextAdForZoneIdentifier:kZoneId
-                                          andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                            self->_appLovinDelegate = obj;
-                                            return obj;
-                                          }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:adMock];
-      });
-
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
-      AUTKWaitAndAssertLoadInterstitialAd(adapter, config);
-  XCTAssertNotNil(eventDelegate);
-  OCMVerifyAll(_interstitialAdMock);
+  [self loadAdWithZoneID:kZoneId];
 }
 
 - (void)testLoadFailureIfAppLovinFailsToLoad {
@@ -191,6 +201,25 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 
+- (void)testLoadFailureIfALSdkSharedReturnsNil {
+  [_appLovinSdkMock stopMocking];
+  _appLovinSdkMock = OCMClassMock([ALSdk class]);
+  OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(nil);
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"sdkKey" : kSdkKey};
+  config.credentials = credentials;
+
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                 code:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
+                             userInfo:nil];
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
+}
+
+#pragma mark - Effects of child tag and under-age tag on ad load
+
 - (void)testLoadFailureIfUserIsTaggedAsChild {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   AUTKMediationInterstitialAdConfiguration *config =
@@ -213,22 +242,33 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 
-- (void)testLoadFailureIfALSdkSharedReturnsNil {
-  [_appLovinSdkMock stopMocking];
-  _appLovinSdkMock = OCMClassMock([ALSdk class]);
-  OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(nil);
+- (void)testLoadFailureIfUserIsTaggedAsChildWithAgeRestrictedTreatment {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   AUTKMediationInterstitialAdConfiguration *config =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{@"sdkKey" : kSdkKey};
-  config.credentials = credentials;
 
-  NSError *expectedError =
-      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
-                                 code:GADMAdapterAppLovinErrorAppLovinSDKNotInitialized
-                             userInfo:nil];
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
+
+- (void)testLoadSuccessIfChildTagIsNilAndUnderAgeTagIsNil {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+
+  [self loadAdWithZoneID:nil];
+}
+
+- (void)testLoadSuccessIfChildTagIsFalseAndUnderAgeTagIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  [self loadAdWithZoneID:nil];
+}
+
+#pragma mark - Duplicate ad load
 
 - (void)testSecondAdLoadSuccessAfterPreviousAdIsLoadedForSingleZoneId {
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
@@ -237,14 +277,13 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{@"sdkKey" : kSdkKey, @"zone_id" : kZoneId};
   config.credentials = credentials;
-  id adMock = OCMClassMock([ALAd class]);
   OCMStub([_serviceMock loadNextAdForZoneIdentifier:kZoneId
                                           andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
                                             self->_appLovinDelegate = obj;
                                             return obj;
                                           }]])
       .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:adMock];
+        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
       });
   AUTKMediationInterstitialAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadInterstitialAd(adapter, config);
@@ -289,6 +328,62 @@ static NSString *const kZoneId = @"1234567890123456";
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 
+- (void)testSecondAdLoadSuccessAfterPreviousAdIsShownAndDismissed {
+  NSString *zoneID = @"1234567890123458";
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"sdkKey" : kSdkKey, @"zone_id" : zoneID};
+  config.credentials = credentials;
+
+  // First ad load and show/hide.
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithZoneID:zoneID];
+  XCTAssertNotNil(eventDelegate);
+
+  [_appLovinDelegate ad:_adMock wasDisplayedIn:[[UIView alloc] init]];
+  [_appLovinDelegate ad:_adMock wasHiddenIn:[[UIView alloc] init]];
+
+  // Second ad load should succeed.
+  AUTKMediationInterstitialAdEventDelegate *secondEventDelegate = [self loadAdWithZoneID:zoneID];
+  XCTAssertNotNil(secondEventDelegate);
+}
+
+- (void)testSecondAdLoadSuccessAfterPreviousAdFailedToLoad {
+  NSString *zoneID = @"1234567890123459";
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"sdkKey" : kSdkKey, @"zone_id" : zoneID};
+  config.credentials = credentials;
+
+  __block BOOL shouldFail = YES;
+  OCMStub([_serviceMock loadNextAdForZoneIdentifier:zoneID
+                                          andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                            self->_appLovinDelegate = obj;
+                                            return obj;
+                                          }]])
+      .andDo(^(NSInvocation *invocation) {
+        if (shouldFail) {
+          [self->_appLovinDelegate adService:self->_serviceMock didFailToLoadAdWithError:1001];
+        } else {
+          [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
+        }
+      });
+
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.sdkErrorDomain
+                                 code:1001
+                             userInfo:nil];
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
+
+  // After failure, second ad load should succeed.
+  shouldFail = NO;
+  GADMediationAdapterAppLovin *secondAdapter = [[GADMediationAdapterAppLovin alloc] init];
+  AUTKMediationInterstitialAdEventDelegate *secondEventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(secondAdapter, config);
+  XCTAssertNotNil(secondEventDelegate);
+}
+
 #pragma mark - Ad Show
 
 - (void)testPresentCallsShowAdOnAppLovinSdk {
@@ -297,7 +392,19 @@ static NSString *const kZoneId = @"1234567890123456";
 
   [eventDelegate.interstitialAd presentFromViewController:rootViewController];
 
-  OCMVerify([_interstitialAdMock showAd:OCMOCK_ANY]);
+  OCMVerify([_interstitialAdMock showAd:_adMock]);
+}
+
+- (void)testPresentWhenAdNotLoadedDoesNotCallShowAd {
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  GADMWaterfallAppLovinInterstitialRenderer *renderer =
+      [[GADMWaterfallAppLovinInterstitialRenderer alloc] initWithAdConfiguration:config];
+  UIViewController *rootViewController = [[UIViewController alloc] init];
+
+  [renderer presentFromViewController:rootViewController];
+
+  OCMReject([_interstitialAdMock showAd:OCMOCK_ANY]);
 }
 
 #pragma mark - Ad Lifecycle events

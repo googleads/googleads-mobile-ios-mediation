@@ -155,14 +155,18 @@ public class GADMAdapterAppLovinUtils: NSObject {
   @objc public static func appLovinAdSize(fromRequestedSize size: AdSize) -> ALAdSize? {
     let isIPad = UIDevice.current.userInterfaceIdiom == .pad
     let banner = AdSizeBanner
+    let mrec = AdSizeMediumRectangle
     let leaderboard = AdSizeLeaderboard
-    var potentials = [nsValue(for: banner)]
+    var potentials = [nsValue(for: banner), nsValue(for: mrec)]
     if isIPad {
-      potentials = [nsValue(for: banner), nsValue(for: leaderboard)]
+      potentials = [nsValue(for: banner), nsValue(for: mrec), nsValue(for: leaderboard)]
     }
     let closestSize = closestValidSizeForAdSizes(original: size, possibleAdSizes: potentials)
     if isAdSizeEqualToSize(size1: closestSize, size2: banner) {
       return ALAdSize.banner
+    }
+    if isAdSizeEqualToSize(size1: closestSize, size2: mrec) {
+      return ALAdSize.mrec
     }
     if isAdSizeEqualToSize(size1: closestSize, size2: leaderboard) {
       return ALAdSize.leader

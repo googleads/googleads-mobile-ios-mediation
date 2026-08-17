@@ -28,10 +28,10 @@
 /// tests that GADMWaterfallAppLovinBannerRenderer correctly handles all the Banner ad lifecycle
 /// callbacks and that it returns the expected Banner ad view.
 @interface AUTAppLovinWaterfallBannerAdTests : XCTestCase
+@property(nonatomic, assign) UIUserInterfaceIdiom deviceUserInterfaceIdiom;
 @end
 
 // AppLovin expects an SDK Key of 86 characters
-
 static NSString *const kSDKKey =
     @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
 // AppLovin expects a zone ID of 16 characters
@@ -42,13 +42,14 @@ static NSString *const kZoneId = @"1234567890123456";
   GADMediationAdapterAppLovin *_adapter;
   /// Mock for ALSdk.
   id _appLovinSdkMock;
-
   /// Mock for ALAdView.
   id _appLovinAdViewMock;
-  /// Mock for ALAdService
+  /// Mock for ALAdService.
   id _serviceMock;
-  /// Mock for GADMediationAdapterAppLovin class
+  /// Mock for GADMediationAdapterAppLovin class.
   id _adapterClassMock;
+  /// Mock for UIDevice.
+  id _deviceMock;
 
   /// Delegate for handling AppLovin SDK callbacks.
   id<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate> _appLovinDelegate;
@@ -57,14 +58,24 @@ static NSString *const kZoneId = @"1234567890123456";
   id _adMock;
 }
 
+- (UIUserInterfaceIdiom)currentDeviceUserInterfaceIdiom {
+  return _deviceUserInterfaceIdiom;
+}
+
 - (void)setUp {
   [super setUp];
+  _deviceUserInterfaceIdiom = UIUserInterfaceIdiomPhone;
   _adapter = [[GADMediationAdapterAppLovin alloc] init];
 
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _appLovinAdViewMock = OCMClassMock([ALAdView class]);
   _serviceMock = OCMClassMock([ALAdService class]);
   _adapterClassMock = OCMClassMock([GADMediationAdapterAppLovin class]);
+  _deviceMock = OCMClassMock([UIDevice class]);
+
+  OCMStub(ClassMethod([_deviceMock currentDevice])).andReturn(_deviceMock);
+  OCMStub([_deviceMock userInterfaceIdiom])
+      .andCall(self, @selector(currentDeviceUserInterfaceIdiom));
 
   OCMStub(ClassMethod([_adapterClassMock createAdViewWith:OCMOCK_ANY size:OCMOCK_ANY]))
       .andReturn(_appLovinAdViewMock);
@@ -84,33 +95,53 @@ static NSString *const kZoneId = @"1234567890123456";
   // Reset child-directed and under-age tags.
   requestConfiguration.tagForChildDirectedTreatment = nil;
   requestConfiguration.tagForUnderAgeOfConsent = nil;
+  requestConfiguration.ageRestrictedTreatment = GADAgeRestrictedTreatmentUnspecified;
 
   [_appLovinSdkMock stopMocking];
   [_appLovinAdViewMock stopMocking];
   [_serviceMock stopMocking];
   [_adapterClassMock stopMocking];
+  [_deviceMock stopMocking];
   [_adMock stopMocking];
 
   [super tearDown];
 }
 
-/// Loads a banner ad on the adapter, asserts load success and returns the delegate for ad lifecycle
-/// events.
-- (nonnull AUTKMediationBannerAdEventDelegate *)loadAdAndAssertLoadSuccess {
+/// Loads a banner ad on the adapter with the specified size and zone ID, asserts load success,
+/// and returns the delegate for ad lifecycle events.
+- (nonnull AUTKMediationBannerAdEventDelegate *)loadAdWithSize:(GADAdSize)adSize
+                                                appLovinAdSize:(ALAdSize *)appLovinAdSize
+                                                        zoneID:(nullable NSString *)zoneID {
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{@"sdkKey" : kSDKKey};
+  if (zoneID) {
+    credentials.settings = @{@"sdkKey" : kSDKKey, @"zone_id" : zoneID};
+  } else {
+    credentials.settings = @{@"sdkKey" : kSDKKey};
+  }
   config.credentials = credentials;
-  config.adSize = GADAdSizeBanner;
-  OCMStub([_serviceMock loadNextAd:ALAdSize.banner
-                         andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                           self->_appLovinDelegate = obj;
-                           return obj;
-                         }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
-      });
+  config.adSize = adSize;
+
+  if (zoneID) {
+    OCMStub([_serviceMock loadNextAdForZoneIdentifier:zoneID
+                                            andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                              self->_appLovinDelegate = obj;
+                                              return obj;
+                                            }]])
+        .andDo(^(NSInvocation *invocation) {
+          [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
+        });
+  } else {
+    OCMStub([_serviceMock loadNextAd:appLovinAdSize
+                           andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
+                             self->_appLovinDelegate = obj;
+                             return obj;
+                           }]])
+        .andDo(^(NSInvocation *invocation) {
+          [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
+        });
+  }
 
   AUTKMediationBannerAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadBannerAd(adapter, config);
@@ -118,31 +149,38 @@ static NSString *const kZoneId = @"1234567890123456";
   return eventDelegate;
 }
 
+/// Loads a standard banner ad on the adapter, asserts load success and returns the delegate for
+/// ad lifecycle events.
+- (nonnull AUTKMediationBannerAdEventDelegate *)loadAdAndAssertLoadSuccess {
+  return [self loadAdWithSize:GADAdSizeBanner appLovinAdSize:ALAdSize.banner zoneID:nil];
+}
+
 #pragma mark - Ad Load events
 
 - (void)testLoadBannerAdWithoutZoneId {
-  [self loadAdAndAssertLoadSuccess];
+  [self loadAdWithSize:GADAdSizeBanner appLovinAdSize:ALAdSize.banner zoneID:nil];
 }
 
 - (void)testLoadBannerAdWithZoneId {
-  AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
-  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{@"sdkKey" : kSDKKey, @"zone_id" : kZoneId};
-  config.credentials = credentials;
-  config.adSize = GADAdSizeBanner;
-  OCMStub([_serviceMock loadNextAdForZoneIdentifier:kZoneId
-                                          andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                            self->_appLovinDelegate = obj;
-                                            return obj;
-                                          }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_appLovinDelegate adService:self->_serviceMock didLoadAd:self->_adMock];
-      });
+  [self loadAdWithSize:GADAdSizeBanner appLovinAdSize:ALAdSize.banner zoneID:kZoneId];
+}
 
-  AUTKMediationBannerAdEventDelegate *eventDelegate =
-      AUTKWaitAndAssertLoadBannerAd(adapter, config);
-  XCTAssertNotNil(eventDelegate);
+- (void)testLoadMrecBannerAdWithoutZoneId {
+  [self loadAdWithSize:GADAdSizeMediumRectangle appLovinAdSize:ALAdSize.mrec zoneID:nil];
+}
+
+- (void)testLoadMrecBannerAdWithZoneId {
+  [self loadAdWithSize:GADAdSizeMediumRectangle appLovinAdSize:ALAdSize.mrec zoneID:kZoneId];
+}
+
+- (void)testLoadLeaderboardBannerAdWithoutZoneId {
+  self.deviceUserInterfaceIdiom = UIUserInterfaceIdiomPad;
+  [self loadAdWithSize:GADAdSizeLeaderboard appLovinAdSize:ALAdSize.leader zoneID:nil];
+}
+
+- (void)testLoadLeaderboardBannerAdWithZoneId {
+  self.deviceUserInterfaceIdiom = UIUserInterfaceIdiomPad;
+  [self loadAdWithSize:GADAdSizeLeaderboard appLovinAdSize:ALAdSize.leader zoneID:kZoneId];
 }
 
 - (void)testLoadFailureIfAppLovinFailsToLoad {
@@ -303,6 +341,17 @@ static NSString *const kZoneId = @"1234567890123456";
 - (void)testLoadFailureIfChildTagIsTrueAndUnderAgeTagIsTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfUserIsTaggedAsChildWithAgeRestrictedTreatment {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
 
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinConstant.errorDomain
