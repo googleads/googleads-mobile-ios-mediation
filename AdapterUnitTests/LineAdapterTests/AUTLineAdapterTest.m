@@ -1,3 +1,17 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterLine.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -11,22 +25,30 @@
 #import "GADMediationAdapterLineExtras.h"
 #import "GADMediationAdapterLineUtils.h"
 
-@interface AUTLineAdapterTest : XCTestCase
+static NSString *const AUTLineTestApplicationID = @"12345";
+static NSString *const AUTLineTestSlotID = @"67890";
 
+@interface AUTLineAdapterTest : XCTestCase
 @end
 
-@implementation AUTLineAdapterTest
+@implementation AUTLineAdapterTest {
+  id _adsMock;
+}
 
--(void)setUp {
+- (void)setUp {
   [super setUp];
   GADMediationAdapterLineUnregisterFiveAd();
 }
 
 - (void)tearDown {
+  [_adsMock stopMocking];
+  _adsMock = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
+  [GADMediationAdapterLine setTestMode:NO];
+  GADMediationAdapterLineUnregisterFiveAd();
   [super tearDown];
 }
 
@@ -53,80 +75,111 @@
   XCTAssertLessThanOrEqual(version.patchVersion, 99);
 }
 
-- (void)testSetUp {
-  NSString *applicationID = @"12345";
+- (void)testAdSDKVersionWithInvalidVersion {
+  id settingsClassMock = OCMClassMock([FADSettings class]);
+  OCMStub(ClassMethod([settingsClassMock semanticVersion])).andReturn(@"1.0");
 
+  GADVersionNumber version = [GADMediationAdapterLine adSDKVersion];
+  XCTAssertEqual(version.majorVersion, 0);
+  XCTAssertEqual(version.minorVersion, 0);
+  XCTAssertEqual(version.patchVersion, 0);
+  [settingsClassMock stopMocking];
+}
+
+- (void)testSetUp {
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
-  OCMExpect(
-      ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                       FADConfig *config = (FADConfig *)obj;
-                                       XCTAssertEqual(config.needChildDirectedTreatment,
-                                                      kFADNeedChildDirectedTreatmentUnspecified);
-                                       XCTAssertTrue([config.appId isEqualToString:applicationID]);
-                                       return YES;
-                                     }]
-                                              outError:[OCMArg anyObjectRef]]));
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment,
+                       kFADNeedChildDirectedTreatmentUnspecified);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithChildTreatmentTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
 
-  NSString *applicationID = @"12345";
-
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithChildTreatmentFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
 
-  NSString *applicationID = @"12345";
-
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentFalse);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testSetUpWithChildTreatmentNil {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment,
+                       kFADNeedChildDirectedTreatmentUnspecified);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithUnderAgeOfConsentTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  NSString *applicationID = @"12345";
 
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -134,23 +187,22 @@
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithUnderAgeOfConsentFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  NSString *applicationID = @"12345";
 
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -158,99 +210,119 @@
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentFalse);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testSetUpWithUnderAgeOfConsentNil {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment,
+                       kFADNeedChildDirectedTreatmentUnspecified);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithChildDirectedTrueAndUnderAgeTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
 
-  NSString *applicationID = @"12345";
-
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithChildDirectedTrueAndUnderAgeFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
 
-  NSString *applicationID = @"12345";
-
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithChildDirectedFalseAndUnderAgeTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
 
-  NSString *applicationID = @"12345";
-
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithChildDirectedFalseAndUnderAgeFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  NSString *applicationID = @"12345";
 
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -258,24 +330,23 @@
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentFalse);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpWithAgeRestrictedTreatmentChild {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentChild;
-
-  NSString *applicationID = @"12345";
 
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -283,37 +354,130 @@
       adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
         FADConfig *config = (FADConfig *)obj;
         XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
-        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
         return YES;
       }]
                outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
-- (void)testFiveAdAlreadyRegistered {
-  NSString *applicationID = @"12345";
+- (void)testSetUpWithAgeRestrictedTreatmentTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
 
   // Mock FiveAd SDK.
-  id settingsClassMock = OCMClassMock([FADSettings class]);
-  OCMStub([settingsClassMock isConfigRegistered]).andReturn(YES);
-  OCMReject([settingsClassMock registerConfig:OCMOCK_ANY]);
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment,
+                       kFADNeedChildDirectedTreatmentUnspecified);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
 
   // Test.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
-  OCMVerifyAll(settingsClassMock);
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testSetUpWithAgeRestrictedTreatmentUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment,
+                       kFADNeedChildDirectedTreatmentUnspecified);
+        XCTAssertTrue([config.appId isEqualToString:AUTLineTestApplicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testFiveAdAlreadyRegistered {
+  // First register FiveAd.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  // Calling setup again when already registered should succeed without re-initializing.
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testFiveAdUnregistrationLifecycle {
+  NSError *error = nil;
+
+  // Before registration, FADAdLoader should return nil with error.
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  XCTAssertNil(adLoader);
+  XCTAssertNotNil(error);
+  XCTAssertEqual(error.code, GADMediationAdapterLineErrorFailedToInitializeAdLoader);
+  XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+
+  // Register FiveAd.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
+  NSError *registerError = GADMediationAdapterLineRegisterFiveAd(@[ credentials ]);
+  XCTAssertNil(registerError);
+
+  // After registration, FADAdLoader should be available.
+  error = nil;
+  adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  XCTAssertNotNil(adLoader);
+  XCTAssertNil(error);
+
+  // Unregister FiveAd.
+  GADMediationAdapterLineUnregisterFiveAd();
+
+  // After unregistration, FADAdLoader should return nil with error again.
+  error = nil;
+  adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  XCTAssertNil(adLoader);
+  XCTAssertNotNil(error);
+  XCTAssertEqual(error.code, GADMediationAdapterLineErrorFailedToInitializeAdLoader);
+  XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testTestModeEnabled {
-  // Mock FiveAd SDK.
-  NSString *applicationID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
@@ -325,14 +489,14 @@
   [GADMediationAdapterLine setTestMode:YES];
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testTestModeDisabled {
-  // Mock FiveAd SDK.
-  NSString *applicationID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
@@ -344,17 +508,17 @@
   [GADMediationAdapterLine setTestMode:NO];
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testMuted {
-  // Mock GoogleMobileAds SDK.
-  id adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
-  OCMStub([adsMock isApplicationMuted]).andReturn(YES);
+  _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
+  OCMStub([_adsMock isApplicationMuted]).andReturn(YES);
 
-  // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
                                                   outError:[OCMArg anyObjectRef]]));
@@ -364,20 +528,21 @@
   OCMStub([configMock initWithAppId:OCMOCK_ANY]).andReturn(configMock);
   OCMExpect([configMock enableSoundByDefault:NO]);
 
-  // Test.
-  NSString *applicationID = @"12345";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
   OCMVerifyAll(configMock);
+  [configMock stopMocking];
+  [adLoaderClassMock stopMocking];
+  [_adsMock stopMocking];
+  _adsMock = nil;
 }
 
 - (void)testNotMuted {
-  // Mock GoogleMobileAds SDK.
-  id adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
-  OCMStub([adsMock isApplicationMuted]).andReturn(NO);
+  _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
+  OCMStub([_adsMock isApplicationMuted]).andReturn(NO);
 
-  // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
                                                   outError:[OCMArg anyObjectRef]]));
@@ -387,16 +552,18 @@
   OCMStub([configMock initWithAppId:OCMOCK_ANY]).andReturn(configMock);
   OCMExpect([configMock enableSoundByDefault:YES]);
 
-  // Test.
-  NSString *applicationID = @"12345";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
   OCMVerifyAll(configMock);
+  [configMock stopMocking];
+  [adLoaderClassMock stopMocking];
+  [_adsMock stopMocking];
+  _adsMock = nil;
 }
 
 - (void)testSetUpWithMultipleApplicationIDs {
-  // Mock FiveAd SDK.
   NSString *applicationID1 = @"12345";
   NSString *applicationID2 = @"67890";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -409,7 +576,6 @@
                                            }]
                                                     outError:[OCMArg anyObjectRef]]));
 
-  // Test
   AUTKMediationCredentials *credentials1 = [[AUTKMediationCredentials alloc] init];
   credentials1.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID1};
   AUTKMediationCredentials *credentials2 = [[AUTKMediationCredentials alloc] init];
@@ -417,30 +583,246 @@
   AUTKWaitAndAssertAdapterSetUpWithCredentialsArray([GADMediationAdapterLine class],
                                                     @[ credentials1, credentials2 ]);
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testSetUpFailureByMissingApplicationID {
-  NSError *error =
+  NSError *expectedError =
       [[NSError alloc] initWithDomain:GADMediationAdapterLineErrorDomain
                                  code:GADMediationAdapterLineErrorInvalidServerParameters
                              userInfo:nil];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterLine class], credentials,
-                                                      error);
+                                                      expectedError);
 }
 
 - (void)testSetUpFailureByMissingCredentials {
-  NSError *error =
+  NSError *expectedError =
       [[NSError alloc] initWithDomain:GADMediationAdapterLineErrorDomain
                                  code:GADMediationAdapterLineErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertAdapterSetUpFailureWithCredentialsArray([GADMediationAdapterLine class], @[],
-                                                           error);
+                                                           expectedError);
+}
+
+- (void)testSetUpFailureByAdLoaderCreationError {
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  NSError *fiveAdError = [NSError errorWithDomain:@"com.five_corp.ad.error"
+                                             code:kFADErrorCodeInternalError
+                                         userInfo:nil];
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg setTo:fiveAdError]]))
+      .andReturn(nil);
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMediationAdapterFiveAdErrorDomain
+                                                      code:kFADErrorCodeInternalError
+                                                  userInfo:nil];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID};
+  AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterLine class], credentials,
+                                                      expectedError);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testNetworkExtras {
   XCTAssertEqual([GADMediationAdapterLine networkExtrasClass],
                  [GADMediationAdapterLineExtras class]);
+}
+
+- (void)testCollectSignalsSuccess {
+  // Register FiveAd first.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
+    GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
+  };
+  GADMediationAdapterLineRegisterFiveAd(@[ credentials ]);
+
+  NSString *expectedSignal = @"test_signal_data";
+  OCMExpect([adLoaderClassMock collectSignalWithSlotId:AUTLineTestSlotID
+                                    withSignalCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        void (^callback)(NSString *_Nullable signal, NSError *_Nullable error);
+        [invocation getArgument:&callback atIndex:3];
+        callback(expectedSignal, nil);
+      });
+
+  AUTKRTBMediationSignalsConfiguration *signalsConfig =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  signalsConfig.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = signalsConfig;
+
+  GADMediationAdapterLine *adapter = [[GADMediationAdapterLine alloc] init];
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Signals collected successfully."];
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertEqualObjects(signals, expectedSignal);
+                         XCTAssertNil(error);
+                         [expectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ expectation ] timeout:5.0];
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testCollectSignalsFailureForNoCredentials {
+  AUTKRTBMediationSignalsConfiguration *signalsConfig =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  signalsConfig.credentials = @[];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = signalsConfig;
+
+  GADMediationAdapterLine *adapter = [[GADMediationAdapterLine alloc] init];
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Signals collection failed for no credentials."];
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertNotNil(error);
+                         XCTAssertEqual(error.code,
+                                        GADMediationAdapterLineErrorFailedToCollectSignals);
+                         XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+                         [expectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ expectation ] timeout:5.0];
+}
+
+- (void)testCollectSignalsFailureForUnregisteredFiveAd {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
+    GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
+  };
+
+  AUTKRTBMediationSignalsConfiguration *signalsConfig =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  signalsConfig.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = signalsConfig;
+
+  GADMediationAdapterLine *adapter = [[GADMediationAdapterLine alloc] init];
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Signals collection failed for unregistered FiveAd."];
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertNotNil(error);
+                         XCTAssertEqual(error.code,
+                                        GADMediationAdapterLineErrorFailedToInitializeAdLoader);
+                         XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+                         [expectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ expectation ] timeout:5.0];
+}
+
+- (void)testCollectSignalsFailureForFiveAdError {
+  // Register FiveAd first.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
+    GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
+  };
+  GADMediationAdapterLineRegisterFiveAd(@[ credentials ]);
+
+  NSError *fiveAdError = [NSError errorWithDomain:@"com.five_corp.ad.error"
+                                             code:kFADErrorCodeNetworkError
+                                         userInfo:nil];
+  OCMExpect([adLoaderClassMock collectSignalWithSlotId:AUTLineTestSlotID
+                                    withSignalCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        void (^callback)(NSString *_Nullable signal, NSError *_Nullable error);
+        [invocation getArgument:&callback atIndex:3];
+        callback(nil, fiveAdError);
+      });
+
+  AUTKRTBMediationSignalsConfiguration *signalsConfig =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  signalsConfig.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = signalsConfig;
+
+  GADMediationAdapterLine *adapter = [[GADMediationAdapterLine alloc] init];
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Signals collection failed with FiveAd error."];
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertNotNil(error);
+                         XCTAssertEqual(error.code, kFADErrorCodeNetworkError);
+                         XCTAssertEqualObjects(error.domain, GADMediationAdapterFiveAdErrorDomain);
+                         [expectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ expectation ] timeout:5.0];
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testCollectSignalsFailureForNilSignal {
+  // Register FiveAd first.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
+    GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
+  };
+  GADMediationAdapterLineRegisterFiveAd(@[ credentials ]);
+
+  OCMExpect([adLoaderClassMock collectSignalWithSlotId:AUTLineTestSlotID
+                                    withSignalCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        void (^callback)(NSString *_Nullable signal, NSError *_Nullable error);
+        [invocation getArgument:&callback atIndex:3];
+        callback(nil, nil);
+      });
+
+  AUTKRTBMediationSignalsConfiguration *signalsConfig =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  signalsConfig.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = signalsConfig;
+
+  GADMediationAdapterLine *adapter = [[GADMediationAdapterLine alloc] init];
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Signals collection failed for nil signal."];
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertNotNil(error);
+                         XCTAssertEqual(error.code,
+                                        GADMediationAdapterLineErrorFailedToCollectSignals);
+                         XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+                         [expectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ expectation ] timeout:5.0];
+  OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 }
 
 @end

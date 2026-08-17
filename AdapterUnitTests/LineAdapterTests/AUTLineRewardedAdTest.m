@@ -1,3 +1,17 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterLine.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -11,11 +25,11 @@
 #import "GADMediationAdapterLineExtras.h"
 #import "GADMediationAdapterLineUtils.h"
 
-@interface AUTLineRewardedAdTest : XCTestCase
-
-@end
-
 static NSString *const AUTLineTestSlotID = @"12345";
+static NSString *const AUTLineTestApplicationID = @"123";
+
+@interface AUTLineRewardedAdTest : XCTestCase
+@end
 
 @implementation AUTLineRewardedAdTest {
   /// An adapter instance that is used to test loading a rewarded ad.
@@ -23,6 +37,9 @@ static NSString *const AUTLineTestSlotID = @"12345";
 
   /// A mock instance of FADVideoReward.
   id _rewardedMock;
+
+  /// Partial mock of GADMobileAds.sharedInstance if used.
+  id _adsMock;
 }
 
 - (void)setUp {
@@ -32,11 +49,22 @@ static NSString *const AUTLineTestSlotID = @"12345";
   _adapter = [[GADMediationAdapterLine alloc] init];
 
   _rewardedMock = OCMClassMock([FADVideoReward class]);
-  OCMStub([_rewardedMock alloc]).andReturn(_rewardedMock);
+  OCMStub([_rewardedMock alloc]).andDo(^(NSInvocation *invocation) {
+    id mock = self->_rewardedMock;
+    CFRetain((__bridge CFTypeRef)mock);
+    [invocation setReturnValue:&mock];
+  });
   OCMStub([_rewardedMock initWithSlotId:AUTLineTestSlotID]).andReturn(_rewardedMock);
+}
 
-  id configClassMock = OCMClassMock([FADSettings class]);
-  OCMStub([configClassMock registerConfig:OCMOCK_ANY]);
+- (void)tearDown {
+  GADMediationAdapterLineUnregisterFiveAd();
+  [_rewardedMock stopMocking];
+  _rewardedMock = nil;
+  [_adsMock stopMocking];
+  _adsMock = nil;
+  GADMobileAds.sharedInstance.applicationMuted = NO;
+  [super tearDown];
 }
 
 - (nonnull id<GADMediationRewardedAdEventDelegate>)
@@ -60,7 +88,8 @@ static NSString *const AUTLineTestSlotID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
-                                             XCTAssertTrue([config.appId isEqualToString:@"123"]);
+                                             XCTAssertTrue([config.appId
+                                                 isEqualToString:AUTLineTestApplicationID]);
                                              return YES;
                                            }]
                                                     outError:[OCMArg anyObjectRef]]));
@@ -68,7 +97,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
   // Test loading a rewarded ad.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
     GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
   };
   AUTKMediationRewardedAdConfiguration *configuration =
@@ -80,6 +109,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_rewardedMock);
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 
   return delegate;
 }
@@ -90,17 +120,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
 }
 
 - (void)testLoadBiddingRewardedAd {
-  // Mock FiveAd SDK.
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_rewardedMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
-  OCMStub([_rewardedMock setEventListener:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    id<FADVideoRewardEventListener> eventListener = nil;
-    [invocation getArgument:&eventListener atIndex:2];
-    XCTAssertTrue([eventListener conformsToProtocol:@protocol(FADVideoRewardEventListener)]);
-  });
-
   NSString *bidResponse = @"bidResponse";
   NSString *watermark = @"watermark";
   NSData *watermarkData = [watermark dataUsingEncoding:NSUTF8StringEncoding];
@@ -111,21 +130,24 @@ static NSString *const AUTLineTestSlotID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
-                                             XCTAssertTrue([config.appId isEqualToString:@"123"]);
+                                             XCTAssertTrue([config.appId
+                                                 isEqualToString:AUTLineTestApplicationID]);
                                              return YES;
                                            }]
                                                     outError:[OCMArg anyObjectRef]]))
       .andReturn(adLoaderClassMock);
 
-  // Test loading a rewarded ad.
+  OCMExpect([_rewardedMock setEventListener:OCMOCK_ANY]);
+  OCMExpect([_rewardedMock enableSound:YES]);
+
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
     GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
   };
   OCMExpect([adLoaderClassMock loadRewardAdWithBidData:bidData withLoadCallback:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(FADAdViewCustomLayout *_Nullable customLayout,
+        __unsafe_unretained void (^completionHandler)(FADVideoReward *_Nullable customLayout,
                                                       NSError *_Nullable adLoadError);
         [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(self->_rewardedMock, nil);
@@ -141,6 +163,63 @@ static NSString *const AUTLineTestSlotID = @"12345";
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_rewardedMock);
   OCMVerifyAll(adLoaderClassMock);
+  OCMVerifyAll(bidData);
+  [bidData stopMocking];
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testLoadBiddingRewardedAdFailureForFiveAdError {
+  NSString *bidResponse = @"bidResponse";
+  id bidData = OCMClassMock([FADBidData class]);
+  OCMStub([bidData alloc]).andReturn(bidData);
+  OCMStub([bidData initWithBidResponse:OCMOCK_ANY withWatermark:OCMOCK_ANY]).andReturn(bidData);
+
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+
+  FADErrorCode code = kFADErrorCodeNoAd;
+  NSError *fiveAdError = [NSError errorWithDomain:@"com.five_corp.ad.error" code:code userInfo:nil];
+  OCMExpect([adLoaderClassMock loadRewardAdWithBidData:bidData withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADVideoReward *_Nullable customLayout,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil, fiveAdError);
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
+    GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
+  };
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = bidResponse;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMediationAdapterFiveAdErrorDomain
+                                                      code:code
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
+  [bidData stopMocking];
+  [adLoaderClassMock stopMocking];
+}
+
+- (void)testLoadRewardedAdAudioDefaultMuted {
+  _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
+  OCMStub([_adsMock isApplicationMuted]).andReturn(YES);
+  [self loadRewardedAdWithExtra:nil expectSoundEnabled:NO];
+  [_adsMock stopMocking];
+  _adsMock = nil;
+}
+
+- (void)testLoadRewardedAdAudioDefaultUnmuted {
+  _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
+  OCMStub([_adsMock isApplicationMuted]).andReturn(NO);
+  [self loadRewardedAdWithExtra:nil expectSoundEnabled:YES];
+  [_adsMock stopMocking];
+  _adsMock = nil;
 }
 
 - (void)testLoadRewardedAdAudioUnset {
@@ -163,9 +242,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
 }
 
 - (void)testLoadRewardedAdFailureForMissingSlotID {
-  // Mock FiveAd SDK.
-  id _rewardedMock = OCMClassMock([FADVideoReward class]);
-  OCMStub([_rewardedMock alloc]).andReturn(_rewardedMock);
   OCMReject([_rewardedMock loadAdAsync]);
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
@@ -174,7 +250,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
   // Test missing slot ID by omitting slot id from credential settings.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
   };
   AUTKMediationRewardedAdConfiguration *configuration =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
@@ -185,20 +261,17 @@ static NSString *const AUTLineTestSlotID = @"12345";
                              userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
   OCMVerifyAll(_rewardedMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testLoadRewardedAdFailureForFiveAdSDKFailedToReceiveAd {
-  // Mock FiveAd SDK.
-  id _rewardedMock = OCMClassMock([FADVideoReward class]);
-  OCMStub([_rewardedMock alloc]).andReturn(_rewardedMock);
-  OCMStub([_rewardedMock initWithSlotId:AUTLineTestSlotID]).andReturn(_rewardedMock);
   __block id<FADLoadDelegate> loadDelegate = nil;
   OCMStub([_rewardedMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
   FADErrorCode code = kFADErrorCodeNoAd;
   OCMExpect([_rewardedMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAd:_rewardedMock didFailedToReceiveAdWithError:code];
+    [loadDelegate fiveAd:self->_rewardedMock didFailedToReceiveAdWithError:code];
   });
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
@@ -207,7 +280,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
   // Test fail to receive an ad from FiveAd SDK.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
     GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID
   };
   AUTKMediationRewardedAdConfiguration *configuration =
@@ -218,6 +291,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
   OCMVerifyAll(_rewardedMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testRewardedAdPresent {
@@ -225,7 +299,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
       [self loadRewardedAdWithExtra:nil
                  expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
 
-  // Mock FiveAd SDK.
   FADVideoReward *rewardedAd = (FADVideoReward *)_rewardedMock;
   UIViewController *viewController = [[UIViewController alloc] init];
   OCMExpect([rewardedAd showWithViewController:viewController]);
@@ -243,7 +316,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
                  expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADVideoRewardEventListener> listener = (id<FADVideoRewardEventListener>)delegate.rewardedAd;
   [listener fiveVideoRewardAdDidClick:_rewardedMock];
-  XCTAssertTrue(delegate.reportClickInvokeCount == 1);
+  XCTAssertEqual(delegate.reportClickInvokeCount, 1);
 }
 
 - (void)testImpression {
@@ -252,11 +325,10 @@ static NSString *const AUTLineTestSlotID = @"12345";
                  expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADVideoRewardEventListener> listener = (id<FADVideoRewardEventListener>)delegate.rewardedAd;
   [listener fiveVideoRewardAdDidImpression:_rewardedMock];
-  XCTAssertTrue(delegate.reportImpressionInvokeCount == 1);
+  XCTAssertEqual(delegate.reportImpressionInvokeCount, 1);
 }
 
 - (void)testRewarded {
-  // Mock FiveAd SDK.
   FADVideoReward *rewardedAd = (FADVideoReward *)_rewardedMock;
 
   // Test that a reward is granted when the user closes the loaded ad after finishing watching it.
@@ -269,18 +341,21 @@ static NSString *const AUTLineTestSlotID = @"12345";
   XCTAssertEqual(delegate.didRewardUserInvokeCount, 1);
 }
 
-- (void)testAdClose {
-  // Mock FiveAd SDK.
+- (void)testVideoLifecycleEvents {
   FADVideoReward *rewardedAd = (FADVideoReward *)_rewardedMock;
 
-  // Test that a reward is granted when the user closes the loaded ad after finishing watching it.
   AUTKMediationRewardedAdEventDelegate *delegate =
       [self loadRewardedAdWithExtra:nil
                  expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADVideoRewardEventListener> listener = (id<FADVideoRewardEventListener>)delegate.rewardedAd;
+
   [listener fiveVideoRewardAdDidPlay:rewardedAd];
-  [listener fiveVideoRewardAdFullScreenDidClose:rewardedAd];
   XCTAssertEqual(delegate.didStartVideoInvokeCount, 1);
+
+  [listener fiveVideoRewardAdDidViewThrough:rewardedAd];
+  XCTAssertEqual(delegate.didEndVideoInvokeCount, 1);
+
+  [listener fiveVideoRewardAdFullScreenDidClose:rewardedAd];
   XCTAssertEqual(delegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
@@ -307,8 +382,8 @@ static NSString *const AUTLineTestSlotID = @"12345";
                  expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADVideoRewardEventListener> listener = (id<FADVideoRewardEventListener>)delegate.rewardedAd;
 
-  [listener fiveVideoRewardAdFullScreenDidOpen:OCMOCK_ANY];
-  [listener fiveVideoRewardAdDidPause:OCMOCK_ANY];
+  [listener fiveVideoRewardAdFullScreenDidOpen:_rewardedMock];
+  [listener fiveVideoRewardAdDidPause:_rewardedMock];
 }
 
 @end

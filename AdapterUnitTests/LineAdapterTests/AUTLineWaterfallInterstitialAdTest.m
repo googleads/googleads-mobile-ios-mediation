@@ -1,3 +1,17 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterLine.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -12,6 +26,7 @@
 #import "GADMediationAdapterLineUtils.h"
 
 static NSString *const kTestSlotID = @"12345";
+static NSString *const kTestApplicationID = @"123";
 
 @interface AUTLineWaterfallInterstitialAdTest : XCTestCase
 @end
@@ -22,20 +37,34 @@ static NSString *const kTestSlotID = @"12345";
 
   /// A mock instance of FADInterstitial.
   id _interstitialMock;
+
+  /// Partial mock of GADMobileAds.sharedInstance if used.
+  id _adsMock;
 }
 
 - (void)setUp {
   [super setUp];
   GADMediationAdapterLineUnregisterFiveAd();
-  
+
   _adapter = [[GADMediationAdapterLine alloc] init];
 
   _interstitialMock = OCMClassMock([FADInterstitial class]);
-  OCMStub([_interstitialMock alloc]).andReturn(_interstitialMock);
+  OCMStub([_interstitialMock alloc]).andDo(^(NSInvocation *invocation) {
+    id mock = self->_interstitialMock;
+    CFRetain((__bridge CFTypeRef)mock);
+    [invocation setReturnValue:&mock];
+  });
   OCMStub([_interstitialMock initWithSlotId:kTestSlotID]).andReturn(_interstitialMock);
+}
 
-  id configClassMock = OCMClassMock([FADSettings class]);
-  OCMStub([configClassMock registerConfig:OCMOCK_ANY]);
+- (void)tearDown {
+  GADMediationAdapterLineUnregisterFiveAd();
+  [_interstitialMock stopMocking];
+  _interstitialMock = nil;
+  [_adsMock stopMocking];
+  _adsMock = nil;
+  GADMobileAds.sharedInstance.applicationMuted = NO;
+  [super tearDown];
 }
 
 - (nonnull id<GADMediationInterstitialAdEventDelegate>)
@@ -54,7 +83,8 @@ static NSString *const kTestSlotID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
-                                             XCTAssertTrue([config.appId isEqualToString:@"123"]);
+                                             XCTAssertTrue(
+                                                 [config.appId isEqualToString:kTestApplicationID]);
                                              return YES;
                                            }]
                                                     outError:[OCMArg anyObjectRef]]));
@@ -62,7 +92,7 @@ static NSString *const kTestSlotID = @"12345";
   // Test loading an interstitial ad.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : kTestApplicationID,
     GADMediationAdapterLineCredentialKeyAdUnit : kTestSlotID
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
@@ -74,6 +104,7 @@ static NSString *const kTestSlotID = @"12345";
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_interstitialMock);
   OCMVerifyAll(adLoaderClassMock);
+  [adLoaderClassMock stopMocking];
 
   return delegate;
 }
@@ -81,6 +112,22 @@ static NSString *const kTestSlotID = @"12345";
 - (void)testLoadInterstitialAd {
   [self loadInterstitialAdWithExtra:nil
                  expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
+}
+
+- (void)testLoadInterstitialAdAudioDefaultMuted {
+  _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
+  OCMStub([_adsMock isApplicationMuted]).andReturn(YES);
+  [self loadInterstitialAdWithExtra:nil expectSoundEnabled:NO];
+  [_adsMock stopMocking];
+  _adsMock = nil;
+}
+
+- (void)testLoadInterstitialAdAudioDefaultUnmuted {
+  _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
+  OCMStub([_adsMock isApplicationMuted]).andReturn(NO);
+  [self loadInterstitialAdWithExtra:nil expectSoundEnabled:YES];
+  [_adsMock stopMocking];
+  _adsMock = nil;
 }
 
 - (void)testLoadInterstitialAdAudioUnset {
@@ -103,9 +150,6 @@ static NSString *const kTestSlotID = @"12345";
 }
 
 - (void)testLoadInterstitialAdFailureForMissingSlotID {
-  // Mock FiveAd SDK.
-  id _interstitialMock = OCMClassMock([FADInterstitial class]);
-  OCMStub([_interstitialMock alloc]).andReturn(_interstitialMock);
   OCMReject([_interstitialMock loadAdAsync]);
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
@@ -114,7 +158,7 @@ static NSString *const kTestSlotID = @"12345";
   // Test missing slot ID by omitting slot id from credential settings.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : kTestApplicationID,
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
@@ -125,20 +169,17 @@ static NSString *const kTestSlotID = @"12345";
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
   OCMVerifyAll(_interstitialMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testLoadInterstitialAdFailureForFiveAdSDKFailedToReceiveAd {
-  // Mock FiveAd SDK.
-  id _interstitialMock = OCMClassMock([FADInterstitial class]);
-  OCMStub([_interstitialMock alloc]).andReturn(_interstitialMock);
-  OCMStub([_interstitialMock initWithSlotId:kTestSlotID]).andReturn(_interstitialMock);
   __block id<FADLoadDelegate> loadDelegate = nil;
   OCMStub([_interstitialMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
   FADErrorCode code = kFADErrorCodeNoAd;
   OCMExpect([_interstitialMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAd:_interstitialMock didFailedToReceiveAdWithError:code];
+    [loadDelegate fiveAd:self->_interstitialMock didFailedToReceiveAdWithError:code];
   });
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
@@ -147,7 +188,7 @@ static NSString *const kTestSlotID = @"12345";
   // Test fail to receive ad from FiveAd SDK.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
+    GADMediationAdapterLineCredentialKeyApplicationID : kTestApplicationID,
     GADMediationAdapterLineCredentialKeyAdUnit : kTestSlotID
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
@@ -158,17 +199,14 @@ static NSString *const kTestSlotID = @"12345";
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
   OCMVerifyAll(_interstitialMock);
+  [adLoaderClassMock stopMocking];
 }
 
 - (void)testInterstitialAdPresent {
   AUTKMediationInterstitialAdEventDelegate *delegate =
       [self loadInterstitialAdWithExtra:nil
                      expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
-  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
-  OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
 
-  // Mock FiveAd SDK.
   FADInterstitial *interstitialAd = (FADInterstitial *)_interstitialMock;
   UIViewController *viewController = [[UIViewController alloc] init];
   OCMExpect([interstitialAd showWithViewController:viewController]);
@@ -186,8 +224,8 @@ static NSString *const kTestSlotID = @"12345";
                      expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADInterstitialEventListener> listener =
       (id<FADInterstitialEventListener>)delegate.interstitialAd;
-  [listener fiveInterstitialAdDidClick:OCMOCK_ANY];
-  XCTAssertTrue(delegate.reportClickInvokeCount == 1);
+  [listener fiveInterstitialAdDidClick:_interstitialMock];
+  XCTAssertEqual(delegate.reportClickInvokeCount, 1);
 }
 
 - (void)testImpression {
@@ -196,8 +234,8 @@ static NSString *const kTestSlotID = @"12345";
                      expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADInterstitialEventListener> listener =
       (id<FADInterstitialEventListener>)delegate.interstitialAd;
-  [listener fiveInterstitialAdDidImpression:OCMOCK_ANY];
-  XCTAssertTrue(delegate.reportImpressionInvokeCount == 1);
+  [listener fiveInterstitialAdDidImpression:_interstitialMock];
+  XCTAssertEqual(delegate.reportImpressionInvokeCount, 1);
 }
 
 - (void)testAdClose {
@@ -206,8 +244,8 @@ static NSString *const kTestSlotID = @"12345";
                      expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADInterstitialEventListener> listener =
       (id<FADInterstitialEventListener>)delegate.interstitialAd;
-  [listener fiveInterstitialAdFullScreenDidClose:OCMOCK_ANY];
-  XCTAssertTrue(delegate.didDismissFullScreenViewInvokeCount == 1);
+  [listener fiveInterstitialAdFullScreenDidClose:_interstitialMock];
+  XCTAssertEqual(delegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
 - (void)testFailToShowAd {
@@ -217,7 +255,7 @@ static NSString *const kTestSlotID = @"12345";
   id<FADInterstitialEventListener> listener =
       (id<FADInterstitialEventListener>)delegate.interstitialAd;
   FADErrorCode expectedErrorCode = kFADErrorCodePlayerError;
-  [listener fiveInterstitialAd:OCMOCK_ANY didFailedToShowAdWithError:expectedErrorCode];
+  [listener fiveInterstitialAd:_interstitialMock didFailedToShowAdWithError:expectedErrorCode];
   NSError *presentError = delegate.didFailToPresentError;
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMediationAdapterFiveAdErrorDomain
                                                       code:expectedErrorCode
@@ -234,10 +272,10 @@ static NSString *const kTestSlotID = @"12345";
                      expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
   id<FADInterstitialEventListener> listener =
       (id<FADInterstitialEventListener>)delegate.interstitialAd;
-  [listener fiveInterstitialAdFullScreenDidOpen:OCMOCK_ANY];
-  [listener fiveInterstitialAdDidPlay:OCMOCK_ANY];
-  [listener fiveInterstitialAdDidPause:OCMOCK_ANY];
-  [listener fiveInterstitialAdDidViewThrough:OCMOCK_ANY];
+  [listener fiveInterstitialAdFullScreenDidOpen:_interstitialMock];
+  [listener fiveInterstitialAdDidPlay:_interstitialMock];
+  [listener fiveInterstitialAdDidPause:_interstitialMock];
+  [listener fiveInterstitialAdDidViewThrough:_interstitialMock];
 }
 
 @end
