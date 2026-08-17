@@ -63,6 +63,26 @@ final class BidMachineRTBBannerAdTests {
     AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
+  @Test("RTB banner ad load forwards the placement ID from the ad configuration")
+  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.credentials = credentials
+    adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
+    adConfig.adSize = AdSizeBanner
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+    // The adapter dispatches the load in a main actor task. Yield until the task runs.
+    for _ in 0..<100 where client.placementId == nil {
+      await Task.yield()
+    }
+    #expect(client.placementId == "test_placement_id")
+  }
+
   @Test("RTB banner ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -170,6 +190,24 @@ final class BidMachineWaterfallBannerAdTests {
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+  }
+
+  @Test("Waterfall banner ad load forwards the placement ID from the ad configuration")
+  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.credentials = credentials
+    adConfig.adSize = AdSizeBanner
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+    // The adapter dispatches the load in a main actor task. Yield until the task runs.
+    for _ in 0..<100 where client.placementId == nil {
+      await Task.yield()
+    }
+    #expect(client.placementId == "test_placement_id")
   }
 
   @Test("Waterfall banner ad load fails for failing to create a request config")

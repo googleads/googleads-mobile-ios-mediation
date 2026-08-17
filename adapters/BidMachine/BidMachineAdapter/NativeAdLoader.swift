@@ -53,7 +53,9 @@ final class NativeAdLoader: NSObject {
 
   private func loadWaterfallAd() {
     do {
-      try client.loadWaterfallNativeAd(delegate: self) {
+      try client.loadWaterfallNativeAd(
+        delegate: self, placementId: Util.placementId(from: adConfiguration)
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
@@ -78,7 +80,10 @@ final class NativeAdLoader: NSObject {
     }
 
     do {
-      try client.loadRTBNativeAd(with: bidResponse, delegate: self, watermark: watermark) {
+      try client.loadRTBNativeAd(
+        with: bidResponse, delegate: self, placementId: Util.placementId(from: adConfiguration),
+        watermark: watermark
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {

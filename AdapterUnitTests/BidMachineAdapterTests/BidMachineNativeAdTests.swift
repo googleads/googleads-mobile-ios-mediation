@@ -43,6 +43,25 @@ final class BidMachineRTBNativeAdTests {
     AUTKWaitAndAssertLoadNativeAd(adapter, adConfig)
   }
 
+  @Test("RTB native ad load forwards the placement ID from the ad configuration")
+  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let adConfig = AUTKMediationNativeAdConfiguration()
+    adConfig.credentials = credentials
+    adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadNativeAd(adapter, adConfig)
+    // The adapter dispatches the load in a main actor task. Yield until the task runs.
+    for _ in 0..<100 where client.placementId == nil {
+      await Task.yield()
+    }
+    #expect(client.placementId == "test_placement_id")
+  }
+
   @Test("RTB native ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -113,6 +132,23 @@ final class BidMachineWaterfallNativeAdTests {
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadNativeAd(adapter, adConfig)
+  }
+
+  @Test("Waterfall native ad load forwards the placement ID from the ad configuration")
+  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let adConfig = AUTKMediationNativeAdConfiguration()
+    adConfig.credentials = credentials
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadNativeAd(adapter, adConfig)
+    // The adapter dispatches the load in a main actor task. Yield until the task runs.
+    for _ in 0..<100 where client.placementId == nil {
+      await Task.yield()
+    }
+    #expect(client.placementId == "test_placement_id")
   }
 
   @Test("Waterfall native ad load fails for failing to create a request config")

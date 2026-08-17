@@ -53,7 +53,9 @@ final class RewardedAdLoader: NSObject {
 
   private func loadWaterfallAd() {
     do {
-      try client.loadWaterfallRewardedAd(delegate: self) {
+      try client.loadWaterfallRewardedAd(
+        delegate: self, placementId: Util.placementId(from: adConfiguration)
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
@@ -78,7 +80,10 @@ final class RewardedAdLoader: NSObject {
     }
 
     do {
-      try client.loadRTBRewardedAd(with: bidResponse, delegate: self, watermark: watermark) {
+      try client.loadRTBRewardedAd(
+        with: bidResponse, delegate: self, placementId: Util.placementId(from: adConfiguration),
+        watermark: watermark
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {

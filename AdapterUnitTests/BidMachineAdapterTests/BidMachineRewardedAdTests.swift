@@ -40,6 +40,25 @@ final class BidMachineRTBRewardedAdTests {
     AUTKWaitAndAssertLoadRewardedAd(adapter, adConfig)
   }
 
+  @Test("RTB rewarded ad load forwards the placement ID from the ad configuration")
+  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    adConfig.credentials = credentials
+    adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadRewardedAd(adapter, adConfig)
+    // The adapter dispatches the load in a main actor task. Yield until the task runs.
+    for _ in 0..<100 where client.placementId == nil {
+      await Task.yield()
+    }
+    #expect(client.placementId == "test_placement_id")
+  }
+
   @Test("RTB rewarded ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -171,6 +190,23 @@ final class BidMachineWaterfallRewardedAdTests {
     let adapter = BidMachineAdapter()
 
     AUTKWaitAndAssertLoadRewardedAd(adapter, adConfig)
+  }
+
+  @Test("Waterfall rewarded ad load forwards the placement ID from the ad configuration")
+  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["placement_id": "test_placement_id"]
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    adConfig.credentials = credentials
+    let adapter = BidMachineAdapter()
+
+    AUTKWaitAndAssertLoadRewardedAd(adapter, adConfig)
+    // The adapter dispatches the load in a main actor task. Yield until the task runs.
+    for _ in 0..<100 where client.placementId == nil {
+      await Task.yield()
+    }
+    #expect(client.placementId == "test_placement_id")
   }
 
   @Test("Waterfall rewarded ad load fails for failing to create a request config")

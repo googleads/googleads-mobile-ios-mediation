@@ -30,6 +30,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
   var isCOPPA: Bool?
+  nonisolated(unsafe) var placementId: String?
   var shouldBidMachineSucceedCreatingRequestConfig = true
   var shouldBidMachineSucceedCreatingAd = true
   var shouldBidMachineSucceedLoadingAd = true
@@ -47,10 +48,12 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   nonisolated func collectSignals(
     for adFormat: GoogleMobileAds.AdFormat,
     size: AdSize?,
+    placementId: String?,
     completionHandler: @escaping (String?) -> Void
   )
     throws
   {
+    self.placementId = placementId
     if !FakeBidMachineClient.supportedFormats.contains(adFormat) {
       throw BidMachineAdapterError(
         errorCode: .invalidRTBRequestParameters, description: "test description.")
@@ -66,9 +69,10 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   }
 
   func loadWaterfallBannerAd(
-    size: AdSize, delegate: any BidMachineAdDelegate,
+    size: AdSize, delegate: any BidMachineAdDelegate, placementId: String?,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     let closestAdSize = closestValidSizeForAdSizes(
       original: size,
       possibleAdSizes: [
@@ -104,9 +108,11 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
     with bidResponse: String,
     size: AdSize,
     delegate: any BidMachineAdDelegate,
+    placementId: String?,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
@@ -128,8 +134,10 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   }
 
   func loadWaterfallInterstitialAd(
-    delegate: any BidMachine.BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void
+    delegate: any BidMachine.BidMachineAdDelegate, placementId: String?,
+    completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
@@ -156,9 +164,11 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   func loadRTBInterstitialAd(
     with bidResponse: String,
     delegate: any BidMachine.BidMachineAdDelegate,
+    placementId: String?,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
@@ -196,8 +206,10 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   func loadWaterfallRewardedAd(
     delegate: any BidMachineAdDelegate,
+    placementId: String?,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
@@ -222,9 +234,11 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   func loadRTBRewardedAd(
     with bidResponse: String,
     delegate: any BidMachine.BidMachineAdDelegate,
+    placementId: String?,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
@@ -261,9 +275,11 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   func loadRTBNativeAd(
     with bidResponse: String,
     delegate: any BidMachine.BidMachineAdDelegate,
+    placementId: String?,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
@@ -287,8 +303,10 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   func loadWaterfallNativeAd(
     delegate: any BidMachine.BidMachineAdDelegate,
+    placementId: String?,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    self.placementId = placementId
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }

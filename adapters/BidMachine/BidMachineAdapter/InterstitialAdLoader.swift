@@ -53,7 +53,9 @@ final class InterstitialAdLoader: NSObject {
 
   private func loadWaterfallAd() {
     do {
-      try client.loadWaterfallInterstitialAd(delegate: self) {
+      try client.loadWaterfallInterstitialAd(
+        delegate: self, placementId: Util.placementId(from: adConfiguration)
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
@@ -78,7 +80,10 @@ final class InterstitialAdLoader: NSObject {
     }
 
     do {
-      try client.loadRTBInterstitialAd(with: bidResponse, delegate: self, watermark: watermark) {
+      try client.loadRTBInterstitialAd(
+        with: bidResponse, delegate: self, placementId: Util.placementId(from: adConfiguration),
+        watermark: watermark
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
