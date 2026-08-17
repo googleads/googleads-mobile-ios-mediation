@@ -233,7 +233,7 @@
 		ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */; };
 		ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */; };
 		ADE56ED02E1334E8003FF591 /* ImobileSdkAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */; };
-		ADE56ED12E1334E8003FF591 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D72E42AF81700002C0B60 /* libAdapter.a */; };
+		ADE56ED12E1334E8003FF591 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ABA2EA16B3400818296 /* libAdapter.a */; };
 		ADE56ED22E1334E8003FF591 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADE56EDC2E1335D2003FF591 /* IMobileAdapterLatencyTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADE56EDB2E1335AE003FF591 /* IMobileAdapterLatencyTests.xctestplan */; };
 		ADE56EDD2E1335D6003FF591 /* IMobileAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE56EDA2E133533003FF591 /* IMobileAdapterLatencyTests.m */; };
@@ -1283,13 +1283,6 @@
 			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = ADADDD4A2A3252CE00FB60E1;
-			remoteInfo = Adapter;
-		};
-		ADE56EC72E1334E8003FF591 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 45E634ED222F1503006EB5A1;
 			remoteInfo = Adapter;
 		};
 		ADE56EC92E1334E8003FF591 /* PBXContainerItemProxy */ = {
@@ -3780,7 +3773,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADE56EC62E1334E8003FF591 /* PBXTargetDependency */,
+				AD6E3B162EA16BAF00818296 /* PBXTargetDependency */,
 				ADE56EC82E1334E8003FF591 /* PBXTargetDependency */,
 				ADE56FBF2E1336DD003FF591 /* PBXTargetDependency */,
 			);
@@ -5917,11 +5910,6 @@
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = ADA2FADF2D9F7715005D9ECA /* PBXContainerItemProxy */;
-		};
-		ADE56EC62E1334E8003FF591 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = ADE56EC72E1334E8003FF591 /* PBXContainerItemProxy */;
 		};
 		ADE56EC82E1334E8003FF591 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
