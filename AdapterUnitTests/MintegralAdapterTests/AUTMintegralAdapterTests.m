@@ -1,7 +1,22 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterMintegral.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKAdapterSetUpAssertions.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDKBidding/MTGBiddingSDK.h>
 #import <OCMock/OCMock.h>
@@ -14,20 +29,24 @@
 + (void)setChannelFlag:(NSString *)pluginNumber;
 @end
 
-@interface MintegralAdapterTests : XCTestCase
+@interface AUTMintegralAdapterTests : XCTestCase
 @end
 
-@implementation MintegralAdapterTests {
+@implementation AUTMintegralAdapterTests {
   id _mintegralMock;
+  id _biddingSDKMock;
 }
 
 - (void)setUp {
   [super setUp];
   _mintegralMock = OCMClassMock([MTGSDK class]);
   OCMStub(ClassMethod([_mintegralMock sharedInstance])).andReturn(_mintegralMock);
+  _biddingSDKMock = OCMClassMock([MTGBiddingSDK class]);
 }
 
 - (void)tearDown {
+  [_mintegralMock stopMocking];
+  [_biddingSDKMock stopMocking];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
@@ -83,7 +102,7 @@
 }
 
 - (void)testSetUpWithTagForUnderAgeIsTrue {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   NSString *appID = @"123";
   NSString *APIKey = @"456";
   OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
@@ -97,7 +116,7 @@
 }
 
 - (void)testSetUpWithTagForUnderAgeIsNo {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   NSString *appID = @"123";
   NSString *APIKey = @"456";
   OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
@@ -256,6 +275,16 @@
   AUTKAssertEqualVersion(version, expectedVersion);
 }
 
+- (void)testAdSDKVersionEmpty {
+  NSString *versionString = @"";
+  GADVersionNumber expectedVersion = {0};
+  OCMStub(ClassMethod([_mintegralMock sdkVersion])).andReturn(versionString);
+
+  GADVersionNumber version = [GADMediationAdapterMintegral adSDKVersion];
+
+  AUTKAssertEqualVersion(version, expectedVersion);
+}
+
 - (void)testAdapterVersion {
   GADVersionNumber version = [GADMediationAdapterMintegral adapterVersion];
 
@@ -263,16 +292,43 @@
   XCTAssertLessThanOrEqual(version.majorVersion, 99);
   XCTAssertGreaterThanOrEqual(version.minorVersion, 0);
   XCTAssertLessThanOrEqual(version.minorVersion, 99);
-  // Patch version between x.y.0.0 ~x.y.99.99
+  // Patch version between x.y.0.0 ~ x.y.99.99
   XCTAssertGreaterThanOrEqual(version.patchVersion, 0);
   XCTAssertLessThanOrEqual(version.patchVersion, 990099);
 }
 
-- (void)testCollectSignals {
-  NSString *expectedSignals = @"12345";
-  id mockBiddingSDK = OCMClassMock([MTGBiddingSDK class]);
-  OCMStub(ClassMethod([mockBiddingSDK buyerUID])).andReturn(expectedSignals);
-  GADRTBRequestParameters *parameters = [[GADRTBRequestParameters alloc] init];
+- (void)testCollectSignalsForBanner {
+  [self assertCollectSignalsForFormat:GADAdFormatBanner];
+}
+
+- (void)testCollectSignalsForInterstitial {
+  [self assertCollectSignalsForFormat:GADAdFormatInterstitial];
+}
+
+- (void)testCollectSignalsForRewarded {
+  [self assertCollectSignalsForFormat:GADAdFormatRewarded];
+}
+
+- (void)testCollectSignalsForNative {
+  [self assertCollectSignalsForFormat:GADAdFormatNative];
+}
+
+- (void)testCollectSignalsForAppOpen {
+  [self assertCollectSignalsForFormat:GADAdFormatAppOpen];
+}
+
+- (void)assertCollectSignalsForFormat:(GADAdFormat)format {
+  NSString *expectedSignals = @"test_buyer_uid";
+  OCMStub(ClassMethod([_biddingSDKMock buyerUID])).andReturn(expectedSignals);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = format;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+  parameters.configuration = config;
+
   GADMediationAdapterMintegral *adapter = [[GADMediationAdapterMintegral alloc] init];
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Signals collected."];
@@ -286,6 +342,25 @@
                        }];
 
   [self waitForExpectations:@[ expectation ]];
+}
+
+- (void)testCollectSignalsPropagatesCoppaChild {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  OCMExpect([_mintegralMock setCoppa:MTGBoolYes]);
+
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+  GADMediationAdapterMintegral *adapter = [[GADMediationAdapterMintegral alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Signals collected."];
+
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         [expectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ expectation ]];
+  OCMVerifyAll(_mintegralMock);
 }
 
 - (void)testAdMobChannel {

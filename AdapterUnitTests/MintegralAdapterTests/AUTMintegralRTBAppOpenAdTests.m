@@ -1,3 +1,17 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterMintegral.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -41,6 +55,7 @@ static NSString *const kBidResponse = @"bidResponse";
 }
 
 - (void)tearDown {
+  [_splashAdMock stopMocking];
   _adLoader = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
@@ -65,7 +80,7 @@ static NSString *const kBidResponse = @"bidResponse";
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
   configuration.credentials = credentials;
   configuration.bidResponse = kBidResponse;
-  NSData *watermarkData = [[NSData alloc] init];
+  NSData *watermarkData = [@"watermark" dataUsingEncoding:NSUTF8StringEncoding];
   configuration.watermark = watermarkData;
   OCMExpect([_splashAdMock setExtraInfo:watermarkData forKey:@"admob_watermark"]);
 
@@ -119,6 +134,13 @@ static NSString *const kBidResponse = @"bidResponse";
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
+- (void)testLoadRTBAppOpenAdWithAgeRestrictedTreatmentIsUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [self loadRTBAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
 - (void)testLoadRTBAppOpenAdFailureForMissingPlacementID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralAdUnitID : kUnitID};
@@ -133,9 +155,39 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
 }
 
-- (void)testLoadRTBAppOpenAdFailureForMissingAdUnit {
+- (void)testLoadRTBAppOpenAdFailureForEmptyPlacementID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : @"", GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationAppOpenAdConfiguration *configuration =
+      [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadRTBAppOpenAdFailureForMissingAdUnitID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralPlacementID : kPlacementID};
+  AUTKMediationAppOpenAdConfiguration *configuration =
+      [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadRTBAppOpenAdFailureForEmptyAdUnitID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : @""};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
   configuration.credentials = credentials;

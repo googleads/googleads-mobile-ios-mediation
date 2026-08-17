@@ -1,17 +1,30 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterMintegral.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationNativeAdLoadAssertions.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-
-#import <MTGSDK/MTGNativeAdManager.h>
-
-#import "GADMediationAdapterMintegralConstants.h"
-
 #import <MTGSDK/MTGAdChoicesView.h>
+#import <MTGSDK/MTGNativeAdManager.h>
 #import <MTGSDK/MTGSDK.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
+#import "GADMAdapterMintegralExtras.h"
+#import "GADMediationAdapterMintegralConstants.h"
 
 static NSString *const kPlacementID = @"12345";
 static NSString *const kUnitID = @"67890";
@@ -72,6 +85,9 @@ static NSString *const kUnitID = @"67890";
 }
 
 - (void)tearDown {
+  [_nativeAdMock stopMocking];
+  [_adChoicesViewMock stopMocking];
+  _adLoader = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
@@ -230,6 +246,52 @@ static NSString *const kUnitID = @"67890";
   XCTAssertNil([_adLoader extraAssets]);
 }
 
+- (void)testLoadAdWithAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithAgeRestrictedTreatmentIsUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
 - (void)testMediaViewDelegateMethods {
   AUTKMediationNativeAdEventDelegate *adEventDelegate = [self loadAd];
 
@@ -265,6 +327,51 @@ static NSString *const kUnitID = @"67890";
   XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1);
 }
 
+- (void)testDidRenderInView {
+  [self loadAd];
+
+  UIView *view = [[UIView alloc] init];
+  UIView *assetView = [[UIView alloc] init];
+  NSDictionary<GADNativeAssetIdentifier, UIView *> *clickableAssetViews =
+      @{GADNativeHeadlineAsset : assetView};
+  NSDictionary<GADNativeAssetIdentifier, UIView *> *nonclickableAssetViews = @{};
+
+  OCMExpect([_nativeAdMock registerViewForInteraction:view
+                                   withClickableViews:clickableAssetViews.allValues
+                                         withCampaign:_campaign]);
+
+  [_adLoader didRenderInView:view
+         clickableAssetViews:clickableAssetViews
+      nonclickableAssetViews:nonclickableAssetViews
+              viewController:_presentingViewController];
+
+  OCMVerifyAll(_nativeAdMock);
+}
+
+- (void)testExtrasMuteVideoAudio {
+  GADMAdapterMintegralExtras *extras = [[GADMAdapterMintegralExtras alloc] init];
+  extras.muteVideoAudio = YES;
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationNativeAdConfiguration *configuration =
+      [[AUTKMediationNativeAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.topViewController = _presentingViewController;
+  configuration.extras = extras;
+
+  OCMStub([_nativeAdMock loadAds]).andDo(^(NSInvocation *invocation) {
+    [self->_adLoader nativeAdsLoaded:@[ self->_campaign ] nativeManager:self->_nativeAdMock];
+  });
+
+  AUTKWaitAndAssertLoadNativeAd(_adapter, configuration);
+  XCTAssertNotNil(_adLoader);
+
+  MTGMediaView *mediaView = (MTGMediaView *)[_adLoader mediaView];
+  XCTAssertTrue(mediaView.mute);
+}
+
 - (void)testLoadAdFailureWithNoCampaigns {
   OCMStub([_nativeAdMock loadAds]).andDo(^(NSInvocation *invocation) {
     [self->_adLoader nativeAdsLoaded:@[] nativeManager:self->_nativeAdMock];
@@ -283,6 +390,43 @@ static NSString *const kUnitID = @"67890";
   AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
 }
 
+- (void)testLoadAdFailureWithNilCampaigns {
+  OCMStub([_nativeAdMock loadAds]).andDo(^(NSInvocation *invocation) {
+    [self->_adLoader nativeAdsLoaded:nil nativeManager:self->_nativeAdMock];
+  });
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationNativeAdConfiguration *configuration =
+      [[AUTKMediationNativeAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.topViewController = _presentingViewController;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorAdNotAvailable
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadAdFailureIfMintegralFailsToLoadAd {
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorAdNotAvailable
+                                                  userInfo:nil];
+  OCMStub([_nativeAdMock loadAds]).andDo(^(NSInvocation *invocation) {
+    [self->_adLoader nativeAdsFailedToLoadWithError:expectedError
+                                      nativeManager:self->_nativeAdMock];
+  });
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationNativeAdConfiguration *configuration =
+      [[AUTKMediationNativeAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.topViewController = _presentingViewController;
+
+  AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
+}
+
 - (void)testLoadAdFailureWithNoPlacementID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralAdUnitID : kUnitID};
@@ -297,9 +441,39 @@ static NSString *const kUnitID = @"67890";
   AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
 }
 
+- (void)testLoadAdFailureWithEmptyPlacementID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : @"", GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationNativeAdConfiguration *configuration =
+      [[AUTKMediationNativeAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.topViewController = _presentingViewController;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
+}
+
 - (void)testLoadAdFailureWithNoAdUnitID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterMintegralAdUnitID : kUnitID};
+  credentials.settings = @{GADMAdapterMintegralPlacementID : kPlacementID};
+  AUTKMediationNativeAdConfiguration *configuration =
+      [[AUTKMediationNativeAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.topViewController = _presentingViewController;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadAdFailureWithEmptyAdUnitID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : @""};
   AUTKMediationNativeAdConfiguration *configuration =
       [[AUTKMediationNativeAdConfiguration alloc] init];
   configuration.credentials = credentials;

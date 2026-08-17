@@ -1,3 +1,17 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterMintegral.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -9,6 +23,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "GADMAdapterMintegralExtras.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
 static NSString *const kPlacementID = @"12345";
@@ -37,6 +52,8 @@ static NSString *const kBidResponse = @"bidResponse";
 }
 
 - (void)tearDown {
+  [_rewardedAdMock stopMocking];
+  _adLoader = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
@@ -58,8 +75,8 @@ static NSString *const kBidResponse = @"bidResponse";
 }
 
 - (nonnull AUTKMediationRewardedAdEventDelegate *)loadAd {
-  NSData *watermarkData = [@"abc" dataUsingEncoding:NSUTF8StringEncoding];
-  // Must pass through the enigma watermark.
+  NSData *watermarkData = [@"watermark" dataUsingEncoding:NSUTF8StringEncoding];
+  // Must pass through the watermark.
   OCMExpect([_rewardedAdMock setExtraInfo:watermarkData forKey:@"admob_watermark" unitId:kUnitID]);
 
   [self stubLoadWithAndDoBlock:^(NSInvocation *invocation) {
@@ -82,50 +99,57 @@ static NSString *const kBidResponse = @"bidResponse";
   return eventDelegate;
 }
 
-- (void)testloadAd {
+- (void)testLoadAd {
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
-- (void)testloadAdWithTagForChildIsYes {
+- (void)testLoadAdWithTagForChildIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testloadAdWithTagForChildIsNo {
+- (void)testLoadAdWithTagForChildIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
-- (void)testloadAdWithTagForUnderAgeIsTrue {
+- (void)testLoadAdWithTagForUnderAgeIsTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testloadAdWithTagForUnderAgeIsNo {
+- (void)testLoadAdWithTagForUnderAgeIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
-- (void)testloadAdWithAgeRestrictedTreatmentIsChild {
+- (void)testLoadAdWithAgeRestrictedTreatmentIsChild {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentChild;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testloadAdWithAgeRestrictedTreatmentIsTeen {
+- (void)testLoadAdWithAgeRestrictedTreatmentIsTeen {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentTeen;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
-- (void)testloadAdFailureForMissingPlacementID {
+- (void)testLoadAdWithAgeRestrictedTreatmentIsUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testLoadAdFailureForMissingPlacementID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralAdUnitID : kUnitID};
   AUTKMediationRewardedAdConfiguration *configuration =
@@ -139,9 +163,39 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
 }
 
-- (void)testloadAdFailureForMissingAdUnit {
+- (void)testLoadAdFailureForEmptyPlacementID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : @"", GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadAdFailureForMissingAdUnitID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralPlacementID : kPlacementID};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadAdFailureForEmptyAdUnitID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : @""};
   AUTKMediationRewardedAdConfiguration *configuration =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
   configuration.credentials = credentials;
@@ -187,6 +241,8 @@ static NSString *const kBidResponse = @"bidResponse";
   // Assert the initial values of the counts before they are verified after the "Act" steps.
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
+  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 0);
+  XCTAssertEqual(eventDelegate.didEndVideoInvokeCount, 0);
   XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 0);
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 0);
 
@@ -194,6 +250,10 @@ static NSString *const kBidResponse = @"bidResponse";
 
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 1);
+
+  [_adLoader onVideoPlayCompleted:kPlacementID unitId:kUnitID];
+  XCTAssertEqual(eventDelegate.didEndVideoInvokeCount, 1);
 
   [_adLoader onVideoAdDismissed:kPlacementID unitId:kUnitID withConverted:NO withRewardInfo:nil];
   XCTAssertEqual(eventDelegate.didRewardUserInvokeCount, 0);
@@ -218,6 +278,7 @@ static NSString *const kBidResponse = @"bidResponse";
   // Assert the initial values of the counts before they are verified after the "Act" steps.
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
+  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 0);
   XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 0);
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 0);
 
@@ -225,6 +286,7 @@ static NSString *const kBidResponse = @"bidResponse";
 
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 1);
 
   [_adLoader onVideoAdDismissed:kPlacementID unitId:kUnitID withConverted:YES withRewardInfo:nil];
   XCTAssertEqual(eventDelegate.didRewardUserInvokeCount, 1);
@@ -264,6 +326,32 @@ static NSString *const kBidResponse = @"bidResponse";
   [_adLoader onVideoAdClicked:kPlacementID unitId:kUnitID];
 
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+}
+
+- (void)testExtrasMuteVideoAudio {
+  GADMAdapterMintegralExtras *extras = [[GADMAdapterMintegralExtras alloc] init];
+  extras.muteVideoAudio = YES;
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+  configuration.extras = extras;
+
+  [self stubLoadWithAndDoBlock:^(NSInvocation *invocation) {
+    [self->_adLoader onVideoAdLoadSuccess:kPlacementID unitId:kUnitID];
+  }];
+
+  AUTKWaitAndAssertLoadRewardedAd(_adapter, configuration);
+  XCTAssertNotNil(_adLoader);
+
+  OCMExpect([_rewardedAdMock setPlayVideoMute:YES]);
+  UIViewController *controller = [[UIViewController alloc] init];
+  [_adLoader presentFromViewController:controller];
+  OCMVerifyAll(_rewardedAdMock);
 }
 
 @end

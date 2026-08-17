@@ -1,3 +1,17 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMediationAdapterMintegral.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -40,6 +54,8 @@ static NSString *const kUnitID = @"67890";
 }
 
 - (void)tearDown {
+  [_splashAdMock stopMocking];
+  _adLoader = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
@@ -54,16 +70,19 @@ static NSString *const kUnitID = @"67890";
                                   [obj conformsToProtocol:@protocol(GADMediationAppOpenAd)];
                          }]]);
   OCMStub([_splashAdMock preload]).andDo(^(NSInvocation *invocation) {
-    [self->_adLoader splashADPreloadSuccess:OCMOCK_ANY];
+    [self->_adLoader splashADPreloadSuccess:self->_splashAdMock];
   });
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings =
-      @{GADMAdapterMintegralPlacementID : @"12345", GADMAdapterMintegralAdUnitID : @"67890"};
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
   configuration.credentials = credentials;
 
-  return AUTKWaitAndAssertLoadAppOpenAd(_adapter, configuration);
+  AUTKMediationAppOpenAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadAppOpenAd(_adapter, configuration);
+  XCTAssertNotNil(_adLoader);
+  return eventDelegate;
 }
 
 - (void)testLoadWaterfallAppOpenAd {
@@ -71,47 +90,54 @@ static NSString *const kUnitID = @"67890";
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
-- (void)testLoadRTBAppOpenAdWithTagForChildIsYes {
+- (void)testLoadWaterfallAppOpenAdWithTagForChildIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testLoadRTBAppOpenAdWithTagForChildIsNo {
+- (void)testLoadWaterfallAppOpenAdWithTagForChildIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
-- (void)testLoadRTBAppOpenAdWithTagForUnderAgeIsYes {
+- (void)testLoadWaterfallAppOpenAdWithTagForUnderAgeIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testLoadRTBAppOpenAdWithTagForUnderAgeIsNo {
+- (void)testLoadWaterfallAppOpenAdWithTagForUnderAgeIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
-- (void)testLoadRTBAppOpenAdWithAgeRestrictedTreatmentIsChild {
+- (void)testLoadWaterfallAppOpenAdWithAgeRestrictedTreatmentIsChild {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentChild;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testLoadRTBAppOpenAdWithAgeRestrictedTreatmentIsTeen {
+- (void)testLoadWaterfallAppOpenAdWithAgeRestrictedTreatmentIsTeen {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentTeen;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
+- (void)testLoadWaterfallAppOpenAdWithAgeRestrictedTreatmentIsUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [self loadWaterfallAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
 - (void)testLoadWaterfallAppOpenAdFailureForMissingPlacementID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterMintegralAdUnitID : @"67890"};
+  credentials.settings = @{GADMAdapterMintegralAdUnitID : kUnitID};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
   configuration.credentials = credentials;
@@ -122,10 +148,37 @@ static NSString *const kUnitID = @"67890";
   AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
 }
 
-- (void)testLoadWaterfallAppOpenAdFailureForMissingAdUnit {
+- (void)testLoadWaterfallAppOpenAdFailureForEmptyPlacementID {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  // Only placement ID is present in the credentials. Ad unit ID is missing.
-  credentials.settings = @{GADMAdapterMintegralPlacementID : @"12345"};
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : @"", GADMAdapterMintegralAdUnitID : kUnitID};
+  AUTKMediationAppOpenAdConfiguration *configuration =
+      [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadWaterfallAppOpenAdFailureForMissingAdUnitID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralPlacementID : kPlacementID};
+  AUTKMediationAppOpenAdConfiguration *configuration =
+      [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
+                                                      code:GADMintegralErrorInvalidServerParameters
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadWaterfallAppOpenAdFailureForEmptyAdUnitID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : @""};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
   configuration.credentials = credentials;
@@ -146,37 +199,38 @@ static NSString *const kUnitID = @"67890";
                            return [obj conformsToProtocol:@protocol(MTGSplashADDelegate)];
                          }]]);
   OCMStub([_splashAdMock preload]).andDo(^(NSInvocation *invocation) {
-    [delegate splashADPreloadFail:OCMOCK_ANY error:expectedError];
+    [delegate splashADPreloadFail:self->_splashAdMock error:expectedError];
   });
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings =
-      @{GADMAdapterMintegralPlacementID : @"12345", GADMAdapterMintegralAdUnitID : @"67890"};
+      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
   configuration.credentials = credentials;
 
   AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, configuration, expectedError);
+  XCTAssertNotNil(delegate);
 }
 
 - (void)testShowSuccess {
   UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
   OCMStub([_splashAdMock showInKeyWindow:keyWindow customView:nil])
       .andDo(^(NSInvocation *invocation) {
-        [self->_adLoader splashADShowSuccess:OCMOCK_ANY];
+        [self->_adLoader splashADShowSuccess:self->_splashAdMock];
       });
   OCMStub([_splashAdMock isADReadyToShow]).andReturn(YES);
   AUTKMediationAppOpenAdEventDelegate *eventDelegate = [self loadWaterfallAppOpenAd];
 
-  [self->_adLoader presentFromViewController:[[UIViewController alloc] init]];
+  [_adLoader presentFromViewController:[[UIViewController alloc] init]];
 
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
 
-  [_adLoader splashADWillClose:OCMOCK_ANY];
+  [_adLoader splashADWillClose:self->_splashAdMock];
 
   XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 1);
 
-  [_adLoader splashADDidClose:OCMOCK_ANY];
+  [_adLoader splashADDidClose:self->_splashAdMock];
 
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
@@ -197,10 +251,11 @@ static NSString *const kUnitID = @"67890";
   UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
   OCMStub([_splashAdMock showInKeyWindow:keyWindow customView:nil])
       .andDo(^(NSInvocation *invocation) {
-        [self->_adLoader splashADShowFail:OCMOCK_ANY error:expectedError];
+        [self->_adLoader splashADShowFail:self->_splashAdMock error:expectedError];
       });
   OCMStub([_splashAdMock isADReadyToShow]).andReturn(YES);
   AUTKMediationAppOpenAdEventDelegate *eventDelegate = [self loadWaterfallAppOpenAd];
+  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
 
   [_adLoader presentFromViewController:[[UIViewController alloc] init]];
 
@@ -210,23 +265,24 @@ static NSString *const kUnitID = @"67890";
 
 - (void)testClick {
   AUTKMediationAppOpenAdEventDelegate *eventDelegate = [self loadWaterfallAppOpenAd];
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
 
-  [_adLoader splashADDidClick:OCMOCK_ANY];
+  [_adLoader splashADDidClick:self->_splashAdMock];
 
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
 - (void)testUnusedDelegateMethodsNotCrashing {
-  AUTKMediationAppOpenAdEventDelegate *eventDelegate = [self loadWaterfallAppOpenAd];
+  [self loadWaterfallAppOpenAd];
 
-  [_adLoader splashADLoadSuccess:OCMOCK_ANY];
-  [_adLoader splashADLoadFail:OCMOCK_ANY error:OCMOCK_ANY];
-  [_adLoader splashAD:OCMOCK_ANY timeLeft:2];
-  [_adLoader pointForSplashZoomOutADViewToAddOn:OCMOCK_ANY];
-  [_adLoader splashADDidLeaveApplication:OCMOCK_ANY];
-  [_adLoader splashZoomOutADViewClosed:OCMOCK_ANY];
-  [_adLoader splashZoomOutADViewDidShow:OCMOCK_ANY];
-  [_adLoader superViewForSplashZoomOutADViewToAddOn:OCMOCK_ANY];
+  [_adLoader splashADLoadSuccess:self->_splashAdMock];
+  [_adLoader splashADLoadFail:self->_splashAdMock error:self->_splashAdMock];
+  [_adLoader splashAD:self->_splashAdMock timeLeft:2];
+  [_adLoader pointForSplashZoomOutADViewToAddOn:self->_splashAdMock];
+  [_adLoader splashADDidLeaveApplication:self->_splashAdMock];
+  [_adLoader splashZoomOutADViewClosed:self->_splashAdMock];
+  [_adLoader splashZoomOutADViewDidShow:self->_splashAdMock];
+  [_adLoader superViewForSplashZoomOutADViewToAddOn:self->_splashAdMock];
 }
 
 @end

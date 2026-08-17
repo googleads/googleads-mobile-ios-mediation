@@ -954,49 +954,16 @@
 		AD6E39172EA1670400818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = Mintegral;
-				BITCODE_GENERATION_MODE = bitcode;
-				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_NAME = MintegralAdapter;
-				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
-				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
-				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
 			name = Debug;
 		};
 		AD6E39182EA1670400818296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = Mintegral;
-				BITCODE_GENERATION_MODE = bitcode;
-				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_NAME = MintegralAdapter;
-				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
-				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
-				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
 			name = Release;
 		};
