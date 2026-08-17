@@ -1,455 +1,307 @@
 #import "GADMAdapterInMobiBannerAd.h"
 
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
-
+#import <AdapterUnitTestKit/AUTKAdConfiguration.h>
+#import <AdapterUnitTestKit/AUTKMediationBannerAdLoadAssertions.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK-Swift.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "AUTInMobiUtils.h"
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
-#import "GADMediation+AdapterUnitTests.h"
 #import "GADMediationAdapterInMobi.h"
 
-/// IVars used in the GADMAdapterInMobiBannerAd.
-typedef NSString *AUTInMobiBannerAdIVar NS_TYPED_ENUM;
-AUTInMobiBannerAdIVar const AUTInMobiBannerAdIVarBannerAdEventDelegate = @"_bannerAdEventDelegate";
-AUTInMobiBannerAdIVar const AUTInMobiBannerAdIVarBannerAdConfig = @"_bannerAdConfig";
-AUTInMobiBannerAdIVar const AUTInMobiBannerAdIVarBannerAdLoadCompletionHandler =
-    @"_bannerAdLoadCompletionHandler";
-AUTInMobiBannerAdIVar const AUTInMobiBannerAdIVarAdView = @"_adView";
-
 @interface GADMAdapterInMobiBannerAd (Test)
-- (void)requestBannerWithSize:(GADAdSize)requestedAdSize;
 - (void)stopBeingDelegate;
-- (nonnull UIView *)view;
 @end
-
-/**
- * Returns a correctly configured banner ad configuration.
- */
-GADMediationBannerAdConfiguration *_Nonnull AUTGADMediationBannerAdConfigurationForInMobi() {
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatBanner
-                                            credentials:@{
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                              GADMAdapterInMobiPlacementID : AUTInMobiPlacementID
-                                            }];
-  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  [extras setKeywords:AUTInMobiKeywords];
-  GADMediationBannerAdConfiguration *adConfiguration =
-      [[GADMediationBannerAdConfiguration alloc] initWithAdSize:GADAdSizeBanner
-                                                adConfiguration:nil
-                                                      targeting:nil
-                                                    credentials:credentials
-                                                         extras:extras];
-
-  return adConfiguration;
-}
 
 @interface AUTInMobiBannerAdTest : XCTestCase
 @end
 
-@implementation AUTInMobiBannerAdTest
+@implementation AUTInMobiBannerAdTest {
+  /// Adapter instance used to load banner ads.
+  GADMediationAdapterInMobi *_adapter;
+
+  /// Mock instance for IMBanner.
+  IMBanner *_bannerMock;
+
+  /// Class mock for IMBanner.
+  id _bannerClassMock;
+
+  /// Class mock for IMSdk.
+  id _imsdkMock;
+
+  /// Class mock for GADMAdapterInMobiInitializer.
+  id _initializerMock;
+
+  /// Delegate captured from IMBanner initialization.
+  __block id<IMBannerDelegate> _capturedBannerDelegate;
+}
+
+- (void)setUp {
+  [super setUp];
+  _adapter = [[GADMediationAdapterInMobi alloc] init];
+  _initializerMock = AUTMockGADMAdapterInMobiInitializer();
+  _imsdkMock = AUTMockIMSDKInit();
+
+  _bannerMock = OCMClassMock([IMBanner class]);
+  _bannerClassMock = OCMClassMock([IMBanner class]);
+  OCMStub([_bannerClassMock alloc]).andReturn(_bannerClassMock);
+  OCMStub([[_bannerClassMock ignoringNonObjectArgs]
+              initWithFrame:CGRectMake(0, 0, 320, 50)
+                placementId:[AUTInMobiPlacementID longLongValue]
+                   delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                     self->_capturedBannerDelegate = obj;
+                     return YES;
+                   }]])
+      .andReturn(_bannerMock);
+  OCMStub([[_bannerClassMock ignoringNonObjectArgs]
+              initWithFrame:CGRectZero
+                placementId:[AUTInMobiPlacementID longLongValue]
+                   delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                     self->_capturedBannerDelegate = obj;
+                     return YES;
+                   }]])
+      .andReturn(_bannerMock);
+  OCMStub([[_bannerClassMock ignoringNonObjectArgs]
+              initWithFrame:CGRectZero
+                placementId:0
+                   delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                     self->_capturedBannerDelegate = obj;
+                     return YES;
+                   }]])
+      .andReturn(_bannerMock);
+  OCMStub([[_bannerClassMock ignoringNonObjectArgs]
+              initWithFrame:CGRectMake(0, 0, 320, 50)
+                placementId:0
+                   delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                     self->_capturedBannerDelegate = obj;
+                     return YES;
+                   }]])
+      .andReturn(_bannerMock);
+}
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
+
+  [(id)_bannerMock stopMocking];
+  _bannerMock = nil;
+  [_bannerClassMock stopMocking];
+  _bannerClassMock = nil;
+  [_imsdkMock stopMocking];
+  _imsdkMock = nil;
+  [_initializerMock stopMocking];
+  _initializerMock = nil;
+
   [super tearDown];
 }
 
-- (void)testLoadBannerAdForAdConfiguration {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
+- (nonnull AUTKMediationBannerAdConfiguration *)
+    bannerAdConfigurationWithPlacementID:(nullable NSString *)placementID
+                             bidResponse:(nullable NSString *)bidResponse {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  NSMutableDictionary<NSString *, id> *settings =
+      [@{GADMAdapterInMobiAccountID : AUTInMobiAccountID} mutableCopy];
+  if (placementID) {
+    settings[GADMAdapterInMobiPlacementID] = placementID;
+  }
+  credentials.settings = settings;
 
-  id initializerSharedInstanceMock = OCMPartialMock(GADMAdapterInMobiInitializer.sharedInstance);
-  OCMStub([initializerSharedInstanceMock initializeWithAccountID:OCMOCK_ANY
-                                               completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained GADMAdapterInMobiInitCompletionHandler initHandler;
-        [invocation getArgument:&initHandler atIndex:3];
-        initHandler(nil);
-      });
+  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
+  extras.keywords = AUTInMobiKeywords;
 
-  id bannerAdMock = OCMPartialMock(bannerAd);
-  OCMStub([bannerAdMock requestBannerWithSize:GADAdSizeBanner]).andDo(^(NSInvocation *invocation) {
-    GADMediationBannerLoadCompletionHandler loadCompletionHandler =
-        [bannerAd valueForKey:AUTInMobiBannerAdIVarBannerAdLoadCompletionHandler];
-    loadCompletionHandler(bannerAd, nil);
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.extras = extras;
+  configuration.adSize = GADAdSizeBanner;
+  configuration.bidResponse = bidResponse;
+  return configuration;
+}
+
+- (void)testLoadBannerAdSuccessWaterfall {
+  OCMStub([_bannerMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedBannerDelegate bannerDidFinishLoading:self->_bannerMock];
   });
 
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationBannerLoadCompletionHandler completionHandler =
-      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertEqualObjects(bannerAd, ad);
-        XCTAssertNil(error);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-      };
-  [bannerAd loadBannerAdForAdConfiguration:AUTGADMediationBannerAdConfigurationForInMobi()
-                         completionHandler:completionHandler];
-  XCTAssertTrue(completionHandlerInvoked);
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
+
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+  XCTAssertNotNil(eventDelegate.bannerAd);
+  XCTAssertEqualObjects([eventDelegate.bannerAd view], _bannerMock);
 }
 
-- (void)testLoadBannerAdForAdConfigurationInitError {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
+- (void)testLoadBannerAdSuccessRTB {
+  NSString *bidResponse = @"test_bid_response";
+  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  id initializerSharedInstanceMock = OCMPartialMock(GADMAdapterInMobiInitializer.sharedInstance);
-  OCMStub([initializerSharedInstanceMock initializeWithAccountID:OCMOCK_ANY
-                                               completionHandler:OCMOCK_ANY])
+  OCMStub([_bannerMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedBannerDelegate bannerDidFinishLoading:self->_bannerMock];
+  });
+
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:bidResponse];
+
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+  XCTAssertNotNil(eventDelegate.bannerAd);
+  XCTAssertEqualObjects([eventDelegate.bannerAd view], _bannerMock);
+}
+
+- (void)testLoadBannerAdWatermarkDataForwarding {
+  NSString *bidResponse = @"test_bid_response";
+  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *watermarkData = [AUTInMobiTestWatermarkString dataUsingEncoding:NSUTF8StringEncoding];
+
+  OCMStub([_bannerMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedBannerDelegate bannerDidFinishLoading:self->_bannerMock];
+  });
+
+  OCMExpect([_bannerMock setWatermarkWith:[OCMArg checkWithBlock:^BOOL(id obj) {
+                           return [obj isKindOfClass:[IMWatermark class]];
+                         }]]);
+
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:bidResponse];
+  configuration.watermark = watermarkData;
+
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+  OCMVerifyAll((id)_bannerMock);
+}
+
+- (void)testLoadRTBBannerWithoutPlacementID {
+  NSString *bidResponse = @"test_bid_response";
+  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  OCMStub([_bannerMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedBannerDelegate bannerDidFinishLoading:self->_bannerMock];
+  });
+
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:nil bidResponse:bidResponse];
+
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+}
+
+- (void)testLoadBannerAdFailureMissingPlacementID {
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:nil bidResponse:nil];
+
+  NSError *expectedError = GADMAdapterInMobiErrorWithCodeAndDescription(
+      GADMAdapterInMobiErrorInvalidServerParameters, @"Placement ID not specified.");
+
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadBannerAdFailureInvalidBannerSize {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMAdapterInMobiAccountID : AUTInMobiAccountID,
+    GADMAdapterInMobiPlacementID : AUTInMobiPlacementID
+  };
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterInMobiErrorDomain
+                                                      code:GADMAdapterInMobiErrorBannerSizeMismatch
+                                                  userInfo:nil];
+
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadBannerAdFailureInitializerError {
+  [_imsdkMock stopMocking];
+  _imsdkMock = OCMClassMock([IMSdk class]);
+  NSError *initError = [NSError errorWithDomain:GADMAdapterInMobiErrorDomain
+                                           code:GADMAdapterInMobiErrorInvalidServerParameters
+                                       userInfo:nil];
+  OCMStub(ClassMethod([_imsdkMock initWithAccountID:OCMOCK_ANY
+                                  consentDictionary:OCMOCK_ANY
+                               andCompletionHandler:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained GADMAdapterInMobiInitCompletionHandler initHandler;
-        [invocation getArgument:&initHandler atIndex:3];
-        initHandler(OCMClassMock([NSError class]));
+        __unsafe_unretained void (^completionBlock)(NSError *_Nullable);
+        [invocation getArgument:&completionBlock atIndex:4];
+        completionBlock(initError);
       });
 
-  id bannerAdMock = OCMPartialMock(bannerAd);
-  OCMReject([bannerAdMock requestBannerWithSize:GADAdSizeBanner]);
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
 
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationBannerLoadCompletionHandler completionHandler =
-      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertNotNil(error);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-      };
-  [bannerAd loadBannerAdForAdConfiguration:AUTGADMediationBannerAdConfigurationForInMobi()
-                         completionHandler:completionHandler];
-  XCTAssertTrue(completionHandlerInvoked);
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, initError);
 }
 
-- (void)testRequestBannerWithSize {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  [bannerAd setValue:AUTGADMediationBannerAdConfigurationForInMobi()
-              forKey:AUTInMobiBannerAdIVarBannerAdConfig];
-  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
+- (void)testLoadBannerAdFailureInMobiSDKError {
+  id sdkError = OCMClassMock([IMRequestStatus class]);
+  OCMStub([_bannerMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedBannerDelegate banner:self->_bannerMock didFailToLoadWithError:sdkError];
+  });
 
-  XCTAssertNil(requestParameters[@"coppa"]);
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
 
-  IMBanner *mockBanner = (IMBanner *)[OCMockObject mockForClass:[IMBanner class]];
-  OCMExpect([mockBanner shouldAutoRefresh:NO]);
-  OCMExpect([mockBanner setTransitionAnimation:UIViewAnimationTransitionNone]);
-  OCMExpect([mockBanner setKeywords:AUTInMobiKeywords]);
-  OCMExpect([mockBanner setExtras:requestParameters]);
-  OCMExpect([mockBanner load]);
-
-  id mockBannerClass = OCMClassMock([IMBanner class]);
-  OCMStub([mockBannerClass alloc]).andReturn(mockBannerClass);
-  OCMStub([[mockBannerClass ignoringNonObjectArgs]
-              initWithFrame:CGRectZero
-                placementId:[AUTInMobiPlacementID longLongValue]
-                   delegate:bannerAd])
-      .andReturn(mockBanner);
-
-  [bannerAd requestBannerWithSize:GADAdSizeBanner];
-
-  OCMVerifyAll(mockBanner);
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, (NSError *)sdkError);
 }
 
-- (void)testRTBRequestBannerWithSize {
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatBanner
-                                            credentials:@{
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                              GADMAdapterInMobiPlacementID : AUTInMobiPlacementID
-                                            }];
-  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  [extras setKeywords:AUTInMobiKeywords];
-  NSString *bidResponse = @"bidResponse";
-  NSString *watermarkString =
-      @"iVBORw0KGgoAAAANSUhEUgAAACsAAAAWBAMAAACrl3iAAAAABlBMVEUAAAD+"
-      @"AciWmZzWAAAAAnRSTlMAApidrBQAAAB/SURBVBjTbZDREcAwCEJ1A/"
-      @"aftlVQvF79SPQk+kLEfySDiatAd98TgKtWRPruszolA5Ottp+96ah39qlm984XyQQoN3ekmUNLej1IgSm5PDQuDdK/"
-      @"I4M+SW5z2JhLAr3DdVAivjj/wrpYiR2kkmjHQXFo9vVZ2u9sYJYsiWiZPYZ9BdmQ8Y2lAAAAAElFTkSuQmCC";
-  GADMediationBannerAdConfiguration *adConfiguration = [[GADMediationBannerAdConfiguration alloc]
-       initWithAdSize:GADAdSizeBanner
-      adConfiguration:@{@"bid_response" : bidResponse, @"watermark" : watermarkString}
-            targeting:nil
-          credentials:credentials
-               extras:extras];
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  [bannerAd setValue:adConfiguration forKey:AUTInMobiBannerAdIVarBannerAdConfig];
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
-  IMBanner *mockBanner = (IMBanner *)[OCMockObject mockForClass:[IMBanner class]];
-  OCMExpect([mockBanner shouldAutoRefresh:NO]);
-  OCMExpect([mockBanner setTransitionAnimation:UIViewAnimationTransitionNone]);
-  OCMExpect([mockBanner setKeywords:AUTInMobiKeywords]);
-  OCMExpect([mockBanner setExtras:requestParameters]);
-  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
-  OCMExpect([mockBanner load:bidResponseData]);
-  id mockBannerClass = OCMClassMock([IMBanner class]);
-  OCMStub([mockBannerClass alloc]).andReturn(mockBannerClass);
-  OCMStub([[mockBannerClass ignoringNonObjectArgs]
-              initWithFrame:CGRectZero
-                placementId:[AUTInMobiPlacementID longLongValue]
-                   delegate:bannerAd])
-      .andReturn(mockBanner);
-  IMWatermark *watermarkMock = (IMWatermark *)[OCMockObject mockForClass:[IMWatermark class]];
-  id watermarkClassMock = OCMClassMock([IMWatermark class]);
-  OCMStub([watermarkClassMock alloc]).andReturn(watermarkClassMock);
-  OCMExpect([watermarkClassMock initWithWaterMarkImageData:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                  NSData *imageData = (NSData *)obj;
-                                  NSString *imageString =
-                                      [imageData base64EncodedStringWithOptions:0];
-                                  return [imageString isEqual:watermarkString];
-                                }]])
-      .andReturn(watermarkMock);
-  OCMExpect([mockBanner setWatermarkWith:watermarkMock]);
+- (void)testBannerDelegateLifecycleEvents {
+  OCMStub([_bannerMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedBannerDelegate bannerDidFinishLoading:self->_bannerMock];
+  });
 
-  [bannerAd requestBannerWithSize:GADAdSizeBanner];
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self bannerAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
 
-  OCMVerifyAll(mockBanner);
-  OCMVerifyAll(watermarkClassMock);
-}
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
 
-- (void)testRTBRequestBannerWithoutPlacementID {
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatBanner
-                                            credentials:@{
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                            }];
-  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  [extras setKeywords:AUTInMobiKeywords];
-  NSString *bidResponse = @"bidResponse";
-  NSString *watermarkString =
-      @"iVBORw0KGgoAAAANSUhEUgAAACsAAAAWBAMAAACrl3iAAAAABlBMVEUAAAD+"
-      @"AciWmZzWAAAAAnRSTlMAApidrBQAAAB/SURBVBjTbZDREcAwCEJ1A/"
-      @"aftlVQvF79SPQk+kLEfySDiatAd98TgKtWRPruszolA5Ottp+96ah39qlm984XyQQoN3ekmUNLej1IgSm5PDQuDdK/"
-      @"I4M+SW5z2JhLAr3DdVAivjj/wrpYiR2kkmjHQXFo9vVZ2u9sYJYsiWiZPYZ9BdmQ8Y2lAAAAAElFTkSuQmCC";
-  GADMediationBannerAdConfiguration *adConfiguration = [[GADMediationBannerAdConfiguration alloc]
-       initWithAdSize:GADAdSizeBanner
-      adConfiguration:@{@"bid_response" : bidResponse, @"watermark" : watermarkString}
-            targeting:nil
-          credentials:credentials
-               extras:extras];
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  [bannerAd setValue:adConfiguration forKey:AUTInMobiBannerAdIVarBannerAdConfig];
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
-  IMBanner *mockBanner = (IMBanner *)[OCMockObject mockForClass:[IMBanner class]];
-  OCMExpect([mockBanner shouldAutoRefresh:NO]);
-  OCMExpect([mockBanner setTransitionAnimation:UIViewAnimationTransitionNone]);
-  OCMExpect([mockBanner setKeywords:AUTInMobiKeywords]);
-  OCMExpect([mockBanner setExtras:requestParameters]);
-  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
-  OCMExpect([mockBanner load:bidResponseData]);
-  id mockBannerClass = OCMClassMock([IMBanner class]);
-  OCMStub([mockBannerClass alloc]).andReturn(mockBannerClass);
-  OCMStub([[mockBannerClass ignoringNonObjectArgs]
-              initWithFrame:CGRectZero
-                placementId:0
-                   delegate:bannerAd])
-      .andReturn(mockBanner);
-  IMWatermark *watermarkMock = (IMWatermark *)[OCMockObject mockForClass:[IMWatermark class]];
-  id watermarkClassMock = OCMClassMock([IMWatermark class]);
-  OCMStub([watermarkClassMock alloc]).andReturn(watermarkClassMock);
-  OCMExpect([watermarkClassMock initWithWaterMarkImageData:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                  NSData *imageData = (NSData *)obj;
-                                  NSString *imageString =
-                                      [imageData base64EncodedStringWithOptions:0];
-                                  return [imageString isEqual:watermarkString];
-                                }]])
-      .andReturn(watermarkMock);
-  OCMExpect([mockBanner setWatermarkWith:watermarkMock]);
+  XCTAssertNotNil(eventDelegate);
 
-  [bannerAd requestBannerWithSize:GADAdSizeBanner];
+  // Test impression event.
+  [_capturedBannerDelegate bannerAdImpressed:_bannerMock];
+  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
 
-  OCMVerifyAll(mockBanner);
-  OCMVerifyAll(watermarkClassMock);
-}
+  // Test click event.
+  [_capturedBannerDelegate banner:_bannerMock didInteractWithParams:nil];
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 
-- (void)testRequestBannerWithSizeFailureWithNoPlacementID {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
+  // Test full screen presentation event.
+  [_capturedBannerDelegate bannerWillPresentScreen:_bannerMock];
+  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
 
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatBanner credentials:@{}];
-  GADMediationBannerAdConfiguration *adConfiguration =
-      [[GADMediationBannerAdConfiguration alloc] initWithAdSize:GADAdSizeBanner
-                                                adConfiguration:nil
-                                                      targeting:nil
-                                                    credentials:credentials
-                                                         extras:nil];
-  [bannerAd setValue:adConfiguration forKey:AUTInMobiBannerAdIVarBannerAdConfig];
+  // Test full screen dismissal events.
+  [_capturedBannerDelegate bannerWillDismissScreen:_bannerMock];
+  XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 1);
 
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationBannerLoadCompletionHandler completionHandler =
-      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertNotNil(error);
-        XCTAssertTrue(error.code == GADMAdapterInMobiErrorInvalidServerParameters);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-      };
-  [bannerAd setValue:completionHandler forKey:AUTInMobiBannerAdIVarBannerAdLoadCompletionHandler];
-
-  [bannerAd requestBannerWithSize:GADAdSizeBanner];
-
-  XCTAssertTrue(completionHandler);
-}
-
-- (void)testRequestBannerWithSizeFailureWithInbalidBannerSize {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  [bannerAd setValue:AUTGADMediationBannerAdConfigurationForInMobi()
-              forKey:AUTInMobiBannerAdIVarBannerAdConfig];
-
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationBannerLoadCompletionHandler completionHandler =
-      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertNotNil(error);
-        XCTAssertTrue(error.code == GADMAdapterInMobiErrorBannerSizeMismatch);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-      };
-  [bannerAd setValue:completionHandler forKey:AUTInMobiBannerAdIVarBannerAdLoadCompletionHandler];
-
-  [bannerAd requestBannerWithSize:GADAdSizeInvalid];
-
-  XCTAssertTrue(completionHandler);
+  [_capturedBannerDelegate bannerDidDismissScreen:_bannerMock];
+  XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
 - (void)testStopBeingDelegate {
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  banner.delegate = OCMProtocolMock(@protocol(IMBannerDelegate));
-
   GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  [bannerAd setValue:banner forKey:AUTInMobiBannerAdIVarAdView];
+  OCMExpect([_bannerMock setDelegate:nil]);
+  [bannerAd setValue:_bannerMock forKey:@"_adView"];
 
-  XCTAssertNotNil(banner.delegate);
   [bannerAd stopBeingDelegate];
-  XCTAssertNil(banner.delegate);
-}
 
-- (void)testIMBannerDelegateConformance {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  XCTAssertTrue([bannerAd conformsToProtocol:@protocol(IMBannerDelegate)]);
-}
-
-- (void)testBannerDidFinishLoading {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  id<GADMediationBannerAdEventDelegate> bannerEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-  GADMediationBannerLoadCompletionHandler completionHandler =
-      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertEqualObjects(bannerAd, ad);
-        return bannerEventDelegate;
-      };
-  [bannerAd setValue:completionHandler forKey:AUTInMobiBannerAdIVarBannerAdLoadCompletionHandler];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  XCTAssertNil([bannerAd valueForKey:AUTInMobiBannerAdIVarBannerAdEventDelegate]);
-  [bannerDelegate bannerDidFinishLoading:banner];
-  XCTAssertEqualObjects([bannerAd valueForKey:AUTInMobiBannerAdIVarBannerAdEventDelegate],
-                        bannerEventDelegate);
-}
-
-- (void)testBannerDidFailToLoadWithError {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  IMRequestStatus *expectedError = OCMClassMock([IMRequestStatus class]);
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationBannerLoadCompletionHandler completionHandler =
-      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertEqualObjects(error, expectedError);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-      };
-  [bannerAd setValue:completionHandler forKey:AUTInMobiBannerAdIVarBannerAdLoadCompletionHandler];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  [bannerDelegate banner:OCMClassMock([IMBanner class]) didFailToLoadWithError:expectedError];
-
-  XCTAssertTrue(completionHandlerInvoked);
-}
-
-- (void)testBannerDidInteractWithParams {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  id<GADMediationBannerAdEventDelegate> bannerEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-  OCMExpect([bannerEventDelegate reportClick]);
-  [bannerAd setValue:bannerEventDelegate forKey:AUTInMobiBannerAdIVarBannerAdEventDelegate];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  [bannerDelegate banner:banner didInteractWithParams:nil];
-
-  OCMVerifyAll(bannerEventDelegate);
-}
-
-- (void)testBannerWillPresentScreen {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  id<GADMediationBannerAdEventDelegate> bannerEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-  OCMExpect([bannerEventDelegate willPresentFullScreenView]);
-  [bannerAd setValue:bannerEventDelegate forKey:AUTInMobiBannerAdIVarBannerAdEventDelegate];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  [bannerDelegate bannerWillPresentScreen:banner];
-
-  OCMVerifyAll(bannerEventDelegate);
-}
-
-- (void)testBannerWillDismissScreen {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  id<GADMediationBannerAdEventDelegate> bannerEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-  OCMExpect([bannerEventDelegate willDismissFullScreenView]);
-  [bannerAd setValue:bannerEventDelegate forKey:AUTInMobiBannerAdIVarBannerAdEventDelegate];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  [bannerDelegate bannerWillDismissScreen:banner];
-
-  OCMVerifyAll(bannerEventDelegate);
-}
-
-- (void)testBannerDidDismissScreen {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  id<GADMediationBannerAdEventDelegate> bannerEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-  OCMExpect([bannerEventDelegate didDismissFullScreenView]);
-  [bannerAd setValue:bannerEventDelegate forKey:AUTInMobiBannerAdIVarBannerAdEventDelegate];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  [bannerDelegate bannerDidDismissScreen:banner];
-
-  OCMVerifyAll(bannerEventDelegate);
-}
-
-- (void)testBannerAdImpressed {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  id<GADMediationBannerAdEventDelegate> bannerEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-  OCMExpect([bannerEventDelegate reportImpression]);
-  [bannerAd setValue:bannerEventDelegate forKey:AUTInMobiBannerAdIVarBannerAdEventDelegate];
-
-  id<IMBannerDelegate> bannerDelegate = (id<IMBannerDelegate>)bannerAd;
-  IMBanner *banner = [[IMBanner alloc] initWithFrame:CGRectZero placementId:0];
-  [bannerDelegate bannerAdImpressed:banner];
-
-  OCMVerifyAll(bannerEventDelegate);
-}
-
-- (void)testView {
-  GADMAdapterInMobiBannerAd *bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-  UIView *expectedView = [[UIView alloc] init];
-  [bannerAd setValue:expectedView forKey:AUTInMobiBannerAdIVarAdView];
-
-  UIView *view = [bannerAd view];
-
-  XCTAssertEqualObjects(view, expectedView);
+  OCMVerifyAll((id)_bannerMock);
 }
 
 @end

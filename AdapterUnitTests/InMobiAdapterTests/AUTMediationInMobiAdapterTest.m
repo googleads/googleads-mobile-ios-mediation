@@ -63,6 +63,10 @@ GADMediationServerConfiguration *_Nonnull AUTDefaultMediationServerConfiguration
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [super tearDown];
 }
 
 - (void)testCollectSignalsWithCOPPAUnset {

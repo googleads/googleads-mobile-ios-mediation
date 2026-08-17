@@ -11,17 +11,21 @@
 #import "GADMAdapterInMobiInitializer.h"
 #import "NativeAdKeys.h"
 
-void AUTMockGADMAdapterInMobiInitializer() {
+id _Nonnull AUTMockGADMAdapterInMobiInitializer(void) {
   id mockInitializer = OCMClassMock([GADMAdapterInMobiInitializer class]);
   GADMAdapterInMobiInitializer *initializer = [[GADMAdapterInMobiInitializer alloc] init];
-  OCMStub([mockInitializer sharedInstance]).andReturn(initializer);
-
-  id mockManager = OCMClassMock([GADMAdapterInMobiDelegateManager class]);
-  GADMAdapterInMobiDelegateManager *manager = [[GADMAdapterInMobiDelegateManager alloc] init];
-  OCMStub([mockManager sharedInstance]).andReturn(manager);
+  OCMStub(ClassMethod([mockInitializer sharedInstance])).andReturn(initializer);
+  return mockInitializer;
 }
 
-void AUTMockIMSDKInit() {
+id _Nonnull AUTMockGADMAdapterInMobiDelegateManager(void) {
+  id mockManager = OCMClassMock([GADMAdapterInMobiDelegateManager class]);
+  GADMAdapterInMobiDelegateManager *manager = [[GADMAdapterInMobiDelegateManager alloc] init];
+  OCMStub(ClassMethod([mockManager sharedInstance])).andReturn(manager);
+  return mockManager;
+}
+
+id _Nonnull AUTMockIMSDKInit(void) {
   id IMSDKMock = OCMClassMock([IMSdk class]);
   OCMStub(ClassMethod([IMSDKMock initWithAccountID:OCMOCK_ANY
                                  consentDictionary:OCMOCK_ANY
@@ -31,6 +35,7 @@ void AUTMockIMSDKInit() {
         [invocation getArgument:&completionBlock atIndex:4];
         completionBlock(nil);
       });
+  return IMSDKMock;
 }
 
 NSString *_Nonnull AUTNativeAdContentString(NSString *_Nullable landingPageURLString,

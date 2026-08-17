@@ -1,459 +1,334 @@
 #import "GADMAdapterInMobiInterstitialAd.h"
 
-#import <XCTest/XCTest.h>
-
+#import <AdapterUnitTestKit/AUTKAdConfiguration.h>
+#import <AdapterUnitTestKit/AUTKMediationInterstitialAdLoadAssertions.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK-Swift.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "AUTInMobiUtils.h"
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
-#import "GADMediation+AdapterUnitTests.h"
 #import "GADMediationAdapterInMobi.h"
+
+@interface GADMAdapterInMobiInterstitialAd (Test)
+- (void)stopBeingDelegate;
+@end
 
 @interface AUTInMobiInterstitialAdTest : XCTestCase
 @end
 
-/**
- * Returns a correctly configured interstitial ad configuration.
- */
-GADMediationInterstitialAdConfiguration
-    *_Nonnull AUTGADMediationInterstitialAdConfigurationForInMobi() {
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatBanner
-                                            credentials:@{
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                              GADMAdapterInMobiPlacementID : AUTInMobiPlacementID
-                                            }];
-  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  [extras setKeywords:AUTInMobiKeywords];
-  GADMediationInterstitialAdConfiguration *adConfiguration =
-      [[GADMediationInterstitialAdConfiguration alloc] initWithAdConfiguration:nil
-                                                                     targeting:nil
-                                                                   credentials:credentials
-                                                                        extras:extras];
-  return adConfiguration;
-}
-
 @implementation AUTInMobiInterstitialAdTest {
-  GADMAdapterInMobiInterstitialAd *_interstitialAd;
-  IMInterstitial *_interstialMock;
+  /// Adapter instance used to load interstitial ads.
+  GADMediationAdapterInMobi *_adapter;
+
+  /// Mock instance for IMInterstitial.
+  IMInterstitial *_interstitialMock;
+
+  /// Class mock for IMInterstitial.
+  id _interstitialClassMock;
+
+  /// Class mock for IMSdk.
+  id _imsdkMock;
+
+  /// Class mock for GADMAdapterInMobiInitializer.
+  id _initializerMock;
+
+  /// Delegate captured from IMInterstitial initialization.
+  __block id<IMInterstitialDelegate> _capturedInterstitialDelegate;
 }
 
 - (void)setUp {
   [super setUp];
-  _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] init];
-  AUTMockGADMAdapterInMobiInitializer();
-  AUTMockIMSDKInit();
+  _adapter = [[GADMediationAdapterInMobi alloc] init];
+  _initializerMock = AUTMockGADMAdapterInMobiInitializer();
+  _imsdkMock = AUTMockIMSDKInit();
+
+  _interstitialMock = OCMClassMock([IMInterstitial class]);
+  _interstitialClassMock = OCMClassMock([IMInterstitial class]);
+  OCMStub([_interstitialClassMock alloc]).andReturn(_interstitialClassMock);
+  OCMStub([[_interstitialClassMock ignoringNonObjectArgs]
+              initWithPlacementId:[AUTInMobiPlacementID longLongValue]
+                         delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                           self->_capturedInterstitialDelegate = obj;
+                           return YES;
+                         }]])
+      .andReturn(_interstitialMock);
+  OCMStub([[_interstitialClassMock ignoringNonObjectArgs]
+              initWithPlacementId:0
+                         delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                           self->_capturedInterstitialDelegate = obj;
+                           return YES;
+                         }]])
+      .andReturn(_interstitialMock);
 }
 
-- (void)testLoadInterstitialAdForAdConfiguration {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertEqualObjects(ad, _interstitialAd);
-        XCTAssertNil(error);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-      };
-  [_interstitialAd loadInterstitialAdForAdConfiguration:configuration
-                                      completionHandler:completionHandler];
+  [(id)_interstitialMock stopMocking];
+  _interstitialMock = nil;
+  [_interstitialClassMock stopMocking];
+  _interstitialClassMock = nil;
+  [_imsdkMock stopMocking];
+  _imsdkMock = nil;
+  [_initializerMock stopMocking];
+  _initializerMock = nil;
 
-  XCTAssertTrue(completionHandlerInvoked);
+  [super tearDown];
 }
 
-- (void)testLoadRTBInterstitialAdForAdConfiguration {
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatInterstitial
-                                            credentials:@{
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                              GADMAdapterInMobiPlacementID : AUTInMobiPlacementID
-                                            }];
+- (nonnull AUTKMediationInterstitialAdConfiguration *)
+    interstitialAdConfigurationWithPlacementID:(nullable NSString *)placementID
+                                   bidResponse:(nullable NSString *)bidResponse {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  NSMutableDictionary<NSString *, id> *settings =
+      [@{GADMAdapterInMobiAccountID : AUTInMobiAccountID} mutableCopy];
+  if (placementID) {
+    settings[GADMAdapterInMobiPlacementID] = placementID;
+  }
+  credentials.settings = settings;
+
   GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  [extras setKeywords:AUTInMobiKeywords];
-  NSString *bidResponse = @"bidResponse";
-  NSString *watermarkString =
-      @"iVBORw0KGgoAAAANSUhEUgAAACsAAAAWBAMAAACrl3iAAAAABlBMVEUAAAD+"
-      @"AciWmZzWAAAAAnRSTlMAApidrBQAAAB/SURBVBjTbZDREcAwCEJ1A/"
-      @"aftlVQvF79SPQk+kLEfySDiatAd98TgKtWRPruszolA5Ottp+96ah39qlm984XyQQoN3ekmUNLej1IgSm5PDQuDdK/"
-      @"I4M+SW5z2JhLAr3DdVAivjj/wrpYiR2kkmjHQXFo9vVZ2u9sYJYsiWiZPYZ9BdmQ8Y2lAAAAAElFTkSuQmCC";
-  GADMediationInterstitialAdConfiguration *adConfiguration =
-      [[GADMediationInterstitialAdConfiguration alloc]
-          initWithAdConfiguration:@{@"bid_response" : bidResponse, @"watermark" : watermarkString}
-                        targeting:nil
-                      credentials:credentials
-                           extras:extras];
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
-  OCMStub([_interstialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
-    XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(IMInterstitialDelegate)]);
-    id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-    [delegate interstitialDidFinishLoading:_interstialMock];
+  extras.keywords = AUTInMobiKeywords;
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.extras = extras;
+  configuration.bidResponse = bidResponse;
+  return configuration;
+}
+
+- (void)testLoadInterstitialAdSuccessWaterfall {
+  OCMStub([_interstitialMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
   });
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertEqualObjects(ad, _interstitialAd);
-        XCTAssertNil(error);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-      };
-  IMWatermark *watermarkMock = (IMWatermark *)[OCMockObject mockForClass:[IMWatermark class]];
-  id watermarkClassMock = OCMClassMock([IMWatermark class]);
-  OCMStub([watermarkClassMock alloc]).andReturn(watermarkClassMock);
-  OCMExpect([watermarkClassMock initWithWaterMarkImageData:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                  NSData *imageData = (NSData *)obj;
-                                  NSString *imageString =
-                                      [imageData base64EncodedStringWithOptions:0];
-                                  return [imageString isEqual:watermarkString];
-                                }]])
-      .andReturn(watermarkMock);
-  OCMExpect([_interstialMock setWatermarkWith:watermarkMock]);
 
-  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
-                                      completionHandler:completionHandler];
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
 
-  XCTAssertTrue(completionHandlerInvoked);
-  OCMVerifyAll(_interstialMock);
-  OCMVerifyAll(watermarkClassMock);
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+  XCTAssertNotNil(eventDelegate.interstitialAd);
+}
+
+- (void)testLoadInterstitialAdSuccessRTB {
+  NSString *bidResponse = @"test_bid_response";
+  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  OCMStub([_interstitialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
+  });
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID
+                                           bidResponse:bidResponse];
+
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+  XCTAssertNotNil(eventDelegate.interstitialAd);
 }
 
 - (void)testLoadRTBInterstitialAdWithoutPlacementID {
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatInterstitial
-                                            credentials:@{
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                            }];
-  GADInMobiExtras *extras = [[GADInMobiExtras alloc] init];
-  [extras setKeywords:AUTInMobiKeywords];
-  NSString *bidResponse = @"bidResponse";
-  NSString *watermarkString =
-      @"iVBORw0KGgoAAAANSUhEUgAAACsAAAAWBAMAAACrl3iAAAAABlBMVEUAAAD+"
-      @"AciWmZzWAAAAAnRSTlMAApidrBQAAAB/SURBVBjTbZDREcAwCEJ1A/"
-      @"aftlVQvF79SPQk+kLEfySDiatAd98TgKtWRPruszolA5Ottp+96ah39qlm984XyQQoN3ekmUNLej1IgSm5PDQuDdK/"
-      @"I4M+SW5z2JhLAr3DdVAivjj/wrpYiR2kkmjHQXFo9vVZ2u9sYJYsiWiZPYZ9BdmQ8Y2lAAAAAElFTkSuQmCC";
-  GADMediationInterstitialAdConfiguration *adConfiguration =
-      [[GADMediationInterstitialAdConfiguration alloc]
-          initWithAdConfiguration:@{@"bid_response" : bidResponse, @"watermark" : watermarkString}
-                        targeting:nil
-                      credentials:credentials
-                           extras:extras];
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
+  NSString *bidResponse = @"test_bid_response";
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
-  OCMStub([_interstialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
-    XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(IMInterstitialDelegate)]);
-    id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-    [delegate interstitialDidFinishLoading:_interstialMock];
-  });
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertEqualObjects(ad, _interstitialAd);
-        XCTAssertNil(error);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-      };
-  IMWatermark *watermarkMock = (IMWatermark *)[OCMockObject mockForClass:[IMWatermark class]];
-  id watermarkClassMock = OCMClassMock([IMWatermark class]);
-  OCMStub([watermarkClassMock alloc]).andReturn(watermarkClassMock);
-  OCMExpect([watermarkClassMock initWithWaterMarkImageData:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                  NSData *imageData = (NSData *)obj;
-                                  NSString *imageString =
-                                      [imageData base64EncodedStringWithOptions:0];
-                                  return [imageString isEqual:watermarkString];
-                                }]])
-      .andReturn(watermarkMock);
-  OCMExpect([_interstialMock setWatermarkWith:watermarkMock]);
 
-  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
-                                      completionHandler:completionHandler];
-
-  XCTAssertTrue(completionHandlerInvoked);
-  OCMVerifyAll(_interstialMock);
-  OCMVerifyAll(watermarkClassMock);
-}
-
-- (void)testLoadInterstitialAdForAdConfigurationFailureWithZeroLengthPlacementID {
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertEqual(error.code, GADMAdapterInMobiErrorInvalidServerParameters);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-      };
-  GADMediationCredentials *credentials =
-      [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatBanner
-                                            credentials:@{
-                                              GADMAdapterInMobiPlacementID : @"",
-                                              GADMAdapterInMobiAccountID : AUTInMobiAccountID,
-                                            }];
-  GADMediationInterstitialAdConfiguration *adConfiguration =
-      [[GADMediationInterstitialAdConfiguration alloc] initWithAdConfiguration:nil
-                                                                     targeting:nil
-                                                                   credentials:credentials
-                                                                        extras:nil];
-  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
-                                      completionHandler:completionHandler];
-
-  XCTAssertTrue(completionHandlerInvoked);
-}
-
-- (void)testLoadInterstitialAdForAdConfigurationFailureWithError {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  // Mock unsuccessful ad loading.
-  IMRequestStatus *expectedError = OCMClassMock([IMRequestStatus class]);
-  OCMStub([_interstialMock load]).andDo(^(NSInvocation *invocation) {
-    XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(IMInterstitialDelegate)]);
-    id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-    [delegate interstitial:_interstialMock didFailToLoadWithError:expectedError];
+  OCMStub([_interstitialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
   });
 
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertEqualObjects(error, expectedError);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-      };
-  [_interstitialAd loadInterstitialAdForAdConfiguration:configuration
-                                      completionHandler:completionHandler];
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:nil bidResponse:bidResponse];
 
-  XCTAssertTrue(completionHandlerInvoked);
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
 }
 
-- (void)testInitializerFailure {
-  // Mock 3rd party SDK to call completion handler with an error.
-  NSError *expectedError = OCMClassMock([NSError class]);
-  id IMSDKMock = OCMClassMock([IMSdk class]);
-  OCMStub(ClassMethod([IMSDKMock initWithAccountID:OCMOCK_ANY
-                                 consentDictionary:OCMOCK_ANY
-                              andCompletionHandler:OCMOCK_ANY]))
+- (void)testLoadInterstitialAdWatermarkDataForwarding {
+  NSString *bidResponse = @"test_bid_response";
+  NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *watermarkData = [AUTInMobiTestWatermarkString dataUsingEncoding:NSUTF8StringEncoding];
+
+  OCMStub([_interstitialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
+  });
+
+  OCMExpect([_interstitialMock setWatermarkWith:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                 return [obj isKindOfClass:[IMWatermark class]];
+                               }]]);
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID
+                                           bidResponse:bidResponse];
+  configuration.watermark = watermarkData;
+
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  XCTAssertNotNil(eventDelegate);
+  OCMVerifyAll((id)_interstitialMock);
+}
+
+- (void)testLoadInterstitialAdFailureMissingPlacementID {
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:nil bidResponse:nil];
+
+  NSError *expectedError = GADMAdapterInMobiErrorWithCodeAndDescription(
+      GADMAdapterInMobiErrorInvalidServerParameters, @"Placement ID not specified.");
+
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadInterstitialAdFailureInitializerError {
+  [_imsdkMock stopMocking];
+  _imsdkMock = OCMClassMock([IMSdk class]);
+  NSError *initError = [NSError errorWithDomain:GADMAdapterInMobiErrorDomain
+                                           code:GADMAdapterInMobiErrorInvalidServerParameters
+                                       userInfo:nil];
+  OCMStub(ClassMethod([_imsdkMock initWithAccountID:OCMOCK_ANY
+                                  consentDictionary:OCMOCK_ANY
+                               andCompletionHandler:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionBlock)(NSError *_Nullable);
         [invocation getArgument:&completionBlock atIndex:4];
-        completionBlock(expectedError);
+        completionBlock(initError);
       });
 
-  __block BOOL completionHandlerInvoked = NO;
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertEqualObjects(error, expectedError);
-        completionHandlerInvoked = YES;
-        return OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-      };
-  [_interstitialAd
-      loadInterstitialAdForAdConfiguration:AUTGADMediationInterstitialAdConfigurationForInMobi()
-                         completionHandler:completionHandler];
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
 
-  XCTAssertTrue(completionHandlerInvoked);
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, initError);
+}
+
+- (void)testLoadInterstitialAdFailureInMobiSDKError {
+  id sdkError = OCMClassMock([IMRequestStatus class]);
+  OCMStub([_interstitialMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitial:self->_interstitialMock
+                               didFailToLoadWithError:sdkError];
+  });
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
+
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, (NSError *)sdkError);
 }
 
 - (void)testPresentInterstitialAd {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      [self loadInterstitialAd];
-
-  // Mock present from view controller.
-  OCMStub([_interstialMock isReady]).andReturn(YES);
-  OCMStub([_interstialMock showFrom:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    // Mock IMInterstitialDelegate present flow.
-    XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(IMInterstitialDelegate)]);
-    id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-    [delegate interstitialWillPresent:OCMClassMock([IMInterstitial class])];
-    [delegate interstitialDidPresent:OCMClassMock([IMInterstitial class])];
+  OCMStub([_interstitialMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
   });
-  OCMExpect([interstitalAdEventDelegate willPresentFullScreenView]);
 
-  XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(GADMediationInterstitialAd)]);
-  id<GADMediationInterstitialAd> mediationInterstitialAd =
-      (id<GADMediationInterstitialAd>)_interstitialAd;
-  [mediationInterstitialAd presentFromViewController:OCMClassMock([UIViewController class])];
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
 
-  OCMVerifyAll(interstitalAdEventDelegate);
-}
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
 
-- (void)testPresentInterstitialAdFailure {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      [self loadInterstitialAd];
-
-  // Mock present from view controller failure.
-  IMRequestStatus *expectedError = OCMClassMock([IMRequestStatus class]);
-  OCMStub([_interstialMock isReady]).andReturn(YES);
-  OCMStub([_interstialMock showFrom:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    // Mock IMInterstitialDelegate present flow.
-    XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(IMInterstitialDelegate)]);
-    id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-    [delegate interstitial:_interstialMock didFailToPresentWithError:expectedError];
+  OCMStub([_interstitialMock isReady]).andReturn(YES);
+  OCMStub([_interstitialMock showFrom:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialWillPresent:self->_interstitialMock];
+    [self->_capturedInterstitialDelegate interstitialDidPresent:self->_interstitialMock];
   });
-  OCMExpect([interstitalAdEventDelegate didFailToPresentWithError:expectedError]);
 
-  XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(GADMediationInterstitialAd)]);
-  id<GADMediationInterstitialAd> mediationInterstitialAd =
-      (id<GADMediationInterstitialAd>)_interstitialAd;
-  [mediationInterstitialAd presentFromViewController:OCMClassMock([UIViewController class])];
+  UIViewController *viewController = [[UIViewController alloc] init];
+  [eventDelegate.interstitialAd presentFromViewController:viewController];
 
-  OCMVerifyAll(interstitalAdEventDelegate);
+  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
 }
 
-- (void)testPresentInterstitialAdIsNotReady {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      [self loadInterstitialAd];
-
-  // Mock present from view controller failure.
-  OCMStub([_interstialMock isReady]).andReturn(NO);
-  OCMReject([_interstialMock showFrom:OCMOCK_ANY]);
-  OCMExpect([interstitalAdEventDelegate didFailToPresentWithError:OCMOCK_ANY]);
-
-  XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(GADMediationInterstitialAd)]);
-  id<GADMediationInterstitialAd> mediationInterstitialAd =
-      (id<GADMediationInterstitialAd>)_interstitialAd;
-  [mediationInterstitialAd presentFromViewController:OCMClassMock([UIViewController class])];
-
-  OCMVerifyAll(interstitalAdEventDelegate);
-}
-
-- (void)testDismissInterstitialAd {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      [self loadInterstitialAd];
-
-  OCMExpect([interstitalAdEventDelegate willDismissFullScreenView]);
-  OCMExpect([interstitalAdEventDelegate didDismissFullScreenView]);
-
-  id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-  [delegate interstitialWillDismiss:OCMClassMock([IMInterstitial class])];
-  [delegate interstitialDidDismiss:OCMClassMock([IMInterstitial class])];
-
-  OCMVerifyAll(interstitalAdEventDelegate);
-}
-
-- (void)testClick {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      [self loadInterstitialAd];
-
-  // Mock interstital click.
-  OCMExpect([interstitalAdEventDelegate reportClick]);
-
-  id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-  [delegate interstitial:OCMClassMock([IMInterstitial class]) didInteractWithParams:nil];
-
-  OCMVerifyAll(interstitalAdEventDelegate);
-}
-
-- (void)testImpression {
-  GADMediationInterstitialAdConfiguration *configuration =
-      AUTGADMediationInterstitialAdConfigurationForInMobi();
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
-  [self mockIMInterstitialWithRequestParameters:requestParameters];
-  [self mockSuccessfulAdLoading];
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      [self loadInterstitialAd];
-
-  OCMExpect([interstitalAdEventDelegate reportImpression]);
-
-  id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-  [delegate interstitialAdImpressed:OCMClassMock([IMInterstitial class])];
-
-  OCMVerifyAll(interstitalAdEventDelegate);
-}
-
-/**
- * Mocks mockIMInterstitial.
- */
-- (void)mockIMInterstitialWithRequestParameters:
-    (nullable NSDictionary<NSString *, id> *)requestParameters {
-  // Mock IMInterstitial instance.
-  _interstialMock = (IMInterstitial *)[OCMockObject mockForClass:[IMInterstitial class]];
-  OCMStub([_interstialMock setKeywords:OCMOCK_ANY]);
-  OCMExpect([_interstialMock setExtras:requestParameters]);
-
-  // Mock IMInterstitial init method and return the mock itnerstitial object.
-  id mockInterstitialClass = OCMClassMock([IMInterstitial class]);
-  OCMStub([mockInterstitialClass alloc]).andReturn(mockInterstitialClass);
-  OCMStub([[mockInterstitialClass ignoringNonObjectArgs]
-              initWithPlacementId:[AUTInMobiPlacementID longLongValue]
-                         delegate:OCMOCK_ANY])
-      .andReturn(_interstialMock);
-}
-
-/**
- * Mocks successful ad loading.
- */
-- (void)mockSuccessfulAdLoading {
-  OCMExpect([_interstialMock load]).andDo(^(NSInvocation *invocation) {
-    XCTAssertTrue([_interstitialAd conformsToProtocol:@protocol(IMInterstitialDelegate)]);
-    id<IMInterstitialDelegate> delegate = (id<IMInterstitialDelegate>)_interstitialAd;
-    [delegate interstitialDidFinishLoading:_interstialMock];
+- (void)testPresentInterstitialAdFailureWhenNotReady {
+  OCMStub([_interstitialMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
   });
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
+
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  OCMStub([_interstitialMock isReady]).andReturn(NO);
+  OCMReject([_interstitialMock showFrom:OCMOCK_ANY]);
+
+  UIViewController *viewController = [[UIViewController alloc] init];
+  [eventDelegate.interstitialAd presentFromViewController:viewController];
+
+  XCTAssertNotNil(eventDelegate.didFailToPresentError);
+  XCTAssertEqual(eventDelegate.didFailToPresentError.code, GADMAdapterInMobiErrorAdNotReady);
 }
 
-/**
- * Loads an interstital ad and returns its event delegate.
- *
- * Use this method to avoid ad loading boilerplate. Do not use this method in unit tests that test
- * the resulting ad or error.
- */
-- (id<GADMediationInterstitialAdEventDelegate>)loadInterstitialAd {
-  id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationInterstitialAdEventDelegate));
-  GADMediationInterstitialLoadCompletionHandler completionHandler =
-      ^(id<GADMediationInterstitialAd> _Nullable ad, NSError *_Nullable error) {
-        return interstitalAdEventDelegate;
-      };
-  [_interstitialAd
-      loadInterstitialAdForAdConfiguration:AUTGADMediationInterstitialAdConfigurationForInMobi()
-                         completionHandler:completionHandler];
-  return interstitalAdEventDelegate;
+- (void)testPresentInterstitialAdFailureWithErrorFromSDK {
+  OCMStub([_interstitialMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
+  });
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
+
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  id sdkError = OCMClassMock([IMRequestStatus class]);
+  OCMStub([_interstitialMock isReady]).andReturn(YES);
+  OCMStub([_interstitialMock showFrom:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitial:self->_interstitialMock
+                            didFailToPresentWithError:sdkError];
+  });
+
+  UIViewController *viewController = [[UIViewController alloc] init];
+  [eventDelegate.interstitialAd presentFromViewController:viewController];
+
+  XCTAssertEqualObjects(eventDelegate.didFailToPresentError, (NSError *)sdkError);
+}
+
+- (void)testInterstitialDelegateLifecycleEvents {
+  OCMStub([_interstitialMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_capturedInterstitialDelegate interstitialDidFinishLoading:self->_interstitialMock];
+  });
+
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [self interstitialAdConfigurationWithPlacementID:AUTInMobiPlacementID bidResponse:nil];
+
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+
+  // Test impression.
+  [_capturedInterstitialDelegate interstitialAdImpressed:_interstitialMock];
+  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
+
+  // Test click.
+  [_capturedInterstitialDelegate interstitial:_interstitialMock didInteractWithParams:nil];
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+
+  // Test dismiss events.
+  [_capturedInterstitialDelegate interstitialWillDismiss:_interstitialMock];
+  XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 1);
+
+  [_capturedInterstitialDelegate interstitialDidDismiss:_interstitialMock];
+  XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
+}
+
+- (void)testStopBeingDelegate {
+  GADMAdapterInMobiInterstitialAd *interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] init];
+  OCMExpect([_interstitialMock setDelegate:nil]);
+  [interstitialAd setValue:_interstitialMock forKey:@"_interstitialAd"];
+
+  [interstitialAd stopBeingDelegate];
+
+  OCMVerifyAll((id)_interstitialMock);
 }
 
 @end
