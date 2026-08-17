@@ -9,27 +9,61 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 static NSUInteger AUTSlotID = 12345;
 
-AUTKMediationBannerAdEventDelegate *_Nonnull AUTLoadBannerAd(MTRGAdView *_Nonnull adView) {
-  MTRGAdView *adViewMock = OCMPartialMock(adView);
-  OCMStub([adViewMock load]).andDo(^(NSInvocation *invocation) {
-    [adViewMock.delegate onLoadWithAdView:adViewMock];
+@interface AUTMyTargetBannerAdTests : XCTestCase
+@end
+
+@implementation AUTMyTargetBannerAdTests {
+  id _mockPrivacy;
+  id _adViewClassMock;
+  MTRGAdView *_adViewMock;
+  id _customParamsMock;
+}
+
+- (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
+}
+
+- (void)tearDown {
+  [_customParamsMock stopMocking];
+  [(id)_adViewMock stopMocking];
+  [_adViewClassMock stopMocking];
+  [_mockPrivacy stopMocking];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [super tearDown];
+}
+
+- (AUTKMediationBannerAdEventDelegate *)loadBannerAdWithAdSize:(GADAdSize)adSize
+                                                        extras:
+                                                            (nullable GADMAdapterMyTargetExtras *)
+                                                                extras {
+  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
+  _adViewMock = OCMPartialMock(adView);
+  OCMStub([_adViewMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_adViewMock.delegate onLoadWithAdView:self->_adViewMock];
   });
-  id adViewClassMock = OCMClassMock([MTRGAdView class]);
-  OCMStub([adViewClassMock adViewWithSlotId:AUTSlotID shouldRefreshAd:NO]).andReturn(adViewMock);
+  _adViewClassMock = OCMClassMock([MTRGAdView class]);
+  OCMStub([_adViewClassMock adViewWithSlotId:AUTSlotID shouldRefreshAd:NO]).andReturn(_adViewMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationBannerAdConfiguration *bannerAdConfiguration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
-  bannerAdConfiguration.adSize = GADAdSizeBanner;
+  bannerAdConfiguration.adSize = adSize;
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
     GADMAdapterMyTargetSlotIdKey : @(AUTSlotID),
   };
   bannerAdConfiguration.credentials = credentials;
-  GADMAdapterMyTargetExtras *extras = [[GADMAdapterMyTargetExtras alloc] init];
-  extras.isDebugMode = YES;
   bannerAdConfiguration.extras = extras;
   AUTKMediationBannerAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadBannerAd(adapter, bannerAdConfiguration);
@@ -44,15 +78,22 @@ AUTKMediationBannerAdEventDelegate *_Nonnull AUTLoadBannerAd(MTRGAdView *_Nonnul
   return eventDelegate;
 }
 
-void AUTFailToLoadBannerAd(MTRGAdView *_Nonnull bannerAd, GADAdSize adSize,
-                           NSError *expectedError) {
-  MTRGAdView *adViewMock = OCMPartialMock(bannerAd);
-  NSError *loadError = [[NSError alloc] initWithDomain:@"MyFyberDomain" code:12345 userInfo:nil];
-  OCMStub([adViewMock load]).andDo(^(NSInvocation *invocation) {
-    [adViewMock.delegate onLoadFailedWithError:loadError adView:adViewMock];
+- (void)failToLoadBannerAd:(MTRGAdView *)bannerAd
+                    adSize:(GADAdSize)adSize
+             expectedError:(NSError *)expectedError {
+  _adViewMock = OCMPartialMock(bannerAd);
+  NSError *loadError =
+      [NSError errorWithDomain:GADMAdapterMyTargetSDKErrorDomain
+                          code:12345
+                      userInfo:@{
+                        NSLocalizedDescriptionKey : @"foobar",
+                        NSLocalizedFailureReasonErrorKey : @"foobar",
+                      }];
+  OCMStub([_adViewMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_adViewMock.delegate onLoadFailedWithError:loadError adView:self->_adViewMock];
   });
-  id adViewClassMock = OCMClassMock([MTRGAdView class]);
-  OCMStub([adViewClassMock adViewWithSlotId:AUTSlotID shouldRefreshAd:NO]).andReturn(adViewMock);
+  _adViewClassMock = OCMClassMock([MTRGAdView class]);
+  OCMStub([_adViewClassMock adViewWithSlotId:AUTSlotID shouldRefreshAd:NO]).andReturn(_adViewMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationBannerAdConfiguration *bannerAdConfiguration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
@@ -68,105 +109,73 @@ void AUTFailToLoadBannerAd(MTRGAdView *_Nonnull bannerAd, GADAdSize adSize,
   AUTKWaitAndAssertLoadBannerAdFailure(adapter, bannerAdConfiguration, expectedError);
 }
 
-@interface AUTMyTargetBannerAdTests : XCTestCase
-@end
-
-@implementation AUTMyTargetBannerAdTests {
-  id _mockPrivacy;
-}
-
-- (void)setUp {
-  [super setUp];
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
-      GADAgeRestrictedTreatmentUnspecified;
-  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
-}
-
-- (void)tearDown {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
-      GADAgeRestrictedTreatmentUnspecified;
-  [super tearDown];
-}
-
 - (void)testOnLoadWithBannerAd {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithTagForChildYes {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithTagForChildNo {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithTagForUnderAgeYes {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithTagForUnderAgeNo {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithAgeRestrictedTreatmentChild {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentChild;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithAgeRestrictedTreatmentTeen {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentTeen;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithBannerAdWithAgeRestrictedTreatmentUnspecified {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
   OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
 
-  AUTLoadBannerAd(adView);
+  [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
-- (void)testMyFyberLoadFailure {
+- (void)testLoadFailure {
   MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMyTargetAdapterErrorDomain
                                                       code:GADMAdapterMyTargetErrorNoFill
@@ -174,7 +183,7 @@ void AUTFailToLoadBannerAd(MTRGAdView *_Nonnull bannerAd, GADAdSize adSize,
                                                     NSLocalizedDescriptionKey : @"foobar",
                                                     NSLocalizedFailureReasonErrorKey : @"foobar",
                                                   }];
-  AUTFailToLoadBannerAd(adView, GADAdSizeBanner, expectedError);
+  [self failToLoadBannerAd:adView adSize:GADAdSizeBanner expectedError:expectedError];
 }
 
 - (void)testLoadFailureForBannerSizeMismatch {
@@ -186,20 +195,78 @@ void AUTFailToLoadBannerAd(MTRGAdView *_Nonnull bannerAd, GADAdSize adSize,
                                NSLocalizedDescriptionKey : @"foobar",
                                NSLocalizedFailureReasonErrorKey : @"foobar",
                              }];
-  AUTFailToLoadBannerAd(adView, GADAdSizeInvalid, expectedError);
+  [self failToLoadBannerAd:adView adSize:GADAdSizeInvalid expectedError:expectedError];
+}
+
+- (void)testLoadMediumRectangleBannerAd {
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      [self loadBannerAdWithAdSize:GADAdSizeMediumRectangle extras:nil];
+  XCTAssertNotNil(eventDelegate.bannerAd);
+  XCTAssertEqual(eventDelegate.bannerAd.view.frame.size.width, 300);
+  XCTAssertEqual(eventDelegate.bannerAd.view.frame.size.height, 250);
+}
+
+- (void)testLoadLeaderboardBannerAd {
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      [self loadBannerAdWithAdSize:GADAdSizeLeaderboard extras:nil];
+  XCTAssertNotNil(eventDelegate.bannerAd);
+  XCTAssertEqual(eventDelegate.bannerAd.view.frame.size.width, 728);
+  XCTAssertEqual(eventDelegate.bannerAd.view.frame.size.height, 90);
+}
+
+- (void)testLoadAdaptiveBannerAd {
+  GADAdSize adaptiveSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(320);
+  MTRGAdSize *expectedMyTargetSize = [MTRGAdSize adSizeForCurrentOrientationForWidth:320];
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      [self loadBannerAdWithAdSize:adaptiveSize extras:nil];
+  XCTAssertNotNil(eventDelegate.bannerAd);
+  XCTAssertEqual(eventDelegate.bannerAd.view.frame.size.width, expectedMyTargetSize.size.width);
+  XCTAssertEqual(eventDelegate.bannerAd.view.frame.size.height, expectedMyTargetSize.size.height);
+}
+
+- (void)testCustomParametersExtras {
+  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
+  _adViewMock = OCMPartialMock(adView);
+  OCMStub([_adViewMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_adViewMock.delegate onLoadWithAdView:self->_adViewMock];
+  });
+  _adViewClassMock = OCMClassMock([MTRGAdView class]);
+  OCMStub([_adViewClassMock adViewWithSlotId:AUTSlotID shouldRefreshAd:NO]).andReturn(_adViewMock);
+
+  _customParamsMock = OCMPartialMock(_adViewMock.customParams);
+  OCMExpect([_customParamsMock setCustomParam:@"custom_value" forKey:@"custom_key"]);
+
+  GADMAdapterMyTargetExtras *extras = [[GADMAdapterMyTargetExtras alloc] init];
+  [extras setParameter:@"custom_value" forKey:@"custom_key"];
+
+  GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
+  AUTKMediationBannerAdConfiguration *bannerAdConfiguration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  bannerAdConfiguration.adSize = GADAdSizeBanner;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMAdapterMyTargetSlotIdKey : @(AUTSlotID),
+  };
+  bannerAdConfiguration.credentials = credentials;
+  bannerAdConfiguration.extras = extras;
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(adapter, bannerAdConfiguration);
+  XCTAssertNotNil(eventDelegate.bannerAd);
+
+  OCMVerifyAll(_customParamsMock);
 }
 
 - (void)testOnClickWithBannerAd {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
-  AUTKMediationBannerAdEventDelegate *eventDelegate = AUTLoadBannerAd(adView);
-  [adView.delegate onAdClickWithAdView:adView];
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
+  [_adViewMock.delegate onAdClickWithAdView:_adViewMock];
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
 - (void)testOnDisplayWithBannerAd {
-  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
-  AUTKMediationBannerAdEventDelegate *eventDelegate = AUTLoadBannerAd(adView);
-  [adView.delegate onAdShowWithAdView:adView];
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      [self loadBannerAdWithAdSize:GADAdSizeBanner extras:nil];
+  [_adViewMock.delegate onAdShowWithAdView:_adViewMock];
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
 }
 

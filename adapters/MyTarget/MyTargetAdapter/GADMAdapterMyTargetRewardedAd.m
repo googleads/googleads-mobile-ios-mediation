@@ -37,9 +37,10 @@
 
   /// myTarget rewarded ad object.
   MTRGRewardedAd *_rewardedAd;
-}
 
-BOOL _isRewardedAdLoaded;
+  /// YES if the rewarded ad has loaded.
+  BOOL _isRewardedAdLoaded;
+}
 
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration

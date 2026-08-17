@@ -9,18 +9,51 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 static NSUInteger AUTSlotID = 12345;
 
-AUTKMediationInterstitialAdEventDelegate *_Nonnull AUTLoadInterstitialAd(
-    MTRGInterstitialAd *_Nonnull interstitialAd) {
-  MTRGInterstitialAd *interstitialAdMock = OCMPartialMock(interstitialAd);
-  OCMStub([interstitialAdMock load]).andDo(^(NSInvocation *invocation) {
-    [interstitialAdMock.delegate onLoadWithInterstitialAd:interstitialAdMock];
+@interface AUTMyTargetInterstitialAdTests : XCTestCase
+@end
+
+@implementation AUTMyTargetInterstitialAdTests {
+  id _mockPrivacy;
+  id _interstitialAdClassMock;
+  MTRGInterstitialAd *_interstitialAdMock;
+  id _customParamsMock;
+}
+
+- (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
+}
+
+- (void)tearDown {
+  [_customParamsMock stopMocking];
+  [(id)_interstitialAdMock stopMocking];
+  [_interstitialAdClassMock stopMocking];
+  [_mockPrivacy stopMocking];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [super tearDown];
+}
+
+- (AUTKMediationInterstitialAdEventDelegate *)loadInterstitialAdWithExtras:
+    (nullable GADMAdapterMyTargetExtras *)extras {
+  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
+  _interstitialAdMock = OCMPartialMock(interstitialAd);
+  OCMStub([_interstitialAdMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_interstitialAdMock.delegate onLoadWithInterstitialAd:self->_interstitialAdMock];
   });
-  id interstitialAdClassMock = OCMClassMock([MTRGInterstitialAd class]);
-  OCMStub([interstitialAdClassMock interstitialAdWithSlotId:AUTSlotID])
-      .andReturn(interstitialAdMock);
+  _interstitialAdClassMock = OCMClassMock([MTRGInterstitialAd class]);
+  OCMStub([_interstitialAdClassMock interstitialAdWithSlotId:AUTSlotID])
+      .andReturn(_interstitialAdMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationInterstitialAdConfiguration *interstitialAdConfiguration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
@@ -29,8 +62,6 @@ AUTKMediationInterstitialAdEventDelegate *_Nonnull AUTLoadInterstitialAd(
     GADMAdapterMyTargetSlotIdKey : @(AUTSlotID),
   };
   interstitialAdConfiguration.credentials = credentials;
-  GADMAdapterMyTargetExtras *extras = [[GADMAdapterMyTargetExtras alloc] init];
-  extras.isDebugMode = YES;
   interstitialAdConfiguration.extras = extras;
   AUTKMediationInterstitialAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadInterstitialAd(adapter, interstitialAdConfiguration);
@@ -44,15 +75,22 @@ AUTKMediationInterstitialAdEventDelegate *_Nonnull AUTLoadInterstitialAd(
   return eventDelegate;
 }
 
-void AUTFailToLoadInterstitialAd(MTRGInterstitialAd *_Nonnull interstitialAd) {
-  MTRGInterstitialAd *interstitialAdMock = OCMPartialMock(interstitialAd);
-  NSError *loadError = [[NSError alloc] initWithDomain:@"MyFyberDomain" code:12345 userInfo:nil];
-  OCMStub([interstitialAdMock load]).andDo(^(NSInvocation *invocation) {
-    [interstitialAdMock.delegate onLoadFailedWithError:loadError interstitialAd:interstitialAdMock];
+- (void)failToLoadInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+  _interstitialAdMock = OCMPartialMock(interstitialAd);
+  NSError *loadError =
+      [NSError errorWithDomain:GADMAdapterMyTargetSDKErrorDomain
+                          code:12345
+                      userInfo:@{
+                        NSLocalizedDescriptionKey : @"foobar",
+                        NSLocalizedFailureReasonErrorKey : @"foobar",
+                      }];
+  OCMStub([_interstitialAdMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_interstitialAdMock.delegate onLoadFailedWithError:loadError
+                                               interstitialAd:self->_interstitialAdMock];
   });
-  id interstitialAdClassMock = OCMClassMock([MTRGInterstitialAd class]);
-  OCMStub([interstitialAdClassMock interstitialAdWithSlotId:AUTSlotID])
-      .andReturn(interstitialAdMock);
+  _interstitialAdClassMock = OCMClassMock([MTRGInterstitialAd class]);
+  OCMStub([_interstitialAdClassMock interstitialAdWithSlotId:AUTSlotID])
+      .andReturn(_interstitialAdMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationInterstitialAdConfiguration *interstitialAdConfiguration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
@@ -73,143 +111,142 @@ void AUTFailToLoadInterstitialAd(MTRGInterstitialAd *_Nonnull interstitialAd) {
   AUTKWaitAndAssertLoadInterstitialAdFailure(adapter, interstitialAdConfiguration, expectedError);
 }
 
-@interface AUTMyTargetInterstitialAdTests : XCTestCase
-@end
-
-@implementation AUTMyTargetInterstitialAdTests {
-  id _mockPrivacy;
-}
-
-- (void)setUp {
-  [super setUp];
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
-      GADAgeRestrictedTreatmentUnspecified;
-  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
-}
-
-- (void)tearDown {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
-      GADAgeRestrictedTreatmentUnspecified;
-  [super tearDown];
-}
-
 - (void)testOnLoadWithInterstitialAd {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithTagForChildYes {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithTagForChildNo {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithTagForUnderAgeYes {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithTagForUnderAgeNo {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithAgeRestrictedTreatmentChild {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentChild;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithAgeRestrictedTreatmentTeen {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentTeen;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnLoadWithInterstitialAdWithAgeRestrictedTreatmentUnspecified {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
   OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
 
-  AUTLoadInterstitialAd(interstitialAd);
+  [self loadInterstitialAdWithExtras:nil];
   OCMVerifyAll(_mockPrivacy);
 }
 
-- (void)testMyFyberLoadFailure {
+- (void)testLoadFailure {
   MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
-  AUTFailToLoadInterstitialAd(interstitialAd);
+  [self failToLoadInterstitialAd:interstitialAd];
 }
 
 - (void)testPresentInterstitialAd {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = AUTLoadInterstitialAd(interstitialAd);
-  [eventDelegate.interstitialAd presentFromViewController:[[UIViewController alloc] init]];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadInterstitialAdWithExtras:nil];
+  UIViewController *viewController = [[UIViewController alloc] init];
+  OCMExpect([_interstitialAdMock showWithController:viewController]);
+  [eventDelegate.interstitialAd presentFromViewController:viewController];
+  OCMVerifyAll((id)_interstitialAdMock);
   XCTAssertNil(eventDelegate.didFailToPresentError);
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
 }
 
-- (void)testOnClickWithInterstitialAd {
+- (void)testCustomParametersExtras {
   MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = AUTLoadInterstitialAd(interstitialAd);
-  [interstitialAd.delegate onClickWithInterstitialAd:interstitialAd];
+  _interstitialAdMock = OCMPartialMock(interstitialAd);
+  OCMStub([_interstitialAdMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_interstitialAdMock.delegate onLoadWithInterstitialAd:self->_interstitialAdMock];
+  });
+  _interstitialAdClassMock = OCMClassMock([MTRGInterstitialAd class]);
+  OCMStub([_interstitialAdClassMock interstitialAdWithSlotId:AUTSlotID])
+      .andReturn(_interstitialAdMock);
+
+  _customParamsMock = OCMPartialMock(_interstitialAdMock.customParams);
+  OCMExpect([_customParamsMock setCustomParam:@"custom_value" forKey:@"custom_key"]);
+
+  GADMAdapterMyTargetExtras *extras = [[GADMAdapterMyTargetExtras alloc] init];
+  [extras setParameter:@"custom_value" forKey:@"custom_key"];
+
+  GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
+  AUTKMediationInterstitialAdConfiguration *interstitialAdConfiguration =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMAdapterMyTargetSlotIdKey : @(AUTSlotID),
+  };
+  interstitialAdConfiguration.credentials = credentials;
+  interstitialAdConfiguration.extras = extras;
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(adapter, interstitialAdConfiguration);
+  XCTAssertNotNil(eventDelegate.interstitialAd);
+
+  OCMVerifyAll(_customParamsMock);
+}
+
+- (void)testOnClickWithInterstitialAd {
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadInterstitialAdWithExtras:nil];
+  [_interstitialAdMock.delegate onClickWithInterstitialAd:_interstitialAdMock];
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
 - (void)testOnCloseWithInterstitialAd {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = AUTLoadInterstitialAd(interstitialAd);
-  [interstitialAd.delegate onCloseWithInterstitialAd:interstitialAd];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadInterstitialAdWithExtras:nil];
+  [_interstitialAdMock.delegate onCloseWithInterstitialAd:_interstitialAdMock];
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
 - (void)testOnDisplayWithInterstitialAd {
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = AUTLoadInterstitialAd(interstitialAd);
-  [interstitialAd.delegate onDisplayWithInterstitialAd:interstitialAd];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadInterstitialAdWithExtras:nil];
+  [_interstitialAdMock.delegate onDisplayWithInterstitialAd:_interstitialAdMock];
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
 }
 
 - (void)testLeaveApplication {
   // Leave application is no op. Invoking to make sure it doesn't crash the app.
-  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
-  AUTLoadInterstitialAd(interstitialAd);
-  [interstitialAd.delegate onLeaveApplicationWithInterstitialAd:interstitialAd];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadInterstitialAdWithExtras:nil];
+  [_interstitialAdMock.delegate onLeaveApplicationWithInterstitialAd:_interstitialAdMock];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testNilSlotIDFailure {

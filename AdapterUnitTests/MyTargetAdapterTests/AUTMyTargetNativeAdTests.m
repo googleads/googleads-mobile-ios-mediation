@@ -25,6 +25,7 @@ static NSUInteger AUTSlotID = 12345;
 @end
 
 @implementation AUTMyTargetNativeAdTests {
+  id _nativeAdClassMock;
   MTRGNativeAd *_nativeAdMock;
   id _mockPrivacy;
 }
@@ -39,6 +40,9 @@ static NSUInteger AUTSlotID = 12345;
 }
 
 - (void)tearDown {
+  [(id)_nativeAdMock stopMocking];
+  [_nativeAdClassMock stopMocking];
+  [_mockPrivacy stopMocking];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
@@ -99,8 +103,8 @@ static NSUInteger AUTSlotID = 12345;
     [self->_nativeAdMock.delegate onLoadWithNativePromoBanner:promoBannerMock
                                                      nativeAd:self->_nativeAdMock];
   });
-  id nativeAdClassMock = OCMClassMock([MTRGNativeAd class]);
-  OCMStub([nativeAdClassMock nativeAdWithSlotId:AUTSlotID]).andReturn(_nativeAdMock);
+  _nativeAdClassMock = OCMClassMock([MTRGNativeAd class]);
+  OCMStub([_nativeAdClassMock nativeAdWithSlotId:AUTSlotID]).andReturn(_nativeAdMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
@@ -139,8 +143,8 @@ static NSUInteger AUTSlotID = 12345;
     [self->_nativeAdMock.delegate onLoadWithNativePromoBanner:promoBanner
                                                      nativeAd:self->_nativeAdMock];
   });
-  id nativeAdClassMock = OCMClassMock([MTRGNativeAd class]);
-  OCMStub([nativeAdClassMock nativeAdWithSlotId:AUTSlotID]).andReturn(_nativeAdMock);
+  _nativeAdClassMock = OCMClassMock([MTRGNativeAd class]);
+  OCMStub([_nativeAdClassMock nativeAdWithSlotId:AUTSlotID]).andReturn(_nativeAdMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
@@ -302,15 +306,21 @@ static NSUInteger AUTSlotID = 12345;
                           imageData:imageDataMock];
 }
 
-- (void)testMyFyberLoadFailureForNofill {
+- (void)testLoadFailureForNofill {
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
-  MTRGNativeAd *nativeAdMock = OCMPartialMock(nativeAd);
-  NSError *loadError = [[NSError alloc] initWithDomain:@"MyFyberDomain" code:12345 userInfo:nil];
-  OCMStub([nativeAdMock load]).andDo(^(NSInvocation *invocation) {
-    [nativeAdMock.delegate onLoadFailedWithError:loadError nativeAd:nativeAd];
+  _nativeAdMock = OCMPartialMock(nativeAd);
+  NSError *loadError =
+      [NSError errorWithDomain:GADMAdapterMyTargetSDKErrorDomain
+                          code:12345
+                      userInfo:@{
+                        NSLocalizedDescriptionKey : @"foobar",
+                        NSLocalizedFailureReasonErrorKey : @"foobar",
+                      }];
+  OCMStub([_nativeAdMock load]).andDo(^(NSInvocation *invocation) {
+    [self->_nativeAdMock.delegate onLoadFailedWithError:loadError nativeAd:nativeAd];
   });
-  id nativeAdClassMock = OCMClassMock([MTRGNativeAd class]);
-  OCMStub([nativeAdClassMock nativeAdWithSlotId:AUTSlotID]).andReturn(nativeAdMock);
+  _nativeAdClassMock = OCMClassMock([MTRGNativeAd class]);
+  OCMStub([_nativeAdClassMock nativeAdWithSlotId:AUTSlotID]).andReturn(_nativeAdMock);
   GADMediationAdapterMyTarget *adapter = [[GADMediationAdapterMyTarget alloc] init];
   AUTKMediationNativeAdConfiguration *nativeAdConfiguration =
       [[AUTKMediationNativeAdConfiguration alloc] init];
@@ -332,7 +342,7 @@ static NSUInteger AUTSlotID = 12345;
   AUTKWaitAndAssertLoadNativeAdFailure(adapter, nativeAdConfiguration, expectedError);
 }
 
-- (void)testMyFyberLoadFailureForMissingTitle {
+- (void)testLoadFailureForMissingTitle {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -353,7 +363,7 @@ static NSUInteger AUTSlotID = 12345;
   [self loadNativeAdAndFailForMissingAssetsWithPromoBanner:promoBannerMock];
 }
 
-- (void)testMyFyberLoadFailureForMissingDescriptionText {
+- (void)testLoadFailureForMissingDescriptionText {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -374,7 +384,7 @@ static NSUInteger AUTSlotID = 12345;
   [self loadNativeAdAndFailForMissingAssetsWithPromoBanner:promoBannerMock];
 }
 
-- (void)testMyFyberLoadFailureForMissingCallToActionText {
+- (void)testLoadFailureForMissingCallToActionText {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -395,7 +405,7 @@ static NSUInteger AUTSlotID = 12345;
   [self loadNativeAdAndFailForMissingAssetsWithPromoBanner:promoBannerMock];
 }
 
-- (void)testMyFyberLoadFailureForMissingImage {
+- (void)testLoadFailureForMissingImage {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -416,7 +426,7 @@ static NSUInteger AUTSlotID = 12345;
   [self loadNativeAdAndFailForMissingAssetsWithPromoBanner:promoBannerMock];
 }
 
-- (void)testMyFyberLoadFailureForInvalidImageData {
+- (void)testLoadFailureForInvalidImageData {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -443,7 +453,7 @@ static NSUInteger AUTSlotID = 12345;
   [self loadNativeAdAndFailForMissingAssetsWithPromoBanner:promoBannerMock];
 }
 
-- (void)testMyFyberLoadFailureForMissingDomain {
+- (void)testLoadFailureForMissingDomain {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -471,7 +481,7 @@ static NSUInteger AUTSlotID = 12345;
   [self loadNativeAdAndFailForMissingAssetsWithPromoBanner:promoBannerMock];
 }
 
-- (void)testMyFyberLoadFailureForInvalidIconData {
+- (void)testLoadFailureForInvalidIconData {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   _nativeAdMock = OCMPartialMock(nativeAd);
@@ -642,12 +652,12 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testMediaView {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -659,13 +669,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testImageIcon {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -675,13 +685,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testURLIcon {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock url]).andReturn(@"https://google.com");
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:NO
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -691,13 +701,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testHeadline {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -707,13 +717,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testBody {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -723,13 +733,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testCallToAction {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -739,13 +749,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testAdvertiser {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -755,13 +765,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testImageImages {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -771,13 +781,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testURLImages {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock url]).andReturn(@"https://google.com");
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:NO
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -787,13 +797,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testStartRating {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -803,13 +813,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testExtraAssets {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -820,13 +830,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testUnusedNativeAdInformation {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -838,13 +848,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testViewRegistration {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
@@ -855,8 +865,8 @@ static NSUInteger AUTSlotID = 12345;
                         withMediaAdView:mediaView]);
   [unifiedNativeAd didRenderInView:[[UIView alloc] init]
                clickableAssetViews:@{}
-            nonclickableAssetViews:@{}
-                    viewController:[[UIViewController alloc] init]];
+             nonclickableAssetViews:@{}
+                     viewController:[[UIViewController alloc] init]];
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"Wait for main queue to be flushed."];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -868,13 +878,13 @@ static NSUInteger AUTSlotID = 12345;
 
 - (void)testUntrack {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
-  MTRGNativeAd *mintegralNativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
   AUTKMediationNativeAdEventDelegate *eventDelegate =
       [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:mintegralNativeAd
+                               nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
   id<GADMediatedUnifiedNativeAd> unifiedNativeAd = eventDelegate.nativeAd;
