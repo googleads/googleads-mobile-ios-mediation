@@ -1,229 +1,347 @@
-// GADMAdapterIronSourceRtbRewardedAdTests.m
-// ISMedAdaptersTests
+#import "GADMediationAdapterIronSource.h"
 
-#import <Foundation/Foundation.h>
+#import <AdapterUnitTestKit/AUTKAdConfiguration.h>
+#import <AdapterUnitTestKit/AUTKMediationRewardedAdLoadAssertions.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IronSource/IronSource.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
 #import "GADMAdapterIronSourceConstants.h"
+#import "GADMAdapterIronSourceRewardedAd.h"
 #import "GADMAdapterIronSourceRtbRewardedAd.h"
 #import "GADMAdapterIronSourceUtils.h"
 
-@interface AUTIronSourceRtbRewardedAdTests : XCTestCase
-typedef void (^GADMediationAdapterSetUpCompletionBlock)(NSError *_Nullable error);
-@property(nonatomic, strong) GADMAdapterIronSourceRtbRewardedAd *rewardedAd;
-@property(nonatomic, strong) GADMediationAdapterIronSource *mediationAdapter;
-@property(nonatomic, strong) GADMediationRewardedAdConfiguration *mockAdConfiguration;
-@property(nonatomic, strong) GADMediationServerConfiguration *mockInitConfiguration;
+static NSString *const kAppKey = @"AppKey";
+static NSString *const kInstanceId = @"1234";
+static NSString *const kBidResponse = @"bidResponse";
 
-@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler completionHandler;
-@property(nonatomic, copy) GADMediationAdapterSetUpCompletionBlock initCompletionHandler;
-@property(nonatomic, strong) GADMAdapterIronSourceRtbRewardedAd *adapter;
-@property(nonatomic, strong) id mockBiddingISARewardedAd;
-@property(nonatomic, strong) id mockRewardedAdEventDelegate;
-@property(nonatomic, strong) id mockCredentials;
+@interface AUTIronSourceRtbRewardedAdTests : XCTestCase
+
 @end
 
-@implementation AUTIronSourceRtbRewardedAdTests
+@implementation AUTIronSourceRtbRewardedAdTests {
+  /// An adapter instance that is used to test loading a rewarded ad.
+  GADMediationAdapterIronSource *_adapter;
+
+  /// Mock instance of ISARewardedAdLoader.
+  id _isaRewardedAdLoaderMock;
+
+  /// Mock instance of ISARewardedAd.
+  id _isaRewardedAdMock;
+
+  /// Captured loader delegate.
+  __block id<ISARewardedAdLoaderDelegate> _loaderDelegate;
+
+  /// Captured rewarded ad request.
+  __block ISARewardedAdRequest *_capturedAdRequest;
+}
 
 - (void)setUp {
   [super setUp];
-  self.rewardedAd = [[GADMAdapterIronSourceRtbRewardedAd alloc] init];
-  self.adapter = [[GADMAdapterIronSourceRtbRewardedAd alloc] init];
-  self.mockBiddingISARewardedAd = OCMClassMock([ISARewardedAd class]);
-  self.mockRewardedAdEventDelegate =
-      OCMProtocolMock(@protocol(GADMediationRewardedAdEventDelegate));
-  self.adapter.rewardedAdEventDelegate = self.mockRewardedAdEventDelegate;
+  _adapter = [[GADMediationAdapterIronSource alloc] init];
+  _isaRewardedAdLoaderMock = OCMClassMock([ISARewardedAdLoader class]);
+  _isaRewardedAdMock = OCMClassMock([ISARewardedAd class]);
 }
 
 - (void)tearDown {
-  self.rewardedAd = nil;
-  self.mockAdConfiguration = nil;
-  self.mockCredentials = nil;
-  self.completionHandler = nil;
-  self.adapter.rewardedAdLoadCompletionHandler = nil;
-  self.adapter.biddingISARewardedAd = nil;
+  [_isaRewardedAdLoaderMock stopMocking];
+  [_isaRewardedAdMock stopMocking];
   [super tearDown];
 }
 
-- (void)testRewardedAdDidLoad {
-  // Given
-  GADMediationRewardedLoadCompletionHandler completionHandler =
-      ^id<GADMediationRewardedAdEventDelegate>(id<GADMediationRewardedAd> ad, NSError *error) {
-    XCTAssertNotNil(ad);
-    XCTAssertNil(error);
-    return nil;
-  };
+- (AUTKMediationRewardedAdEventDelegate *)loadRewardedAdWithSettings:
+                                              (nullable NSDictionary<NSString *, id> *)settings
+                                                           watermark:(nullable NSData *)watermark {
+  OCMStub(ClassMethod([_isaRewardedAdLoaderMock loadAdWithAdRequest:[OCMArg any]
+                                                           delegate:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        ISARewardedAdRequest *request;
+        id<ISARewardedAdLoaderDelegate> delegate;
+        [invocation getArgument:&request atIndex:2];
+        [invocation getArgument:&delegate atIndex:3];
+        self->_capturedAdRequest = request;
+        self->_loaderDelegate = delegate;
+        [delegate rewardedAdDidLoad:self->_isaRewardedAdMock];
+      });
 
-  self.adapter.rewardedAdLoadCompletionHandler = completionHandler;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = settings;
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+  configuration.watermark = watermark;
 
-  // When
-  [self.adapter rewardedAdDidLoad:self.mockBiddingISARewardedAd];
-
-  // Then
-  XCTAssertEqual(self.adapter.biddingISARewardedAd, self.mockBiddingISARewardedAd,
-                 @"The rewarded ad should be set correctly.");
+  AUTKMediationRewardedAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadRewardedAd(_adapter, configuration);
+  XCTAssertNotNil(eventDelegate);
+  return eventDelegate;
 }
 
-- (void)testRewardedAdDidLoadWithoutRewardedAdLoadCompletionHandler {
-  // When
-  [self.adapter rewardedAdDidLoad:self.mockBiddingISARewardedAd];
-
-  // Then
-  XCTAssertEqual(self.adapter.rewardedAdLoadCompletionHandler, nil,
-                 @"The rewarded ad should be nil.");
+- (AUTKMediationRewardedAdEventDelegate *)loadRewardedAd {
+  NSDictionary<NSString *, id> *settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
+  return [self loadRewardedAdWithSettings:settings watermark:nil];
 }
 
-// Test case for rewardedAdDidFailToLoadWithError when completion handler is set
-- (void)testRewardedAdDidFailToLoadWithError {
-  // Given
-  NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:1 userInfo:nil];
+- (void)testLoadRewardedAdWithCustomInstanceId {
+  NSDictionary<NSString *, id> *settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
+  [self loadRewardedAdWithSettings:settings watermark:nil];
 
-  // Create a mock completion handler
-  GADMediationRewardedLoadCompletionHandler mockCompletionHandler =
-      ^id<GADMediationRewardedAdEventDelegate>(id<GADMediationRewardedAd> ad, NSError *error) {
-    // Then
-    XCTAssertNil(ad);
-    XCTAssertEqualObjects(error, testError);
-    return nil;
-  };
-
-  // Assign the mock completion handler to the adapter
-  self.adapter.rewardedAdLoadCompletionHandler = mockCompletionHandler;
-
-  // When
-  [self.adapter rewardedAdDidFailToLoadWithError:testError];
+  XCTAssertEqualObjects(_adapter.rtbRewardedAd.instanceID, kInstanceId);
 }
 
-- (void)testRewardedAdDidShow {
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testLoadRewardedAdWithDefaultInstanceId {
+  NSDictionary<NSString *, id> *settings = @{GADMAdapterIronSourceAppKey : kAppKey};
+  [self loadRewardedAdWithSettings:settings watermark:nil];
 
-  // Set expectations
-  OCMExpect([self.mockRewardedAdEventDelegate didStartVideo]);
-  OCMExpect([self.mockRewardedAdEventDelegate reportImpression]);
-
-  // Call the method to test
-  [self.adapter rewardedAdDidShow:mockRewardedAd];
-
-  // Verify all expected methods were called
-  OCMVerifyAll(self.mockRewardedAdEventDelegate);
+  XCTAssertEqualObjects(_adapter.rtbRewardedAd.instanceID, GADMIronSourceDefaultRtbInstanceId);
 }
 
-- (void)testRewardedAdDidShowWithNilDelegate {
-  // Given
-  self.adapter.rewardedAdEventDelegate = nil;
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testLoadRewardedAdWithWatermark {
+  NSData *watermarkData = [@"watermark_data" dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary<NSString *, id> *settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
 
-  // Then
-  XCTAssertNoThrow([self.adapter rewardedAdDidShow:mockRewardedAd]);
+  id requestBuilderMock = OCMClassMock([ISARewardedAdRequestBuilder class]);
+  OCMStub([requestBuilderMock alloc]).andReturn(requestBuilderMock);
+  OCMStub([requestBuilderMock initWithInstanceId:kInstanceId adm:kBidResponse])
+      .andReturn(requestBuilderMock);
+  OCMExpect([requestBuilderMock
+                withExtraParams:[OCMArg checkWithBlock:^BOOL(id obj) {
+                  NSDictionary *params = (NSDictionary *)obj;
+                  NSString *expectedBase64 = [watermarkData base64EncodedStringWithOptions:0];
+                  return [params[GADMAdapterIronSourceWatermark] isEqualToString:expectedBase64];
+                }]])
+      .andReturn(requestBuilderMock);
+  OCMStub([requestBuilderMock build]).andReturn([OCMArg any]);
+
+  [self loadRewardedAdWithSettings:settings watermark:watermarkData];
+
+  OCMVerifyAll(requestBuilderMock);
+  [requestBuilderMock stopMocking];
 }
 
-- (void)testRewardedAdDidFailToShowWithError {
-  // Given
-  NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:1 userInfo:nil];
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testLoadRewardedAdFailureWhenIronSourceFails {
+  NSError *ironSourceLoadError =
+      [NSError errorWithDomain:@"com.ironsource.error"
+                          code:1
+                      userInfo:@{NSLocalizedDescriptionKey : @"IronSource rewarded load failed."}];
+  OCMStub(ClassMethod([_isaRewardedAdLoaderMock loadAdWithAdRequest:[OCMArg any]
+                                                           delegate:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        id<ISARewardedAdLoaderDelegate> delegate;
+        [invocation getArgument:&delegate atIndex:3];
+        [delegate rewardedAdDidFailToLoadWithError:ironSourceLoadError];
+      });
 
-  OCMExpect([self.mockRewardedAdEventDelegate didFailToPresentWithError:testError]);
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
 
-  // When
-  [self.adapter rewardedAd:mockRewardedAd didFailToShowWithError:testError];
-
-  // Then
-  OCMVerifyAll(self.mockRewardedAdEventDelegate);
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, ironSourceLoadError);
 }
 
-- (void)testRewardedAdDidFailToShowWithErrorWithNilDelegate {
-  // Set the delegate to nil
-  self.adapter.rewardedAdEventDelegate = nil;
-  NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:1 userInfo:nil];
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testPresentFromViewControllerWhenLoadedCallsShowAndInvokesWillPresentFullScreenView {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  UIViewController *viewController = [[UIViewController alloc] init];
 
-  // Call the method to test
-  [self.adapter rewardedAd:mockRewardedAd didFailToShowWithError:testError];
+  OCMExpect([_isaRewardedAdMock setDelegate:_adapter.rtbRewardedAd]);
+  OCMExpect([_isaRewardedAdMock showFromViewController:viewController]);
 
-  // Since the delegate is nil, no further action is necessary
-  XCTAssertTrue(true);  // Reaching this point without crashing means success
+  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
+  [eventDelegate.rewardedAd presentFromViewController:viewController];
+  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 1);
+
+  OCMVerifyAll(_isaRewardedAdMock);
 }
 
-- (void)testRewardedAdDidClick {
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testPresentFromViewControllerWhenAdIsNilInvokesDidFailToPresentWithError {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  _adapter.rtbRewardedAd.biddingISARewardedAd = nil;
+  UIViewController *viewController = [[UIViewController alloc] init];
 
-  // Set expectation for the delegate method
-  OCMExpect([self.mockRewardedAdEventDelegate reportClick]);
+  [eventDelegate.rewardedAd presentFromViewController:viewController];
 
-  // Call the method to test
-  [self.adapter rewardedAdDidClick:mockRewardedAd];
-
-  // Verify all expectations
-  OCMVerifyAll(self.mockRewardedAdEventDelegate);
+  NSError *presentationError = eventDelegate.didFailToPresentError;
+  XCTAssertNotNil(presentationError);
+  XCTAssertEqual(presentationError.code, GADMAdapterIronSourceErrorFailedToShow);
+  XCTAssertEqualObjects(presentationError.domain, GADMAdapterIronSourceErrorDomain);
 }
 
-// Test case for rewardedAdDidClick: when event delegate is nil
-- (void)testRewardedAdDidClickWithNilDelegate {
-  // Set the delegate to nil
-  self.adapter.rewardedAdEventDelegate = nil;
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testPresentFromViewControllerWhenAdIsNilAndEventDelegateIsNilDoesNotCrash {
+  GADMAdapterIronSourceRtbRewardedAd *rtbRewardedAd =
+      [[GADMAdapterIronSourceRtbRewardedAd alloc] init];
+  rtbRewardedAd.rewardedAdEventDelegate = nil;
+  rtbRewardedAd.biddingISARewardedAd = nil;
+  UIViewController *viewController = [[UIViewController alloc] init];
 
-  // Call the method to test
-  [self.adapter rewardedAdDidClick:mockRewardedAd];
-
-  // Since the delegate is nil, no further action is necessary
-  XCTAssertTrue(true);  // Reaching this point without crashing means success
+  XCTAssertNoThrow([rtbRewardedAd presentFromViewController:viewController]);
 }
 
-- (void)testRewardedAdDidDismiss {
-  // Given
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testRewardedAdDidShowReportsImpressionAndStartsVideo {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  id<ISARewardedAdDelegate> delegate = (id<ISARewardedAdDelegate>)_adapter.rtbRewardedAd;
 
-  OCMExpect([self.mockRewardedAdEventDelegate willDismissFullScreenView]);
-  OCMExpect([self.mockRewardedAdEventDelegate didDismissFullScreenView]);
-
-  // When
-  [self.adapter rewardedAdDidDismiss:mockRewardedAd];
-
-  // Then
-
-  OCMVerifyAll(self.mockRewardedAdEventDelegate);
+  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 0);
+  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
+  [delegate rewardedAdDidShow:_isaRewardedAdMock];
+  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
 }
 
-// Test case for rewardedAdDidDismiss: when event delegate is nil
-- (void)testRewardedAdDidDismissWithNilDelegate {
-  // Given
-  self.adapter.rewardedAdEventDelegate = nil;
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testRewardedAdDidClickReportsClick {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  id<ISARewardedAdDelegate> delegate = (id<ISARewardedAdDelegate>)_adapter.rtbRewardedAd;
 
-  // When
-  [self.adapter rewardedAdDidDismiss:mockRewardedAd];
-
-  // Then
-  XCTAssertTrue(true);
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
+  [delegate rewardedAdDidClick:_isaRewardedAdMock];
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
-// Test case for rewardedAdDidUserEarnReward: when event delegate is set
-- (void)testRewardedAdDidUserEarnReward {
-  // Given
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testRewardedAdDidDismissInvokesDismissCallbacks {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  id<ISARewardedAdDelegate> delegate = (id<ISARewardedAdDelegate>)_adapter.rtbRewardedAd;
 
-  OCMExpect([self.mockRewardedAdEventDelegate didRewardUser]);
-  OCMExpect([self.mockRewardedAdEventDelegate didEndVideo]);
-
-  // When
-  [self.adapter rewardedAdDidUserEarnReward:mockRewardedAd];
-
-  // Then
-  OCMVerifyAll(self.mockRewardedAdEventDelegate);
+  XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 0);
+  XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 0);
+  [delegate rewardedAdDidDismiss:_isaRewardedAdMock];
+  XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
-// Test case for rewardedAdDidUserEarnReward: when event delegate is nil
-- (void)testRewardedAdDidUserEarnRewardWithNilDelegate {
-  // Given
-  self.adapter.rewardedAdEventDelegate = nil;
-  ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
+- (void)testRewardedAdDidUserEarnRewardInvokesRewardAndEndVideo {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  id<ISARewardedAdDelegate> delegate = (id<ISARewardedAdDelegate>)_adapter.rtbRewardedAd;
 
-  // When
-  [self.adapter rewardedAdDidUserEarnReward:mockRewardedAd];
+  XCTAssertEqual(eventDelegate.didRewardUserInvokeCount, 0);
+  XCTAssertEqual(eventDelegate.didEndVideoInvokeCount, 0);
+  [delegate rewardedAdDidUserEarnReward:_isaRewardedAdMock];
+  XCTAssertEqual(eventDelegate.didRewardUserInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.didEndVideoInvokeCount, 1);
+}
 
-  // Then
-  XCTAssertTrue(true);  // Reaching this point without crashing means success
+- (void)testRewardedAdDidFailToShowWithErrorInvokesDidFailToPresentWithError {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadRewardedAd];
+  id<ISARewardedAdDelegate> delegate = (id<ISARewardedAdDelegate>)_adapter.rtbRewardedAd;
+  NSError *showError = [NSError errorWithDomain:@"com.ironsource.error"
+                                           code:2
+                                       userInfo:@{NSLocalizedDescriptionKey : @"Show failed."}];
+
+  [delegate rewardedAd:_isaRewardedAdMock didFailToShowWithError:showError];
+
+  XCTAssertEqualObjects(eventDelegate.didFailToPresentError, showError);
+}
+
+- (void)testRewardedAdEventsWithNilDelegateDoesNotCrash {
+  GADMAdapterIronSourceRtbRewardedAd *rtbRewardedAd =
+      [[GADMAdapterIronSourceRtbRewardedAd alloc] init];
+  rtbRewardedAd.rewardedAdEventDelegate = nil;
+  NSError *testError = [NSError errorWithDomain:@"test" code:1 userInfo:nil];
+
+  XCTAssertNoThrow([rtbRewardedAd rewardedAdDidShow:_isaRewardedAdMock]);
+  XCTAssertNoThrow([rtbRewardedAd rewardedAdDidClick:_isaRewardedAdMock]);
+  XCTAssertNoThrow([rtbRewardedAd rewardedAdDidDismiss:_isaRewardedAdMock]);
+  XCTAssertNoThrow([rtbRewardedAd rewardedAdDidUserEarnReward:_isaRewardedAdMock]);
+  XCTAssertNoThrow([rtbRewardedAd rewardedAd:_isaRewardedAdMock didFailToShowWithError:testError]);
+}
+
+- (void)testRewardedAdDidLoadWithNilCompletionHandlerDoesNotCrash {
+  GADMAdapterIronSourceRtbRewardedAd *rtbRewardedAd =
+      [[GADMAdapterIronSourceRtbRewardedAd alloc] init];
+  rtbRewardedAd.rewardedAdLoadCompletionHandler = nil;
+
+  XCTAssertNoThrow([rtbRewardedAd rewardedAdDidLoad:_isaRewardedAdMock]);
+}
+
+- (void)testRewardedAdDidFailToLoadWithNilCompletionHandlerDoesNotCrash {
+  GADMAdapterIronSourceRtbRewardedAd *rtbRewardedAd =
+      [[GADMAdapterIronSourceRtbRewardedAd alloc] init];
+  rtbRewardedAd.rewardedAdLoadCompletionHandler = nil;
+  NSError *testError = [NSError errorWithDomain:@"test" code:1 userInfo:nil];
+
+  XCTAssertNoThrow([rtbRewardedAd rewardedAdDidFailToLoadWithError:testError]);
+}
+
+- (void)testLoadRewardedAdRoutesToRtbRewardedWhenBidResponsePresent {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+
+  id rtbRewardedMock = OCMClassMock([GADMAdapterIronSourceRtbRewardedAd class]);
+  OCMStub([rtbRewardedMock alloc]).andReturn(rtbRewardedMock);
+  OCMExpect([rtbRewardedMock loadRewardedAdForConfiguration:configuration
+                                          completionHandler:[OCMArg any]]);
+
+  [_adapter loadRewardedAdForAdConfiguration:configuration
+                           completionHandler:^id<GADMediationRewardedAdEventDelegate>(
+                               id<GADMediationRewardedAd> ad, NSError *error) {
+                             return nil;
+                           }];
+
+  OCMVerifyAll(rtbRewardedMock);
+  XCTAssertNotNil(_adapter.rtbRewardedAd);
+  [rtbRewardedMock stopMocking];
+}
+
+- (void)testLoadRewardedAdRoutesToWaterfallRewardedWhenBidResponseNil {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = nil;
+
+  id rewardedMock = OCMClassMock([GADMAdapterIronSourceRewardedAd class]);
+  OCMStub([rewardedMock alloc]).andReturn(rewardedMock);
+  OCMExpect([rewardedMock loadRewardedAdForConfiguration:configuration
+                                       completionHandler:[OCMArg any]]);
+
+  [_adapter loadRewardedAdForAdConfiguration:configuration
+                           completionHandler:^id<GADMediationRewardedAdEventDelegate>(
+                               id<GADMediationRewardedAd> ad, NSError *error) {
+                             return nil;
+                           }];
+
+  OCMVerifyAll(rewardedMock);
+  XCTAssertNil(_adapter.rtbRewardedAd);
+  [rewardedMock stopMocking];
+}
+
+- (void)testLoadRewardedInterstitialRoutesToRewardedAdFlow {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = kBidResponse;
+
+  id rtbRewardedMock = OCMClassMock([GADMAdapterIronSourceRtbRewardedAd class]);
+  OCMStub([rtbRewardedMock alloc]).andReturn(rtbRewardedMock);
+  OCMExpect([rtbRewardedMock loadRewardedAdForConfiguration:configuration
+                                          completionHandler:[OCMArg any]]);
+
+  [_adapter loadRewardedInterstitialAdForAdConfiguration:configuration
+                                       completionHandler:^id<GADMediationRewardedAdEventDelegate>(
+                                           id<GADMediationRewardedAd> ad, NSError *error) {
+                                         return nil;
+                                       }];
+
+  OCMVerifyAll(rtbRewardedMock);
+  XCTAssertNotNil(_adapter.rtbRewardedAd);
+  [rtbRewardedMock stopMocking];
 }
 
 @end
