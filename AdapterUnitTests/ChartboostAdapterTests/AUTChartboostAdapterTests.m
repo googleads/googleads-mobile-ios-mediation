@@ -1,3 +1,4 @@
+#import "GADMAdapterChartboost.h"
 #import "GADMediationAdapterChartboost.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
@@ -17,6 +18,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 @implementation AUTChartboostAdapterTests {
   NSUserDefaults *_userDefaults;
+  id _mockChartboost;
 }
 
 - (void)setUp {
@@ -31,7 +33,20 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   [_userDefaults removeObjectForKey:@"IABTCF_gdprApplies"];
   [_userDefaults removeObjectForKey:@"IABTCF_AddtlConsent"];
+
+  [_mockChartboost stopMocking];
   [super tearDown];
+}
+
+- (void)testMainAdapterClass {
+  SEL mainAdapterClassSelector = NSSelectorFromString(@"mainAdapterClass");
+  XCTAssertTrue([GADMAdapterChartboost respondsToSelector:mainAdapterClassSelector]);
+
+  Class adapterClass = [GADMAdapterChartboost class];
+  IMP imp = [adapterClass methodForSelector:mainAdapterClassSelector];
+  Class (*func)(id, SEL) = (void *)imp;
+  Class mainAdapterClass = func(adapterClass, mainAdapterClassSelector);
+  XCTAssertEqualObjects(mainAdapterClass, [GADMediationAdapterChartboost class]);
 }
 
 - (void)testAdapterVersion {
@@ -76,12 +91,13 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
            }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
+  [mockDevice stopMocking];
 }
 
 - (void)testSetUpCredentialsSuccess {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  id mockChartboost = OCMClassMock([Chartboost class]);
-  OCMExpect(ClassMethod([mockChartboost
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([_mockChartboost
       startWithAppID:@"app_id"
         appSignature:@"signature"
           completion:[OCMArg
@@ -100,7 +116,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   configuration.credentials = @[ credentials ];
 
   OCMExpect(
-      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
                         return obj.isChildDirected == NO;
                       }]]);
 
@@ -112,15 +128,13 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                       }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  OCMVerifyAll(mockChartboost);
-
-  [mockChartboost stopMocking];
+  OCMVerifyAll(_mockChartboost);
 }
 
 - (void)testSetUpWithMultipleCredentialsSuccess {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  id mockChartboost = OCMClassMock([Chartboost class]);
-  OCMExpect(ClassMethod([mockChartboost
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([_mockChartboost
       startWithAppID:@"app_id"
         appSignature:@"signature"
           completion:[OCMArg
@@ -153,7 +167,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   configuration.credentials = @[ credentials1, credentials2, credentials3, credentials4 ];
 
   OCMExpect(
-      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
                         return obj.isChildDirected == YES;
                       }]]);
 
@@ -165,16 +179,88 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                       }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  OCMVerifyAll(mockChartboost);
+  OCMVerifyAll(_mockChartboost);
+}
 
-  [mockChartboost stopMocking];
+- (void)testSetUpCredentialsWithTagForUnderAgeOfConsentTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([_mockChartboost
+      startWithAppID:@"app_id"
+        appSignature:@"signature"
+          completion:[OCMArg
+                         checkWithBlock:^BOOL(AUTChartboostSetUpCompletionBlock completionBlock) {
+                           completionBlock(nil);
+                           return YES;
+                         }]]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  OCMExpect(
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+                        return obj.isChildDirected == YES;
+                      }]]);
+
+  XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
+  [GADMediationAdapterChartboost setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [setUpExpectation fulfill];
+                                      }];
+
+  [self waitForExpectations:@[ setUpExpectation ]];
+  OCMVerifyAll(_mockChartboost);
+}
+
+- (void)testSetUpCredentialsWithTagForUnderAgeOfConsentFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([_mockChartboost
+      startWithAppID:@"app_id"
+        appSignature:@"signature"
+          completion:[OCMArg
+                         checkWithBlock:^BOOL(AUTChartboostSetUpCompletionBlock completionBlock) {
+                           completionBlock(nil);
+                           return YES;
+                         }]]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  OCMExpect(
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+                        return obj.isChildDirected == NO;
+                      }]]);
+
+  XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
+  [GADMediationAdapterChartboost setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [setUpExpectation fulfill];
+                                      }];
+
+  [self waitForExpectations:@[ setUpExpectation ]];
+  OCMVerifyAll(_mockChartboost);
 }
 
 - (void)testSetUpCredentialsSuccessWithAgeRestrictedTreatment {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentChild;
-  id mockChartboost = OCMClassMock([Chartboost class]);
-  OCMExpect(ClassMethod([mockChartboost startWithAppID:@"app_id"
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([_mockChartboost startWithAppID:@"app_id"
                                           appSignature:@"signature"
                                             completion:[OCMArg any]]))
       .andDo(^(NSInvocation *invocation) {
@@ -195,7 +281,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   configuration.credentials = @[ credentials ];
 
   OCMExpect(
-      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
                         return obj.isChildDirected == YES;
                       }]]);
 
@@ -207,16 +293,52 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                       }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  [mockChartboost stopMocking];
+}
+
+- (void)testSetUpCredentialsWithAgeRestrictedTreatmentNotChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([_mockChartboost
+      startWithAppID:@"app_id"
+        appSignature:@"signature"
+          completion:[OCMArg
+                         checkWithBlock:^BOOL(AUTChartboostSetUpCompletionBlock completionBlock) {
+                           completionBlock(nil);
+                           return YES;
+                         }]]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"app_id",
+    [GADMAdapterChartboostConstants appSignature] : @"signature"
+  };
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  OCMReject([_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(id obj) {
+    return [obj isKindOfClass:[CHBCOPPADataUseConsent class]];
+  }]]);
+
+  XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
+  [GADMediationAdapterChartboost setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [setUpExpectation fulfill];
+                                      }];
+
+  [self waitForExpectations:@[ setUpExpectation ]];
+  OCMVerifyAll(_mockChartboost);
 }
 
 - (void)testSetUpCredentialsChartboostFailure {
-  id mockChartboost = OCMClassMock([Chartboost class]);
+  _mockChartboost = OCMClassMock([Chartboost class]);
   CHBStartError *startError = [[CHBStartError alloc] initWithDomain:@"test_domain"
                                                                code:1
                                                            userInfo:nil];
   XCTAssertNotNil(startError);
-  OCMExpect(ClassMethod([mockChartboost
+  OCMExpect(ClassMethod([_mockChartboost
       startWithAppID:@"app_id"
         appSignature:@"signature"
           completion:[OCMArg
@@ -244,7 +366,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
            }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  OCMVerifyAll(mockChartboost);
+  OCMVerifyAll(_mockChartboost);
 }
 
 - (void)testSetUpEmptyCredentials {
@@ -306,9 +428,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 #pragma mark - Additional Consent Initialization tests
 
 - (void)testSetUpCredentialsUnknownACConsent {
-  id mockChartboost = OCMClassMock([Chartboost class]);
+  _mockChartboost = OCMClassMock([Chartboost class]);
 
-  OCMExpect(ClassMethod([mockChartboost
+  OCMExpect(ClassMethod([_mockChartboost
       startWithAppID:@"app_id"
         appSignature:@"signature"
           completion:[OCMArg
@@ -326,7 +448,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
 
-  OCMReject([mockChartboost addDataUseConsent:[OCMArg any]]);
+  OCMReject([_mockChartboost addDataUseConsent:[OCMArg any]]);
 
   XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
   [GADMediationAdapterChartboost setUpWithConfiguration:configuration
@@ -336,9 +458,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                       }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  OCMVerifyAll(mockChartboost);
-
-  [mockChartboost stopMocking];
+  OCMVerifyAll(_mockChartboost);
 }
 
 - (void)testSetUpCredentialsHasTrueACConsent {
@@ -346,9 +466,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
   [_userDefaults setObject:@"2~1.2898~dv" forKey:@"IABTCF_AddtlConsent"];
 
-  id mockChartboost = OCMClassMock([Chartboost class]);
+  _mockChartboost = OCMClassMock([Chartboost class]);
 
-  OCMExpect(ClassMethod([mockChartboost
+  OCMExpect(ClassMethod([_mockChartboost
       startWithAppID:@"app_id"
         appSignature:@"signature"
           completion:[OCMArg
@@ -367,7 +487,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   configuration.credentials = @[ credentials ];
 
   OCMExpect(
-      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBGDPRDataUseConsent *obj) {
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBGDPRDataUseConsent *obj) {
                         return obj.consent == CHBGDPRConsentBehavioral;
                       }]]);
 
@@ -379,9 +499,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                       }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  OCMVerifyAll(mockChartboost);
-
-  [mockChartboost stopMocking];
+  OCMVerifyAll(_mockChartboost);
 }
 
 - (void)testSetUpCredentialsHasFalseACConsent {
@@ -389,9 +507,9 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [_userDefaults setObject:@1 forKey:@"IABTCF_gdprApplies"];
   [_userDefaults setObject:@"2~1.2~dv.2898.3" forKey:@"IABTCF_AddtlConsent"];
 
-  id mockChartboost = OCMClassMock([Chartboost class]);
+  _mockChartboost = OCMClassMock([Chartboost class]);
 
-  OCMExpect(ClassMethod([mockChartboost
+  OCMExpect(ClassMethod([_mockChartboost
       startWithAppID:@"app_id"
         appSignature:@"signature"
           completion:[OCMArg
@@ -410,7 +528,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   configuration.credentials = @[ credentials ];
 
   OCMExpect(
-      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBGDPRDataUseConsent *obj) {
+      [_mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBGDPRDataUseConsent *obj) {
                         return obj.consent == CHBGDPRConsentNonBehavioral;
                       }]]);
 
@@ -422,9 +540,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                       }];
 
   [self waitForExpectations:@[ setUpExpectation ]];
-  OCMVerifyAll(mockChartboost);
-
-  [mockChartboost stopMocking];
+  OCMVerifyAll(_mockChartboost);
 }
 
 @end

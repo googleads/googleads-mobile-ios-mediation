@@ -55,6 +55,12 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
       .andReturn(_rewardedAdMock);
 }
 
+- (void)tearDown {
+  [_rewardedAdMock stopMocking];
+  [_mockChartboost stopMocking];
+  [super tearDown];
+}
+
 - (void)mockAppStartWithError:(nullable CHBStartError *)error {
   _mockChartboost = OCMClassMock([Chartboost class]);
   OCMStub(ClassMethod([_mockChartboost
@@ -175,6 +181,37 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [_rewardedDelegate didDismissAd:[[CHBDismissEvent alloc] init]];
   XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 1);
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
+}
+
+- (void)testClick {
+  [self mockSuccessfulAppStart];
+  OCMStub([_rewardedAdMock isCached]).andReturn(YES);
+
+  UIViewController *controller = [[UIViewController alloc] init];
+  OCMStub([_rewardedAdMock showFromViewController:controller]).andDo(^(NSInvocation *invocation) {
+    [self->_rewardedDelegate didShowAd:[[CHBShowEvent alloc] init] error:nil];
+  });
+
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithLocation:@"ad_location"];
+  [_rewardedDelegate didClickAd:[[CHBClickEvent alloc] init] error:nil];
+
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+}
+
+- (void)testClickWithError {
+  [self mockSuccessfulAppStart];
+  OCMStub([_rewardedAdMock isCached]).andReturn(YES);
+
+  UIViewController *controller = [[UIViewController alloc] init];
+  OCMStub([_rewardedAdMock showFromViewController:controller]).andDo(^(NSInvocation *invocation) {
+    [self->_rewardedDelegate didShowAd:[[CHBShowEvent alloc] init] error:nil];
+  });
+
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithLocation:@"ad_location"];
+  CHBClickError *clickError = [[CHBClickError alloc] initWithDomain:@"domain" code:1 userInfo:nil];
+  [_rewardedDelegate didClickAd:[[CHBClickEvent alloc] init] error:clickError];
+
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
 - (void)testPresentationError {
@@ -314,6 +351,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                  code:GADMAdapterChartboostErrorMinimumOSVersion
                              userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
+  [mockDevice stopMocking];
 }
 
 @end

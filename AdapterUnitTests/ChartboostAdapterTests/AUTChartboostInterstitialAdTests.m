@@ -55,6 +55,12 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
       .andReturn(_interstitialAdMock);
 }
 
+- (void)tearDown {
+  [_interstitialAdMock stopMocking];
+  [_mockChartboost stopMocking];
+  [super tearDown];
+}
+
 - (void)mockAppStartWithError:(nullable CHBStartError *)error {
   _mockChartboost = OCMClassMock([Chartboost class]);
   OCMStub(ClassMethod([_mockChartboost
@@ -201,6 +207,24 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
+- (void)testClickWithError {
+  [self mockSuccessfulAppStart];
+  OCMStub([_interstitialAdMock isCached]).andReturn(YES);
+
+  UIViewController *controller = [[UIViewController alloc] init];
+  OCMStub([_interstitialAdMock showFromViewController:controller])
+      .andDo(^(NSInvocation *invocation) {
+        [self->_interstitialDelegate didShowAd:[[CHBShowEvent alloc] init] error:nil];
+      });
+
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      [self loadAdWithLocation:@"ad_location"];
+  CHBClickError *clickError = [[CHBClickError alloc] initWithDomain:@"domain" code:1 userInfo:nil];
+  [_interstitialDelegate didClickAd:[[CHBClickEvent alloc] init] error:clickError];
+
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+}
+
 - (void)testPresentationError {
   [self mockSuccessfulAppStart];
   OCMStub([_interstitialAdMock isCached]).andReturn(YES);
@@ -339,6 +363,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                  code:GADMAdapterChartboostErrorMinimumOSVersion
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
+  [mockDevice stopMocking];
 }
 
 @end
