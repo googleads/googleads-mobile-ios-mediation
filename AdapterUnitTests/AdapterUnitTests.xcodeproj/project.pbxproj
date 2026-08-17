@@ -61,6 +61,7 @@
 		AD0D6E4F2AF587FE002C0B60 /* AUTDTExchangeBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E4E2AF587FE002C0B60 /* AUTDTExchangeBannerAdTests.m */; };
 		AD0D6E612AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E602AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m */; };
 		AD0D6E632AF5889A002C0B60 /* AUTDTExchangeRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E622AF5889A002C0B60 /* AUTDTExchangeRewardedAdTests.m */; };
+		AD0D6E672AF588AA002C0B60 /* AUTDTExchangeNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E662AF588AA002C0B60 /* AUTDTExchangeNativeAdTests.m */; };
 		AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD0D6EAA2AF59517002C0B60 /* AUTIronSourceAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EA92AF59517002C0B60 /* AUTIronSourceAdapterTests.m */; };
 		AD0D6EBE2AF596A3002C0B60 /* AUTIronSourceBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EBD2AF596A3002C0B60 /* AUTIronSourceBannerTests.m */; };
@@ -1608,6 +1609,7 @@
 		AD0D6E4E2AF587FE002C0B60 /* AUTDTExchangeBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTDTExchangeBannerAdTests.m; sourceTree = "<group>"; };
 		AD0D6E602AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTDTExchangeInterstitialAdTests.m; sourceTree = "<group>"; };
 		AD0D6E622AF5889A002C0B60 /* AUTDTExchangeRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTDTExchangeRewardedAdTests.m; sourceTree = "<group>"; };
+		AD0D6E662AF588AA002C0B60 /* AUTDTExchangeNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTDTExchangeNativeAdTests.m; sourceTree = "<group>"; };
 		AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IronSourceAdapter.xcodeproj; path = ../adapters/IronSourceAdapter/IronSourceAdapter.xcodeproj; sourceTree = "<group>"; };
 		AD0D6E922AF5917E002C0B60 /* IronSourceAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IronSourceAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0D6EA92AF59517002C0B60 /* AUTIronSourceAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceAdapterTests.m; sourceTree = "<group>"; };
@@ -3091,6 +3093,7 @@
 				AD0D6E4E2AF587FE002C0B60 /* AUTDTExchangeBannerAdTests.m */,
 				AD0D6E602AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m */,
 				AD0D6E622AF5889A002C0B60 /* AUTDTExchangeRewardedAdTests.m */,
+				AD0D6E662AF588AA002C0B60 /* AUTDTExchangeNativeAdTests.m */,
 				CD8568F42F7B444900200808 /* DTExchangeAdapterTests-Bridging-Header.h */,
 			);
 			path = DTExchangeAdapterTests;
@@ -5514,6 +5517,7 @@
 				ADF28D612A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m in Sources */,
 				AD0D6E4F2AF587FE002C0B60 /* AUTDTExchangeBannerAdTests.m in Sources */,
 				AD0D6E612AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m in Sources */,
+				AD0D6E672AF588AA002C0B60 /* AUTDTExchangeNativeAdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
