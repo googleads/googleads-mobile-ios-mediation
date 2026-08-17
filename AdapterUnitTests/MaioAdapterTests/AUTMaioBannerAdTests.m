@@ -38,18 +38,24 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   OCMVerifyAll(_bannerMock);
+  [_bannerMock stopMocking];
   [super tearDown];
 }
 
 - (AUTKMediationBannerAdEventDelegate *)loadBannerAd {
+  return [self loadBannerAdWithSize:GADAdSizeBanner expectedMaioSize:[MaioBannerSize banner]];
+}
+
+- (AUTKMediationBannerAdEventDelegate *)loadBannerAdWithSize:(GADAdSize)adSize
+                                           expectedMaioSize:(MaioBannerSize *)expectedMaioSize {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMMaioAdapterZoneIdKey : @"zoneID"};
   AUTKMediationBannerAdConfiguration *config = [[AUTKMediationBannerAdConfiguration alloc] init];
   config.credentials = credentials;
-  config.adSize = GADAdSizeBanner;
+  config.adSize = adSize;
   config.isTestRequest = YES;
 
-  OCMExpect([_bannerMock initWithZoneId:@"zoneID" size:MaioBannerSize.banner])
+  OCMExpect([_bannerMock initWithZoneId:@"zoneID" size:expectedMaioSize])
       .andReturn(_bannerMock);
   OCMStub([_bannerMock setDelegate:[OCMArg checkWithBlock:^BOOL(id obj) {
                          if ([obj conformsToProtocol:@protocol(MaioBannerDelegate)]) {
@@ -74,8 +80,8 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
   config.isTestRequest = YES;
 
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMMaioSDKErrorDomain
-                                                      code:0
-                                                  userInfo:nil];
+                                                       code:0
+                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
 }
 
@@ -99,8 +105,8 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
                        }]]);
 
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMMaioSDKErrorDomain
-                                                      code:errorCode
-                                                  userInfo:nil];
+                                                       code:errorCode
+                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, config, expectedError);
 }
 
@@ -127,6 +133,20 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
 
 - (void)testLoadBannerAdSucceeds {
   [self loadBannerAd];
+}
+
+- (void)testLoadBannerAdSucceedsWithLargeBannerSize {
+  AUTKMediationBannerAdEventDelegate *delegate =
+      [self loadBannerAdWithSize:GADAdSizeLargeBanner
+                expectedMaioSize:[MaioBannerSize bigBanner]];
+  XCTAssertNotNil(delegate);
+}
+
+- (void)testLoadBannerAdSucceedsWithMediumRectangleSize {
+  AUTKMediationBannerAdEventDelegate *delegate =
+      [self loadBannerAdWithSize:GADAdSizeMediumRectangle
+                expectedMaioSize:[MaioBannerSize mediumRectangle]];
+  XCTAssertNotNil(delegate);
 }
 
 - (void)testLoadBannerAdSucceedsWhenTagForChildDirectedTreatmentIsFalse {
@@ -177,6 +197,26 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
   [adDelegate didClick:_bannerMock];
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+}
+
+- (void)testAdDidLeaveApplication {
+  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAd];
+  id<MaioBannerDelegate> adDelegate = (id<MaioBannerDelegate>)eventDelegate.bannerAd;
+
+  XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 0);
+  [adDelegate didLeaveApplication:_bannerMock];
+  XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 1);
+}
+
+- (void)testAdDidFailToShow {
+  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAd];
+  id<MaioBannerDelegate> adDelegate = (id<MaioBannerDelegate>)eventDelegate.bannerAd;
+
+  XCTAssertNil(eventDelegate.didFailToPresentError);
+  [adDelegate didFailToShow:_bannerMock errorCode:kMaioShowFailureErroCode];
+  XCTAssertNotNil(eventDelegate.didFailToPresentError);
+  XCTAssertEqualObjects(eventDelegate.didFailToPresentError.domain, GADMMaioSDKErrorDomain);
+  XCTAssertEqual(eventDelegate.didFailToPresentError.code, kMaioShowFailureErroCode);
 }
 
 @end

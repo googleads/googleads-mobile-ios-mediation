@@ -42,6 +42,8 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   OCMVerifyAll(_requestMock);
   OCMVerifyAll(_interstitialMock);
+  [_requestMock stopMocking];
+  [_interstitialMock stopMocking];
   [super tearDown];
 }
 

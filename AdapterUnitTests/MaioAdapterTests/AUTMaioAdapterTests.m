@@ -1,6 +1,8 @@
 #import "GADMediationAdapterMaio.h"
 
 #import "GADMMaioConstants.h"
+#import "GADMMaioInterstitialAdapter.h"
+#import "GADMMaioRewardedAdapter.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKAdapterSetUpAssertions.h>
@@ -130,6 +132,28 @@
 
 - (void)testNetworkExtras {
   XCTAssertNil([GADMediationAdapterMaio networkExtrasClass]);
+}
+
+- (void)testRewardedAdapterMainAdapterClass {
+  SEL mainAdapterClassSelector = NSSelectorFromString(@"mainAdapterClass");
+  XCTAssertTrue([GADMMaioRewardedAdapter respondsToSelector:mainAdapterClassSelector]);
+
+  Class adapterClass = [GADMMaioRewardedAdapter class];
+  IMP imp = [adapterClass methodForSelector:mainAdapterClassSelector];
+  Class (*func)(id, SEL) = (void *)imp;
+  Class mainAdapterClass = func(adapterClass, mainAdapterClassSelector);
+  XCTAssertEqualObjects(mainAdapterClass, [GADMediationAdapterMaio class]);
+}
+
+- (void)testInterstitialAdapterMainAdapterClass {
+  SEL mainAdapterClassSelector = NSSelectorFromString(@"mainAdapterClass");
+  XCTAssertTrue([GADMMaioInterstitialAdapter respondsToSelector:mainAdapterClassSelector]);
+
+  Class adapterClass = [GADMMaioInterstitialAdapter class];
+  IMP imp = [adapterClass methodForSelector:mainAdapterClassSelector];
+  Class (*func)(id, SEL) = (void *)imp;
+  Class mainAdapterClass = func(adapterClass, mainAdapterClassSelector);
+  XCTAssertEqualObjects(mainAdapterClass, [GADMediationAdapterMaio class]);
 }
 
 @end

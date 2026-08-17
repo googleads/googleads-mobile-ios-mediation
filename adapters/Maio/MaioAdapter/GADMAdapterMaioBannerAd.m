@@ -130,7 +130,7 @@
                                    userInfo:userInfo];
 
   NSLog(@"maio banner ad failed to show with error code: %@", error);
-  self.completionHandler(nil, error);
+  [self.adEventDelegate didFailToPresentWithError:error];
 }
 
 @end

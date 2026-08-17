@@ -304,6 +304,7 @@
 		CDCA7FA12F841AC30000EF1B /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		CDD2215A2F7B301300ED9C43 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD221592F7B301300ED9C43 /* libc++.1.tbd */; };
 		E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */; };
+		E2E2719F2F3308DA00143B5D /* AUTMaioUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E2719E2F3308DA00143B5D /* AUTMaioUtilsTests.m */; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
@@ -1847,6 +1848,7 @@
 		CDC3033C2F994F140071A719 /* MaxAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaxAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDD221592F7B301300ED9C43 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMaioBannerAdTests.m; sourceTree = "<group>"; };
+		E2E2719E2F3308DA00143B5D /* AUTMaioUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMaioUtilsTests.m; sourceTree = "<group>"; };
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
 		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
 		F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeAdTest.swift; sourceTree = "<group>"; };
@@ -2542,6 +2544,7 @@
 				E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */,
 				AD0D6F5F2AF6F63F002C0B60 /* AUTMaioInterstitialAdTests.m */,
 				AD0D6F612AF6F671002C0B60 /* AUTMaioRewardedAdTests.m */,
+				E2E2719E2F3308DA00143B5D /* AUTMaioUtilsTests.m */,
 				44414CEF2F89A1ED0085DF0B /* placeholder.swift */,
 				44414C9C2F89A1ED0085DF0B /* MaioAdapterTests-Bridging-Header.h */,
 			);
@@ -5252,6 +5255,7 @@
 				AD0D6F622AF6F671002C0B60 /* AUTMaioRewardedAdTests.m in Sources */,
 				AD0D6F5E2AF6E903002C0B60 /* AUTMaioAdapterTests.m in Sources */,
 				E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */,
+				E2E2719F2F3308DA00143B5D /* AUTMaioUtilsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
