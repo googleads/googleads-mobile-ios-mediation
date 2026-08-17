@@ -29,7 +29,7 @@ static NSString *const GADMAdapterUnityGameID = @"gameId";
 static NSString *const GADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const GADMAdapterUnityVersion = @"4.19.0.1";
+static NSString *const GADMAdapterUnityVersion = @"4.20.0.0";
 
 /// Unity Ads ad technology provider ID from
 /// https://storage.googleapis.com/tcfac/additional-consent-providers.csv

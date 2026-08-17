@@ -1,6 +1,6 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 4.20.0.0 (In progress)
 - Updated to fail signal collection on empty bidding token.
 
 #### [Version 4.19.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.19.0.1.zip)
