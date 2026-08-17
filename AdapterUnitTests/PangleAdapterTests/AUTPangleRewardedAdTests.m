@@ -10,27 +10,27 @@
 #import "GADMediationAdapterPangleConstants.h"
 
 @interface AUTPangleRewardedAdTests : XCTestCase
-
 @end
 
 @implementation AUTPangleRewardedAdTests {
   /// Mock for PAGConfig.
   id _configMock;
 
-  /// Mock for PAGSdk;
+  /// Mock for PAGSdk.
   id _sdkMock;
 
   /// Mock for PAGRewardedRequest.
   id _request;
 
-  /// Mock for PAGLRewardedAd.
+  /// Mock for PAGRewardedAd.
   id _ad;
 
-  /// Adapter under tests.
+  /// Adapter under test.
   GADMediationAdapterPangle *_adapter;
 }
 
 - (void)setUp {
+  [super setUp];
   _configMock = OCMClassMock([PAGConfig class]);
   _sdkMock = OCMClassMock([PAGSdk class]);
   _request = OCMClassMock([PAGRewardedRequest class]);
@@ -42,34 +42,43 @@
 }
 
 - (void)tearDown {
-  OCMVerifyAll(_configMock);
-  OCMVerifyAll(_sdkMock);
-  OCMVerifyAll(_request);
-  OCMVerifyAll(_ad);
+  [_configMock stopMocking];
+  [_sdkMock stopMocking];
+  [_request stopMocking];
+  [_ad stopMocking];
+
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
+
+  [super tearDown];
 }
 
-- (nonnull AUTKMediationRewardedAdEventDelegate *)loadAdWithPlacementID:
-    (nullable NSString *)placementID {
+- (nonnull AUTKMediationRewardedAdEventDelegate *)
+    loadAdWithPlacementID:(nullable NSString *)placementID
+                    isRTB:(BOOL)isRTB
+                watermark:(nullable NSData *)watermark {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  if (placementID) {
+    credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  }
   AUTKMediationRewardedAdConfiguration *configuration =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
   configuration.credentials = credentials;
-  configuration.bidResponse = @"bidResponse";
-  NSString *watermarkString = @"watermark";
-  NSData *watermarkData = [watermarkString dataUsingEncoding:NSUTF8StringEncoding];
-  configuration.watermark = watermarkData;
-  OCMExpect([_request setAdString:@"bidResponse"]);
-  OCMExpect([_request setExtraInfo:@{@"admob_watermark" : watermarkData}]);
+  if (isRTB) {
+    configuration.bidResponse = @"bidResponse";
+    OCMExpect([_request setAdString:@"bidResponse"]);
+  }
+  if (watermark) {
+    configuration.watermark = watermark;
+    OCMExpect([_request setExtraInfo:@{@"admob_watermark" : watermark}]);
+  }
   OCMExpect(ClassMethod([_ad loadAdWithSlotID:placementID
                                       request:_request
                             completionHandler:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(PAGRewardedAd *_Nullable RewardedAd,
+        __unsafe_unretained void (^completionHandler)(PAGRewardedAd *_Nullable rewardedAd,
                                                       NSError *_Nullable error);
         [invocation getArgument:&completionHandler atIndex:4];
         completionHandler(self->_ad, nil);
@@ -82,21 +91,27 @@
 }
 
 - (void)loadAdFailureWithPlacementID:(nullable NSString *)placementID
+                               isRTB:(BOOL)isRTB
+                           watermark:(nullable NSData *)watermark
                        expectedError:(nonnull NSError *)expectedError {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  if (placementID) {
+    credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  }
   AUTKMediationRewardedAdConfiguration *configuration =
       [[AUTKMediationRewardedAdConfiguration alloc] init];
   configuration.credentials = credentials;
-  configuration.bidResponse = @"bidResponse";
-  NSString *watermarkString = @"watermark";
-  NSData *watermarkData = [watermarkString dataUsingEncoding:NSUTF8StringEncoding];
-  configuration.watermark = watermarkData;
+  if (isRTB) {
+    configuration.bidResponse = @"bidResponse";
+  }
+  if (watermark) {
+    configuration.watermark = watermark;
+  }
   OCMStub(ClassMethod([_ad loadAdWithSlotID:placementID
                                     request:_request
                           completionHandler:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(PAGRewardedAd *_Nullable RewardedAd,
+        __unsafe_unretained void (^completionHandler)(PAGRewardedAd *_Nullable rewardedAd,
                                                       NSError *_Nullable error);
         [invocation getArgument:&completionHandler atIndex:4];
         completionHandler(nil, expectedError);
@@ -108,8 +123,37 @@
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
 }
 
-- (void)testLoadAd {
-  [self loadAdWithPlacementID:@"ID"];
+#pragma mark - Load Tests
+
+- (void)testLoadRTBAdSuccess {
+  NSData *watermarkData = [@"watermark" dataUsingEncoding:NSUTF8StringEncoding];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:watermarkData];
+  XCTAssertNotNil(eventDelegate);
+
+  OCMVerifyAll(_request);
+  OCMVerifyAll(_ad);
+}
+
+- (void)testLoadWaterfallAdSuccess {
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:NO
+                                                                          watermark:nil];
+  XCTAssertNotNil(eventDelegate);
+
+  OCMVerifyAll(_ad);
+}
+
+- (void)testLoadWaterfallAdWithWatermarkSuccess {
+  NSData *watermarkData = [@"watermark" dataUsingEncoding:NSUTF8StringEncoding];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:NO
+                                                                          watermark:watermarkData];
+  XCTAssertNotNil(eventDelegate);
+
+  OCMVerifyAll(_request);
+  OCMVerifyAll(_ad);
 }
 
 - (void)testLoadAdForChildAudience {
@@ -117,12 +161,15 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorChildUser
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadAdForNonChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadAdForUnderAgeOfConsent {
@@ -130,12 +177,15 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorChildUser
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadAdForNonUnderAgeOfConsent {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadAdForAgeRestrictedChild {
@@ -144,35 +194,52 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorChildUser
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadAdForAgeRestrictedTeen {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentTeen;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadAdForAgeRestrictedUnspecified {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadFailureWithEmptyPlacementID {
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorInvalidServerParameters
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"" isRTB:YES watermark:nil expectedError:expectedError];
+}
+
+- (void)testLoadFailureWithNilPlacementID {
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorInvalidServerParameters
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:nil isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadFailureWithNoAdFromPangle {
   NSError *expectedError = [[NSError alloc] initWithDomain:@"pangle" code:12345 userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
+#pragma mark - Presentation & Event Tests
+
 - (void)testAdDidShow {
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
   OCMStub([_ad presentFromRootViewController:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<PAGRewardedAdDelegate> adDelegate = (id<PAGRewardedAdDelegate>)eventDelegate.rewardedAd;
     [adDelegate adDidShow:self->_ad];
@@ -187,7 +254,9 @@
 
 - (void)testAdDidShowFail {
   NSError *showError = [[NSError alloc] initWithDomain:@"pangle" code:12345 userInfo:nil];
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
   OCMStub([_ad presentFromRootViewController:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<PAGRewardedAdDelegate> adDelegate = (id<PAGRewardedAdDelegate>)eventDelegate.rewardedAd;
     [adDelegate adDidShowFail:self->_ad error:showError];
@@ -199,7 +268,9 @@
 }
 
 - (void)testAdDismiss {
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
   id<PAGRewardedAdDelegate> adDelegate = (id<PAGRewardedAdDelegate>)eventDelegate.rewardedAd;
 
   XCTAssertEqual(eventDelegate.willDismissFullScreenViewInvokeCount, 0);
@@ -210,7 +281,9 @@
 }
 
 - (void)testClick {
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
   id<PAGRewardedAdDelegate> adDelegate = (id<PAGRewardedAdDelegate>)eventDelegate.rewardedAd;
 
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
@@ -219,7 +292,9 @@
 }
 
 - (void)testEarnReward {
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                              isRTB:YES
+                                                                          watermark:nil];
   id<PAGRewardedAdDelegate> adDelegate = (id<PAGRewardedAdDelegate>)eventDelegate.rewardedAd;
 
   XCTAssertEqual(eventDelegate.didRewardUserInvokeCount, 0);

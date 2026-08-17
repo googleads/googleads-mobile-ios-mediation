@@ -16,7 +16,7 @@
   /// Mock for PAGConfig.
   id _configMock;
 
-  /// Mock for PAGSdk;
+  /// Mock for PAGSdk.
   id _sdkMock;
 
   /// Mock for PAGInterstitialRequest.
@@ -25,11 +25,12 @@
   /// Mock for PAGLInterstitialAd.
   id _ad;
 
-  /// Adapter under tests.
+  /// Adapter under test.
   GADMediationAdapterPangle *_adapter;
 }
 
 - (void)setUp {
+  [super setUp];
   _configMock = OCMClassMock([PAGConfig class]);
   _sdkMock = OCMClassMock([PAGSdk class]);
   _request = OCMClassMock([PAGInterstitialRequest class]);
@@ -41,29 +42,38 @@
 }
 
 - (void)tearDown {
-  OCMVerifyAll(_configMock);
-  OCMVerifyAll(_sdkMock);
-  OCMVerifyAll(_request);
-  OCMVerifyAll(_ad);
+  [_configMock stopMocking];
+  [_sdkMock stopMocking];
+  [_request stopMocking];
+  [_ad stopMocking];
+
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
+
+  [super tearDown];
 }
 
-- (nonnull AUTKMediationInterstitialAdEventDelegate *)loadAdWithPlacementID:
-    (nullable NSString *)placementID {
+- (nonnull AUTKMediationInterstitialAdEventDelegate *)
+    loadAdWithPlacementID:(nullable NSString *)placementID
+                    isRTB:(BOOL)isRTB
+                watermark:(nullable NSData *)watermark {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  if (placementID) {
+    credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  }
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
-  configuration.bidResponse = @"bidResponse";
-  NSString *watermarkString = @"watermark";
-  NSData *watermarkData = [watermarkString dataUsingEncoding:NSUTF8StringEncoding];
-  configuration.watermark = watermarkData;
-  OCMExpect([_request setAdString:@"bidResponse"]);
-  OCMExpect([_request setExtraInfo:@{@"admob_watermark" : watermarkData}]);
+  if (isRTB) {
+    configuration.bidResponse = @"bidResponse";
+    OCMExpect([_request setAdString:@"bidResponse"]);
+  }
+  if (watermark) {
+    configuration.watermark = watermark;
+    OCMExpect([_request setExtraInfo:@{@"admob_watermark" : watermark}]);
+  }
   OCMExpect(ClassMethod([_ad loadAdWithSlotID:placementID
                                       request:_request
                             completionHandler:OCMOCK_ANY]))
@@ -81,16 +91,22 @@
 }
 
 - (void)loadAdFailureWithPlacementID:(nullable NSString *)placementID
+                               isRTB:(BOOL)isRTB
+                           watermark:(nullable NSData *)watermark
                        expectedError:(nonnull NSError *)expectedError {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  if (placementID) {
+    credentials.settings = @{GADMAdapterPanglePlacementID : placementID};
+  }
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
-  configuration.bidResponse = @"bidResponse";
-  NSString *watermarkString = @"watermark";
-  NSData *watermarkData = [watermarkString dataUsingEncoding:NSUTF8StringEncoding];
-  configuration.watermark = watermarkData;
+  if (isRTB) {
+    configuration.bidResponse = @"bidResponse";
+  }
+  if (watermark) {
+    configuration.watermark = watermark;
+  }
   OCMStub(ClassMethod([_ad loadAdWithSlotID:placementID
                                     request:_request
                           completionHandler:OCMOCK_ANY]))
@@ -107,8 +123,35 @@
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
 }
 
-- (void)testLoadAd {
-  [self loadAdWithPlacementID:@"ID"];
+#pragma mark - Load Tests
+
+- (void)testLoadRTBAdSuccess {
+  NSData *watermarkData = [@"watermark" dataUsingEncoding:NSUTF8StringEncoding];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      [self loadAdWithPlacementID:@"ID" isRTB:YES watermark:watermarkData];
+  XCTAssertNotNil(eventDelegate);
+
+  OCMVerifyAll(_request);
+  OCMVerifyAll(_ad);
+}
+
+- (void)testLoadWaterfallAdSuccess {
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:NO
+                                                                              watermark:nil];
+  XCTAssertNotNil(eventDelegate);
+
+  OCMVerifyAll(_ad);
+}
+
+- (void)testLoadWaterfallAdWithWatermarkSuccess {
+  NSData *watermarkData = [@"watermark" dataUsingEncoding:NSUTF8StringEncoding];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      [self loadAdWithPlacementID:@"ID" isRTB:NO watermark:watermarkData];
+  XCTAssertNotNil(eventDelegate);
+
+  OCMVerifyAll(_request);
+  OCMVerifyAll(_ad);
 }
 
 - (void)testLoadAdForChildAudience {
@@ -116,12 +159,15 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorChildUser
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadAdForNonChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadAdForUnderAgeOfConsent {
@@ -129,12 +175,15 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorChildUser
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadAdForNonUnderAgeOfConsent {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadAdForAgeRestrictedChild {
@@ -143,35 +192,52 @@
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorChildUser
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadAdForAgeRestrictedTeen {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentTeen;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadAdForAgeRestrictedUnspecified {
   GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
       GADAgeRestrictedTreatmentUnspecified;
-  [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadFailureWithEmptyPlacementID {
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
                                                       code:GADPangleErrorInvalidServerParameters
                                                   userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"" isRTB:YES watermark:nil expectedError:expectedError];
+}
+
+- (void)testLoadFailureWithNilPlacementID {
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorInvalidServerParameters
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:nil isRTB:YES watermark:nil expectedError:expectedError];
 }
 
 - (void)testLoadFailureWithNoAdFromPangle {
   NSError *expectedError = [[NSError alloc] initWithDomain:@"pangle" code:12345 userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+  [self loadAdFailureWithPlacementID:@"ID" isRTB:YES watermark:nil expectedError:expectedError];
 }
 
+#pragma mark - Presentation & Event Tests
+
 - (void)testAdDidShow {
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
   OCMStub([_ad presentFromRootViewController:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<PAGLInterstitialAdDelegate> adDelegate =
         (id<PAGLInterstitialAdDelegate>)eventDelegate.interstitialAd;
@@ -187,7 +253,9 @@
 
 - (void)testAdDidShowFail {
   NSError *showError = [[NSError alloc] initWithDomain:@"pangle" code:12345 userInfo:nil];
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
   OCMStub([_ad presentFromRootViewController:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<PAGLInterstitialAdDelegate> adDelegate =
         (id<PAGLInterstitialAdDelegate>)eventDelegate.interstitialAd;
@@ -200,7 +268,9 @@
 }
 
 - (void)testAdDismiss {
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
   id<PAGLInterstitialAdDelegate> adDelegate =
       (id<PAGLInterstitialAdDelegate>)eventDelegate.interstitialAd;
 
@@ -212,7 +282,9 @@
 }
 
 - (void)testClick {
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAdWithPlacementID:@"ID"
+                                                                                  isRTB:YES
+                                                                              watermark:nil];
   id<PAGLInterstitialAdDelegate> adDelegate =
       (id<PAGLInterstitialAdDelegate>)eventDelegate.interstitialAd;
 
