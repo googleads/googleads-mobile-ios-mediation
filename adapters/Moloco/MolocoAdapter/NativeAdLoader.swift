@@ -197,7 +197,7 @@ extension NativeAdLoader: MediationNativeAd {
   }
 
   func handlesUserImpressions() -> Bool {
-    return false
+    return true
   }
 
   func didRecordImpression() {

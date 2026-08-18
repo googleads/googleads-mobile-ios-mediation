@@ -150,6 +150,13 @@ final class MolocoNativeAdTest: XCTestCase {
     XCTAssertEqual(nativeAd?.starRating?.doubleValue, FakeAssetValues.rating)
   }
 
+  func testHandlesUserImpressions() {
+    let eventDelegate = loadNativeAd()
+
+    let nativeAd = eventDelegate.nativeAd
+    XCTAssertTrue(nativeAd?.handlesUserImpressions?() ?? false)
+  }
+
   func testUnusedNativeAdMetaData() {
     let eventDelegate = loadNativeAd()
     let nativeAd = eventDelegate.nativeAd
