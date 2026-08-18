@@ -210,6 +210,7 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   XCTAssertTrue([nativeAd.icon isKindOfClass:[GADNativeAdImage class]]);
   XCTAssertTrue(nativeAd.hasVideoContent);
   XCTAssertTrue([nativeAd.mediaView isKindOfClass:[FBMediaView class]]);
+  XCTAssertTrue(nativeAd.handlesUserImpressions);
 }
 
 - (void)testNativeBannerAdData {
@@ -239,6 +240,7 @@ AUTKMediationNativeAdConfiguration *_Nonnull AUTMediationNativeAdConfiguration()
   XCTAssertTrue([nativeAd.icon isKindOfClass:[GADNativeAdImage class]]);
   XCTAssertTrue(nativeAd.hasVideoContent);
   XCTAssertNil(nativeAd.mediaView);  // NativeBannerAd has no mediaView
+  XCTAssertTrue(nativeAd.handlesUserImpressions);
 }
 
 - (void)testNativeAdRegisterViews {

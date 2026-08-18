@@ -182,6 +182,10 @@ static void GADFBInitializeClassReferences(void) {
   return nil;
 }
 
+- (BOOL)handlesUserImpressions {
+  return YES;
+}
+
 - (void)didRenderInView:(UIView *)view
        clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
