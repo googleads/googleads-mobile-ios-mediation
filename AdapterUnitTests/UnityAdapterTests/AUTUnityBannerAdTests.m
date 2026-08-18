@@ -8,6 +8,8 @@
 
 #import "AUTUnityTestCase.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
+#import "GADUnityRouter.h"
 
 @interface AUTUnityBannerAdTests : AUTUnityTestCase
 @end
@@ -376,6 +378,54 @@
   AUTKWaitAndAssertLoadBannerAdFailure(self.adapter, configuration, bannerLoadError);
 }
 
+- (void)testLoadBannerAdInitializationFailure {
+  id routerMock = OCMPartialMock([GADUnityRouter sharedRouter]);
+  NSError *expectedError = GADMAdapterUnityErrorWithCodeAndDescription(
+      GADMAdapterUnityErrorAdInitializationFailure, @"Unity Ads failed to initialize.");
+  OCMStub([routerMock sdkInitializeWithGameId:AUTUnityGameID withCompletionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSError *_Nullable);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(expectedError);
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterUnityGameID : AUTUnityGameID, GADMAdapterUnityPlacementID : AUTUnityPlacementID};
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.adSize = GADAdSizeBanner;
+
+  AUTKWaitAndAssertLoadBannerAdFailure(self.adapter, configuration, expectedError);
+  [routerMock stopMocking];
+}
+
+- (void)testLoadBannerAdSizeMismatch {
+  UADSBannerView *bannerView =
+      OCMPartialMock([[UADSBannerView alloc] initWithPlacementId:AUTUnityPlacementID
+                                                            size:GADAdSizeMediumRectangle.size]);
+  OCMStub([OCMClassMock([UADSBannerView class]) alloc]).andReturn(bannerView);
+  OCMStub([bannerView initWithPlacementId:AUTUnityPlacementID size:GADAdSizeBanner.size])
+      .andReturn(bannerView);
+  OCMStub([bannerView loadWithOptions:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [bannerView.delegate bannerViewDidLoad:bannerView];
+  });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterUnityGameID : AUTUnityGameID, GADMAdapterUnityPlacementID : AUTUnityPlacementID};
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.adSize = GADAdSizeBanner;
+
+  NSError *expectedError = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
+                                               code:GADMAdapterUnityErrorSizeMismatch
+                                           userInfo:nil];
+  AUTKWaitAndAssertLoadBannerAdFailure(self.adapter, configuration, expectedError);
+}
+
 - (void)testAdClick {
   UADSBannerView *bannerView =
       OCMPartialMock([[UADSBannerView alloc] initWithPlacementId:AUTUnityPlacementID
@@ -426,10 +476,37 @@
   AUTKMediationBannerAdEventDelegate *delegate =
       AUTKWaitAndAssertLoadBannerAd(self.adapter, configuration);
 
-  // Simulate ad clicking.
+  // Simulate ad impression.
   XCTAssertEqual(delegate.reportImpressionInvokeCount, 0);
   [bannerView.delegate bannerViewDidShow:bannerView];
   XCTAssertEqual(delegate.reportImpressionInvokeCount, 1);
+}
+
+- (void)testBannerAdLeaveApplication {
+  UADSBannerView *bannerView =
+      OCMPartialMock([[UADSBannerView alloc] initWithPlacementId:AUTUnityPlacementID
+                                                            size:GADAdSizeBanner.size]);
+  OCMStub([OCMClassMock([UADSBannerView class]) alloc]).andReturn(bannerView);
+  OCMStub([bannerView initWithPlacementId:AUTUnityPlacementID size:GADAdSizeBanner.size])
+      .andReturn(bannerView);
+  OCMStub([bannerView loadWithOptions:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [bannerView.delegate bannerViewDidLoad:bannerView];
+  });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterUnityGameID : AUTUnityGameID, GADMAdapterUnityPlacementID : AUTUnityPlacementID};
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.adSize = GADAdSizeBanner;
+
+  AUTKMediationBannerAdEventDelegate *delegate =
+      AUTKWaitAndAssertLoadBannerAd(self.adapter, configuration);
+  XCTAssertNotNil(delegate);
+
+  // Verify leave application delegate callback does not crash.
+  [bannerView.delegate bannerViewDidLeaveApplication:bannerView];
 }
 
 @end

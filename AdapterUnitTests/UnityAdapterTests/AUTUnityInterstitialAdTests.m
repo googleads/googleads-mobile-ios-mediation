@@ -8,6 +8,8 @@
 
 #import "AUTUnityTestCase.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
+#import "GADUnityRouter.h"
 
 @interface AUTUnityInterstitialAdTests : AUTUnityTestCase
 @end
@@ -356,6 +358,28 @@
                                        code:kUnityAdsLoadErrorNoFill
                                    userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(self.adapter, configuration, error);
+}
+
+- (void)testLoadInterstitialAdInitializationFailure {
+  id routerMock = OCMPartialMock([GADUnityRouter sharedRouter]);
+  NSError *expectedError = GADMAdapterUnityErrorWithCodeAndDescription(
+      GADMAdapterUnityErrorAdInitializationFailure, @"Unity Ads failed to initialize.");
+  OCMStub([routerMock sdkInitializeWithGameId:AUTUnityGameID withCompletionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSError *_Nullable);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(expectedError);
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterUnityGameID : AUTUnityGameID, GADMAdapterUnityPlacementID : AUTUnityPlacementID};
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
+  AUTKWaitAndAssertLoadInterstitialAdFailure(self.adapter, configuration, expectedError);
+  [routerMock stopMocking];
 }
 
 - (void)testInterstitialAdPresentLifecycle {

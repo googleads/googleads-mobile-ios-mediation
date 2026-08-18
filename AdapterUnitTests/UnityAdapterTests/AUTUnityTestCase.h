@@ -33,11 +33,11 @@ static NSString *_Nonnull AUTUnityWatermarkBase64 =
     @"meQxiezfPZv4X8NQVOmZjy5pNejluE+Q+wyVdKO/v4UPrNNWV9bkXMsNkfxtO9v/"
     @"mEzHolsALLMwpOelmNlR8IIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGE3/wBjW9SKC7yayAAAAAASUVORK5CYII=";
 
-/// Subclass of XCTestCase to faciliate GADMediationAdapterUnity tests.
+/// Subclass of XCTestCase to facilitate GADMediationAdapterUnity tests.
 @interface AUTUnityTestCase : XCTestCase
 
 /// Class mocked UnityAds.
-@property(nonatomic, nonnull) id unityAdsClassMock;
+@property(nonatomic, nullable) id unityAdsClassMock;
 
 /// Unity adapter that is being tested.
 @property(nonatomic, nonnull) GADMediationAdapterUnity *adapter;

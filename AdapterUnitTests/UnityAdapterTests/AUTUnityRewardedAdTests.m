@@ -8,6 +8,8 @@
 
 #import "AUTUnityTestCase.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
+#import "GADUnityRouter.h"
 
 @interface AUTUnityRewardedAdTests : AUTUnityTestCase
 @end
@@ -363,6 +365,28 @@
   AUTKWaitAndAssertLoadRewardedAdFailure(self.adapter, configuration, error);
 }
 
+- (void)testLoadRewardedAdInitializationFailure {
+  id routerMock = OCMPartialMock([GADUnityRouter sharedRouter]);
+  NSError *expectedError = GADMAdapterUnityErrorWithCodeAndDescription(
+      GADMAdapterUnityErrorAdInitializationFailure, @"Unity Ads failed to initialize.");
+  OCMStub([routerMock sdkInitializeWithGameId:AUTUnityGameID withCompletionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSError *_Nullable);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(expectedError);
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterUnityGameID : AUTUnityGameID, GADMAdapterUnityPlacementID : AUTUnityPlacementID};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
+  AUTKWaitAndAssertLoadRewardedAdFailure(self.adapter, configuration, expectedError);
+  [routerMock stopMocking];
+}
+
 - (void)testRewardedAdPresentLifecycle {
   // First load a rewarded ad.
   __block __unsafe_unretained UADSLoadOptions *loadOptions = nil;
@@ -424,8 +448,57 @@
   XCTAssertEqual(delegate.willDismissFullScreenViewInvokeCount, 1);
   XCTAssertEqual(delegate.didDismissFullScreenViewInvokeCount, 1);
 
-  // Reward must be granted when video is dimissed with completed state.
+  // Reward must be granted when video is dismissed with completed state.
   XCTAssertEqual(delegate.didRewardUserInvokeCount, 1);
+}
+
+- (void)testRewardedAdPresentSkippedLifecycle {
+  // First load a rewarded ad.
+  __block __unsafe_unretained UADSLoadOptions *loadOptions = nil;
+  __block __unsafe_unretained id<UnityAdsLoadDelegate, UnityAdsShowDelegate> unityDelegate = nil;
+  OCMStub(OCMClassMethod([self.unityAdsClassMock load:AUTUnityPlacementID
+                                              options:OCMOCK_ANY
+                                         loadDelegate:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&loadOptions atIndex:3];
+        [invocation getArgument:&unityDelegate atIndex:4];
+        [unityDelegate unityAdsAdLoaded:AUTUnityPlacementID];
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterUnityGameID : AUTUnityGameID, GADMAdapterUnityPlacementID : AUTUnityPlacementID};
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
+  AUTKMediationRewardedAdEventDelegate *delegate =
+      AUTKWaitAndAssertLoadRewardedAd(self.adapter, configuration);
+
+  UIViewController *presentViewController = [[UIViewController alloc] init];
+  id<GADMediationRewardedAd> mediationRewardedAd = delegate.rewardedAd;
+
+  // Simulate ad presentation.
+  XCTAssertEqual(delegate.willPresentFullScreenViewInvokeCount, 0);
+  [mediationRewardedAd presentFromViewController:presentViewController];
+  XCTAssertEqual(delegate.willPresentFullScreenViewInvokeCount, 1);
+
+  // Simulate start.
+  XCTAssertEqual(delegate.reportImpressionInvokeCount, 0);
+  [unityDelegate unityAdsShowStart:AUTUnityPlacementID];
+  XCTAssertEqual(delegate.reportImpressionInvokeCount, 1);
+
+  // Simulate skipped video dismissal.
+  XCTAssertEqual(delegate.willDismissFullScreenViewInvokeCount, 0);
+  XCTAssertEqual(delegate.didDismissFullScreenViewInvokeCount, 0);
+  XCTAssertEqual(delegate.didRewardUserInvokeCount, 0);
+  [unityDelegate unityAdsShowComplete:AUTUnityPlacementID
+                      withFinishState:kUnityShowCompletionStateSkipped];
+  XCTAssertEqual(delegate.willDismissFullScreenViewInvokeCount, 1);
+  XCTAssertEqual(delegate.didDismissFullScreenViewInvokeCount, 1);
+
+  // No reward should be granted for skipped video.
+  XCTAssertEqual(delegate.didRewardUserInvokeCount, 0);
 }
 
 - (void)testRewardedAdPresentFailureLifecycle {
