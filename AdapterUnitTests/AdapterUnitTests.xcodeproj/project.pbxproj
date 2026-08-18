@@ -7196,6 +7196,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/Public/Headers\"",
@@ -7267,6 +7268,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/Public/Headers\"",
@@ -11532,6 +11534,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/Public/Headers\"",
@@ -11602,6 +11605,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/Public/Headers\"",

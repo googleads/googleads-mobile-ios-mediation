@@ -877,6 +877,8 @@
 		AD6E39752EA1673900818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
@@ -885,6 +887,8 @@
 		AD6E39762EA1673900818296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};

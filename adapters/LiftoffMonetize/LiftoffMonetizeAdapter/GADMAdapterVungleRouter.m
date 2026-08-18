@@ -31,12 +31,9 @@
 
 - (void)initWithAppId:(nonnull NSString *)appId
              delegate:(nullable id<GADMAdapterVungleDelegate>)delegate {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    NSString *version = [GADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
-                                                                            withString:@"_"];
-    [VungleAds setIntegrationName:@"admob" version:version];
-  });
+  NSString *version = [GADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
+                                                                          withString:@"_"];
+  [VungleAds setIntegrationName:@"admob" version:version];
   if ([VungleAds isInitialized]) {
     [delegate initialized:YES error:nil];
     return;
