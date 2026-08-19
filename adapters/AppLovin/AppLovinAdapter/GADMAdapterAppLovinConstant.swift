@@ -28,7 +28,7 @@ public final class GADMAdapterAppLovinConstant: NSObject {
   @objc public static let sdkErrorDomain = "com.google.mediation.applovinSDK"
 
   /// AppLovin adapter version number.
-  @objc public static let adapterVersion = "13.6.3.0"
+  @objc public static let adapterVersion = "13.6.4.0"
 
   /// AppLovin SDK parameter key.
   @objc public static let sdkKey = "sdkKey"
