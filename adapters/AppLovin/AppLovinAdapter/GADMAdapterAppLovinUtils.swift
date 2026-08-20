@@ -60,7 +60,7 @@ public class GADMAdapterAppLovinUtils: NSObject {
     _ dictionary: NSMutableDictionary, forKey key: NSCopying?, value: Any?
   ) {
     if let key, let value {
-      dictionary[key] = value
+      dictionary[key] = value  // Allow pattern.
     }
   }
 
