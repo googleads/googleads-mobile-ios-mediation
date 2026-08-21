@@ -7,7 +7,12 @@ updated to return YES for handlesUserImpressions()). Note: The decision on
 whether Google SDK or Moloco SDK is used to track native ad impressions is
 controlled by Google Serving.
 
-#### Version 4.9.1.0 (In progress)
+#### [Version 4.9.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.9.1.0.zip)
+- Verified compatibility with Moloco SDK version 4.9.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.8.0.
+- Moloco SDK version 4.9.1.
 
 #### [Version 4.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.9.0.0.zip)
 - Verified compatibility with Moloco SDK version 4.9.0.
