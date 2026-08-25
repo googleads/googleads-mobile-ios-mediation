@@ -1,7 +1,12 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Version 4.20.0.0 (In progress)
-- Updated to fail signal collection on empty bidding token.
+#### [Version 4.20.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.20.0.0.zip)
+- Updated the adapter to fail the ad request when an empty bidding token was returned on signal collection.
+- Verified compatibility with Unity Ads SDK 4.20.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.8.0.
+- Unity Ads SDK version 4.20.0.
 
 #### [Version 4.19.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.19.0.1.zip)
 - Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the Unity Ads SDK if GDPR applies.
