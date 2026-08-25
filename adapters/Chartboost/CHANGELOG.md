@@ -1,6 +1,6 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 9.14.0.0 (In progress)
 - Ported GADMAdapterChartboostConstants to Swift.
 - Ported GADMChartboostError to Swift.
 

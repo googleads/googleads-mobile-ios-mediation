@@ -18,7 +18,7 @@ import Foundation
 @objc(GADMAdapterChartboostConstants)
 public final class GADMAdapterChartboostConstants: NSObject {
   /// Chartboost AdMob adapter version.
-  @objc public static let adapterVersion = "9.12.0.1"
+  @objc public static let adapterVersion = "9.14.0.0"
 
   /// Chartboost App ID.
   @objc public static let appID = "appId"
