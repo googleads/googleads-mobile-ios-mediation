@@ -4,9 +4,8 @@
 - Verified compatibility with Mintegral SDK version 8.1.7.
 
 Built and tested with:
-- Google Mobile Ads SDK version 13.7.0.
+- Google Mobile Ads SDK version 13.8.0.
 - Mintegral SDK version 8.1.7.
-
 
 #### [Version 8.1.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.1.6.0.zip)
 - Verified compatibility with Mintegral SDK version 8.1.6.
