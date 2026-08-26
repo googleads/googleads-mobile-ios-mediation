@@ -4,7 +4,7 @@
 - Verified compatibility with myTarget SDK version 5.46.0.
 
 Built and tested with:
-- Google Mobile Ads SDK version 13.7.0.
+- Google Mobile Ads SDK version 13.8.0.
 - MyTarget SDK version 5.46.0.
 
 #### [Version 5.45.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.45.0.1.zip)
