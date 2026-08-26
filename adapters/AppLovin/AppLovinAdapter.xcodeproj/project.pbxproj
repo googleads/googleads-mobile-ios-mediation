@@ -34,8 +34,6 @@
 /* Begin PBXBuildFile section */
 		090DDE0D80D2C6E75E36FFEF /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
 		18FA7C1AD24DA435168BCDD7 /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
-		1A85C139660EB7AE8D7D425D /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
-		1CBF201CED64B290AFC5AACC /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
 		1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.swift */; };
 		1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
 		1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.swift */; };
@@ -45,7 +43,6 @@
 		28BAF05A557C1BC3B00FC511 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
 		2EF60660C49863FAD0882835 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
 		359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38C4631546031C6804393530 /* GADMAdapterAppLovinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9662C614FDB2A56AC7E6E4F6 /* GADMAdapterAppLovinUtils.swift */; };
 		3E65654BE6FA53472E6FC121 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
 		45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CBAE6A85EAE4E33F59C8E90 /* GADMAdapterAppLovinInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8990ABF75FC1A8F752752A5 /* GADMAdapterAppLovinInitializer.swift */; };
@@ -88,7 +85,6 @@
 		CDB37064910D2264BBCBE0D0 /* GADMAppLovinRewardedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE5B1B9B37FEE356EF474C0 /* GADMAppLovinRewardedDelegate.swift */; };
 		D9F8D67C07FF148E33F6D174 /* GADMWaterfallAppLovinInterstitialRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02ED73987CCA4CB43A225DAE /* GADMWaterfallAppLovinInterstitialRenderer.swift */; };
 		E84503C05AAE48B621A147F2 /* GADMediationAdapterAppLovin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF006B7708DDC1D6FDA61AD5 /* GADMediationAdapterAppLovin.swift */; };
-		EEBBDF581913C6FA021DA7D5 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E160ADA6AF926808622AD16 /* GADMWaterfallAppLovinBannerRenderer.swift */; };
 		F8BF9E28337CC294E8ED49A7 /* GADMAdapterAppLovinMediationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697133B868A69D8BA1C5D364 /* GADMAdapterAppLovinMediationManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -529,10 +525,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38C4631546031C6804393530 /* GADMAdapterAppLovinUtils.swift in Sources */,
-				1CBF201CED64B290AFC5AACC /* GADMAdapterAppLovinInitializer.swift in Sources */,
-				1A85C139660EB7AE8D7D425D /* GADMAdapterAppLovinMediationManager.swift in Sources */,
-				EEBBDF581913C6FA021DA7D5 /* GADMWaterfallAppLovinBannerRenderer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

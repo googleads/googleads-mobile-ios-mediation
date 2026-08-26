@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GADAdNetworkExtras;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterAppLovinExtras : NSObject<GADAdNetworkExtras>
 
