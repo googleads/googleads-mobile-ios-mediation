@@ -46,6 +46,74 @@
   XCTAssertLessThanOrEqual(version.patchVersion, 99);
 }
 
+- (void)testSetUpFromBackgroundQueue {
+  NSString *testSdkKey =
+      @"21345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+  id appLovinSdkMock = OCMClassMock([ALSdk class]);
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
+
+  id configMock = OCMClassMock([ALSdkInitializationConfiguration class]);
+  ALSdkInitializationConfigurationBuilder *builderMock =
+      OCMClassMock([ALSdkInitializationConfigurationBuilder class]);
+  OCMExpect([builderMock setMediationProvider:ALMediationProviderAdMob]);
+  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion]);
+  OCMStub(ClassMethod([configMock configurationWithSdkKey:testSdkKey builderBlock:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^block)(ALSdkInitializationConfigurationBuilder *builder);
+        [invocation getArgument:&block atIndex:3];
+        block(builderMock);
+      })
+      .andReturn(configMock);
+
+  OCMStub([appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil);
+      });
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterAppLovinConstant.sdkKey : testSdkKey};
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Set up AppLovin adapter from background queue."];
+
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [GADMediationAdapterAppLovin setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [expectation fulfill];
+                                      }];
+  });
+
+  [self waitForExpectationsWithTimeout:5.0 handler:nil];
+  OCMVerifyAll(appLovinSdkMock);
+  OCMVerifyAll(builderMock);
+}
+
+- (void)testVersionAndMetadataQueriesFromBackgroundQueue {
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"Fetch metadata from background queue."];
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    GADVersionNumber adapterVersion = [GADMediationAdapterAppLovin adapterVersion];
+    XCTAssertGreaterThan(adapterVersion.majorVersion, 0);
+
+    GADVersionNumber adSDKVersion = [GADMediationAdapterAppLovin adSDKVersion];
+    XCTAssertGreaterThan(adSDKVersion.majorVersion, 0);
+
+    Class networkExtrasClass = [GADMediationAdapterAppLovin networkExtrasClass];
+    XCTAssertNotNil(networkExtrasClass);
+    Class mainAdapterClass = [GADMediationAdapterAppLovin class];
+    XCTAssertNotNil(mainAdapterClass);
+
+    [expectation fulfill];
+  });
+  [self waitForExpectationsWithTimeout:5.0 handler:nil];
+}
+
 - (void)testSetUp {
   // AppLovin expects an SDK Key of 86 characters
   NSString *testSdkKey =

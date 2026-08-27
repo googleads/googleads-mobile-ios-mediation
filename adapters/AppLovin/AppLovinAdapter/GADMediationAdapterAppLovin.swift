@@ -14,21 +14,22 @@
 
 import AppLovinSDK
 import Foundation
-import GoogleMobileAds
+@preconcurrency import GoogleMobileAds
 import UIKit
 
-@MainActor
 /// The AppLovin mediation adapter. Coordinates configuration, signal collection, and loading of
 /// banner, interstitial, and rewarded ads.
 @objc(GADMediationAdapterAppLovin)
-public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAdapter {
+public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAdapter,
+  @unchecked Sendable
+{
 
-  private var waterfallBannerRenderer: GADMWaterfallAppLovinBannerRenderer?
+  @MainActor private var waterfallBannerRenderer: GADMWaterfallAppLovinBannerRenderer?
   /// AppLovin interstitial ad wrapper.
-  private var rtbInterstitialRenderer: GADMRTBAdapterAppLovinInterstitialRenderer?
-  private var waterfallInterstitialRenderer: GADMWaterfallAppLovinInterstitialRenderer?
+  @MainActor private var rtbInterstitialRenderer: GADMRTBAdapterAppLovinInterstitialRenderer?
+  @MainActor private var waterfallInterstitialRenderer: GADMWaterfallAppLovinInterstitialRenderer?
   /// AppLovin rewarded ad wrapper.
-  private var rewardedRenderer: GADMAdapterAppLovinRewardedRenderer?
+  @MainActor private var rewardedRenderer: GADMAdapterAppLovinRewardedRenderer?
 
   public override init() {
     super.init()
@@ -77,8 +78,11 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
       "Found \(sdkKeys.count) SDK keys. Please remove any SDK keys you are not using from the "
         + "AdMob UI."
     )
-    GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) {
-      completionHandler(nil)
+    nonisolated(unsafe) let completionHandler = completionHandler
+    DispatchQueue.main.async {
+      GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) {
+        completionHandler(nil)
+      }
     }
   }
 
@@ -114,15 +118,19 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
     return GADMAdapterAppLovinExtras.self
   }
 
-  @objc dynamic public static func createAdView(with sdk: ALSdk, size: ALAdSize) -> ALAdView {
+  @MainActor @objc dynamic public static func createAdView(with sdk: ALSdk, size: ALAdSize)
+    -> ALAdView
+  {
     return ALAdView(sdk: sdk, size: size)
   }
 
-  @objc dynamic public static func createInterstitialAd(with sdk: ALSdk) -> ALInterstitialAd {
+  @MainActor @objc dynamic public static func createInterstitialAd(with sdk: ALSdk)
+    -> ALInterstitialAd
+  {
     return ALInterstitialAd(sdk: sdk)
   }
 
-  @objc dynamic public static func createIncentivizedInterstitialAd(
+  @MainActor @objc dynamic public static func createIncentivizedInterstitialAd(
     with sdk: ALSdk
   ) -> ALIncentivizedInterstitialAd {
     return ALIncentivizedInterstitialAd(sdk: sdk)
@@ -203,11 +211,17 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
     }
 
     // In the case of waterfall, initialize Applovin SDK before loading ad.
-    GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) { [weak self] in
-      guard let self else { return }
-      let renderer = GADMWaterfallAppLovinBannerRenderer(adConfiguration: adConfiguration)
-      self.waterfallBannerRenderer = renderer
-      renderer.loadAd(withCompletion: completionHandler)
+    nonisolated(unsafe) let completionHandler = completionHandler
+    nonisolated(unsafe) let adConfiguration = adConfiguration
+    DispatchQueue.main.async {
+      GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) { [weak self] in
+        guard let self else { return }
+        DispatchQueue.main.async {
+          let renderer = GADMWaterfallAppLovinBannerRenderer(adConfiguration: adConfiguration)
+          self.waterfallBannerRenderer = renderer
+          renderer.loadAd(withCompletion: completionHandler)
+        }
+      }
     }
   }
 
@@ -220,13 +234,17 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
       return
     }
 
+    nonisolated(unsafe) let completionHandler = completionHandler
+    nonisolated(unsafe) let adConfiguration = adConfiguration
     if adConfiguration.bidResponse != nil {
-      let renderer = GADMRTBAdapterAppLovinInterstitialRenderer(
-        adConfiguration: adConfiguration,
-        completionHandler: completionHandler
-      )
-      self.rtbInterstitialRenderer = renderer
-      renderer.loadAd()
+      DispatchQueue.main.async {
+        let renderer = GADMRTBAdapterAppLovinInterstitialRenderer(
+          adConfiguration: adConfiguration,
+          completionHandler: completionHandler
+        )
+        self.rtbInterstitialRenderer = renderer
+        renderer.loadAd()
+      }
     } else {
       // In the case of waterfall, initialize Applovin SDK before loading ad.
       guard
@@ -241,11 +259,16 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
         return
       }
 
-      GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) { [weak self] in
-        guard let self else { return }
-        let renderer = GADMWaterfallAppLovinInterstitialRenderer(adConfiguration: adConfiguration)
-        self.waterfallInterstitialRenderer = renderer
-        renderer.loadAd(withCompletion: completionHandler)
+      DispatchQueue.main.async {
+        GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) { [weak self] in
+          guard let self else { return }
+          DispatchQueue.main.async {
+            let renderer = GADMWaterfallAppLovinInterstitialRenderer(
+              adConfiguration: adConfiguration)
+            self.waterfallInterstitialRenderer = renderer
+            renderer.loadAd(withCompletion: completionHandler)
+          }
+        }
       }
     }
   }
@@ -271,14 +294,20 @@ public final class GADMediationAdapterAppLovin: NSObject, @preconcurrency RTBAda
       return
     }
 
-    GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) { [weak self] in
-      guard let self else { return }
-      let renderer = GADMAdapterAppLovinRewardedRenderer(
-        adConfiguration: adConfiguration,
-        completionHandler: completionHandler
-      )
-      self.rewardedRenderer = renderer
-      renderer.requestRewardedAd()
+    nonisolated(unsafe) let completionHandler = completionHandler
+    nonisolated(unsafe) let adConfiguration = adConfiguration
+    DispatchQueue.main.async {
+      GADMAdapterAppLovinInitializer.initialize(withSDKKey: sdkKey) { [weak self] in
+        guard let self else { return }
+        DispatchQueue.main.async {
+          let renderer = GADMAdapterAppLovinRewardedRenderer(
+            adConfiguration: adConfiguration,
+            completionHandler: completionHandler
+          )
+          self.rewardedRenderer = renderer
+          renderer.requestRewardedAd()
+        }
+      }
     }
   }
 }
