@@ -151,6 +151,11 @@
       return;
     }
 
+    if (error) {
+      completionHandler(nil, error);
+      return;
+    }
+
     strongSelf->_rewardedAd = [[GADMAdapterChartboostRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                                  completionHandler:completionHandler];
     [strongSelf->_rewardedAd loadRewardedAd];
@@ -163,6 +168,11 @@
   [GADMediationAdapterChartboost startChartBoostWithCredentialsArray:@[adConfiguration.credentials] completionHandler:^(NSError * _Nullable error) {
     GADMediationAdapterChartboost *strongSelf = weakSelf;
     if(!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      completionHandler(nil, error);
       return;
     }
 
@@ -182,6 +192,11 @@
   [GADMediationAdapterChartboost startChartBoostWithCredentialsArray:@[adConfiguration.credentials] completionHandler:^(NSError * _Nullable error) {
     GADMediationAdapterChartboost *strongSelf = weakSelf;
     if(!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      completionHandler(nil, error);
       return;
     }
 

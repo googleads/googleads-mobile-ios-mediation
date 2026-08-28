@@ -74,52 +74,14 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *appID = GADMAdapterChartboostTrimmedCredential(
-      _adConfig.credentials.settings, [GADMAdapterChartboostConstants appID]);
-  NSString *appSignature = GADMAdapterChartboostTrimmedCredential(
-      _adConfig.credentials.settings, [GADMAdapterChartboostConstants appSignature]);
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
-    _completionHandler(nil, error);
-    return;
-  }
-
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
-    NSString *logMessage = [NSString
-        stringWithFormat:
-            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
-    _completionHandler(nil, error);
-    return;
-  }
-
+  // The adapter starts the Chartboost SDK and validates the credentials and OS version before
+  // creating this wrapper, so build and cache the ad directly rather than starting again.
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
-  __weak GADMAdapterChartboostRewardedAd *weakSelf = self;
-  [Chartboost startWithAppID:appID
-                appSignature:appSignature
-                  completion:^(CHBStartError *cbError) {
-                    GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
-                    if (!strongSelf) {
-                      return;
-                    }
-
-                    if (cbError) {
-                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
-                      strongSelf->_completionHandler(nil, cbError);
-                      return;
-                    }
-
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
-                    strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
-                                                                          mediation:mediation
-                                                                           delegate:strongSelf];
-                    [strongSelf->_rewardedAd cache];
-                  }];
+  CHBMediation *mediation = GADMAdapterChartboostMediation();
+  _rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
+                                            mediation:mediation
+                                             delegate:self];
+  [_rewardedAd cache];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

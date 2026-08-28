@@ -244,7 +244,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
       [[AUTKMediationRewardedAdConfiguration alloc] init];
   configuration.credentials = credentials;
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:@"test_domain" code:1 userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:GADMAdapterChartboostErrorInitializationFailure
+                             userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, expectedError);
 }
 
