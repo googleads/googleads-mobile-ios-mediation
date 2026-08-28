@@ -40,6 +40,11 @@
 
   /// Chartboost banner ad object
   CHBBanner *_banner;
+
+  /// Whether the banner has already reported a successful show. Chartboost may invoke
+  /// -didShowAd:error: a second time with an error after a banner has shown successfully;
+  /// that later error must not be reported to GMA as a presentation failure.
+  BOOL _bannerDidShow;
 }
 
 - (nonnull instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
@@ -160,13 +165,21 @@
 }
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
-  if (error) {
-    NSError *showError = [GADMChartboostError errorForShowError:error];
-    NSLog(@"Failed to show banner ad from Chartboost: %@", showError.localizedDescription);
-
-    [_adEventDelegate didFailToPresentWithError:showError];
+  if (!error) {
+    _bannerDidShow = YES;
     return;
   }
+
+  NSError *showError = [GADMChartboostError errorForShowError:error];
+  NSLog(@"Failed to show banner ad from Chartboost: %@", showError.localizedDescription);
+
+  // Per CHBAdDelegate, -didShowAd:error: may be called a second time for a banner if an error
+  // occurs after it has already shown successfully. In that case the impression has already been
+  // recorded, so log the error but do not report a presentation failure.
+  if (_bannerDidShow) {
+    return;
+  }
+  [_adEventDelegate didFailToPresentWithError:showError];
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
