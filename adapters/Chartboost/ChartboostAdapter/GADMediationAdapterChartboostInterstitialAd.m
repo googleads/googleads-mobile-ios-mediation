@@ -95,7 +95,7 @@
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
-  GADMediationAdapterChartboostInterstitialAd *weakSelf = self;
+  __weak GADMediationAdapterChartboostInterstitialAd *weakSelf = self;
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
                   completion:^(CHBStartError *cbError) {

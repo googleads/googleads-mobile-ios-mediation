@@ -95,7 +95,7 @@
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
-  GADMAdapterChartboostRewardedAd *weakSelf = self;
+  __weak GADMAdapterChartboostRewardedAd *weakSelf = self;
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
                   completion:^(CHBStartError *cbError) {
