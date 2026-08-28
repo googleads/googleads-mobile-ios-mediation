@@ -66,8 +66,10 @@
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in credentialsArray) {
-    NSString *appID = cred.settings[[GADMAdapterChartboostConstants appID]];
-    NSString *appSignature = cred.settings[[GADMAdapterChartboostConstants appSignature]];
+    NSString *appID =
+        GADMAdapterChartboostTrimmedCredential(cred.settings, [GADMAdapterChartboostConstants appID]);
+    NSString *appSignature = GADMAdapterChartboostTrimmedCredential(
+        cred.settings, [GADMAdapterChartboostConstants appSignature]);
 
     if (appID.length && appSignature.length) {
       GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);

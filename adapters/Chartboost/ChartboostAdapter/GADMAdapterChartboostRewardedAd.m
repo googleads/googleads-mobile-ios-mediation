@@ -69,11 +69,10 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *appID = [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appID]]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature =
-      [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appSignature]]
-          stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+  NSString *appID = GADMAdapterChartboostTrimmedCredential(
+      _adConfig.credentials.settings, [GADMAdapterChartboostConstants appID]);
+  NSString *appSignature = GADMAdapterChartboostTrimmedCredential(
+      _adConfig.credentials.settings, [GADMAdapterChartboostConstants appSignature]);
 
   if (!appID.length || !appSignature.length) {
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(

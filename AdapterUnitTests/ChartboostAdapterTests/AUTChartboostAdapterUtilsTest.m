@@ -203,6 +203,35 @@
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultFalse);
 }
 
+#pragma mark - Trimmed Credential Tests
+
+- (void)testTrimmedCredentialTrimsSurroundingWhitespace {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appSignature] : @"  signature  "};
+  NSString *value = GADMAdapterChartboostTrimmedCredential(
+      settings, [GADMAdapterChartboostConstants appSignature]);
+  XCTAssertEqualObjects(value, @"signature");
+}
+
+- (void)testTrimmedCredentialLeavesCleanValueUnchanged {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appID] : @"app-id"};
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(settings, [GADMAdapterChartboostConstants appID]);
+  XCTAssertEqualObjects(value, @"app-id");
+}
+
+- (void)testTrimmedCredentialMissingKeyReturnsNil {
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(@{}, [GADMAdapterChartboostConstants appID]);
+  XCTAssertNil(value);
+}
+
+- (void)testTrimmedCredentialWhitespaceOnlyTrimsToEmpty {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appID] : @"   "};
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(settings, [GADMAdapterChartboostConstants appID]);
+  XCTAssertEqualObjects(value, @"");
+}
+
 #pragma mark - Banner Size Tests
 
 - (void)testBannerSizeFromAdSizeBanner {
