@@ -144,7 +144,18 @@
     return;
   }
 
-  [_banner showFromViewController:_adConfig.topViewController];
+  UIViewController *viewController = _adConfig.topViewController;
+  if (!viewController) {
+    NSError *nilViewControllerError = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorNilViewController,
+        @"The ad configuration's top view controller is nil. Cannot show the banner ad.");
+    NSLog(@"Failed to show banner ad from Chartboost: %@",
+          nilViewControllerError.localizedDescription);
+    _completionHandler(nil, nilViewControllerError);
+    return;
+  }
+
+  [_banner showFromViewController:viewController];
   _adEventDelegate = _completionHandler(self, nil);
 }
 
