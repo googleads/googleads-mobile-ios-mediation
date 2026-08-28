@@ -182,4 +182,9 @@
   [_adEventDelegate reportImpression];
 }
 
+- (void)didExpireAd:(CHBExpirationEvent *)event {
+  NSLog(@"The Chartboost interstitial ad has expired (adID: %@). A new ad must be loaded.",
+        event.adID);
+}
+
 @end

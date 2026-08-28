@@ -172,4 +172,8 @@
   [_adEventDelegate reportImpression];
 }
 
+- (void)didExpireAd:(CHBExpirationEvent *)event {
+  NSLog(@"The Chartboost banner ad has expired (adID: %@). A new ad must be loaded.", event.adID);
+}
+
 @end

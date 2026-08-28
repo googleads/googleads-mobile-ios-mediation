@@ -194,4 +194,9 @@
   [adEventDelegate didDismissFullScreenView];
 }
 
+- (void)didExpireAd:(CHBExpirationEvent *)event {
+  NSLog(@"The Chartboost rewarded ad has expired (adID: %@). A new ad must be loaded.",
+        event.adID);
+}
+
 @end
