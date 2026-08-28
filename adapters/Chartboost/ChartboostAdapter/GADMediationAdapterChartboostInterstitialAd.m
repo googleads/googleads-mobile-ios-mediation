@@ -159,12 +159,13 @@
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
-  [_adEventDelegate reportClick];
   if (error) {
     NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost interstitial ad: %@",
           clickError.localizedDescription);
+    return;
   }
+  [_adEventDelegate reportClick];
 }
 
 - (void)didDismissAd:(CHBDismissEvent *)event {
