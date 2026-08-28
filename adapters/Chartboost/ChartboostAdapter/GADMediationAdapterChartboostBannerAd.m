@@ -79,31 +79,9 @@
 }
 
 - (void)loadBannerAd {
-  NSString *appID = GADMAdapterChartboostTrimmedCredential(
-      _adConfig.credentials.settings, [GADMAdapterChartboostConstants appID]);
-  NSString *appSignature = GADMAdapterChartboostTrimmedCredential(
-      _adConfig.credentials.settings, [GADMAdapterChartboostConstants appSignature]);
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
-    _completionHandler(nil, error);
-    return;
-  }
-
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
-    NSString *logMessage = [NSString
-        stringWithFormat:
-            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
-    _completionHandler(nil, error);
-    return;
-  }
-
-  // Convert requested size to Chartboost Ad Size.
+  // The adapter starts the Chartboost SDK and validates the credentials and OS version before
+  // creating this wrapper, so validate the requested size and then build and cache the ad
+  // directly rather than starting again.
   NSError *error = nil;
   CHBBannerSize chartboostAdSize =
       GADMAdapterChartboostBannerSizeFromAdSize(_adConfig.adSize, &error);
@@ -113,28 +91,12 @@
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
-  __weak GADMediationAdapterChartboostBannerAd *weakSelf = self;
-  [Chartboost startWithAppID:appID
-                appSignature:appSignature
-                  completion:^(CHBStartError *cbError) {
-                    GADMediationAdapterChartboostBannerAd *strongSelf = weakSelf;
-                    if (!strongSelf) {
-                      return;
-                    }
-
-                    if (cbError) {
-                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
-                      strongSelf->_completionHandler(nil, cbError);
-                      return;
-                    }
-
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
-                    strongSelf->_banner = [[CHBBanner alloc] initWithSize:chartboostAdSize
-                                                                 location:adLocation
-                                                                mediation:mediation
-                                                                 delegate:strongSelf];
-                    [strongSelf->_banner cache];
-                  }];
+  CHBMediation *mediation = GADMAdapterChartboostMediation();
+  _banner = [[CHBBanner alloc] initWithSize:chartboostAdSize
+                                   location:adLocation
+                                  mediation:mediation
+                                   delegate:self];
+  [_banner cache];
 }
 
 #pragma mark - GADMediationBannerAd Methods

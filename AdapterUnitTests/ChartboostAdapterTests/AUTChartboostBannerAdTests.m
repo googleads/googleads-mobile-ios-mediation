@@ -306,7 +306,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   configuration.credentials = credentials;
   configuration.adSize = GADAdSizeBanner;
   configuration.topViewController = [[UIViewController alloc] init];
-  NSError *expectedError = [[NSError alloc] initWithDomain:@"test_domain" code:1 userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:GADMAdapterChartboostErrorInitializationFailure
+                             userInfo:nil];
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
 }
