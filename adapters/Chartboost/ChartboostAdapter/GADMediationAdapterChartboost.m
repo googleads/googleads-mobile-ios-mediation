@@ -92,8 +92,7 @@
 
   NSString *appID = credentials.allKeys.firstObject;
   NSString *appSignature = credentials[appID];
-  NSLog(@"Initializing Chartboost SDK with the app ID: '%@' and app signature: '%@'", appID,
-        appSignature);
+  NSLog(@"Initializing Chartboost SDK with the app ID: '%@'", appID);
 
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
