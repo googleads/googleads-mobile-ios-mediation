@@ -68,6 +68,11 @@
   return self;
 }
 
+- (void)dealloc {
+  // Proactively release any Chartboost-side cached creative held by an abandoned or replaced ad.
+  [_rewardedAd clearCache];
+}
+
 - (void)loadRewardedAd {
   NSString *appID = GADMAdapterChartboostTrimmedCredential(
       _adConfig.credentials.settings, [GADMAdapterChartboostConstants appID]);
