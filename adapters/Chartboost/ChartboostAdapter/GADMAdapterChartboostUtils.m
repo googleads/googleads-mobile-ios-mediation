@@ -66,6 +66,12 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
       adConfiguration.credentials.settings[[GADMAdapterChartboostConstants adLocation]]);
 }
 
+NSString *_Nullable GADMAdapterChartboostTrimmedCredential(
+    NSDictionary<NSString *, id> *_Nullable settings, NSString *_Nonnull key) {
+  NSString *value = settings[key];
+  return [value stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+}
+
 NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
   NSString *adLocation =
       [string stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
