@@ -118,12 +118,8 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (!_rewardedAd.isCached) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorAdNotCached, @"Rewarded ad not cached.");
-    [_adEventDelegate didFailToPresentWithError:error];
-    return;
-  }
+  // -showFromViewController: reports a not-cached ad through -didShowAd:error:, which is routed
+  // to -didFailToPresentWithError:, so the deprecated -isCached guard is redundant.
   [_rewardedAd showFromViewController:viewController];
 }
 

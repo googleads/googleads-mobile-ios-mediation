@@ -151,7 +151,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testAdDelegateCallbacks {
   [self mockSuccessfulAppStart];
-  OCMStub([_rewardedAdMock isCached]).andReturn(YES);
 
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_rewardedAdMock showFromViewController:controller]).andDo(^(NSInvocation *invocation) {
@@ -185,7 +184,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testClick {
   [self mockSuccessfulAppStart];
-  OCMStub([_rewardedAdMock isCached]).andReturn(YES);
 
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_rewardedAdMock showFromViewController:controller]).andDo(^(NSInvocation *invocation) {
@@ -200,7 +198,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testClickWithError {
   [self mockSuccessfulAppStart];
-  OCMStub([_rewardedAdMock isCached]).andReturn(YES);
 
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_rewardedAdMock showFromViewController:controller]).andDo(^(NSInvocation *invocation) {
@@ -216,7 +213,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testPresentationError {
   [self mockSuccessfulAppStart];
-  OCMStub([_rewardedAdMock isCached]).andReturn(YES);
   AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithLocation:@"ad_location"];
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_rewardedAdMock showFromViewController:controller]).andDo(^(NSInvocation *invocation) {
@@ -228,21 +224,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   XCTAssertNotNil(eventDelegate.didFailToPresentError);
   XCTAssertEqual(eventDelegate.didFailToPresentError.code, 301);
-
-  // Must not trigger any presentation callbacks.
-  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
-  XCTAssertEqual(eventDelegate.didStartVideoInvokeCount, 0);
-  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
-}
-
-- (void)testNotCachedError {
-  [self mockSuccessfulAppStart];
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAdWithLocation:@"ad_location"];
-  UIViewController *controller = [[UIViewController alloc] init];
-  [_rewardedDelegate presentFromViewController:controller];
-
-  XCTAssertNotNil(eventDelegate.didFailToPresentError);
-  XCTAssertEqual(eventDelegate.didFailToPresentError.code, GADMAdapterChartboostErrorAdNotCached);
 
   // Must not trigger any presentation callbacks.
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
