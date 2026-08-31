@@ -230,11 +230,17 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
 #pragma mark - Privacy Methods
 
 void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
+  // tagForChildDirectedTreatment and tagForUnderAgeOfConsent are deprecated in favor of
+  // ageRestrictedTreatment, but publishers may still set them, so they are read intentionally
+  // for backward compatibility.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   NSNumber *tagForChildDirectedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+#pragma clang diagnostic pop
+  GADAgeRestrictedTreatment ageRestrictedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
   if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
