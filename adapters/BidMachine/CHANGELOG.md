@@ -1,5 +1,7 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Version 3.8.0.0 (In progress)
+
 #### [Version 3.7.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.7.1.1.zip)
 - Updated the minimum Google Mobile Ads iOS SDK version to `13.3` to relax and allow minor versions.
 - Updated to pass the placement ID to the BidMachine SDK when collecting signals
