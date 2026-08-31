@@ -198,9 +198,10 @@ GADMAdapterChartboostConsentResult GADMAdapterChartboostHasACConsent(NSInteger v
 
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  GADAdSize halfPageAdSize = GADAdSizeFromCGSize(CGSizeMake(300, 600));
   NSArray *potentials = @[
     NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard)
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(halfPageAdSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
@@ -210,6 +211,8 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     return CHBBannerSizeMedium;
   } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
     return CHBBannerSizeLeaderboard;
+  } else if (GADAdSizeEqualToSize(closestSize, halfPageAdSize)) {
+    return CHBBannerSizeHalfPage;
   }
   if (error) {
     NSString *description =

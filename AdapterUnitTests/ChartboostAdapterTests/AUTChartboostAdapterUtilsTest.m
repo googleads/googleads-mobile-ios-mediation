@@ -258,6 +258,15 @@
   XCTAssertEqual(size.height, CHBBannerSizeLeaderboard.height);
 }
 
+- (void)testBannerSizeFromAdSizeHalfPage {
+  NSError *error = nil;
+  CHBBannerSize size =
+      GADMAdapterChartboostBannerSizeFromAdSize(GADAdSizeFromCGSize(CGSizeMake(300, 600)), &error);
+  XCTAssertNil(error);
+  XCTAssertEqual(size.width, CHBBannerSizeHalfPage.width);
+  XCTAssertEqual(size.height, CHBBannerSizeHalfPage.height);
+}
+
 - (void)testBannerSizeFromAdSizeInvalid {
   NSError *error = nil;
   CHBBannerSize size = GADMAdapterChartboostBannerSizeFromAdSize(
