@@ -1,6 +1,6 @@
 ## Moloco iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 4.10.0.0 (In progress)
 
 - Updated to indicate that Moloco SDK can track native ad impressions (i.e.
 updated to return YES for handlesUserImpressions()). Note: The decision on
