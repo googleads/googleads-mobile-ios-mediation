@@ -1,6 +1,7 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
 #### Version 9.14.0.0 (In progress)
+- Added support for the 300x600 half-page banner size (`CHBBannerSizeHalfPage`).
 - Ported GADMAdapterChartboostConstants to Swift.
 - Ported GADMChartboostError to Swift.
 
