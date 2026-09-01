@@ -27,14 +27,6 @@
  */
 @implementation UnityAdsMediationObjectiveCSnippets
 
-- (void)setGDPRConsent {
-  // [START set_gdpr_meta_data]
-  UADSMetaData *gdprMetaData = [[UADSMetaData alloc] init];
-  [gdprMetaData set:@"gdpr.consent" value:@YES];
-  [gdprMetaData commit];
-  // [END set_gdpr_meta_data]
-}
-
 - (void)setPrivacyConsent {
   // [START set_ccpa_meta_data]
   UADSMetaData *ccpaMetaData = [[UADSMetaData alloc] init];
