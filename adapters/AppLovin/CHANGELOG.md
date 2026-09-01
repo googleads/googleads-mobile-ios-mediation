@@ -1,19 +1,14 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Version 13.6.4.0 (In progress)
-- Migrated legacy adapter and reward-based video ad shim to Swift.
-- Migrated bidding interstitial renderer and delegate to Swift.
-- Migrated GADMAdapterAppLovinUtils to Swift.
-- Migrated GADMediationAdapterAppLovin initializers and mediation managers to Swift.
-- Migrated waterfall banner renderer and delegate to Swift.
-- Migrated waterfall interstitial renderer and delegate to Swift.
-- Migrated waterfall rewarded renderer and delegate to Swift.
-- Migrated the main entry adapter class GADMediationAdapterAppLovin to Swift.
-- Migrated GADMAdapterAppLovinConstant to Swift.
-- Removed the old API implementations for the following Waterfall ad formats:
-  Banner, Interstitial. Adapter will now use the new API implementation
-  (GADMediationAdapterAppLovin) for loading Waterfall Banner and Interstitial
-  ads.
+#### [Version 13.6.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.4.0.zip)
+- Verified compatibility with AppLovin SDK 13.6.4.
+- Migrated the adapter to Swift.
+- Updated the adapter to use the new mediation API for waterfall banner and
+  interstitial ad formats.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.8.0.
+- AppLovin SDK version 13.6.4.
 
 #### [Version 13.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.3.0.zip)
 - Verified compatibility with AppLovin SDK 13.6.3.
