@@ -51,6 +51,11 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
 NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfiguration);
 
+/// Returns the credential for |key| in |settings|, trimmed of surrounding whitespace, or nil if the
+/// value is absent. Used so the init and load paths trim credentials identically.
+NSString *_Nullable GADMAdapterChartboostTrimmedCredential(
+    NSDictionary<NSString *, id> *_Nullable settings, NSString *_Nonnull key);
+
 /// Creates and returns a Chartboost mediation object.
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
 

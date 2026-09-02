@@ -68,64 +68,25 @@
   return self;
 }
 
+- (void)dealloc {
+  // Proactively release any Chartboost-side cached creative held by an abandoned or replaced ad.
+  [_interstitial clearCache];
+}
+
 - (void)loadInterstitialAd {
-  NSString *appID = [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appID]]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature =
-      [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appSignature]]
-          stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
-    _completionHandler(nil, error);
-    return;
-  }
-
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
-    NSString *logMessage = [NSString
-        stringWithFormat:
-            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
-    _completionHandler(nil, error);
-    return;
-  }
-
+  // The adapter starts the Chartboost SDK and validates the credentials and OS version before
+  // creating this wrapper, so build and cache the ad directly rather than starting again.
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
-  GADMediationAdapterChartboostInterstitialAd *weakSelf = self;
-  [Chartboost startWithAppID:appID
-                appSignature:appSignature
-                  completion:^(CHBStartError *cbError) {
-                    GADMediationAdapterChartboostInterstitialAd *strongSelf = weakSelf;
-                    if (!strongSelf) {
-                      return;
-                    }
-
-                    if (cbError) {
-                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
-                      strongSelf->_completionHandler(nil, cbError);
-                      return;
-                    }
-
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
-                    strongSelf->_interstitial =
-                        [[CHBInterstitial alloc] initWithLocation:adLocation
-                                                        mediation:mediation
-                                                         delegate:strongSelf];
-                    [strongSelf->_interstitial cache];
-                  }];
+  CHBMediation *mediation = GADMAdapterChartboostMediation();
+  _interstitial = [[CHBInterstitial alloc] initWithLocation:adLocation
+                                                  mediation:mediation
+                                                   delegate:self];
+  [_interstitial cache];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (!_interstitial.isCached) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorAdNotCached, @"Interstitial ad not cached.");
-    [_adEventDelegate didFailToPresentWithError:error];
-    return;
-  }
+  // -showFromViewController: reports a not-cached ad through -didShowAd:error:, which is routed
+  // to -didFailToPresentWithError:, so the deprecated -isCached guard is redundant.
   [_interstitial showFromViewController:viewController];
 }
 
@@ -159,12 +120,13 @@
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
-  [_adEventDelegate reportClick];
   if (error) {
     NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost interstitial ad: %@",
           clickError.localizedDescription);
+    return;
   }
+  [_adEventDelegate reportClick];
 }
 
 - (void)didDismissAd:(CHBDismissEvent *)event {
@@ -179,6 +141,11 @@
 
 - (void)didRecordImpression:(CHBImpressionEvent *)event {
   [_adEventDelegate reportImpression];
+}
+
+- (void)didExpireAd:(CHBExpirationEvent *)event {
+  NSLog(@"The Chartboost interstitial ad has expired (adID: %@). A new ad must be loaded.",
+        event.adID);
 }
 
 @end

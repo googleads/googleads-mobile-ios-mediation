@@ -40,6 +40,11 @@
 
   /// Chartboost banner ad object
   CHBBanner *_banner;
+
+  /// Whether the banner has already reported a successful show. Chartboost may invoke
+  /// -didShowAd:error: a second time with an error after a banner has shown successfully;
+  /// that later error must not be reported to GMA as a presentation failure.
+  BOOL _bannerDidShow;
 }
 
 - (nonnull instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
@@ -68,33 +73,15 @@
   return self;
 }
 
+- (void)dealloc {
+  // Proactively release any Chartboost-side cached creative held by an abandoned or replaced ad.
+  [_banner clearCache];
+}
+
 - (void)loadBannerAd {
-  NSString *appID = [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appID]]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature =
-      [_adConfig.credentials.settings[[GADMAdapterChartboostConstants appSignature]]
-          stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
-    _completionHandler(nil, error);
-    return;
-  }
-
-  if (SYSTEM_VERSION_LESS_THAN([GADMAdapterChartboostConstants minimumOSVersion])) {
-    NSString *logMessage = [NSString
-        stringWithFormat:
-            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            [GADMAdapterChartboostConstants minimumOSVersion]];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
-    _completionHandler(nil, error);
-    return;
-  }
-
-  // Convert requested size to Chartboost Ad Size.
+  // The adapter starts the Chartboost SDK and validates the credentials and OS version before
+  // creating this wrapper, so validate the requested size and then build and cache the ad
+  // directly rather than starting again.
   NSError *error = nil;
   CHBBannerSize chartboostAdSize =
       GADMAdapterChartboostBannerSizeFromAdSize(_adConfig.adSize, &error);
@@ -104,28 +91,12 @@
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
-  GADMediationAdapterChartboostBannerAd *weakSelf = self;
-  [Chartboost startWithAppID:appID
-                appSignature:appSignature
-                  completion:^(CHBStartError *cbError) {
-                    GADMediationAdapterChartboostBannerAd *strongSelf = weakSelf;
-                    if (!strongSelf) {
-                      return;
-                    }
-
-                    if (cbError) {
-                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
-                      strongSelf->_completionHandler(nil, cbError);
-                      return;
-                    }
-
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
-                    strongSelf->_banner = [[CHBBanner alloc] initWithSize:chartboostAdSize
-                                                                 location:adLocation
-                                                                mediation:mediation
-                                                                 delegate:strongSelf];
-                    [strongSelf->_banner cache];
-                  }];
+  CHBMediation *mediation = GADMAdapterChartboostMediation();
+  _banner = [[CHBBanner alloc] initWithSize:chartboostAdSize
+                                   location:adLocation
+                                  mediation:mediation
+                                   delegate:self];
+  [_banner cache];
 }
 
 #pragma mark - GADMediationBannerAd Methods
@@ -144,31 +115,55 @@
     return;
   }
 
-  [_banner showFromViewController:_adConfig.topViewController];
+  UIViewController *viewController = _adConfig.topViewController;
+  if (!viewController) {
+    NSError *nilViewControllerError = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorNilViewController,
+        @"The ad configuration's top view controller is nil. Cannot show the banner ad.");
+    NSLog(@"Failed to show banner ad from Chartboost: %@",
+          nilViewControllerError.localizedDescription);
+    _completionHandler(nil, nilViewControllerError);
+    return;
+  }
+
+  [_banner showFromViewController:viewController];
   _adEventDelegate = _completionHandler(self, nil);
 }
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
-  if (error) {
-    NSError *showError = [GADMChartboostError errorForShowError:error];
-    NSLog(@"Failed to show banner ad from Chartboost: %@", showError.localizedDescription);
-
-    [_adEventDelegate didFailToPresentWithError:showError];
+  if (!error) {
+    _bannerDidShow = YES;
     return;
   }
+
+  NSError *showError = [GADMChartboostError errorForShowError:error];
+  NSLog(@"Failed to show banner ad from Chartboost: %@", showError.localizedDescription);
+
+  // Per CHBAdDelegate, -didShowAd:error: may be called a second time for a banner if an error
+  // occurs after it has already shown successfully. In that case the impression has already been
+  // recorded, so log the error but do not report a presentation failure.
+  if (_bannerDidShow) {
+    return;
+  }
+  [_adEventDelegate didFailToPresentWithError:showError];
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
-  [_adEventDelegate reportClick];
   if (error) {
     NSError *clickError = [GADMChartboostError errorForClickError:error];
     NSLog(@"An error occurred when clicking the Chartboost banner ad: %@",
           clickError.localizedDescription);
+    return;
   }
+  [_adEventDelegate reportClick];
 }
 
 - (void)didRecordImpression:(CHBImpressionEvent *)event {
   [_adEventDelegate reportImpression];
+}
+
+- (void)didExpireAd:(CHBExpirationEvent *)event {
+  NSLog(@"The Chartboost banner ad has expired (adID: %@). A new ad must be loaded.", event.adID);
 }
 
 @end

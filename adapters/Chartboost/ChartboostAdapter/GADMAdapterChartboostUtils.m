@@ -66,6 +66,12 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
       adConfiguration.credentials.settings[[GADMAdapterChartboostConstants adLocation]]);
 }
 
+NSString *_Nullable GADMAdapterChartboostTrimmedCredential(
+    NSDictionary<NSString *, id> *_Nullable settings, NSString *_Nonnull key) {
+  NSString *value = settings[key];
+  return [value stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+}
+
 NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
   NSString *adLocation =
       [string stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
@@ -192,9 +198,10 @@ GADMAdapterChartboostConsentResult GADMAdapterChartboostHasACConsent(NSInteger v
 
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  GADAdSize halfPageAdSize = GADAdSizeFromCGSize(CGSizeMake(300, 600));
   NSArray *potentials = @[
     NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard)
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(halfPageAdSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
@@ -204,6 +211,8 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     return CHBBannerSizeMedium;
   } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
     return CHBBannerSizeLeaderboard;
+  } else if (GADAdSizeEqualToSize(closestSize, halfPageAdSize)) {
+    return CHBBannerSizeHalfPage;
   }
   if (error) {
     NSString *description =
@@ -221,11 +230,17 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
 #pragma mark - Privacy Methods
 
 void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
+  // tagForChildDirectedTreatment and tagForUnderAgeOfConsent are deprecated in favor of
+  // ageRestrictedTreatment, but publishers may still set them, so they are read intentionally
+  // for backward compatibility.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   NSNumber *tagForChildDirectedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+#pragma clang diagnostic pop
+  GADAgeRestrictedTreatment ageRestrictedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
   if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
