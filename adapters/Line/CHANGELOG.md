@@ -1,6 +1,11 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Version 3.1.1.0 (In progress)
+#### [Version 3.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.1.1.0.zip)
+- Verified compatibility with FiveAd SDK version 3.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.9.0.
+- FiveAd SDK version 3.1.1.
 
 #### [Version 3.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.1.0.0.zip)
 - Now requires minimum iOS version `15.0`.
