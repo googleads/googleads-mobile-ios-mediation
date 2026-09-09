@@ -81,6 +81,63 @@ final class BigoBannerAdTests: XCTestCase {
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
 
+  func testLoadBannerAd_succeeds_withAnchoredAdaptiveBanner() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test"]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.bidResponse = "test"
+    config.adSize = currentOrientationAnchoredAdaptiveBanner(width: 375)
+    config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, config)
+  }
+
+  func testLoadBannerAd_succeeds_withLeaderboardAdaptiveBanner() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test"]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.bidResponse = "test"
+    config.adSize = currentOrientationAnchoredAdaptiveBanner(width: 728)
+    config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, config)
+  }
+
+  func testAdSize_mapping() throws {
+    let bannerSize = try Util.adSize(for: AdSizeBanner)
+    XCTAssertEqual(bannerSize.width, BigoAdSize.banner().width)
+    XCTAssertEqual(bannerSize.height, BigoAdSize.banner().height)
+
+    let mediumRectangleSize = try Util.adSize(for: AdSizeMediumRectangle)
+    XCTAssertEqual(mediumRectangleSize.width, BigoAdSize.medium_RECTANGLE().width)
+    XCTAssertEqual(mediumRectangleSize.height, BigoAdSize.medium_RECTANGLE().height)
+
+    let largeBannerSize = try Util.adSize(for: AdSizeLargeBanner)
+    XCTAssertEqual(largeBannerSize.width, BigoAdSize.mobile_LARGE_LEADERBOARD().width)
+    XCTAssertEqual(largeBannerSize.height, BigoAdSize.mobile_LARGE_LEADERBOARD().height)
+
+    let leaderboardSize = try Util.adSize(for: AdSizeLeaderboard)
+    XCTAssertEqual(leaderboardSize.width, BigoAdSize.leaderboard().width)
+    XCTAssertEqual(leaderboardSize.height, BigoAdSize.leaderboard().height)
+
+    let anchoredAdaptiveSize = try Util.adSize(
+      for: currentOrientationAnchoredAdaptiveBanner(width: 375))
+    XCTAssertEqual(anchoredAdaptiveSize.width, BigoAdSize.banner().width)
+    XCTAssertEqual(anchoredAdaptiveSize.height, BigoAdSize.banner().height)
+
+    let leaderboardAdaptiveSize = try Util.adSize(
+      for: currentOrientationAnchoredAdaptiveBanner(width: 728))
+    XCTAssertEqual(leaderboardAdaptiveSize.width, BigoAdSize.leaderboard().width)
+    XCTAssertEqual(leaderboardAdaptiveSize.height, BigoAdSize.leaderboard().height)
+
+    let inlineAdaptiveSize = try Util.adSize(
+      for: currentOrientationInlineAdaptiveBanner(width: 320))
+    XCTAssertEqual(inlineAdaptiveSize.width, BigoAdSize.banner().width)
+    XCTAssertEqual(inlineAdaptiveSize.height, BigoAdSize.banner().height)
+  }
+
   func testLoadBannerAd_fails_whenMissingBidResposne() {
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["slot_id": "test"]

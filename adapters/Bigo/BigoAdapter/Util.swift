@@ -85,17 +85,23 @@ final class Util {
   }
 
   static func adSize(for adSize: AdSize) throws(BigoAdapterError) -> BigoAdSize {
-    if isAdSizeEqualToSize(size1: adSize, size2: AdSizeBanner) {
+    let potentials = [
+      nsValue(for: AdSizeBanner),
+      nsValue(for: AdSizeMediumRectangle),
+      nsValue(for: AdSizeLargeBanner),
+      nsValue(for: AdSizeLeaderboard),
+    ]
+    let closestSize = closestValidSizeForAdSizes(original: adSize, possibleAdSizes: potentials)
+    if isAdSizeEqualToSize(size1: closestSize, size2: AdSizeBanner) {
       return BigoAdSize.banner()
-    } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeMediumRectangle) {
+    } else if isAdSizeEqualToSize(size1: closestSize, size2: AdSizeMediumRectangle) {
       return BigoAdSize.medium_RECTANGLE()
-    } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeLargeBanner) {
+    } else if isAdSizeEqualToSize(size1: closestSize, size2: AdSizeLargeBanner) {
       return BigoAdSize.mobile_LARGE_LEADERBOARD()
-    } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeLeaderboard) {
+    } else if isAdSizeEqualToSize(size1: closestSize, size2: AdSizeLeaderboard) {
       return BigoAdSize.leaderboard()
     } else {
-      // Fall back to adaptive size if size doesn't match any standard size.
-      return BigoAdSize.getAdaptiveAdSize(withWidth: adSize.size.width)
+      return BigoAdSize.banner()
     }
   }
 
