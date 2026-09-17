@@ -1,6 +1,6 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 6.0.0.1 (In progress)
 - Map adaptive banner requests to the closest supported standard banner size.
 
 #### [Version 6.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-6.0.0.0.zip)
