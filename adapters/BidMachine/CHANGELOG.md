@@ -1,5 +1,7 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Version 3.8.1.0 (In progress)
+
 #### [Version 3.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.8.0.0.zip)
 - Verified compatibility with BidMachine SDK version 3.8.0.
 
