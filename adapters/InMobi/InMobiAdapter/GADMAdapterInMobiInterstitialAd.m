@@ -103,7 +103,7 @@
   if (extras && extras.keywords) {
     [_interstitialAd setKeywords:extras.keywords];
   }
-    
+
   if (_interstitialAdConfig.watermark != nil) {
     IMWatermark *watermark =
         [[IMWatermark alloc] initWithWaterMarkImageData:_interstitialAdConfig.watermark];
