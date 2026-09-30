@@ -104,6 +104,8 @@
     [_interstitialAd setKeywords:extras.keywords];
   }
 
+  [IMSdk setMute:GADMobileAds.sharedInstance.isApplicationMuted];
+    
   if (_interstitialAdConfig.watermark != nil) {
     IMWatermark *watermark =
         [[IMWatermark alloc] initWithWaterMarkImageData:_interstitialAdConfig.watermark];
