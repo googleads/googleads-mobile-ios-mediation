@@ -162,6 +162,7 @@ void GADMAdapterInMobiSetTargetingFromAdConfiguration(
   BOOL isUnderAge = tagForUnderAgeOfConsent.boolValue;
   BOOL isAgeRestricted = ageRestrictedTreatment == GADAgeRestrictedTreatmentChild;
   [IMSdk setIsAgeRestricted:(isChild || isUnderAge || isAgeRestricted)];
+  [IMSdk setMute:GADMobileAds.sharedInstance.isApplicationMuted];
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
