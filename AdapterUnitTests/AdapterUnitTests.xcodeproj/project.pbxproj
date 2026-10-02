@@ -199,6 +199,11 @@
 		AD7D76C62DCBD9F7002C5511 /* VerveBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D76C52DCBD9F0002C5511 /* VerveBannerAdTests.swift */; };
 		AD7D77F82DCC09D2002C5511 /* VerveInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D77F72DCC09CD002C5511 /* VerveInterstitialAdTests.swift */; };
 		AD7D78542DCC1A03002C5511 /* VerveRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D78532DCC19FE002C5511 /* VerveRewardedAdTests.swift */; };
+		AD8800012E7B5AD700E4420D /* AdSurgeAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4420C /* AdSurgeAdapterTests.swift */; };
+		AD8800012E7B5AD700E4420F /* FakeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4420E /* FakeClient.swift */; };
+		AD8800012E7B5AD700E44211 /* AUTAdSurgeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E44210 /* AUTAdSurgeUtilsTests.swift */; };
+		AD8800012E7B5AD700E44212 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD8800012E7B5AD700E4421A /* libAdSurgeAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E44215 /* libAdSurgeAdapter.a */; };
 		AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */; };
 		AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */; };
@@ -1223,6 +1228,27 @@
 			remoteGlobalIDString = AD76A9DB2D9311C500F40CD4;
 			remoteInfo = StaticPubmaticAdapter;
 		};
+		AD8800012E7B5AD700E44209 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD8800012E7B5AD700E44217 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD8800012E7B5AD700E44218 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
 		AD8FE28A2D39E8C900B4728A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
@@ -1735,6 +1761,12 @@
 		AD7D76C52DCBD9F0002C5511 /* VerveBannerAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveBannerAdTests.swift; sourceTree = "<group>"; };
 		AD7D77F72DCC09CD002C5511 /* VerveInterstitialAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveInterstitialAdTests.swift; sourceTree = "<group>"; };
 		AD7D78532DCC19FE002C5511 /* VerveRewardedAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveRewardedAdTests.swift; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E44202 /* AdSurgeAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdSurgeAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD8800012E7B5AD700E4420B /* AdSurgeAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdSurgeAdapterTests.xctestplan; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E4420C /* AdSurgeAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeAdapterTests.swift; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E4420E /* FakeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeClient.swift; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E44210 /* AUTAdSurgeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUTAdSurgeUtilsTests.swift; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdSurgeAdapter.xcodeproj; path = ../adapters/AdSurgeAdapter/AdSurgeAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetNativeAdTests.m; sourceTree = "<group>"; };
 		AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonAdapter.xcodeproj; path = ../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AmazonAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
@@ -2169,6 +2201,15 @@
 			files = (
 				AD6E3B372EA16D2B00818296 /* PubMaticAdapter.a in Frameworks */,
 				AD76A9E92D93126D00F40CD4 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD8800012E7B5AD700E44207 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8800012E7B5AD700E4421A /* libAdSurgeAdapter.a in Frameworks */,
+				AD8800012E7B5AD700E44212 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2797,6 +2838,7 @@
 				ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */,
 				AD30E05C2E207A4200FCEF73 /* BidMachineAdapterLatencyTests */,
 				AD3624942E7B66C400E442E6 /* BigoAdapterUnitTests */,
+				AD8800012E7B5AD700E4420A /* AdSurgeAdapterTests */,
 				AD0D6E1A2AF56C4D002C0B60 /* ChartboostAdapterTests */,
 				AD1708AE2E12FFF400A64F30 /* ChartboostAdapterLatencyTests */,
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
@@ -2836,6 +2878,7 @@
 				AD30DEE12E20766900FCEF73 /* VerveAdapterLatencyTests */,
 				CD1D4DA82F3BE5DB009A7681 /* MetaAdapter.xcodeproj */,
 				CDC302D92F994E440071A719 /* MaxAdapter.xcodeproj */,
+				AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2859,6 +2902,7 @@
 				AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */,
 				AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */,
 				ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */,
+				AD8800012E7B5AD700E44202 /* AdSurgeAdapterTests.xctest */,
 				AD677BB02DBADFCD0012621D /* VerveAdapterTests.xctest */,
 				AD5A4EF12E0F331D0078AFC1 /* AppLovinAdapterLatencyTests.xctest */,
 				AD1705DD2E0F5D2900A64F30 /* UnitTestHostApp.app */,
@@ -2956,6 +3000,25 @@
 				AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */,
 			);
 			path = PubMaticTests;
+			sourceTree = "<group>";
+		};
+		AD8800012E7B5AD700E4420A /* AdSurgeAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD8800012E7B5AD700E4420B /* AdSurgeAdapterTests.xctestplan */,
+				AD8800012E7B5AD700E4420C /* AdSurgeAdapterTests.swift */,
+				AD8800012E7B5AD700E4420E /* FakeClient.swift */,
+				AD8800012E7B5AD700E44210 /* AUTAdSurgeUtilsTests.swift */,
+			);
+			path = AdSurgeAdapterTests;
+			sourceTree = "<group>";
+		};
+		AD8800012E7B5AD700E44214 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD8800012E7B5AD700E44215 /* libAdSurgeAdapter.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AD8FE2832D39E8C900B4728A /* Products */ = {
@@ -3708,6 +3771,24 @@
 			productReference = AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AD8800012E7B5AD700E44201 /* AdSurgeAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD8800012E7B5AD700E44203 /* Build configuration list for PBXNativeTarget "AdSurgeAdapterTests" */;
+			buildPhases = (
+				AD8800012E7B5AD700E44206 /* Sources */,
+				AD8800012E7B5AD700E44207 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD8800012E7B5AD700E44208 /* PBXTargetDependency */,
+				AD8800012E7B5AD700E44219 /* PBXTargetDependency */,
+			);
+			name = AdSurgeAdapterTests;
+			productName = AdSurgeAdapterTests;
+			productReference = AD8800012E7B5AD700E44202 /* AdSurgeAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD8FE91B2D3B314C00B4728A /* Build configuration list for PBXNativeTarget "AmazonAdapterTests" */;
@@ -4110,6 +4191,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = AD8800012E7B5AD700E44214 /* Products */;
+					ProjectRef = AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */;
+				},
+				{
 					ProductGroup = AD8FE2832D39E8C900B4728A /* Products */;
 					ProjectRef = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
 				},
@@ -4202,6 +4287,7 @@
 				AD5A4EDA2E0F331D0078AFC1 /* AppLovinAdapterLatencyTests */,
 				ADA2FADB2D9F7715005D9ECA /* BidMachineAdapterTests */,
 				AD30E0472E207A1700FCEF73 /* BidMachineAdapterLatencyTests */,
+				AD8800012E7B5AD700E44201 /* AdSurgeAdapterTests */,
 				AD3623B62E7B5AD700E442E6 /* BigoAdapterTests */,
 				AD0D6E182AF56C4C002C0B60 /* ChartboostAdapterTests */,
 				AD17089B2E12FFC400A64F30 /* ChartboostAdapterLatencyTests */,
@@ -4687,6 +4773,13 @@
 			fileType = archive.ar;
 			path = StaticPubMaticAdapter.a;
 			remoteRef = AD76A9F02D93126D00F40CD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD8800012E7B5AD700E44215 /* libAdSurgeAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdSurgeAdapter.a;
+			remoteRef = AD8800012E7B5AD700E44217 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */ = {
@@ -5444,6 +5537,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD8800012E7B5AD700E44206 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8800012E7B5AD700E4420D /* AdSurgeAdapterTests.swift in Sources */,
+				AD8800012E7B5AD700E4420F /* FakeClient.swift in Sources */,
+				AD8800012E7B5AD700E44211 /* AUTAdSurgeUtilsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD8FE9132D3B314B00B4728A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5899,6 +6002,16 @@
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD76A9E02D93126D00F40CD4 /* PBXContainerItemProxy */;
+		};
+		AD8800012E7B5AD700E44208 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD8800012E7B5AD700E44209 /* PBXContainerItemProxy */;
+		};
+		AD8800012E7B5AD700E44219 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD8800012E7B5AD700E44218 /* PBXContainerItemProxy */;
 		};
 		AD8FE91F2D3B316300B4728A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -10330,6 +10443,154 @@
 			};
 			name = Release;
 		};
+		AD8800012E7B5AD700E44204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.AdSurgeAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD8800012E7B5AD700E44205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.AdSurgeAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		AD8FE91C2D3B314C00B4728A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -12628,6 +12889,15 @@
 			buildConfigurations = (
 				AD76A9EC2D93126D00F40CD4 /* Debug */,
 				AD76A9ED2D93126D00F40CD4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD8800012E7B5AD700E44203 /* Build configuration list for PBXNativeTarget "AdSurgeAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD8800012E7B5AD700E44204 /* Debug */,
+				AD8800012E7B5AD700E44205 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
