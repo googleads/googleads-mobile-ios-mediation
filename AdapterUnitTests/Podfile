@@ -448,6 +448,21 @@ abstract_target 'Default' do
 
   end
 
+  # AdSurgeAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('AdSurgeAdapter')
+
+    pod 'GoogleMobileAdsMediationAdSurge', :path => ADAPTER_PODSPECS['AdSurgeAdapter']
+
+    # Dependencies for AdSurgeAdapter static library.
+    target 'Adapter' do
+      project '../adapters/AdSurgeAdapter/AdSurgeAdapter.xcodeproj'
+    end
+
+    target 'AdSurgeAdapterTests' do
+    end
+
+  end
+
 end
 
 post_install do |installer|
