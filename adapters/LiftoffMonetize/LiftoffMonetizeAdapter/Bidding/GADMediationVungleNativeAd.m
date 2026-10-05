@@ -14,6 +14,7 @@
 
 #import "GADMediationVungleNativeAd.h"
 #include <stdatomic.h>
+#import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
@@ -96,6 +97,7 @@
 - (void)loadAd {
   _nativeAd = [[VungleNative alloc] initWithPlacementId:self.desiredPlacement];
   _nativeAd.delegate = self;
+  _nativeAd.mediationPartnerName = GADMAdapterVungleMediationPartnerName;
   _nativeAd.adapterAdFormat = NSStringFromClass(self.class);
   VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
