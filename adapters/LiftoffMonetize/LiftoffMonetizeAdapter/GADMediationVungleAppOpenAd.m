@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMediationVungleAppOpenAd.h"
+#import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
@@ -90,6 +91,7 @@
 - (void)loadAd {
   _appOpenAd = [[VungleInterstitial alloc] initWithPlacementId:self.desiredPlacement];
   _appOpenAd.delegate = self;
+  _appOpenAd.mediationPartnerName = GADMAdapterVungleMediationPartnerName;
   _appOpenAd.adapterAdFormat = NSStringFromClass(self.class);
   if (_adConfiguration.bidResponse) {
     // If bid response is present, then it is an RTB ad.
