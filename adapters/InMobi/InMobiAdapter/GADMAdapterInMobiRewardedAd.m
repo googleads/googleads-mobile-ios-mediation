@@ -140,6 +140,8 @@
     [_rewardedAd setKeywords:extras.keywords];
   }
 
+  [IMSdk setMute:GADMobileAds.sharedInstance.isApplicationMuted];
+  
   if (_adConfig.watermark != nil) {
     IMWatermark *watermark = [[IMWatermark alloc] initWithWaterMarkImageData:_adConfig.watermark];
     [_rewardedAd setWatermarkWith:watermark];
