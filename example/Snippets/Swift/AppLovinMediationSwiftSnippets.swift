@@ -24,12 +24,6 @@ import GoogleMobileAds
  */
 private class AppLovinMediationSwiftSnippets {
 
-  private func setUserConsent() {
-    // [START set_user_consent]
-    ALPrivacySettings.setHasUserConsent(true)
-    // [END set_user_consent]
-  }
-
   private func setDoNotSell() {
     // [START set_do_not_sell]
     ALPrivacySettings.setDoNotSell(true)
