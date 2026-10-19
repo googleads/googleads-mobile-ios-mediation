@@ -6,7 +6,8 @@
 #   1. GADMAdapterChartboostConstants.swift  -> adapterVersion  (4-part "A.B.C.D",
 #      the ONLY value reported at runtime to GMA and sent to Chartboost)
 #   2. Configuration/Adapter.xcconfig        -> MARKETING_VERSION ("A.B.C") and
-#      CURRENT_PROJECT_VERSION (packed int A*10000 + B*100 + C)
+#      CURRENT_PROJECT_VERSION (packed int A*10000 + B*100 + C*10 + D, i.e. the
+#      four components with B zero-padded to two digits)
 #   3. CocoaPods/...podspec.json             -> version ("A.B.C.D")
 #
 # These drifted once (the Swift migration shipped the previous release's value),
@@ -78,10 +79,12 @@ if [[ "${MARKETING_VERSION}" != "${EXPECTED_MARKETING}" ]]; then
   fail "rule 2: MARKETING_VERSION must equal ${EXPECTED_MARKETING} (first 3 components of adapterVersion)."
 fi
 
-# Rule 3: CURRENT_PROJECT_VERSION must equal the packed integer A*10000 + B*100 + C.
-EXPECTED_CPV="$(printf '%d%02d%02d' "${A}" "${B}" "${C}")"
+# Rule 3: CURRENT_PROJECT_VERSION must equal the packed integer
+# A*10000 + B*100 + C*10 + D (the four components with B zero-padded to two
+# digits), matching the value stamped by each release commit.
+EXPECTED_CPV="$(printf '%d%02d%d%d' "${A}" "${B}" "${C}" "${D}")"
 if [[ "${CURRENT_PROJECT_VERSION}" != "${EXPECTED_CPV}" ]]; then
-  fail "rule 3: CURRENT_PROJECT_VERSION must equal ${EXPECTED_CPV} (A*10000 + B*100 + C)."
+  fail "rule 3: CURRENT_PROJECT_VERSION must equal ${EXPECTED_CPV} (A*10000 + B*100 + C*10 + D)."
 fi
 
 echo "Chartboost adapter version consistent: ${SWIFT_VER} (MARKETING_VERSION=${MARKETING_VERSION}, CURRENT_PROJECT_VERSION=${CURRENT_PROJECT_VERSION})"
