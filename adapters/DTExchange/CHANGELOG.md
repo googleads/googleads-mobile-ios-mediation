@@ -1,5 +1,7 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Version 8.5.1.0 (In progress)
+
 #### [Version 8.5.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.5.0.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.5.0.
 
