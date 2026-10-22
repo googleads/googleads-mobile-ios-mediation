@@ -122,6 +122,9 @@
         @"The ad configuration's top view controller is nil. Cannot show the banner ad.");
     NSLog(@"Failed to show banner ad from Chartboost: %@",
           nilViewControllerError.localizedDescription);
+    // The banner will never be shown, so release its cached creative now rather than holding it
+    // until this wrapper is replaced.
+    [_banner clearCache];
     _completionHandler(nil, nilViewControllerError);
     return;
   }

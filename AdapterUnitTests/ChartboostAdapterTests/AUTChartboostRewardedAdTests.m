@@ -1,4 +1,5 @@
 #import "GADMediationAdapterChartboost.h"
+#import "GADMAdapterChartboostRewardedAd.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationRewardedAdLoadAssertions.h>
@@ -108,6 +109,34 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testLoadAd {
   [self mockSuccessfulAppStart];
   [self loadAdWithLocation:@"ad_location"];
+}
+
+- (void)testLoadStartsChartboostOnce {
+  [self mockSuccessfulAppStart];
+  [self loadAdWithLocation:@"ad_location"];
+
+  OCMVerify(OCMTimes(1), ClassMethod([_mockChartboost startWithAppID:@"app_id"
+                                                        appSignature:@"signature"
+                                                          completion:OCMOCK_ANY]));
+}
+
+- (void)testDeallocClearsChartboostCache {
+  // Build the wrapper directly and inject the mock, because OCMock retains the delegate passed to
+  // the stubbed initializer, which would keep a loaded wrapper alive for the whole test.
+  @autoreleasepool {
+    AUTKMediationRewardedAdConfiguration *configuration =
+        [[AUTKMediationRewardedAdConfiguration alloc] init];
+    GADMAdapterChartboostRewardedAd *ad = [[GADMAdapterChartboostRewardedAd alloc]
+        initWithAdConfiguration:configuration
+              completionHandler:^id<GADMediationRewardedAdEventDelegate>(
+                  id<GADMediationRewardedAd> _Nullable loadedAd, NSError *_Nullable error) {
+                return nil;
+              }];
+    // Fails as an assertion, rather than an exception, if the ivar is renamed.
+    XCTAssertNoThrow([ad setValue:_rewardedAdMock forKey:@"_rewardedAd"]);
+  }
+
+  OCMVerify([_rewardedAdMock clearCache]);
 }
 
 - (void)testLocation {

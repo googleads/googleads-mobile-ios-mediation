@@ -71,6 +71,28 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   XCTAssertLessThanOrEqual(version.patchVersion, 99);
 }
 
+- (GADVersionNumber)adSDKVersionForChartboostSDKVersion:(nonnull NSString *)sdkVersion {
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  OCMStub(ClassMethod([_mockChartboost getSDKVersion])).andReturn(sdkVersion);
+  return [GADMediationAdapterChartboost adSDKVersion];
+}
+
+- (void)testAdSDKVersionWithMoreThanThreeComponents {
+  GADVersionNumber version = [self adSDKVersionForChartboostSDKVersion:@"9.14.2.1"];
+
+  XCTAssertEqual(version.majorVersion, 9);
+  XCTAssertEqual(version.minorVersion, 14);
+  XCTAssertEqual(version.patchVersion, 2);
+}
+
+- (void)testAdSDKVersionWithFewerThanThreeComponents {
+  GADVersionNumber version = [self adSDKVersionForChartboostSDKVersion:@"9.14"];
+
+  XCTAssertEqual(version.majorVersion, 0);
+  XCTAssertEqual(version.minorVersion, 0);
+  XCTAssertEqual(version.patchVersion, 0);
+}
+
 - (void)testNetworkExtrasClass {
   XCTAssertNil([GADMediationAdapterChartboost networkExtrasClass]);
 }
@@ -129,6 +151,40 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   [self waitForExpectations:@[ setUpExpectation ]];
   OCMVerifyAll(_mockChartboost);
+}
+
+- (void)testSetUpTrimsWhitespaceFromCredentials {
+  _mockChartboost = OCMClassMock([Chartboost class]);
+  // Match any credentials so the completion always runs, then verify the trimmed values below.
+  OCMStub(ClassMethod([_mockChartboost
+      startWithAppID:OCMOCK_ANY
+        appSignature:OCMOCK_ANY
+          completion:[OCMArg
+                         checkWithBlock:^BOOL(AUTChartboostSetUpCompletionBlock completionBlock) {
+                           completionBlock(nil);
+                           return YES;
+                         }]]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    [GADMAdapterChartboostConstants appID] : @"  app_id  ",
+    [GADMAdapterChartboostConstants appSignature] : @"  signature  "
+  };
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
+  [GADMediationAdapterChartboost setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [setUpExpectation fulfill];
+                                      }];
+
+  [self waitForExpectations:@[ setUpExpectation ]];
+  OCMVerify(ClassMethod([_mockChartboost startWithAppID:@"app_id"
+                                           appSignature:@"signature"
+                                             completion:OCMOCK_ANY]));
 }
 
 - (void)testSetUpWithMultipleCredentialsSuccess {
