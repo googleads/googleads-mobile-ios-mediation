@@ -247,3 +247,52 @@ void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
     [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:false]];
   }
 }
+
+CHBCCPADataUseConsent *_Nullable GADMAdapterChartboostUSPrivacyConsent(void) {
+  id usPrivacyValue = [NSUserDefaults.standardUserDefaults objectForKey:@"IABUSPrivacy_String"];
+  if (!usPrivacyValue) {
+    return nil;
+  }
+
+  if (![usPrivacyValue isKindOfClass:[NSString class]]) {
+    NSLog(@"Could not parse IABUSPrivacy_String as a string. Did your CMP write it correctly?");
+    return nil;
+  }
+
+  NSString *usPrivacyString = usPrivacyValue;
+  if (!usPrivacyString.length) {
+    return nil;
+  }
+
+  // The US Privacy String is 4 characters: spec version, notice given, opted out of sale, and
+  // limited service provider agreement. Only the spec version and opt-out-of-sale are used.
+  if (usPrivacyString.length != 4) {
+    NSLog(@"Ignoring an IABUSPrivacy_String of length %lu. Expected 4 characters. Did your CMP "
+          @"write it correctly?",
+          (unsigned long)usPrivacyString.length);
+    return nil;
+  }
+
+  unichar version = [usPrivacyString characterAtIndex:0];
+  if (version != '1') {
+    NSLog(@"Ignoring an IABUSPrivacy_String on unsupported spec version %C. This adapter only "
+          @"understands version 1.",
+          version);
+    return nil;
+  }
+
+  unichar optOutOfSale = [usPrivacyString characterAtIndex:2];
+  if (optOutOfSale == 'Y') {
+    return [CHBCCPADataUseConsent ccpaConsent:CHBCCPAConsentOptOutSale];
+  }
+  if (optOutOfSale == 'N') {
+    return [CHBCCPADataUseConsent ccpaConsent:CHBCCPAConsentOptInSale];
+  }
+  // '-' means CCPA does not apply, so send no signal without logging.
+  if (optOutOfSale != '-') {
+    NSLog(@"Ignoring an IABUSPrivacy_String with unrecognized opt-out-of-sale value %C. Did your "
+          @"CMP write it correctly?",
+          optOutOfSale);
+  }
+  return nil;
+}

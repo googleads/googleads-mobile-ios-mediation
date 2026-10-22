@@ -36,6 +36,7 @@
 - (void)tearDown {
   [_userDefaults removeObjectForKey:@"IABTCF_gdprApplies"];
   [_userDefaults removeObjectForKey:@"IABTCF_AddtlConsent"];
+  [_userDefaults removeObjectForKey:@"IABUSPrivacy_String"];
 }
 
 - (void)testACConsentResultNegativeGDPRApplies {
@@ -201,6 +202,58 @@
   GADMAdapterChartboostConsentResult consentResult =
       GADMAdapterChartboostHasACConsent([GADMAdapterChartboostConstants adTechnologyProviderID]);
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultFalse);
+}
+
+#pragma mark - US Privacy Consent Tests
+
+- (void)testUSPrivacyConsentOptedOutOfSale {
+  [_userDefaults setObject:@"1YYN" forKey:@"IABUSPrivacy_String"];
+
+  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent();
+  XCTAssertNotNil(consent);
+  XCTAssertEqual(consent.consent, CHBCCPAConsentOptOutSale);
+}
+
+- (void)testUSPrivacyConsentDidNotOptOutOfSale {
+  [_userDefaults setObject:@"1YNN" forKey:@"IABUSPrivacy_String"];
+
+  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent();
+  XCTAssertNotNil(consent);
+  XCTAssertEqual(consent.consent, CHBCCPAConsentOptInSale);
+}
+
+- (void)testUSPrivacyConsentNotApplicable {
+  [_userDefaults setObject:@"1---" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+}
+
+- (void)testUSPrivacyConsentMissing {
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+}
+
+- (void)testUSPrivacyConsentEmpty {
+  [_userDefaults setObject:@"" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+}
+
+- (void)testUSPrivacyConsentWrongLength {
+  [_userDefaults setObject:@"1YY" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+}
+
+- (void)testUSPrivacyConsentUnsupportedVersion {
+  [_userDefaults setObject:@"2YYN" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+}
+
+- (void)testUSPrivacyConsentNonStringValue {
+  [_userDefaults setObject:@1 forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
 }
 
 #pragma mark - Trimmed Credential Tests

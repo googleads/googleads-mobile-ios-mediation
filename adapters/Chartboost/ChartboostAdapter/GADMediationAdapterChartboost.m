@@ -63,6 +63,13 @@
     [Chartboost addDataUseConsent:[CHBGDPRDataUseConsent gdprConsent:CHBGDPRConsentNonBehavioral]];
   }
 
+  // Applied on every start, not just the first, so a consent change made mid session is picked up
+  // on the next ad load.
+  CHBCCPADataUseConsent *usPrivacyConsent = GADMAdapterChartboostUSPrivacyConsent();
+  if (usPrivacyConsent) {
+    [Chartboost addDataUseConsent:usPrivacyConsent];
+  }
+
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in credentialsArray) {

@@ -85,3 +85,12 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
 /// Set Chartboost COPPA configuration using
 /// GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.
 void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void);
+
+/// Reads the IAB US Privacy String written by the app's consent management platform (CMP) to
+/// NSUserDefaults under `IABUSPrivacy_String` and maps its opt-out-of-sale character to a
+/// Chartboost CCPA consent. For more details, see the [IAB US Privacy String
+/// spec](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md).
+///
+/// Returns nil (no consent signal) if the string is absent, is not a 4-character string on spec
+/// version 1, or its opt-out-of-sale character is not `Y` or `N`.
+CHBCCPADataUseConsent *_Nullable GADMAdapterChartboostUSPrivacyConsent(void);
