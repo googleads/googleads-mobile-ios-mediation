@@ -1,7 +1,18 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Version 9.14.3.0 (In progress)
-- Added support for the 300x600 half-page banner size (`CHBBannerSizeHalfPage`).
+#### Next version
+- Adapter now supports Chartboost's 300x600 half page banner size.
+- Adapter now automatically forwards CCPA consent found inside `IABUSPrivacy_String` to the Chartboost SDK.
+- Fixed a bug where a click was reported to the Google Mobile Ads SDK even when the Chartboost SDK returned a click error.
+- Fixed a bug where an error the Chartboost SDK reports after a banner ad has already shown was reported as a presentation failure.
+- Banner ad loads now fail with error code `106`, and release the cached ad, instead of showing the ad when the ad configuration's top view controller is nil.
+- The Chartboost SDK is now started once per ad load instead of twice, and a start failure during an ad load is reported with error code `102`.
+- Interstitial and rewarded ads that are no longer cached at show time are now reported through the Chartboost SDK's show error instead of the deprecated `isCached` check.
+- Adapter now releases the Chartboost cached ad when an ad is deallocated.
+- Adapter now logs when a Chartboost ad expires.
+- Credentials are now trimmed and type-checked on the initialization path the same way as on the ad load path.
+- Fixed a bug where the Chartboost SDK version was reported as `0.0.0` when its version string had more than three components.
+- The Chartboost app signature is no longer logged.
 
 #### [Version 9.14.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.14.2.0.zip)
 - Verified compatibility with Chartboost SDK version 9.14.2.
