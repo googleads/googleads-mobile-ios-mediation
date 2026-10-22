@@ -72,10 +72,10 @@ static const NSInteger kPangleBiddingTokenFailureCode = 1005;
   AUTKAssertEqualVersion([GADMediationAdapterPangle adSDKVersion], expectedSdkVersion);
 }
 
-- (void)testAdSdkVersionIfPangleVersionHasMoreThanFourPartsReturnsZeros {
+- (void)testAdSdkVersionIfPangleVersionHasMoreThanFourPartsReturnsFirstFourParts {
   OCMStub(ClassMethod([_sdkMock SDKVersion])).andReturn(@"1.2.3.4.5");
 
-  GADVersionNumber expectedSdkVersion = {0};
+  GADVersionNumber expectedSdkVersion = {.majorVersion = 1, .minorVersion = 2, .patchVersion = 304};
   AUTKAssertEqualVersion([GADMediationAdapterPangle adSDKVersion], expectedSdkVersion);
 }
 
