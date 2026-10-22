@@ -232,6 +232,13 @@
   XCTAssertEqualObjects(value, @"");
 }
 
+- (void)testTrimmedCredentialNonStringValueReturnsNil {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appID] : @123};
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(settings, [GADMAdapterChartboostConstants appID]);
+  XCTAssertNil(value);
+}
+
 #pragma mark - Banner Size Tests
 
 - (void)testBannerSizeFromAdSizeBanner {

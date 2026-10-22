@@ -68,7 +68,10 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
 
 NSString *_Nullable GADMAdapterChartboostTrimmedCredential(
     NSDictionary<NSString *, id> *_Nullable settings, NSString *_Nonnull key) {
-  NSString *value = settings[key];
+  id value = settings[key];
+  if (![value isKindOfClass:[NSString class]]) {
+    return nil;
+  }
   return [value stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 }
 
