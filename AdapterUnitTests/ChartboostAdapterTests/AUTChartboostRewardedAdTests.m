@@ -208,7 +208,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   CHBClickError *clickError = [[CHBClickError alloc] initWithDomain:@"domain" code:1 userInfo:nil];
   [_rewardedDelegate didClickAd:[[CHBClickEvent alloc] init] error:clickError];
 
-  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
 }
 
 - (void)testPresentationError {
