@@ -27,16 +27,23 @@
 
 @implementation AUTChartboostAdapterUtilsTests {
   NSUserDefaults *_userDefaults;
+
+  /// A defaults suite only these tests use. Test classes run in parallel processes that share the
+  /// host app's standard defaults, so another class could change IABUSPrivacy_String mid test.
+  NSUserDefaults *_usPrivacyUserDefaults;
 }
 
 - (void)setUp {
   _userDefaults = NSUserDefaults.standardUserDefaults;
+  _usPrivacyUserDefaults =
+      [[NSUserDefaults alloc] initWithSuiteName:@"AUTChartboostAdapterUtilsTests.USPrivacy"];
+  [_usPrivacyUserDefaults removeObjectForKey:@"IABUSPrivacy_String"];
 }
 
 - (void)tearDown {
   [_userDefaults removeObjectForKey:@"IABTCF_gdprApplies"];
   [_userDefaults removeObjectForKey:@"IABTCF_AddtlConsent"];
-  [_userDefaults removeObjectForKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults removeObjectForKey:@"IABUSPrivacy_String"];
 }
 
 - (void)testACConsentResultNegativeGDPRApplies {
@@ -207,53 +214,53 @@
 #pragma mark - US Privacy Consent Tests
 
 - (void)testUSPrivacyConsentOptedOutOfSale {
-  [_userDefaults setObject:@"1YYN" forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@"1YYN" forKey:@"IABUSPrivacy_String"];
 
-  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent();
+  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults);
   XCTAssertNotNil(consent);
   XCTAssertEqual(consent.consent, CHBCCPAConsentOptOutSale);
 }
 
 - (void)testUSPrivacyConsentDidNotOptOutOfSale {
-  [_userDefaults setObject:@"1YNN" forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@"1YNN" forKey:@"IABUSPrivacy_String"];
 
-  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent();
+  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults);
   XCTAssertNotNil(consent);
   XCTAssertEqual(consent.consent, CHBCCPAConsentOptInSale);
 }
 
 - (void)testUSPrivacyConsentNotApplicable {
-  [_userDefaults setObject:@"1---" forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@"1---" forKey:@"IABUSPrivacy_String"];
 
-  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
 }
 
 - (void)testUSPrivacyConsentMissing {
-  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
 }
 
 - (void)testUSPrivacyConsentEmpty {
-  [_userDefaults setObject:@"" forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@"" forKey:@"IABUSPrivacy_String"];
 
-  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
 }
 
 - (void)testUSPrivacyConsentWrongLength {
-  [_userDefaults setObject:@"1YY" forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@"1YY" forKey:@"IABUSPrivacy_String"];
 
-  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
 }
 
 - (void)testUSPrivacyConsentUnsupportedVersion {
-  [_userDefaults setObject:@"2YYN" forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@"2YYN" forKey:@"IABUSPrivacy_String"];
 
-  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
 }
 
 - (void)testUSPrivacyConsentNonStringValue {
-  [_userDefaults setObject:@1 forKey:@"IABUSPrivacy_String"];
+  [_usPrivacyUserDefaults setObject:@1 forKey:@"IABUSPrivacy_String"];
 
-  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent());
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
 }
 
 #pragma mark - Trimmed Credential Tests

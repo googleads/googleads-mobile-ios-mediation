@@ -65,7 +65,8 @@
 
   // Applied on every start, not just the first, so a consent change made mid session is picked up
   // on the next ad load.
-  CHBCCPADataUseConsent *usPrivacyConsent = GADMAdapterChartboostUSPrivacyConsent();
+  CHBCCPADataUseConsent *usPrivacyConsent =
+      GADMAdapterChartboostUSPrivacyConsent(NSUserDefaults.standardUserDefaults);
   if (usPrivacyConsent) {
     [Chartboost addDataUseConsent:usPrivacyConsent];
   }

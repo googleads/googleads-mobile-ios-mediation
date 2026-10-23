@@ -248,8 +248,9 @@ void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
   }
 }
 
-CHBCCPADataUseConsent *_Nullable GADMAdapterChartboostUSPrivacyConsent(void) {
-  id usPrivacyValue = [NSUserDefaults.standardUserDefaults objectForKey:@"IABUSPrivacy_String"];
+CHBCCPADataUseConsent *_Nullable GADMAdapterChartboostUSPrivacyConsent(
+    NSUserDefaults *_Nonnull userDefaults) {
+  id usPrivacyValue = [userDefaults objectForKey:@"IABUSPrivacy_String"];
   if (!usPrivacyValue) {
     return nil;
   }
