@@ -1,4 +1,5 @@
 #import "GADMediationAdapterChartboost.h"
+#import "GADMediationAdapterChartboostBannerAd.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationBannerAdLoadAssertions.h>
@@ -43,40 +44,18 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   _bannerAdMock = OCMClassMock([CHBBanner class]);
   OCMStub([_bannerAdMock alloc]).andReturn(_bannerAdMock);
 
-  OCMStub([_bannerAdMock initWithSize:CHBBannerSizeStandard
-                             location:[OCMArg checkWithBlock:^BOOL(NSString *location) {
-                               self->_observedLocation = location;
-                               return YES;
-                             }]
-                            mediation:OCMOCK_ANY
-                             delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
-                               self->_bannerDelegate = obj;
-                               return YES;
-                             }]])
-      .andReturn(_bannerAdMock);
-
-  OCMStub([_bannerAdMock initWithSize:CHBBannerSizeMedium
-                             location:[OCMArg checkWithBlock:^BOOL(NSString *location) {
-                               self->_observedLocation = location;
-                               return YES;
-                             }]
-                            mediation:OCMOCK_ANY
-                             delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
-                               self->_bannerDelegate = obj;
-                               return YES;
-                             }]])
-      .andReturn(_bannerAdMock);
-
-  OCMStub([_bannerAdMock initWithSize:CHBBannerSizeLeaderboard
-                             location:[OCMArg checkWithBlock:^BOOL(NSString *location) {
-                               self->_observedLocation = location;
-                               return YES;
-                             }]
-                            mediation:OCMOCK_ANY
-                             delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
-                               self->_bannerDelegate = obj;
-                               return YES;
-                             }]])
+  // Stub every banner size at once. Tests that care about the size verify it with OCMVerify.
+  OCMStub([[_bannerAdMock ignoringNonObjectArgs]
+              initWithSize:CHBBannerSizeStandard
+                  location:[OCMArg checkWithBlock:^BOOL(NSString *location) {
+                    self->_observedLocation = location;
+                    return YES;
+                  }]
+                 mediation:OCMOCK_ANY
+                  delegate:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    self->_bannerDelegate = obj;
+                    return YES;
+                  }]])
       .andReturn(_bannerAdMock);
 }
 
@@ -109,12 +88,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [self mockAppStartWithError:startError];
 }
 
-- (nonnull AUTKMediationBannerAdEventDelegate *)loadAdWithSize:(GADAdSize)adSize
-                                                      location:(nonnull NSString *)location {
-  OCMStub([_bannerAdMock cache]).andDo(^(NSInvocation *invocation) {
-    [self->_bannerDelegate didCacheAd:[[CHBCacheEvent alloc] init] error:nil];
-  });
-
+- (nonnull AUTKMediationBannerAdConfiguration *)
+    configurationWithSize:(GADAdSize)adSize
+                 location:(nonnull NSString *)location
+        topViewController:(nullable UIViewController *)topViewController {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
     [GADMAdapterChartboostConstants adLocation] : location,
@@ -125,7 +102,20 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   configuration.adSize = adSize;
-  configuration.topViewController = [[UIViewController alloc] init];
+  configuration.topViewController = topViewController;
+  return configuration;
+}
+
+- (nonnull AUTKMediationBannerAdEventDelegate *)loadAdWithSize:(GADAdSize)adSize
+                                                      location:(nonnull NSString *)location {
+  OCMStub([_bannerAdMock cache]).andDo(^(NSInvocation *invocation) {
+    [self->_bannerDelegate didCacheAd:[[CHBCacheEvent alloc] init] error:nil];
+  });
+
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self configurationWithSize:adSize
+                         location:location
+                topViewController:[[UIViewController alloc] init]];
   AUTKMediationBannerAdEventDelegate *eventDelegate =
       AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
   XCTAssertNotNil(_bannerDelegate);
@@ -172,6 +162,25 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
                                delegate:OCMOCK_ANY]);
 }
 
+- (void)testLoadBannerAdSizeHalfPage {
+  [self mockSuccessfulAppStart];
+  [self loadAdWithSize:GADAdSizeFromCGSize(CGSizeMake(300, 600)) location:@"ad_location"];
+
+  OCMVerify([_bannerAdMock initWithSize:CHBBannerSizeHalfPage
+                               location:@"ad_location"
+                              mediation:OCMOCK_ANY
+                               delegate:OCMOCK_ANY]);
+}
+
+- (void)testLoadStartsChartboostOnce {
+  [self mockSuccessfulAppStart];
+  [self loadAdWithLocation:@"ad_location"];
+
+  OCMVerify(OCMTimes(1), ClassMethod([_mockChartboost startWithAppID:@"app_id"
+                                                        appSignature:@"signature"
+                                                          completion:OCMOCK_ANY]));
+}
+
 - (void)testLocation {
   [self mockSuccessfulAppStart];
   [self loadAdWithLocation:@"ad_location"];
@@ -194,17 +203,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
     [self->_bannerDelegate didCacheAd:[[CHBCacheEvent alloc] init] error:error];
   });
 
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{
-    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
-    [GADMAdapterChartboostConstants appID] : @"app_id",
-    [GADMAdapterChartboostConstants appSignature] : @"signature"
-  };
   AUTKMediationBannerAdConfiguration *configuration =
-      [[AUTKMediationBannerAdConfiguration alloc] init];
-  configuration.credentials = credentials;
-  configuration.adSize = GADAdSizeBanner;
-  configuration.topViewController = [[UIViewController alloc] init];
+      [self configurationWithSize:GADAdSizeBanner
+                         location:@"ad_location"
+                topViewController:[[UIViewController alloc] init]];
   NSError *expectedError =
       [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:201
@@ -216,23 +218,37 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)testLoadFailureForBannerSizeMismatch {
   [self mockSuccessfulAppStart];
 
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{
-    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
-    [GADMAdapterChartboostConstants appID] : @"app_id",
-    [GADMAdapterChartboostConstants appSignature] : @"signature"
-  };
   AUTKMediationBannerAdConfiguration *configuration =
-      [[AUTKMediationBannerAdConfiguration alloc] init];
-  configuration.credentials = credentials;
-  configuration.adSize = GADAdSizeFromCGSize(CGSizeMake(100, 100));
-  configuration.topViewController = [[UIViewController alloc] init];
+      [self configurationWithSize:GADAdSizeFromCGSize(CGSizeMake(100, 100))
+                         location:@"ad_location"
+                topViewController:[[UIViewController alloc] init]];
   NSError *expectedError =
       [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
                                  code:GADMAdapterChartboostErrorBannerSizeMismatch
                              userInfo:nil];
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
+}
+
+- (void)testLoadFailureForNilTopViewController {
+  [self mockSuccessfulAppStart];
+
+  OCMStub([_bannerAdMock cache]).andDo(^(NSInvocation *invocation) {
+    [self->_bannerDelegate didCacheAd:[[CHBCacheEvent alloc] init] error:nil];
+  });
+
+  AUTKMediationBannerAdConfiguration *configuration =
+      [self configurationWithSize:GADAdSizeBanner
+                         location:@"ad_location"
+                topViewController:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:GADMAdapterChartboostErrorNilViewController
+                             userInfo:nil];
+
+  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
+  OCMVerify(OCMNever(), [_bannerAdMock showFromViewController:OCMOCK_ANY]);
+  OCMVerify([_bannerAdMock clearCache]);
 }
 
 - (void)testImpression {
@@ -276,7 +292,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   CHBClickError *clickError = [[CHBClickError alloc] initWithDomain:@"domain" code:1 userInfo:nil];
   [_bannerDelegate didClickAd:[[CHBClickEvent alloc] init] error:clickError];
 
-  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
 }
 
 - (void)testShowError {
@@ -292,21 +308,51 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
 }
 
+- (void)testShowErrorAfterSuccessfulShowIsNotReported {
+  [self mockSuccessfulAppStart];
+  OCMStub([_bannerAdMock showFromViewController:OCMOCK_ANY]);
+  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadAdWithLocation:@"ad_location"];
+  [self->_bannerDelegate didShowAd:[[CHBShowEvent alloc] init] error:nil];
+  [self->_bannerDelegate didRecordImpression:[[CHBImpressionEvent alloc] init]];
+  CHBShowError *error = [[CHBShowError alloc] initWithDomain:@"domain" code:1 userInfo:nil];
+  [self->_bannerDelegate didShowAd:[[CHBShowEvent alloc] init] error:error];
+
+  XCTAssertNil(eventDelegate.didFailToPresentError);
+  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
+}
+
+- (void)testDeallocClearsChartboostCache {
+  // Build the wrapper directly and inject the mock, because OCMock retains the delegate passed to
+  // the stubbed initializer, which would keep a loaded wrapper alive for the whole test.
+  @autoreleasepool {
+    AUTKMediationBannerAdConfiguration *configuration =
+        [self configurationWithSize:GADAdSizeBanner
+                           location:@"ad_location"
+                  topViewController:[[UIViewController alloc] init]];
+    GADMediationAdapterChartboostBannerAd *ad = [[GADMediationAdapterChartboostBannerAd alloc]
+        initWithAdConfiguration:configuration
+              completionHandler:^id<GADMediationBannerAdEventDelegate>(
+                  id<GADMediationBannerAd> _Nullable loadedAd, NSError *_Nullable error) {
+                return nil;
+              }];
+    // Fails as an assertion, rather than an exception, if the ivar is renamed.
+    XCTAssertNoThrow([ad setValue:_bannerAdMock forKey:@"_banner"]);
+  }
+
+  OCMVerify([_bannerAdMock clearCache]);
+}
+
 - (void)testLoadAdFailsWhenStartFails {
   [self mockFailedAppStart];
 
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{
-    [GADMAdapterChartboostConstants adLocation] : @"ad_location",
-    [GADMAdapterChartboostConstants appID] : @"app_id",
-    [GADMAdapterChartboostConstants appSignature] : @"signature"
-  };
   AUTKMediationBannerAdConfiguration *configuration =
-      [[AUTKMediationBannerAdConfiguration alloc] init];
-  configuration.credentials = credentials;
-  configuration.adSize = GADAdSizeBanner;
-  configuration.topViewController = [[UIViewController alloc] init];
-  NSError *expectedError = [[NSError alloc] initWithDomain:@"test_domain" code:1 userInfo:nil];
+      [self configurationWithSize:GADAdSizeBanner
+                         location:@"ad_location"
+                topViewController:[[UIViewController alloc] init]];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:GADMAdapterChartboostErrorInitializationFailure
+                             userInfo:nil];
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
 }
