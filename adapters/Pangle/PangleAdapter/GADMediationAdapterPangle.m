@@ -104,9 +104,7 @@
   NSString *versionString = PAGSdk.SDKVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  // TODO(thanvir): Maybe, change the logic below to return the first four parts of the SDK
-  // version even if it has more than four parts.
-  if (versionComponents.count == 4) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
