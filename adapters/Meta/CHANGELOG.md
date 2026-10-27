@@ -1,6 +1,6 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 6.22.1.0 (In progress)
 
 - Updated to indicate that Meta SDK can track native ad impressions (i.e.
 updated to return YES for handlesUserImpressions()). Note: The decision on
