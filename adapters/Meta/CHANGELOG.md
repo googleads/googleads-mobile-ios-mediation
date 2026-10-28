@@ -1,11 +1,12 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Version 6.22.1.0 (In progress)
+#### [Version 6.22.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.22.1.0.zip)
+- Verified compatibility with Meta Audience Network SDK 6.22.1.
+- Updated to indicate that Meta Audience Network SDK can track native ad impressions.
 
-- Updated to indicate that Meta SDK can track native ad impressions (i.e.
-updated to return YES for handlesUserImpressions()). Note: The decision on
-whether Google SDK or Meta SDK actually tracks native ad impressions is
-controlled by Google Serving.
+Built and tested with:
+- Google Mobile Ads SDK version 13.11.0.
+- Meta Audience Network SDK version 6.22.1.
 
 #### [Version 6.22.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.22.0.0.zip)
 - Verified compatibility with Meta Audience Network SDK 6.22.0.
