@@ -12,6 +12,13 @@ project 'AdapterUnitTests.xcodeproj'
 use_frameworks!
 workspace 'AdapterUnitTests'
 
+ADAPTER_PROJECTS = Dir.glob(File.expand_path('../adapters/**/*.xcodeproj', __dir__)).each_with_object({}) do |xcodeproj_path, map|
+  next if xcodeproj_path.include?('/NewAdapterSkeleton/') || xcodeproj_path.include?('/CommonAdapter/')
+
+  adapter_name = File.basename(xcodeproj_path, '.xcodeproj')
+  map[adapter_name] = xcodeproj_path
+end.freeze
+
 ADAPTER_PODSPECS = Dir.glob(File.expand_path('../adapters/**/CocoaPods/*.podspec.json', __dir__)).each_with_object({}) do |path, map|
   next if path.include?('/NewAdapterSkeleton/')
 
@@ -61,7 +68,7 @@ abstract_target 'Default' do
   unit_test_project = Xcodeproj::Project.open(File.expand_path('AdapterUnitTests.xcodeproj', __dir__))
   available_test_targets = unit_test_project.targets.map(&:name)
 
-  ADAPTER_PODSPECS.each do |adapter_name, podspec_path|
+  ADAPTER_PROJECTS.each do |adapter_name, adapter_proj_path|
     test_target_name = "#{adapter_name}Tests"
     latency_target_name = "#{adapter_name}LatencyTests"
     has_test_target = available_test_targets.include?(test_target_name)
@@ -69,22 +76,23 @@ abstract_target 'Default' do
     next unless has_test_target || has_latency_target
     next unless adapter_targets.empty? || adapter_targets.include?(adapter_name)
 
-    pod_name = JSON.parse(File.read(podspec_path))['name']
-    pod pod_name, :path => podspec_path
+    podspec_path = ADAPTER_PODSPECS[adapter_name]
+    if podspec_path
+      pod_name = JSON.parse(File.read(podspec_path))['name']
+      pod pod_name, :path => podspec_path
 
-    adapter_dir = File.expand_path('../../', podspec_path)
-    adapter_proj_path = Dir.glob(File.join(adapter_dir, '*.xcodeproj')).first
-    if adapter_proj_path
-      adapter_proj = Xcodeproj::Project.open(adapter_proj_path)
-      adapter_target_names = adapter_proj.targets.map(&:name)
-      static_lib_target = if adapter_target_names.include?('AdapterWithoutValidationScript')
-        'AdapterWithoutValidationScript'
-      elsif adapter_target_names.include?('Adapter')
-        'Adapter'
-      end
-      if static_lib_target
-        target static_lib_target do
-          project adapter_proj_path
+      if adapter_proj_path
+        adapter_proj = Xcodeproj::Project.open(adapter_proj_path)
+        adapter_target_names = adapter_proj.targets.map(&:name)
+        static_lib_target = if adapter_target_names.include?('AdapterWithoutValidationScript')
+          'AdapterWithoutValidationScript'
+        elsif adapter_target_names.include?('Adapter')
+          'Adapter'
+        end
+        if static_lib_target
+          target static_lib_target do
+            project adapter_proj_path
+          end
         end
       end
     end
