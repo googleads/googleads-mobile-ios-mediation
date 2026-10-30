@@ -49,6 +49,10 @@
 		234AFD6E2837196A001FA761 /* GADMAdapterFacebookConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD4F2837196A001FA761 /* GADMAdapterFacebookConstants.h */; };
 		234AFD6F2837196A001FA761 /* GADMediationAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD502837196A001FA761 /* GADMediationAdapterFacebook.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		234AFD702837196A001FA761 /* GADMediationAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD512837196A001FA761 /* GADMediationAdapterFacebook.m */; };
+		444E59B22F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 444E59B12F2ADD17003E5D77 /* GoogleMobileAds */; };
+		447EA5832F2ADDD100E944BC /* FBAudienceNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 447EA5822F2ADDD100E944BC /* FBAudienceNetwork */; };
+		44C12AC42F2ACCD9007B57FB /* FBAudienceNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 44C12AC32F2ACCD9007B57FB /* FBAudienceNetwork */; };
+		44F7B66B2F2ADD9E0034B470 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 44F7B66A2F2ADD9E0034B470 /* GoogleMobileAds */; };
 		7DC8682E1DDA8D4400F0F1C4 /* MetaAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* MetaAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC8682F1DDA8D4400F0F1C4 /* GADFBExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -142,7 +146,6 @@
 		AD7BB6B62E5F713E001DA0EC /* GADFBAppOpenRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBAppOpenRenderer.h; sourceTree = "<group>"; };
 		AD7BB6BB2E5F7199001DA0EC /* GADFBAppOpenRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBAppOpenRenderer.m; sourceTree = "<group>"; };
 		ADA6BA1F2CF146E5009C8FDA /* libAdapterWithoutValidationScript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapterWithoutValidationScript.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD949C5B2F3BF59B00B7CA8F /* FBAudienceNetwork.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:V9WTTPBFK9:Meta Platforms, Inc."; lastKnownFileType = wrapper.xcframework; name = FBAudienceNetwork.xcframework; path = ../../AdapterUnitTests/Pods/FBAudienceNetwork/Static/FBAudienceNetwork.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				444E59B22F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				44C12AC42F2ACCD9007B57FB /* FBAudienceNetwork in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +169,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44F7B66B2F2ADD9E0034B470 /* GoogleMobileAds in Frameworks */,
+				447EA5832F2ADDD100E944BC /* FBAudienceNetwork in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +208,13 @@
 				234AFD3C2837196A001FA761 /* GADFBRewardedRenderer.m */,
 			);
 			path = Bidding;
+			sourceTree = "<group>";
+		};
+		44F7B6692F2ADD9E0034B470 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
@@ -252,8 +266,8 @@
 				7DC868191DDA8D4400F0F1C4 /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
+				44F7B6692F2ADD9E0034B470 /* Frameworks */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
-				B3E798F627282266EF3A4B55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -265,14 +279,6 @@
 				ADA6BA1F2CF146E5009C8FDA /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		B3E798F627282266EF3A4B55 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				CD949C5B2F3BF59B00B7CA8F /* FBAudienceNetwork.xcframework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +346,10 @@
 			dependencies = (
 			);
 			name = Adapter;
+			packageProductDependencies = (
+				444E59B12F2ADD17003E5D77 /* GoogleMobileAds */,
+				44C12AC32F2ACCD9007B57FB /* FBAudienceNetwork */,
+			);
 			productName = Adapter;
 			productReference = 7DFABB1D1DA8682C00322E02 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
@@ -376,6 +386,10 @@
 			dependencies = (
 			);
 			name = AdapterWithoutValidationScript;
+			packageProductDependencies = (
+				44F7B66A2F2ADD9E0034B470 /* GoogleMobileAds */,
+				447EA5822F2ADDD100E944BC /* FBAudienceNetwork */,
+			);
 			productName = Adapter;
 			productReference = ADA6BA1F2CF146E5009C8FDA /* libAdapterWithoutValidationScript.a */;
 			productType = "com.apple.product-type.library.static";
@@ -414,6 +428,10 @@
 				Base,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
+			packageReferences = (
+				44C12AC22F2ACCD9007B57FB /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */,
+				444E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			productRefGroup = 7DFABB1E1DA8682C00322E02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -866,6 +884,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		444E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.4.0;
+			};
+		};
+		44C12AC22F2ACCD9007B57FB /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/FBAudienceNetwork";
+			requirement = {
+				kind = exactVersion;
+				version = 6.22.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		444E59B12F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 444E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		447EA5822F2ADDD100E944BC /* FBAudienceNetwork */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44C12AC22F2ACCD9007B57FB /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */;
+			productName = FBAudienceNetwork;
+		};
+		44C12AC32F2ACCD9007B57FB /* FBAudienceNetwork */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44C12AC22F2ACCD9007B57FB /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */;
+			productName = FBAudienceNetwork;
+		};
+		44F7B66A2F2ADD9E0034B470 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 444E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7DFABB151DA8682C00322E02 /* Project object */;
 }
