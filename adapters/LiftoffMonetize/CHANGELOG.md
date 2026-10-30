@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Version 7.7.8.1 (In progress)
+- Support mediation partner name on Vungle ad requests before load
+
 #### [Version 7.7.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.8.0.zip)
 - Verified compatibility with Vungle SDK 7.7.8.
 
