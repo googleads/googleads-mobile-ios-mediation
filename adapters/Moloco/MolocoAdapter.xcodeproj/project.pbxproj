@@ -60,6 +60,12 @@
 		AD6E38EA2EA166A500818296 /* MolocoAdapterErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380432C45E862004CCB92 /* MolocoAdapterErrorCode.swift */; };
 		AD6E38EB2EA166A500818296 /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
 		AD6E38EC2EA166A500818296 /* MolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */; };
+		AD4E59B32F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD4E59B22F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD4E59B52F2ADD17003E5D77 /* MolocoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AD4E59B42F2ADD17003E5D77 /* MolocoSDK */; };
+		AD4E59B72F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD4E59B62F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD4E59B92F2ADD17003E5D77 /* MolocoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AD4E59B82F2ADD17003E5D77 /* MolocoSDK */; };
+		AD4E59BB2F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD4E59BA2F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD4E59BD2F2ADD17003E5D77 /* MolocoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AD4E59BC2F2ADD17003E5D77 /* MolocoSDK */; };
 		AD7CC39A2D1DE51700DC9B90 /* MolocoSdkVersionProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */; };
 		AD7CC39B2D1DE51700DC9B90 /* MolocoAgeRestrictedSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD12D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift */; };
 		ADA6BA492CF146FE009C8FDA /* MolocoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */; };
@@ -162,6 +168,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD4E59B72F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD4E59B92F2ADD17003E5D77 /* MolocoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +177,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD4E59BB2F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD4E59BD2F2ADD17003E5D77 /* MolocoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +186,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD4E59B32F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD4E59B52F2ADD17003E5D77 /* MolocoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,8 +209,16 @@
 				ADFA84AD2C17704300A501AB /* MolocoAdapter */,
 				ADFA84B92C17704300A501AB /* BuildScript */,
 				ADFA84B52C17704300A501AB /* Configuration */,
+				AD4E59BE2F2ADD17003E5D77 /* Frameworks */,
 				ADFA849E2C176E2200A501AB /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AD4E59BE2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		ADFA849E2C176E2200A501AB /* Products */ = {
@@ -272,6 +292,10 @@
 			dependencies = (
 			);
 			name = AdapterWithoutValidationScript;
+			packageProductDependencies = (
+				AD4E59B62F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD4E59B82F2ADD17003E5D77 /* MolocoSDK */,
+			);
 			productName = Adapter;
 			productReference = AD6E38F22EA166A500818296 /* MolocoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
@@ -289,6 +313,10 @@
 			dependencies = (
 			);
 			name = StaticMolocoAdapter;
+			packageProductDependencies = (
+				AD4E59BA2F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD4E59BC2F2ADD17003E5D77 /* MolocoSDK */,
+			);
 			productName = Adapter;
 			productReference = ADA6BA5C2CF146FE009C8FDA /* StaticMolocoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
@@ -307,6 +335,10 @@
 				AD6E38D52EA1669F00818296 /* PBXTargetDependency */,
 			);
 			name = Adapter;
+			packageProductDependencies = (
+				AD4E59B22F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD4E59B42F2ADD17003E5D77 /* MolocoSDK */,
+			);
 			productName = Adapter;
 			productReference = ADFA849D2C176E2200A501AB /* MolocoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
@@ -358,6 +390,10 @@
 				Base,
 			);
 			mainGroup = AD23672D2C176DB300997FF7;
+			packageReferences = (
+				AD4E59B12F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */,
+				AD4E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			productRefGroup = ADFA849E2C176E2200A501AB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -588,7 +624,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -664,7 +700,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -745,7 +781,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -821,7 +857,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -902,7 +938,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -978,7 +1014,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -1129,8 +1165,8 @@
 				LIB_NAME = "$(AD_NETWORK_NAME)Adapter";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				MIN_OS_MAJOR_VERSION = 12;
-				MIN_OS_MAJOR_VERSION_64_BIT = 12;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "";
@@ -1226,8 +1262,8 @@
 				LIB_NAME = "$(AD_NETWORK_NAME)Adapter";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				MIN_OS_MAJOR_VERSION = 12;
-				MIN_OS_MAJOR_VERSION_64_BIT = 12;
+				MIN_OS_MAJOR_VERSION = 13;
+				MIN_OS_MAJOR_VERSION_64_BIT = 13;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "";
@@ -1320,6 +1356,58 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD4E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD4E59B12F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moloco/moloco-sdk-ios-spm.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.11.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD4E59B22F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD4E59B42F2ADD17003E5D77 /* MolocoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4E59B12F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */;
+			productName = MolocoSDK;
+		};
+		AD4E59B62F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD4E59B82F2ADD17003E5D77 /* MolocoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4E59B12F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */;
+			productName = MolocoSDK;
+		};
+		AD4E59BA2F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4E59B02F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD4E59BC2F2ADD17003E5D77 /* MolocoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4E59B12F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */;
+			productName = MolocoSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD23672E2C176DB300997FF7 /* Project object */;
 }
