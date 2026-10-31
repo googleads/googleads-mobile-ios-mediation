@@ -430,3 +430,4 @@ specified in the AdMob console when configuring Chartboost for mediation.
 
 #### Version 1.0.0
 - Initial release. Supports reward-based video ads and interstitial ads.
+
