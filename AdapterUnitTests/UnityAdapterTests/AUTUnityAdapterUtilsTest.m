@@ -207,21 +207,20 @@
 }
 
 - (void)testConfigureMediationService {
-  id unityAdsMock = OCMClassMock([UnityAds class]);
-  OCMStub(ClassMethod([unityAdsMock getVersion])).andReturn(@"4.19.0");
+  NSString *gmaVersion =
+      GADGetStringFromVersionNumber(GADMobileAds.sharedInstance.versionNumber);
 
   id metaDataMock = OCMClassMock([UADSMediationMetaData class]);
   OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
   OCMExpect([metaDataMock setName:GADMAdapterUnityMediationNetworkName]);
-  OCMExpect([metaDataMock setVersion:GADMAdapterUnityVersion]);
-  OCMExpect([metaDataMock set:@"adapter_version" value:@"4.19.0"]);
+  OCMExpect([metaDataMock setVersion:gmaVersion]);
+  OCMExpect([metaDataMock set:@"adapter_version" value:GADMAdapterUnityVersion]);
   OCMExpect([metaDataMock commit]);
 
   GADMAdapterUnityConfigureMediationService();
 
   OCMVerifyAll(metaDataMock);
   [metaDataMock stopMocking];
-  [unityAdsMock stopMocking];
 }
 
 - (void)testMutableArrayAddObject {
