@@ -25,7 +25,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterChartboostErrorCode) {
   /// Banner Size Mismatch.
   GADMAdapterChartboostErrorBannerSizeMismatch = 104,
   /// Device's OS version is lower than Chartboost SDK's minimum supported OS version.
-  GADMAdapterChartboostErrorMinimumOSVersion = 105
+  GADMAdapterChartboostErrorMinimumOSVersion = 105,
+  /// The ad configuration's top view controller is nil at show time.
+  GADMAdapterChartboostErrorNilViewController = 106
 };
 
 @interface GADMediationAdapterChartboost : NSObject <GADMediationAdapter>
