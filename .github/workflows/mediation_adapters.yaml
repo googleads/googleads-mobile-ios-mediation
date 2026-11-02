@@ -30,6 +30,52 @@ jobs:
           else
             echo "example=false" >> $GITHUB_OUTPUT
           fi
+      - name: Block version updates in external PRs
+        if: >-
+          github.event_name == 'pull_request' &&
+          !contains(github.event.pull_request.labels.*.name, 'allow-version-bump')
+        env:
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          if ! git rev-parse --verify "origin/$PR_BASE_REF" >/dev/null 2>&1; then
+            git fetch origin "+refs/heads/$PR_BASE_REF:refs/remotes/origin/$PR_BASE_REF" --depth=1
+          fi
+
+          MODIFIED_FILES=$(git diff --name-only --diff-filter=M "origin/$PR_BASE_REF" HEAD)
+          FAILED=0
+
+          while IFS= read -r file; do
+            [[ -z "$file" ]] && continue
+            ADDED_LINES=$(git diff -U0 "origin/$PR_BASE_REF" HEAD -- "$file" | grep -E '^\+[^+]' || true)
+            [[ -z "$ADDED_LINES" ]] && continue
+
+            if [[ "$file" =~ ^adapters/.+\.podspec\.json$ ]]; then
+              if echo "$ADDED_LINES" | grep -q -E '^\+[[:space:]]*"version"[[:space:]]*:'; then
+                echo "::error file=$file::Do not update the podspec version in PRs. Adapter versions are bumped automatically during release; add release notes under '#### Next version' in CHANGELOG.md instead."
+                FAILED=1
+              fi
+            elif [[ "$file" =~ ^adapters/.+/Configuration/Adapter\.xcconfig$ ]]; then
+              if echo "$ADDED_LINES" | grep -q -E '^\+[[:space:]]*(MARKETING_VERSION|CURRENT_PROJECT_VERSION)[[:space:]]*='; then
+                echo "::error file=$file::Do not update MARKETING_VERSION or CURRENT_PROJECT_VERSION in PRs. Adapter versions are bumped automatically during release; add release notes under '#### Next version' in CHANGELOG.md instead."
+                FAILED=1
+              fi
+            elif [[ "$file" =~ ^adapters/.+(Constants?\.(h|m|swift)|Adapter\.swift)$ ]]; then
+              if echo "$ADDED_LINES" | grep -q -E '^\+.*(Version|version)[^=]*=[[:space:]]*@?"[0-9]+(\.[0-9]+){3,4}"'; then
+                echo "::error file=$file::Do not update the adapter version constant in PRs. Adapter versions are bumped automatically during release; add release notes under '#### Next version' in CHANGELOG.md instead."
+                FAILED=1
+              fi
+            elif [[ "$file" =~ ^adapters/.+/CHANGELOG\.md$ ]]; then
+              if echo "$ADDED_LINES" | grep -q -E '^\+[[:space:]]*####[[:space:]]+\[?[Vv]ersion\b'; then
+                echo "::error file=$file::Do not add a '#### Version ...' heading in PRs. Add your release notes under '#### Next version' in CHANGELOG.md instead."
+                FAILED=1
+              fi
+            fi
+          done <<< "$MODIFIED_FILES"
+
+          if [[ "$FAILED" -ne 0 ]]; then
+            echo "Version updates detected in external PR. Revert version changes and place changelog entries under '#### Next version' (maintainers can add the 'allow-version-bump' label to override)."
+            exit 1
+          fi
 
   Build:
     needs: check-paths
