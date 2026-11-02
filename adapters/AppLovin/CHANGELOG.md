@@ -1,5 +1,7 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 13.7.0.0 (In progress)
+
 #### [Version 13.6.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.4.0.zip)
 - Verified compatibility with AppLovin SDK 13.6.4.
 - Migrated the adapter to Swift.
