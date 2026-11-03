@@ -173,6 +173,7 @@ static NSString *const kWatermark = @"watermark";
   OCMExpect([_rewardedMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_rewardedMock setMediationPartnerName:GADMAdapterVungleMediationPartnerName]);
   OCMExpect([_rewardedMock setAdapterAdFormat:@"GADMAdapterVungleRewardBasedVideoAd"]);
   if (extras && extras.userId) {
     OCMExpect([_rewardedMock setUserIdWithUserId:extras.userId]);
@@ -298,6 +299,7 @@ static NSString *const kWatermark = @"watermark";
   OCMExpect([_rewardedMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_rewardedMock setMediationPartnerName:GADMAdapterVungleMediationPartnerName]);
   OCMExpect([_rewardedMock setAdapterAdFormat:@"GADMediationVungleRewardedAd"]);
   if (extras && extras.userId) {
     OCMExpect([_rewardedMock setUserIdWithUserId:extras.userId]);
