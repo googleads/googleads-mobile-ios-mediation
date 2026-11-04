@@ -16,31 +16,71 @@ import Foundation
 import GoogleMobileAds
 import UIKit
 
-final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
+final class BannerAdLoader: NSObject, MediationBannerAd, BannerAdClientDelegate,
+  @unchecked Sendable
+{
 
   private let adConfiguration: MediationBannerAdConfiguration
   private var adLoadCompletionHandler: GADMediationBannerLoadCompletionHandler?
+  private weak var eventDelegate: MediationBannerAdEventDelegate?
+  private let client: any Client
   var view: UIView
 
   @MainActor
   init(
     adConfiguration: MediationBannerAdConfiguration,
-    loadCompletionHandler: @escaping GADMediationBannerLoadCompletionHandler
+    loadCompletionHandler: @escaping GADMediationBannerLoadCompletionHandler,
+    client: any Client = ClientFactory.createClient()
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
+    self.client = client
     self.view = UIView()
     super.init()
   }
 
+  @MainActor
   func loadAd() {
-    _ = adLoadCompletionHandler?(
-      nil,
-      AdSurgeAdapterError(
-        errorCode: .invalidAdConfiguration,
-        description: "Banner ad loading not yet supported."
-      ).toNSError())
+    do {
+      let adUnitId = try Util.adUnitID(from: adConfiguration)
+      let bidResponse = try Util.bidResponse(from: adConfiguration)
+      let bannerView = client.createBannerAdView(for: adUnitId)
+      self.view = bannerView
+      client.loadBannerAd(
+        bannerView,
+        bidPayload: bidResponse,
+        viewController: adConfiguration.topViewController,
+        delegate: self
+      )
+    } catch {
+      _ = adLoadCompletionHandler?(nil, error.toNSError())
+      adLoadCompletionHandler = nil
+    }
+  }
+
+  // MARK: - BannerAdClientDelegate
+
+  func bannerDidLoad() {
+    eventDelegate = adLoadCompletionHandler?(self, nil)
     adLoadCompletionHandler = nil
+  }
+
+  func bannerDidFailToLoad(with error: any Error) {
+    _ = adLoadCompletionHandler?(nil, error.toNSError())
+    adLoadCompletionHandler = nil
+  }
+
+  func bannerDidClick() {
+    eventDelegate?.reportClick()
+  }
+
+  func bannerDidHide() {
+    eventDelegate?.willDismissFullScreenView()
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func bannerDidPayRevenue() {
+    eventDelegate?.reportImpression()
   }
 
 }

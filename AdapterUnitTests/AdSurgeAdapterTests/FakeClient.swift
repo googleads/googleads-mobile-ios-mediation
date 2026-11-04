@@ -52,4 +52,64 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     return sdkVersionString
   }
 
+  // MARK: - Banner Mock
+
+  var loadBannerShouldSucceed: Bool = true
+  var createdBannerAdUnitId: String?
+  var loadedBannerBidPayload: String?
+  var loadedBannerViewController: UIViewController?
+  weak var bannerDelegate: (any BannerAdClientDelegate)?
+  var mockBannerView: UIView?
+
+  @MainActor func createBannerAdView(for adUnitId: String) -> UIView {
+    createdBannerAdUnitId = adUnitId
+    return mockBannerView ?? UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+  }
+
+  @MainActor func loadBannerAd(
+    _ bannerView: UIView,
+    bidPayload: String,
+    viewController: UIViewController?,
+    delegate: any BannerAdClientDelegate
+  ) {
+    loadedBannerBidPayload = bidPayload
+    loadedBannerViewController = viewController
+    bannerDelegate = delegate
+    if loadBannerShouldSucceed {
+      delegate.bannerDidLoad()
+    } else {
+      let error = AdSurgeAdapterError(
+        errorCode: .internalError,
+        description: "Simulated banner load failure."
+      ).toNSError()
+      delegate.bannerDidFailToLoad(with: error)
+    }
+  }
+
+  func simulateBannerClick() {
+    bannerDelegate?.bannerDidClick()
+  }
+
+  func simulateBannerHide() {
+    bannerDelegate?.bannerDidHide()
+  }
+
+  func simulateBannerPayRevenue() {
+    bannerDelegate?.bannerDidPayRevenue()
+  }
+
+  func reset() {
+    ageRestrictedUser = nil
+    applicationId = nil
+    initializeShouldSucceed = true
+    bidderTokenToReturn = "mock_bidder_token"
+    sdkVersionString = "2.0.1"
+    loadBannerShouldSucceed = true
+    createdBannerAdUnitId = nil
+    loadedBannerBidPayload = nil
+    loadedBannerViewController = nil
+    bannerDelegate = nil
+    mockBannerView = nil
+  }
+
 }

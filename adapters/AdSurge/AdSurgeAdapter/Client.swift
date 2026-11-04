@@ -15,6 +15,7 @@
 import AdSurgeSDK
 import Foundation
 import GoogleMobileAds
+import ObjectiveC
 import UIKit
 
 /// Factory that creates Client.
@@ -37,6 +38,26 @@ final class ClientFactory {
 
 }
 
+/// Delegate protocol for banner ad lifecycle events from the AdSurge client.
+protocol BannerAdClientDelegate: AnyObject, Sendable {
+
+  /// Called when a banner ad has been successfully loaded.
+  func bannerDidLoad()
+
+  /// Called when a banner ad fails to load.
+  func bannerDidFailToLoad(with error: any Error)
+
+  /// Called when a banner ad is clicked.
+  func bannerDidClick()
+
+  /// Called when a banner ad is hidden.
+  func bannerDidHide()
+
+  /// Called when a banner ad generates revenue (impression).
+  func bannerDidPayRevenue()
+
+}
+
 protocol Client: AnyObject, Sendable {
 
   /// Sets user age restriction privacy status.
@@ -50,6 +71,17 @@ protocol Client: AnyObject, Sendable {
 
   /// Returns the SDK version string.
   func version() -> String
+
+  /// Creates a banner ad view for the given ad unit identifier.
+  @MainActor func createBannerAdView(for adUnitId: String) -> UIView
+
+  /// Loads a banner ad into the provided banner view.
+  @MainActor func loadBannerAd(
+    _ bannerView: UIView,
+    bidPayload: String,
+    viewController: UIViewController?,
+    delegate: any BannerAdClientDelegate
+  )
 
 }
 
@@ -114,6 +146,78 @@ final class ClientImpl: Client, @unchecked Sendable {
 
   func version() -> String {
     return AdSurgeAdSdkVersion
+  }
+
+  @MainActor func createBannerAdView(for adUnitId: String) -> UIView {
+    return AdSurgeBannerAdView(adUnitIdentifier: adUnitId)
+  }
+
+  @MainActor func loadBannerAd(
+    _ bannerView: UIView,
+    bidPayload: String,
+    viewController: UIViewController?,
+    delegate: any BannerAdClientDelegate
+  ) {
+    guard let banner = bannerView as? AdSurgeBannerAdView else {
+      delegate.bannerDidFailToLoad(
+        with: AdSurgeAdapterError(
+          errorCode: .internalError,
+          description: "Invalid banner view type."
+        ).toNSError()
+      )
+      return
+    }
+    banner.viewController = viewController
+    let bridge = BannerDelegateBridge(delegate: delegate)
+    banner.delegate = bridge
+    objc_setAssociatedObject(
+      banner,
+      &bannerBridgeAssociatedKey,
+      bridge,
+      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+    )
+    let config = AdSurgeAdConfig(adFormat: AdSurgeAdFormat.banner)
+    config.payload = bidPayload
+    banner.loadAd(config)
+  }
+
+}
+
+nonisolated(unsafe) private var bannerBridgeAssociatedKey: UInt8 = 0
+
+private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @unchecked Sendable {
+
+  private weak var delegate: (any BannerAdClientDelegate)?
+
+  init(delegate: any BannerAdClientDelegate) {
+    self.delegate = delegate
+  }
+
+  func didLoad(_ ad: AdSurgeAd) {
+    delegate?.bannerDidLoad()
+  }
+
+  func didFailToLoadAd(
+    forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
+  ) {
+    let nsError = Util.error(
+      withDomain: AdSurgeAdapterError.domain,
+      code: error.code.rawValue,
+      description: error.message
+    )
+    delegate?.bannerDidFailToLoad(with: nsError)
+  }
+
+  func didHide(_ ad: AdSurgeAd) {
+    delegate?.bannerDidHide()
+  }
+
+  func didClick(_ ad: AdSurgeAd) {
+    delegate?.bannerDidClick()
+  }
+
+  func didPayRevenue(for ad: AdSurgeAd) {
+    delegate?.bannerDidPayRevenue()
   }
 
 }

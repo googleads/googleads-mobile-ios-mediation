@@ -124,9 +124,11 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     nonisolated(unsafe) let completionHandler = completionHandler
     nonisolated(unsafe) let nonisolatedSelf = self
     DispatchQueue.main.async {
-      nonisolatedSelf.bannerAdLoader = BannerAdLoader(
-        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-      nonisolatedSelf.bannerAdLoader?.loadAd()
+      MainActor.assumeIsolated {
+        nonisolatedSelf.bannerAdLoader = BannerAdLoader(
+          adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+        nonisolatedSelf.bannerAdLoader?.loadAd()
+      }
     }
   }
 
