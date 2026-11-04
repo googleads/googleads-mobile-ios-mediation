@@ -56,9 +56,9 @@
 /* Begin PBXFileReference section */
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ADA2F7D22D9DBF0A005D9ECA /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		ADFA849D2C176E2200A501AB /* libAdSurgeAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libAdSurgeAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADFA84A52C17704300A501AB /* AdSurgeAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AdSurgeAdapter.swift"; sourceTree = "<group>"; };
-		ADFA84A62C17704300A501AB /* AdSurgeAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AdSurgeAdapterError.swift"; sourceTree = "<group>"; };
+		ADFA849D2C176E2200A501AB /* libAdSurgeAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdSurgeAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA84A52C17704300A501AB /* AdSurgeAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdSurgeAdapter.swift; sourceTree = "<group>"; };
+		ADFA84A62C17704300A501AB /* AdSurgeAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdSurgeAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A92C17704300A501AB /* BannerAdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAdLoader.swift; sourceTree = "<group>"; };
 		ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdLoader.swift; sourceTree = "<group>"; };
 		ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RewardedAdLoader.swift; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 				ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */,
 				ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */,
 			);
-			path = "AdSurgeAdapter";
+			path = AdSurgeAdapter;
 			sourceTree = "<group>";
 		};
 		ADFA84B52C17704300A501AB /* Configuration */ = {
@@ -178,8 +178,8 @@
 			);
 			dependencies = (
 			);
-			name = "AdSurgeAdapterFramework";
-			productName = "AdSurgeAdapter";
+			name = AdSurgeAdapterFramework;
+			productName = AdSurgeAdapter;
 			productReference = ADFA84D42C17738E00A501AB /* AdSurgeAdapterFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -316,7 +316,7 @@
 		ADFA84A22C176E2200A501AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -357,7 +357,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_NAME = "AdSurgeAdapter";
+				FRAMEWORK_NAME = AdSurgeAdapter;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -373,7 +373,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -390,7 +390,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -398,7 +398,7 @@
 		ADFA84A32C176E2200A501AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -439,7 +439,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_NAME = "AdSurgeAdapter";
+				FRAMEWORK_NAME = AdSurgeAdapter;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -449,7 +449,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIB_NAME = "${PRODUCT_NAME}";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
@@ -464,7 +464,7 @@
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -473,7 +473,7 @@
 		ADFA84C72C17710C00A501AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -488,7 +488,7 @@
 		ADFA84C82C17710C00A501AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -503,7 +503,7 @@
 		ADFA84CD2C17722500A501AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_NAME = "$(AD_NETWORK_NAME)Adapter";
 				LIB_NAME = libAdapter;
@@ -515,7 +515,7 @@
 		ADFA84CE2C17722500A501AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_NAME = "$(AD_NETWORK_NAME)Adapter";
 				LIB_NAME = libAdapter;
@@ -528,7 +528,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -611,8 +611,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.google.AdSurgeAdapter";
-				PRODUCT_MODULE_NAME = Adapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.AdSurgeAdapter;
+				PRODUCT_MODULE_NAME = AdSurgeAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -620,7 +620,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -631,7 +631,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
-				AD_NETWORK_NAME = "AdSurge";
+				AD_NETWORK_NAME = AdSurge;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -707,15 +707,15 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.google.AdSurgeAdapter";
-				PRODUCT_MODULE_NAME = Adapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.AdSurgeAdapter;
+				PRODUCT_MODULE_NAME = AdSurgeAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 x86_64";

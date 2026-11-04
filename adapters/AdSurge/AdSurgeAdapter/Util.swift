@@ -32,11 +32,113 @@ final class Util {
   /// Returns a NSError object with the provided information.
   static func error(withDomain domain: String, code: Int, description: String) -> NSError {
     return NSError(
-      domain: domain, code: code,
+      domain: domain,
+      code: code,
       userInfo: [
         NSLocalizedDescriptionKey: description,
         NSLocalizedFailureReasonErrorKey: description,
       ])
   }
 
+  /// Retrieves an application ID from the provided mediation server configuration.
+  ///
+  /// - Throws: `AdSurgeAdapterError.serverConfigurationMissingApplicationId` if the configuration
+  ///   contains no application ID.
+  /// - Returns: An application ID from the configuration. If more than one ID is found, returns
+  ///   one and logs a warning.
+  static func applicationID(
+    from config: MediationServerConfiguration
+  ) throws(AdSurgeAdapterError) -> String {
+    var appIds: [String] = []
+    for credential in config.credentials {
+      if let appId = credential.settings[MediationConfigurationSettingKey.applicationId.rawValue]
+        as? String, !appId.isEmpty, !appIds.contains(appId)
+      {
+        appIds.append(appId)
+      }
+    }
+
+    guard let appId = appIds.first else {
+      throw AdSurgeAdapterError(
+        errorCode: .serverConfigurationMissingApplicationId,
+        description: "The server configuration is missing an application ID.")
+    }
+
+    if appIds.count > 1 {
+      log("Found more than one application ID in the server configuration. Using \(appId)")
+    }
+
+    return appId
+  }
+
+  /// Retrieves an ad unit ID from the provided mediation ad configuration.
+  ///
+  /// - Throws: `AdSurgeAdapterError.invalidAdConfiguration` if the configuration is missing an
+  ///   ad unit ID.
+  /// - Returns: An ad unit ID from the configuration.
+  static func adUnitID(
+    from config: MediationAdConfiguration
+  ) throws(AdSurgeAdapterError) -> String {
+    guard
+      let adUnitId = config.credentials.settings[
+        MediationConfigurationSettingKey.adUnitId.rawValue] as? String,
+      !adUnitId.isEmpty
+    else {
+      throw AdSurgeAdapterError(
+        errorCode: .invalidAdConfiguration,
+        description: "The ad configuration is missing an ad unit ID.")
+    }
+    return adUnitId
+  }
+
+  /// Retrieves a bid response from the provided mediation ad configuration.
+  ///
+  /// - Throws: `AdSurgeAdapterError.invalidAdConfiguration` if the configuration is missing a
+  ///   bid response.
+  /// - Returns: A bid response string from the configuration.
+  static func bidResponse(
+    from config: MediationAdConfiguration
+  ) throws(AdSurgeAdapterError) -> String {
+    guard let bidResponse = config.bidResponse, !bidResponse.isEmpty else {
+      throw AdSurgeAdapterError(
+        errorCode: .invalidAdConfiguration,
+        description: "The ad configuration is missing a bid response.")
+    }
+    return bidResponse
+  }
+
+  /// Evaluates age-restricted treatment based on `MobileAds.shared.requestConfiguration`.
+  ///
+  /// - Returns: `@(1)` if child or under age, `@(0)` if explicitly not child/under age, or `nil`
+  ///   if unspecified.
+  static func isAgeRestrictedUser() -> NSNumber? {
+    let requestConfiguration = MobileAds.shared.requestConfiguration
+    let isChild = requestConfiguration.tagForChildDirectedTreatment?.boolValue
+    let isUnderAge = requestConfiguration.tagForUnderAgeOfConsent?.boolValue
+    let ageRestrictedTreatment = requestConfiguration.ageRestrictedTreatment
+    if isChild == true || isUnderAge == true || ageRestrictedTreatment == .child {
+      return NSNumber(value: 1)
+    } else if isChild == false || isUnderAge == false {
+      return NSNumber(value: 0)
+    }
+    return nil
+  }
+
+}
+
+final class UncheckedSendable<T>: @unchecked Sendable {
+  let value: T
+
+  init(_ value: T) {
+    self.value = value
+  }
+}
+
+extension Error {
+  func toNSError() -> NSError {
+    if let adapterError = self as? AdSurgeAdapterError {
+      return adapterError.toNSError()
+    }
+    return self as NSError
+  }
 }

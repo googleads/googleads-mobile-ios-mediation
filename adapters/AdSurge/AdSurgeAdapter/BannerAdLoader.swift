@@ -14,27 +14,12 @@
 
 import Foundation
 import GoogleMobileAds
+import UIKit
 
 final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
-  /// The banner ad configuration.
   private let adConfiguration: MediationBannerAdConfiguration
-
-  /// The ad event delegate which is used to report banner related information to the Google
-  /// Mobile Ads SDK.
-  private weak var eventDelegate: MediationBannerAdEventDelegate?
-
-  /// The completion handler that needs to be called upon finishing loading an ad.
-  private var bannerAdLoadCompletionHandler: ((MediationBannerAd?, NSError?) -> Void)?
-
-  /// The queue for processing an ad load completion.
-  private let adLoadCompletionQueue: DispatchQueue
-
-  /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationBannerLoadCompletionHandler?
-
-  private let client: Client
-
   var view: UIView
 
   @MainActor
@@ -44,32 +29,18 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
-    self.adLoadCompletionQueue = DispatchQueue(
-      label: "com.google.mediationBannerAdLoadCompletionQueue")
     self.view = UIView()
-    self.client = ClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    guard let bidResponse = adConfiguration.bidResponse else {
-      handleLoadedAd(
-        nil,
-        error: AdSurgeAdapterError(
-          errorCode: .invalidAdConfiguration,
-          description: "The ad configuration is missing bid response."
-        ).toNSError())
-      return
-    }
-
-  }
-
-  private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      eventDelegate = adLoadCompletionHandler(ad, error)
-      self.adLoadCompletionHandler = nil
-    }
+    _ = adLoadCompletionHandler?(
+      nil,
+      AdSurgeAdapterError(
+        errorCode: .invalidAdConfiguration,
+        description: "Banner ad loading not yet supported."
+      ).toNSError())
+    adLoadCompletionHandler = nil
   }
 
 }

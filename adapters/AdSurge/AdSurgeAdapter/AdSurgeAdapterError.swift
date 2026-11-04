@@ -22,6 +22,12 @@ public final class AdSurgeAdapterError: Error {
 
     /// Invalid ad configuration for loading an ad.
     case invalidAdConfiguration = 102
+
+    /// The bidding signal collection request failed because an unsupported format was specified.
+    case invalidRTBRequestParameters = 103
+
+    /// Internal adapter error or partner SDK failure.
+    case internalError = 104
   }
 
   public static let domain = "com.google.mediation.adsurge"

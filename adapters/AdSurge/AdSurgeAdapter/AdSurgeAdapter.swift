@@ -26,8 +26,8 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
   /// The rewarded ad loader.
   private var rewardedAdLoader: RewardedAdLoader?
 
-  @objc static func setUpWith(
-    _ configuration: MediationServerConfiguration,
+  @objc static func setUp(
+    with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
     // TODO(b/529679379): Implement initialization in CL 3.

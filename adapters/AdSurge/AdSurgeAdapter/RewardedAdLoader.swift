@@ -14,26 +14,12 @@
 
 import Foundation
 import GoogleMobileAds
+import UIKit
 
-final class RewardedAdLoader: NSObject {
+final class RewardedAdLoader: NSObject, MediationRewardedAd, @unchecked Sendable {
 
-  /// The rewarded ad configuration.
   private let adConfiguration: MediationRewardedAdConfiguration
-
-  /// The ad event delegate which is used to report rewarded related information to the Google
-  /// Mobile Ads SDK.
-  private weak var eventDelegate: MediationRewardedAdEventDelegate?
-
-  /// The completion handler that needs to be called upon finishing loading an ad.
-  private var rewardedAdLoadCompletionHandler: ((MediationRewardedAd?, NSError?) -> Void)?
-
-  /// The queue for processing an ad load completion.
-  private let adLoadCompletionQueue: DispatchQueue
-
-  /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
-
-  private let client: Client
 
   init(
     adConfiguration: MediationRewardedAdConfiguration,
@@ -41,45 +27,19 @@ final class RewardedAdLoader: NSObject {
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
-    self.adLoadCompletionQueue = DispatchQueue(
-      label: "com.google.mediationRewardedAdLoadCompletionQueue")
-    self.client = ClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    guard let bidResponse = adConfiguration.bidResponse else {
-      handleLoadedAd(
-        nil,
-        error: AdSurgeAdapterError(
-          errorCode: .invalidAdConfiguration,
-          description: "The ad configuration is missing bid response."
-        ).toNSError())
-      return
-    }
-    client.loadRtbRewardedAd(bidResponse: bidResponse, delegate: self)
+    _ = adLoadCompletionHandler?(
+      nil,
+      AdSurgeAdapterError(
+        errorCode: .invalidAdConfiguration,
+        description: "Rewarded ad loading not yet supported."
+      ).toNSError())
+    adLoadCompletionHandler = nil
   }
 
-  private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      eventDelegate = adLoadCompletionHandler(ad, error)
-      self.adLoadCompletionHandler = nil
-    }
-  }
-
-}
-
-// MARK: - GADMediationRewardedAd
-
-extension RewardedAdLoader: MediationRewardedAd {
-
-  func present(from viewController: UIViewController) {
-    do {
-      try client.presentRewardedAd(from: viewController)
-    } catch let error {
-      eventDelegate?.didFailToPresentWithError(error.toNSError())
-    }
-  }
+  func present(from viewController: UIViewController) {}
 
 }

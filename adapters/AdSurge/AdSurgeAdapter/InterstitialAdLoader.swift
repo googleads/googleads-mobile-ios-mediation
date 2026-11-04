@@ -14,23 +14,12 @@
 
 import Foundation
 import GoogleMobileAds
+import UIKit
 
-final class InterstitialAdLoader: NSObject {
+final class InterstitialAdLoader: NSObject, MediationInterstitialAd, @unchecked Sendable {
 
-  /// The interstitial ad configuration.
   private let adConfiguration: MediationInterstitialAdConfiguration
-
-  /// The ad event delegate which is used to report interstitial related information to the
-  /// Google Mobile Ads SDK.
-  private weak var eventDelegate: MediationInterstitialAdEventDelegate?
-
-  /// The queue for processing an ad load completion.
-  private let adLoadCompletionQueue: DispatchQueue
-
-  /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
-
-  private let client: Client
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
@@ -38,45 +27,19 @@ final class InterstitialAdLoader: NSObject {
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
-    self.adLoadCompletionQueue = DispatchQueue(
-      label: "com.google.mediationInterstitialAdLoadCompletionQueue")
-    self.client = ClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    guard let bidResponse = adConfiguration.bidResponse else {
-      handleLoadedAd(
-        nil,
-        error: AdSurgeAdapterError(
-          errorCode: .invalidAdConfiguration,
-          description: "The ad configuration is missing bid response."
-        ).toNSError())
-      return
-    }
-    client.loadRtbInterstitial(bidResponse: bidResponse, delegate: self)
+    _ = adLoadCompletionHandler?(
+      nil,
+      AdSurgeAdapterError(
+        errorCode: .invalidAdConfiguration,
+        description: "Interstitial ad loading not yet supported."
+      ).toNSError())
+    adLoadCompletionHandler = nil
   }
 
-  private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      eventDelegate = adLoadCompletionHandler(ad, error)
-      self.adLoadCompletionHandler = nil
-    }
-  }
-
-}
-
-// MARK: - GADMediationInterstitialAd
-
-extension InterstitialAdLoader: MediationInterstitialAd {
-
-  func present(from viewController: UIViewController) {
-    do {
-      try client.presentInterstitial(from: viewController)
-    } catch let error {
-      eventDelegate?.didFailToPresentWithError(error.toNSError())
-    }
-  }
+  func present(from viewController: UIViewController) {}
 
 }
