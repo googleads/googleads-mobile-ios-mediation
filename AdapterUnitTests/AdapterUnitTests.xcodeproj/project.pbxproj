@@ -199,6 +199,8 @@
 		AD7D76C62DCBD9F7002C5511 /* VerveBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D76C52DCBD9F0002C5511 /* VerveBannerAdTests.swift */; };
 		AD7D77F82DCC09D2002C5511 /* VerveInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D77F72DCC09CD002C5511 /* VerveInterstitialAdTests.swift */; };
 		AD7D78542DCC1A03002C5511 /* VerveRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7D78532DCC19FE002C5511 /* VerveRewardedAdTests.swift */; };
+		AD8800012E7B5AD700E4420D /* AdSurgeAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4420C /* AdSurgeAdapterTests.swift */; };
+		AD8800012E7B5AD700E4420F /* FakeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4420E /* FakeClient.swift */; };
 		AD8800012E7B5AD700E44211 /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E44210 /* UtilTests.swift */; };
 		AD8800012E7B5AD700E44212 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD8800012E7B5AD700E4421A /* libAdSurgeAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E44215 /* libAdSurgeAdapter.a */; };
@@ -1761,6 +1763,8 @@
 		AD7D78532DCC19FE002C5511 /* VerveRewardedAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveRewardedAdTests.swift; sourceTree = "<group>"; };
 		AD8800012E7B5AD700E44202 /* AdSurgeAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdSurgeAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD8800012E7B5AD700E4420B /* AdSurgeAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdSurgeAdapterTests.xctestplan; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E4420C /* AdSurgeAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeAdapterTests.swift; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E4420E /* FakeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeClient.swift; sourceTree = "<group>"; };
 		AD8800012E7B5AD700E44210 /* UtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTests.swift; sourceTree = "<group>"; };
 		AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdSurgeAdapter.xcodeproj; path = ../adapters/AdSurgeAdapter/AdSurgeAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetNativeAdTests.m; sourceTree = "<group>"; };
@@ -3002,6 +3006,8 @@
 			isa = PBXGroup;
 			children = (
 				AD8800012E7B5AD700E4420B /* AdSurgeAdapterTests.xctestplan */,
+				AD8800012E7B5AD700E4420C /* AdSurgeAdapterTests.swift */,
+				AD8800012E7B5AD700E4420E /* FakeClient.swift */,
 				AD8800012E7B5AD700E44210 /* UtilTests.swift */,
 			);
 			path = AdSurgeAdapterTests;
@@ -5535,6 +5541,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD8800012E7B5AD700E4420D /* AdSurgeAdapterTests.swift in Sources */,
+				AD8800012E7B5AD700E4420F /* FakeClient.swift in Sources */,
 				AD8800012E7B5AD700E44211 /* UtilTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

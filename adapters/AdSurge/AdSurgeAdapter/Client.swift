@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import AdSurgeSDK
 import Foundation
+import GoogleMobileAds
 import UIKit
 
 /// Factory that creates Client.
@@ -22,10 +24,10 @@ final class ClientFactory {
 
   #if DEBUG
     /// This property will be returned by |createClient| function if set in Debug mode.
-    nonisolated(unsafe) static var debugClient: Client?
+    nonisolated(unsafe) static var debugClient: (any Client)?
   #endif
 
-  static func createClient() -> Client {
+  static func createClient() -> any Client {
     #if DEBUG
       return debugClient ?? ClientImpl()
     #else
@@ -35,10 +37,83 @@ final class ClientFactory {
 
 }
 
-protocol Client: NSObject {
+protocol Client: AnyObject, Sendable {
+
+  /// Sets user age restriction privacy status.
+  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?)
+
+  /// Initializes the AdSurge SDK with an application ID.
+  func initialize(with appId: String) async throws
+
+  /// Retrieves a bidder token from the AdSurge SDK.
+  func getBidderToken() async throws -> String
+
+  /// Returns the SDK version string.
+  func version() -> String
 
 }
 
-final class ClientImpl: NSObject, Client {
+final class ClientImpl: Client, @unchecked Sendable {
+
+  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?) {
+    if let ageRestrictedUser {
+      AdSurgePrivacyConfiguration.configuration().ageRestrictedUser = ageRestrictedUser
+    }
+  }
+
+  func initialize(with appId: String) async throws {
+    try await withCheckedThrowingContinuation {
+      (continuation: CheckedContinuation<Void, any Error>) in
+      let config = AdSurgeSDKConfig()
+      config.appId = appId
+      AdSurgeAdSdk.shared().initialize(with: config) { success, error in
+        if success {
+          continuation.resume()
+        } else {
+          let nsError: NSError
+          if let error {
+            nsError = Util.error(
+              withDomain: AdSurgeAdapterError.domain,
+              code: error.code.rawValue,
+              description: error.message)
+          } else {
+            nsError = AdSurgeAdapterError(
+              errorCode: .serverConfigurationMissingApplicationId,
+              description: "AdSurge SDK failed to initialize."
+            ).toNSError()
+          }
+          continuation.resume(throwing: nsError)
+        }
+      }
+    }
+  }
+
+  func getBidderToken() async throws -> String {
+    return try await withCheckedThrowingContinuation { continuation in
+      AdSurgeAdSdk.shared().getBidderToken { token, error in
+        if let token {
+          continuation.resume(returning: token)
+        } else {
+          let nsError: NSError
+          if let error {
+            nsError = Util.error(
+              withDomain: AdSurgeAdapterError.domain,
+              code: error.code.rawValue,
+              description: error.message)
+          } else {
+            nsError = AdSurgeAdapterError(
+              errorCode: .invalidRTBRequestParameters,
+              description: "Failed to retrieve bidder token."
+            ).toNSError()
+          }
+          continuation.resume(throwing: nsError)
+        }
+      }
+    }
+  }
+
+  func version() -> String {
+    return AdSurgeAdSdkVersion
+  }
 
 }

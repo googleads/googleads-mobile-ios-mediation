@@ -17,6 +17,8 @@ import GoogleMobileAds
 @objc(GADMediationAdapterAdSurge)
 final class AdSurgeAdapter: NSObject, RTBAdapter {
 
+  static let adapterVersionString = "2.0.1.0"
+
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
 
@@ -30,8 +32,25 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
-    // TODO(b/529679379): Implement initialization in CL 3.
-    completionHandler(nil)
+    let appId: String
+    do {
+      appId = try Util.applicationID(from: configuration)
+    } catch {
+      completionHandler(error.toNSError())
+      return
+    }
+    let ageRestricted = Util.isAgeRestrictedUser()
+    let completionBox = UncheckedSendable(completionHandler)
+    Task {
+      do {
+        let client = ClientFactory.createClient()
+        client.setAgeRestrictedUser(ageRestricted)
+        try await client.initialize(with: appId)
+        completionBox.value(nil)
+      } catch {
+        completionBox.value(error.toNSError())
+      }
+    }
   }
 
   @objc static func networkExtrasClass() -> (any AdNetworkExtras.Type)? {
@@ -39,18 +58,61 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
   }
 
   @objc static func adapterVersion() -> VersionNumber {
-    return VersionNumber(majorVersion: 1, minorVersion: 9, patchVersion: 20)
+    let adapterVersion = Self.adapterVersionString.components(separatedBy: ".").compactMap {
+      Int($0)
+    }
+    guard adapterVersion.count == 4 else {
+      return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    }
+    return VersionNumber(
+      majorVersion: adapterVersion[0],
+      minorVersion: adapterVersion[1],
+      patchVersion: adapterVersion[2] * 100 + adapterVersion[3]
+    )
   }
 
   @objc static func adSDKVersion() -> VersionNumber {
-    return VersionNumber(majorVersion: 1, minorVersion: 9, patchVersion: 2)
+    let adSDKVersion = ClientFactory.createClient().version().components(separatedBy: ".")
+      .compactMap {
+        Int($0)
+      }
+    guard adSDKVersion.count == 3 else {
+      return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    }
+    return VersionNumber(
+      majorVersion: adSDKVersion[0],
+      minorVersion: adSDKVersion[1],
+      patchVersion: adSDKVersion[2]
+    )
   }
 
   @objc func collectSignals(
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-    completionHandler("", nil)
+    guard let format = params.configuration.credentials.first?.format,
+      format == .banner || format == .interstitial || format == .rewarded
+    else {
+      completionHandler(
+        nil,
+        AdSurgeAdapterError(
+          errorCode: .invalidRTBRequestParameters,
+          description: "Requested format is not supported by AdSurge RTB adapter."
+        ).toNSError())
+      return
+    }
+    let ageRestricted = Util.isAgeRestrictedUser()
+    let completionBox = UncheckedSendable(completionHandler)
+    Task {
+      do {
+        let client = ClientFactory.createClient()
+        client.setAgeRestrictedUser(ageRestricted)
+        let signal = try await client.getBidderToken()
+        completionBox.value(signal, nil)
+      } catch {
+        completionBox.value(nil, error.toNSError())
+      }
+    }
   }
 
   @objc
