@@ -16,30 +16,84 @@ import Foundation
 import GoogleMobileAds
 import UIKit
 
-final class RewardedAdLoader: NSObject, MediationRewardedAd, @unchecked Sendable {
+final class RewardedAdLoader: NSObject, MediationRewardedAd, RewardedAdClientDelegate,
+  @unchecked Sendable
+{
 
   private let adConfiguration: MediationRewardedAdConfiguration
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
+  private weak var eventDelegate: MediationRewardedAdEventDelegate?
+  private let client: any Client
 
   init(
     adConfiguration: MediationRewardedAdConfiguration,
-    loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler
+    loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler,
+    client: any Client = ClientFactory.createClient()
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
+    self.client = client
     super.init()
   }
 
   func loadAd() {
-    _ = adLoadCompletionHandler?(
-      nil,
-      AdSurgeAdapterError(
-        errorCode: .invalidAdConfiguration,
-        description: "Rewarded ad loading not yet supported."
-      ).toNSError())
+    do {
+      let adUnitId = try Util.adUnitID(from: adConfiguration)
+      let bidResponse = try Util.bidResponse(from: adConfiguration)
+      client.loadRewardedAd(
+        for: adUnitId,
+        bidPayload: bidResponse,
+        delegate: self
+      )
+    } catch {
+      _ = adLoadCompletionHandler?(nil, error.toNSError())
+      adLoadCompletionHandler = nil
+    }
+  }
+
+  func present(from viewController: UIViewController) {
+    do {
+      try client.showRewardedAd(from: viewController)
+    } catch {
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    }
+  }
+
+  // MARK: - RewardedAdClientDelegate
+
+  func rewardedDidLoad() {
+    eventDelegate = adLoadCompletionHandler?(self, nil)
     adLoadCompletionHandler = nil
   }
 
-  func present(from viewController: UIViewController) {}
+  func rewardedDidFailToLoad(with error: any Error) {
+    _ = adLoadCompletionHandler?(nil, error.toNSError())
+    adLoadCompletionHandler = nil
+  }
+
+  func rewardedDidDisplay() {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func rewardedDidFailToDisplay(with error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error.toNSError())
+  }
+
+  func rewardedDidClick() {
+    eventDelegate?.reportClick()
+  }
+
+  func rewardedDidHide() {
+    eventDelegate?.willDismissFullScreenView()
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func rewardedDidRewardUser() {
+    eventDelegate?.didRewardUser()
+  }
+
+  func rewardedDidPayRevenue() {
+    eventDelegate?.reportImpression()
+  }
 
 }

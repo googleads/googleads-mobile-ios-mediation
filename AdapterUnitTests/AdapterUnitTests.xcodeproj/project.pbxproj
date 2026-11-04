@@ -206,6 +206,7 @@
 		AD8800012E7B5AD700E4421A /* libAdSurgeAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E44215 /* libAdSurgeAdapter.a */; };
 		AD8800012E7B5AD700E4421C /* AdSurgeBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4421B /* AdSurgeBannerAdTests.swift */; };
 		AD8800012E7B5AD700E4421E /* AdSurgeInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4421D /* AdSurgeInterstitialAdTests.swift */; };
+		AD8800012E7B5AD700E44220 /* AdSurgeRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8800012E7B5AD700E4421F /* AdSurgeRewardedAdTests.swift */; };
 		AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */; };
 		AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */; };
@@ -1771,6 +1772,7 @@
 		AD8800012E7B5AD700E44213 /* AdSurgeAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdSurgeAdapter.xcodeproj; path = ../adapters/AdSurgeAdapter/AdSurgeAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AD8800012E7B5AD700E4421B /* AdSurgeBannerAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeBannerAdTests.swift; sourceTree = "<group>"; };
 		AD8800012E7B5AD700E4421D /* AdSurgeInterstitialAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeInterstitialAdTests.swift; sourceTree = "<group>"; };
+		AD8800012E7B5AD700E4421F /* AdSurgeRewardedAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeRewardedAdTests.swift; sourceTree = "<group>"; };
 		AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetNativeAdTests.m; sourceTree = "<group>"; };
 		AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonAdapter.xcodeproj; path = ../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AmazonAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
@@ -3015,6 +3017,7 @@
 				AD8800012E7B5AD700E44210 /* UtilTests.swift */,
 				AD8800012E7B5AD700E4421B /* AdSurgeBannerAdTests.swift */,
 				AD8800012E7B5AD700E4421D /* AdSurgeInterstitialAdTests.swift */,
+				AD8800012E7B5AD700E4421F /* AdSurgeRewardedAdTests.swift */,
 			);
 			path = AdSurgeAdapterTests;
 			sourceTree = "<group>";
@@ -5552,6 +5555,7 @@
 				AD8800012E7B5AD700E44211 /* UtilTests.swift in Sources */,
 				AD8800012E7B5AD700E4421C /* AdSurgeBannerAdTests.swift in Sources */,
 				AD8800012E7B5AD700E4421E /* AdSurgeInterstitialAdTests.swift in Sources */,
+				AD8800012E7B5AD700E44220 /* AdSurgeRewardedAdTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

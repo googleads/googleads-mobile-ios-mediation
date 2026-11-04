@@ -85,6 +85,36 @@ protocol InterstitialAdClientDelegate: AnyObject, Sendable {
 
 }
 
+/// Delegate protocol for receiving rewarded ad callbacks from Client.
+protocol RewardedAdClientDelegate: AnyObject, Sendable {
+
+  /// Called when a rewarded ad loads successfully.
+  func rewardedDidLoad()
+
+  /// Called when a rewarded ad fails to load.
+  func rewardedDidFailToLoad(with error: any Error)
+
+  /// Called when a rewarded ad is presented on screen.
+  func rewardedDidDisplay()
+
+  /// Called when a rewarded ad fails to display, for example, when the user declines the AdSurge
+  /// consent page.
+  func rewardedDidFailToDisplay(with error: any Error)
+
+  /// Called when a rewarded ad is clicked.
+  func rewardedDidClick()
+
+  /// Called when a rewarded ad is hidden.
+  func rewardedDidHide()
+
+  /// Called when a rewarded ad grants a reward.
+  func rewardedDidRewardUser()
+
+  /// Called when AdSurge counts an impression for a rewarded ad.
+  func rewardedDidPayRevenue()
+
+}
+
 protocol Client: AnyObject, Sendable {
 
   /// Sets user age restriction privacy status.
@@ -121,6 +151,18 @@ protocol Client: AnyObject, Sendable {
   ///
   /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
   func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
+
+  /// Loads a rewarded ad from AdSurge.
+  func loadRewardedAd(
+    for adUnitId: String,
+    bidPayload: String,
+    delegate: any RewardedAdClientDelegate
+  )
+
+  /// Shows the loaded rewarded ad.
+  ///
+  /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
+  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
 
 }
 
@@ -221,6 +263,7 @@ final class ClientImpl: Client, @unchecked Sendable {
   }
 
   private var interstitialAd: AdSurgeInterstitialAd?
+  private var rewardedAd: AdSurgeRewardedAd?
 
   func loadInterstitialAd(
     for adUnitId: String,
@@ -251,10 +294,40 @@ final class ClientImpl: Client, @unchecked Sendable {
     interstitialAd.show(fromRootViewController: rootViewController)
   }
 
+  func loadRewardedAd(
+    for adUnitId: String,
+    bidPayload: String,
+    delegate: any RewardedAdClientDelegate
+  ) {
+    let ad = AdSurgeRewardedAd(adUnitIdentifier: adUnitId)
+    self.rewardedAd = ad
+    let bridge = RewardedDelegateBridge(delegate: delegate)
+    ad.delegate = bridge
+    objc_setAssociatedObject(
+      ad,
+      &rewardedBridgeAssociatedKey,
+      bridge,
+      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+    )
+    let config = AdSurgeAdConfig(adFormat: AdSurgeAdFormat.rewarded)
+    config.payload = bidPayload
+    ad.load(config)
+  }
+
+  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
+    guard let rewardedAd, rewardedAd.isValid else {
+      throw AdSurgeAdapterError(
+        errorCode: .adNotReadyForPresentation,
+        description: "AdSurge rewarded ad is not ready to be presented.")
+    }
+    rewardedAd.show(fromRootViewController: rootViewController)
+  }
+
 }
 
 nonisolated(unsafe) private var bannerBridgeAssociatedKey: UInt8 = 0
 nonisolated(unsafe) private var interstitialBridgeAssociatedKey: UInt8 = 0
+nonisolated(unsafe) private var rewardedBridgeAssociatedKey: UInt8 = 0
 
 private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @unchecked Sendable {
 
@@ -341,6 +414,62 @@ private final class InterstitialDelegateBridge: NSObject, AdSurgeInterstitialAdD
 
   func didPayRevenue(for ad: AdSurgeAd) {
     delegate?.interstitialDidPayRevenue()
+  }
+
+}
+
+private final class RewardedDelegateBridge: NSObject, AdSurgeRewardedAdDelegate,
+  @unchecked Sendable
+{
+
+  private weak var delegate: (any RewardedAdClientDelegate)?
+
+  init(delegate: any RewardedAdClientDelegate) {
+    self.delegate = delegate
+  }
+
+  func didLoad(_ ad: AdSurgeAd) {
+    delegate?.rewardedDidLoad()
+  }
+
+  func didFailToLoadAd(
+    forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
+  ) {
+    let nsError = Util.error(
+      withDomain: AdSurgeAdapterError.domain,
+      code: error.code.rawValue,
+      description: error.message
+    )
+    delegate?.rewardedDidFailToLoad(with: nsError)
+  }
+
+  func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
+    if let error {
+      let nsError = Util.error(
+        withDomain: AdSurgeAdapterError.domain,
+        code: error.code.rawValue,
+        description: error.message
+      )
+      delegate?.rewardedDidFailToDisplay(with: nsError)
+    } else {
+      delegate?.rewardedDidDisplay()
+    }
+  }
+
+  func didHide(_ ad: AdSurgeAd) {
+    delegate?.rewardedDidHide()
+  }
+
+  func didClick(_ ad: AdSurgeAd) {
+    delegate?.rewardedDidClick()
+  }
+
+  func didRewardUser(for ad: AdSurgeAd, with reward: AdSurgeReward) {
+    delegate?.rewardedDidRewardUser()
+  }
+
+  func didPayRevenue(for ad: AdSurgeAd) {
+    delegate?.rewardedDidPayRevenue()
   }
 
 }

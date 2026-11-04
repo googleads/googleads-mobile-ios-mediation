@@ -155,6 +155,67 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     interstitialDelegate?.interstitialDidPayRevenue()
   }
 
+  // MARK: - Rewarded Mock
+
+  var loadRewardedShouldSucceed: Bool = true
+  var loadedRewardedAdUnitId: String?
+  var loadedRewardedBidPayload: String?
+  weak var rewardedDelegate: (any RewardedAdClientDelegate)?
+  var showRewardedCount: Int = 0
+  var lastPresentedRewardedViewController: UIViewController?
+  var showRewardedError: AdSurgeAdapterError?
+
+  func loadRewardedAd(
+    for adUnitId: String,
+    bidPayload: String,
+    delegate: any RewardedAdClientDelegate
+  ) {
+    loadedRewardedAdUnitId = adUnitId
+    loadedRewardedBidPayload = bidPayload
+    rewardedDelegate = delegate
+    if loadRewardedShouldSucceed {
+      delegate.rewardedDidLoad()
+    } else {
+      let error = AdSurgeAdapterError(
+        errorCode: .internalError,
+        description: "Simulated rewarded load failure."
+      ).toNSError()
+      delegate.rewardedDidFailToLoad(with: error)
+    }
+  }
+
+  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
+    if let showRewardedError {
+      throw showRewardedError
+    }
+    showRewardedCount += 1
+    lastPresentedRewardedViewController = rootViewController
+  }
+
+  func simulateRewardedDisplay(error: (any Error)? = nil) {
+    if let error {
+      rewardedDelegate?.rewardedDidFailToDisplay(with: error)
+    } else {
+      rewardedDelegate?.rewardedDidDisplay()
+    }
+  }
+
+  func simulateRewardedClick() {
+    rewardedDelegate?.rewardedDidClick()
+  }
+
+  func simulateRewardedHide() {
+    rewardedDelegate?.rewardedDidHide()
+  }
+
+  func simulateRewardedRewardUser() {
+    rewardedDelegate?.rewardedDidRewardUser()
+  }
+
+  func simulateRewardedPayRevenue() {
+    rewardedDelegate?.rewardedDidPayRevenue()
+  }
+
   func reset() {
     ageRestrictedUser = nil
     applicationId = nil
@@ -174,6 +235,13 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     showInterstitialError = nil
     showInterstitialCount = 0
     lastPresentedViewController = nil
+    loadRewardedShouldSucceed = true
+    loadedRewardedAdUnitId = nil
+    loadedRewardedBidPayload = nil
+    rewardedDelegate = nil
+    showRewardedError = nil
+    showRewardedCount = 0
+    lastPresentedRewardedViewController = nil
   }
 
 }
