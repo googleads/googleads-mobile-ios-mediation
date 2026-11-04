@@ -108,6 +108,11 @@ these in mind when making adapter modifications:
    };
    ```
 
+1. Leave adapter version fields (`.podspec.json`, `Adapter.xcconfig`, and the
+   adapter version constant) untouched and add changelog entries under
+   `#### Next version` in `CHANGELOG.md`. Adapter version numbers are updated
+   automatically during the release process.
+
 # If you can't become a contributor
 
 If you can't become a contributor, but wish to share some code that illustrates
