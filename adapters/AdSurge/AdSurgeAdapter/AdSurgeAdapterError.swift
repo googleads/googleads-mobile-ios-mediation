@@ -28,6 +28,9 @@ public final class AdSurgeAdapterError: Error {
 
     /// Internal adapter error or partner SDK failure.
     case internalError = 104
+
+    /// The ad is not ready to be presented.
+    case adNotReadyForPresentation = 105
   }
 
   public static let domain = "com.google.mediation.adsurge"

@@ -98,6 +98,63 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     bannerDelegate?.bannerDidPayRevenue()
   }
 
+  // MARK: - Interstitial Mock
+
+  var loadInterstitialShouldSucceed: Bool = true
+  var loadedInterstitialAdUnitId: String?
+  var loadedInterstitialBidPayload: String?
+  weak var interstitialDelegate: (any InterstitialAdClientDelegate)?
+  var showInterstitialCount: Int = 0
+  var lastPresentedViewController: UIViewController?
+  var showInterstitialError: AdSurgeAdapterError?
+
+  func loadInterstitialAd(
+    for adUnitId: String,
+    bidPayload: String,
+    delegate: any InterstitialAdClientDelegate
+  ) {
+    loadedInterstitialAdUnitId = adUnitId
+    loadedInterstitialBidPayload = bidPayload
+    interstitialDelegate = delegate
+    if loadInterstitialShouldSucceed {
+      delegate.interstitialDidLoad()
+    } else {
+      let error = AdSurgeAdapterError(
+        errorCode: .internalError,
+        description: "Simulated interstitial load failure."
+      ).toNSError()
+      delegate.interstitialDidFailToLoad(with: error)
+    }
+  }
+
+  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
+    if let showInterstitialError {
+      throw showInterstitialError
+    }
+    showInterstitialCount += 1
+    lastPresentedViewController = rootViewController
+  }
+
+  func simulateInterstitialDisplay(error: (any Error)? = nil) {
+    if let error {
+      interstitialDelegate?.interstitialDidFailToDisplay(with: error)
+    } else {
+      interstitialDelegate?.interstitialDidDisplay()
+    }
+  }
+
+  func simulateInterstitialClick() {
+    interstitialDelegate?.interstitialDidClick()
+  }
+
+  func simulateInterstitialHide() {
+    interstitialDelegate?.interstitialDidHide()
+  }
+
+  func simulateInterstitialPayRevenue() {
+    interstitialDelegate?.interstitialDidPayRevenue()
+  }
+
   func reset() {
     ageRestrictedUser = nil
     applicationId = nil
@@ -110,6 +167,13 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     loadedBannerViewController = nil
     bannerDelegate = nil
     mockBannerView = nil
+    loadInterstitialShouldSucceed = true
+    loadedInterstitialAdUnitId = nil
+    loadedInterstitialBidPayload = nil
+    interstitialDelegate = nil
+    showInterstitialError = nil
+    showInterstitialCount = 0
+    lastPresentedViewController = nil
   }
 
 }

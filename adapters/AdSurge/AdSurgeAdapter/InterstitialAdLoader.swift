@@ -16,30 +16,80 @@ import Foundation
 import GoogleMobileAds
 import UIKit
 
-final class InterstitialAdLoader: NSObject, MediationInterstitialAd, @unchecked Sendable {
+final class InterstitialAdLoader: NSObject, MediationInterstitialAd, InterstitialAdClientDelegate,
+  @unchecked Sendable
+{
 
   private let adConfiguration: MediationInterstitialAdConfiguration
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
+  private weak var eventDelegate: MediationInterstitialAdEventDelegate?
+  private let client: any Client
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
-    loadCompletionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
+    loadCompletionHandler: @escaping GADMediationInterstitialLoadCompletionHandler,
+    client: any Client = ClientFactory.createClient()
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
+    self.client = client
     super.init()
   }
 
   func loadAd() {
-    _ = adLoadCompletionHandler?(
-      nil,
-      AdSurgeAdapterError(
-        errorCode: .invalidAdConfiguration,
-        description: "Interstitial ad loading not yet supported."
-      ).toNSError())
+    do {
+      let adUnitId = try Util.adUnitID(from: adConfiguration)
+      let bidResponse = try Util.bidResponse(from: adConfiguration)
+      client.loadInterstitialAd(
+        for: adUnitId,
+        bidPayload: bidResponse,
+        delegate: self
+      )
+    } catch {
+      _ = adLoadCompletionHandler?(nil, error.toNSError())
+      adLoadCompletionHandler = nil
+    }
+  }
+
+  func present(from viewController: UIViewController) {
+    do {
+      try client.showInterstitialAd(from: viewController)
+    } catch {
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    }
+  }
+
+  // MARK: - InterstitialAdClientDelegate
+
+  func interstitialDidLoad() {
+    eventDelegate = adLoadCompletionHandler?(self, nil)
     adLoadCompletionHandler = nil
   }
 
-  func present(from viewController: UIViewController) {}
+  func interstitialDidFailToLoad(with error: any Error) {
+    _ = adLoadCompletionHandler?(nil, error.toNSError())
+    adLoadCompletionHandler = nil
+  }
+
+  func interstitialDidDisplay() {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func interstitialDidFailToDisplay(with error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error.toNSError())
+  }
+
+  func interstitialDidClick() {
+    eventDelegate?.reportClick()
+  }
+
+  func interstitialDidHide() {
+    eventDelegate?.willDismissFullScreenView()
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func interstitialDidPayRevenue() {
+    eventDelegate?.reportImpression()
+  }
 
 }

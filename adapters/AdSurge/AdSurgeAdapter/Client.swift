@@ -58,6 +58,33 @@ protocol BannerAdClientDelegate: AnyObject, Sendable {
 
 }
 
+/// Delegate protocol for interstitial ad lifecycle events from the AdSurge client.
+protocol InterstitialAdClientDelegate: AnyObject, Sendable {
+
+  /// Called when an interstitial ad has been successfully loaded.
+  func interstitialDidLoad()
+
+  /// Called when an interstitial ad fails to load.
+  func interstitialDidFailToLoad(with error: any Error)
+
+  /// Called when an interstitial ad is presented on screen.
+  func interstitialDidDisplay()
+
+  /// Called when an interstitial ad fails to display, for example, when the user declines the
+  /// AdSurge consent page.
+  func interstitialDidFailToDisplay(with error: any Error)
+
+  /// Called when an interstitial ad is clicked.
+  func interstitialDidClick()
+
+  /// Called when an interstitial ad is hidden.
+  func interstitialDidHide()
+
+  /// Called when AdSurge counts an impression for an interstitial ad.
+  func interstitialDidPayRevenue()
+
+}
+
 protocol Client: AnyObject, Sendable {
 
   /// Sets user age restriction privacy status.
@@ -82,6 +109,18 @@ protocol Client: AnyObject, Sendable {
     viewController: UIViewController?,
     delegate: any BannerAdClientDelegate
   )
+
+  /// Loads an interstitial ad from AdSurge.
+  func loadInterstitialAd(
+    for adUnitId: String,
+    bidPayload: String,
+    delegate: any InterstitialAdClientDelegate
+  )
+
+  /// Shows the loaded interstitial ad.
+  ///
+  /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
+  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
 
 }
 
@@ -181,9 +220,41 @@ final class ClientImpl: Client, @unchecked Sendable {
     banner.loadAd(config)
   }
 
+  private var interstitialAd: AdSurgeInterstitialAd?
+
+  func loadInterstitialAd(
+    for adUnitId: String,
+    bidPayload: String,
+    delegate: any InterstitialAdClientDelegate
+  ) {
+    let ad = AdSurgeInterstitialAd(adUnitIdentifier: adUnitId)
+    self.interstitialAd = ad
+    let bridge = InterstitialDelegateBridge(delegate: delegate)
+    ad.delegate = bridge
+    objc_setAssociatedObject(
+      ad,
+      &interstitialBridgeAssociatedKey,
+      bridge,
+      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+    )
+    let config = AdSurgeAdConfig(adFormat: AdSurgeAdFormat.interstitial)
+    config.payload = bidPayload
+    ad.load(config)
+  }
+
+  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
+    guard let interstitialAd, interstitialAd.isValid else {
+      throw AdSurgeAdapterError(
+        errorCode: .adNotReadyForPresentation,
+        description: "AdSurge interstitial ad is not ready to be presented.")
+    }
+    interstitialAd.show(fromRootViewController: rootViewController)
+  }
+
 }
 
 nonisolated(unsafe) private var bannerBridgeAssociatedKey: UInt8 = 0
+nonisolated(unsafe) private var interstitialBridgeAssociatedKey: UInt8 = 0
 
 private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @unchecked Sendable {
 
@@ -218,6 +289,58 @@ private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @un
 
   func didPayRevenue(for ad: AdSurgeAd) {
     delegate?.bannerDidPayRevenue()
+  }
+
+}
+
+private final class InterstitialDelegateBridge: NSObject, AdSurgeInterstitialAdDelegate,
+  @unchecked Sendable
+{
+
+  private weak var delegate: (any InterstitialAdClientDelegate)?
+
+  init(delegate: any InterstitialAdClientDelegate) {
+    self.delegate = delegate
+  }
+
+  func didLoad(_ ad: AdSurgeAd) {
+    delegate?.interstitialDidLoad()
+  }
+
+  func didFailToLoadAd(
+    forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
+  ) {
+    let nsError = Util.error(
+      withDomain: AdSurgeAdapterError.domain,
+      code: error.code.rawValue,
+      description: error.message
+    )
+    delegate?.interstitialDidFailToLoad(with: nsError)
+  }
+
+  func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
+    if let error {
+      let nsError = Util.error(
+        withDomain: AdSurgeAdapterError.domain,
+        code: error.code.rawValue,
+        description: error.message
+      )
+      delegate?.interstitialDidFailToDisplay(with: nsError)
+    } else {
+      delegate?.interstitialDidDisplay()
+    }
+  }
+
+  func didHide(_ ad: AdSurgeAd) {
+    delegate?.interstitialDidHide()
+  }
+
+  func didClick(_ ad: AdSurgeAd) {
+    delegate?.interstitialDidClick()
+  }
+
+  func didPayRevenue(for ad: AdSurgeAd) {
+    delegate?.interstitialDidPayRevenue()
   }
 
 }
