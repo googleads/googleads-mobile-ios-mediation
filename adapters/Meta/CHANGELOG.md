@@ -156,6 +156,7 @@ Built and tested with:
 
 #### [Version 6.12.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.12.0.0.zip)
 - Removed waterfall support from adapter.
+- Removed error code `102` (`GADFBErrorBannerSizeMismatch`).
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
 - Verified compatibility with Meta Audience Network SDK 6.12.0.
