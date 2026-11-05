@@ -185,13 +185,10 @@ final class ClientImpl: Client, @unchecked Sendable {
         } else {
           let nsError: NSError
           if let error {
-            nsError = Util.error(
-              withDomain: AdSurgeAdapterError.domain,
-              code: error.code.rawValue,
-              description: error.message)
+            nsError = error.toSDKNSError()
           } else {
             nsError = AdSurgeAdapterError(
-              errorCode: .serverConfigurationMissingApplicationId,
+              errorCode: .internalError,
               description: "AdSurge SDK failed to initialize."
             ).toNSError()
           }
@@ -209,13 +206,10 @@ final class ClientImpl: Client, @unchecked Sendable {
         } else {
           let nsError: NSError
           if let error {
-            nsError = Util.error(
-              withDomain: AdSurgeAdapterError.domain,
-              code: error.code.rawValue,
-              description: error.message)
+            nsError = error.toSDKNSError()
           } else {
             nsError = AdSurgeAdapterError(
-              errorCode: .invalidRTBRequestParameters,
+              errorCode: .internalError,
               description: "Failed to retrieve bidder token."
             ).toNSError()
           }
@@ -344,12 +338,7 @@ private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @un
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    let nsError = Util.error(
-      withDomain: AdSurgeAdapterError.domain,
-      code: error.code.rawValue,
-      description: error.message
-    )
-    delegate?.bannerDidFailToLoad(with: nsError)
+    delegate?.bannerDidFailToLoad(with: error.toSDKNSError())
   }
 
   func didHide(_ ad: AdSurgeAd) {
@@ -383,22 +372,12 @@ private final class InterstitialDelegateBridge: NSObject, AdSurgeInterstitialAdD
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    let nsError = Util.error(
-      withDomain: AdSurgeAdapterError.domain,
-      code: error.code.rawValue,
-      description: error.message
-    )
-    delegate?.interstitialDidFailToLoad(with: nsError)
+    delegate?.interstitialDidFailToLoad(with: error.toSDKNSError())
   }
 
   func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
     if let error {
-      let nsError = Util.error(
-        withDomain: AdSurgeAdapterError.domain,
-        code: error.code.rawValue,
-        description: error.message
-      )
-      delegate?.interstitialDidFailToDisplay(with: nsError)
+      delegate?.interstitialDidFailToDisplay(with: error.toSDKNSError())
     } else {
       delegate?.interstitialDidDisplay()
     }
@@ -435,22 +414,12 @@ private final class RewardedDelegateBridge: NSObject, AdSurgeRewardedAdDelegate,
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    let nsError = Util.error(
-      withDomain: AdSurgeAdapterError.domain,
-      code: error.code.rawValue,
-      description: error.message
-    )
-    delegate?.rewardedDidFailToLoad(with: nsError)
+    delegate?.rewardedDidFailToLoad(with: error.toSDKNSError())
   }
 
   func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
     if let error {
-      let nsError = Util.error(
-        withDomain: AdSurgeAdapterError.domain,
-        code: error.code.rawValue,
-        description: error.message
-      )
-      delegate?.rewardedDidFailToDisplay(with: nsError)
+      delegate?.rewardedDidFailToDisplay(with: error.toSDKNSError())
     } else {
       delegate?.rewardedDidDisplay()
     }
@@ -470,6 +439,16 @@ private final class RewardedDelegateBridge: NSObject, AdSurgeRewardedAdDelegate,
 
   func didPayRevenue(for ad: AdSurgeAd) {
     delegate?.rewardedDidPayRevenue()
+  }
+
+}
+
+extension AdSurgeError {
+
+  /// Converts an error reported by the AdSurge SDK into an `NSError` in the AdSurge SDK error
+  /// domain, keeping the SDK's own error code and message.
+  fileprivate func toSDKNSError() -> NSError {
+    return Util.error(withDomain: Util.sdkErrorDomain, code: code.rawValue, description: message)
   }
 
 }
