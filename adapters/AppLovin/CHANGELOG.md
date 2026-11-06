@@ -109,6 +109,7 @@ Built and tested with:
 - Prevented multiple initializations of AppLovin SDK when multiple AppLovin SDK keys are provided.
 - Deprecated the `muteAudio` property, use `GADMobileAds.sharedInstance.applicationMuted` instead.
 - Enabled loading of a second ad for an ad unit after the first ad for that ad unit has loaded even if the first ad hasn't been shown yet.
+- Removed error code `111` (`GADMAdapterAppLovinErrorNilAppLovinSDK`).
 
 Built and tested with:
 - Google Mobile Ads SDK version 11.13.0.
@@ -581,6 +582,7 @@ Built and tested with:
 - Verified compatibility with AppLovin SDK 6.14.10.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 - Added the `GADMediationAdapterAppLovin.SDKSettings` property. Publishers may now configure AppLovin SDK settings through this API.
+- Removed error code `110` (`GADMAdapterAppLovinErrorZeroAdsLoaded`).
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.69.0.
@@ -648,6 +650,7 @@ Built and tested with:
 #### [Version 6.13.4.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-6.13.4.1.zip)
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 - Removed support for 300x250 medium rectangle ads and native ads.
+- Removed error code `109` (`GADMAdapterAppLovinErrorMissingNativeAssets`).
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.65.0.
