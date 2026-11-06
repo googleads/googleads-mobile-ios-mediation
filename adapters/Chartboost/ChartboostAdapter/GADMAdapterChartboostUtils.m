@@ -66,6 +66,15 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
       adConfiguration.credentials.settings[[GADMAdapterChartboostConstants adLocation]]);
 }
 
+NSString *_Nullable GADMAdapterChartboostTrimmedCredential(
+    NSDictionary<NSString *, id> *_Nullable settings, NSString *_Nonnull key) {
+  id value = settings[key];
+  if (![value isKindOfClass:[NSString class]]) {
+    return nil;
+  }
+  return [value stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+}
+
 NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
   NSString *adLocation =
       [string stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
@@ -192,9 +201,10 @@ GADMAdapterChartboostConsentResult GADMAdapterChartboostHasACConsent(NSInteger v
 
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  GADAdSize halfPageAdSize = GADAdSizeFromCGSize(CGSizeMake(300, 600));
   NSArray *potentials = @[
     NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard)
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(halfPageAdSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
@@ -204,6 +214,8 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     return CHBBannerSizeMedium;
   } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
     return CHBBannerSizeLeaderboard;
+  } else if (GADAdSizeEqualToSize(closestSize, halfPageAdSize)) {
+    return CHBBannerSizeHalfPage;
   }
   if (error) {
     NSString *description =
@@ -225,7 +237,7 @@ void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+  GADAgeRestrictedTreatment ageRestrictedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
   if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
@@ -234,4 +246,54 @@ void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
   } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:false]];
   }
+}
+
+CHBCCPADataUseConsent *_Nullable GADMAdapterChartboostUSPrivacyConsent(
+    NSUserDefaults *_Nonnull userDefaults) {
+  id usPrivacyValue = [userDefaults objectForKey:@"IABUSPrivacy_String"];
+  if (!usPrivacyValue) {
+    return nil;
+  }
+
+  if (![usPrivacyValue isKindOfClass:[NSString class]]) {
+    NSLog(@"Could not parse IABUSPrivacy_String as a string. Did your CMP write it correctly?");
+    return nil;
+  }
+
+  NSString *usPrivacyString = usPrivacyValue;
+  if (!usPrivacyString.length) {
+    return nil;
+  }
+
+  // The US Privacy String is 4 characters: spec version, notice given, opted out of sale, and
+  // limited service provider agreement. Only the spec version and opt-out-of-sale are used.
+  if (usPrivacyString.length != 4) {
+    NSLog(@"Ignoring an IABUSPrivacy_String of length %lu. Expected 4 characters. Did your CMP "
+          @"write it correctly?",
+          (unsigned long)usPrivacyString.length);
+    return nil;
+  }
+
+  unichar version = [usPrivacyString characterAtIndex:0];
+  if (version != '1') {
+    NSLog(@"Ignoring an IABUSPrivacy_String on unsupported spec version %C. This adapter only "
+          @"understands version 1.",
+          version);
+    return nil;
+  }
+
+  unichar optOutOfSale = [usPrivacyString characterAtIndex:2];
+  if (optOutOfSale == 'Y') {
+    return [CHBCCPADataUseConsent ccpaConsent:CHBCCPAConsentOptOutSale];
+  }
+  if (optOutOfSale == 'N') {
+    return [CHBCCPADataUseConsent ccpaConsent:CHBCCPAConsentOptInSale];
+  }
+  // '-' means CCPA does not apply, so send no signal without logging.
+  if (optOutOfSale != '-') {
+    NSLog(@"Ignoring an IABUSPrivacy_String with unrecognized opt-out-of-sale value %C. Did your "
+          @"CMP write it correctly?",
+          optOutOfSale);
+  }
+  return nil;
 }
