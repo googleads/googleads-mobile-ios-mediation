@@ -360,8 +360,8 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [GADMediationAdapterChartboost
       setUpWithConfiguration:configuration
            completionHandler:^(NSError *_Nullable error) {
-             XCTAssertEqualObjects(error.domain, [GADMAdapterChartboostConstants errorDomain]);
-             XCTAssertEqual(error.code, GADMAdapterChartboostErrorInitializationFailure);
+             XCTAssertEqualObjects(error.domain, @"test_domain");
+             XCTAssertEqual(error.code, 1);
              [setUpExpectation fulfill];
            }];
 

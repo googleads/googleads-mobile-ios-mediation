@@ -98,14 +98,10 @@
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
                   completion:^(CHBStartError *cbError) {
-                    NSError *error = nil;
                     if (cbError) {
-                      error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK failed to initialize.");
                       NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
                     }
-                    completionHandler(error);
+                    completionHandler(cbError);
                   }];
 }
 

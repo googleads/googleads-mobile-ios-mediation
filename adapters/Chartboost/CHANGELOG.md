@@ -1,5 +1,12 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next Version
+
+- Updated the adapter to report the Chartboost SDK's error code and error domain
+  when the Chartboost SDK fails to initialize instead of reporting the
+  adapter-defined error code 102 and adapter-defined error domain
+  "com.google.mediation.chartboost".
+
 #### [Version 9.14.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.14.2.0.zip)
 - Verified compatibility with Chartboost SDK version 9.14.2.
 
