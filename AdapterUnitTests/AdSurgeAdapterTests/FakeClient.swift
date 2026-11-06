@@ -34,7 +34,7 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     self.applicationId = appId
     guard initializeShouldSucceed else {
       throw AdSurgeAdapterError(
-        errorCode: .serverConfigurationMissingApplicationId,
+        errorCode: .internalError,
         description: "Fake initialization failed.")
     }
   }
