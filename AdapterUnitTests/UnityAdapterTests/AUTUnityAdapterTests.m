@@ -383,6 +383,51 @@
   [unityAdsMock stopMocking];
 }
 
+- (void)testSignalCollectionWritesMediationMetaDataBeforeGetToken {
+  __block BOOL metaDataCommitted = NO;
+  id metaDataMock = OCMClassMock([UADSMediationMetaData class]);
+  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
+  OCMExpect([metaDataMock setName:GADMAdapterUnityMediationNetworkName]);
+  OCMExpect([metaDataMock setVersion:OCMOCK_ANY]);
+  OCMExpect([metaDataMock set:@"adapter_version" value:GADMAdapterUnityVersion]);
+  OCMExpect([metaDataMock commit]).andDo(^(NSInvocation *invocation) {
+    metaDataCommitted = YES;
+  });
+
+  id unityAdsMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        XCTAssertTrue(metaDataCommitted);
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"token");
+      });
+
+  GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatBanner;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(error);
+                         XCTAssertEqualObjects(signals, @"token");
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+  OCMVerifyAll(metaDataMock);
+  [metaDataMock stopMocking];
+  [unityAdsMock stopMocking];
+}
+
 #pragma mark - Privacy Consent Tests
 
 - (void)testSetUpCredentialsUnknownACConsent {
