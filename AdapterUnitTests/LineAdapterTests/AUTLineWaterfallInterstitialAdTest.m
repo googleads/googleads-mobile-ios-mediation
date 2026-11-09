@@ -49,12 +49,6 @@ static NSString *const kTestApplicationID = @"123";
   _adapter = [[GADMediationAdapterLine alloc] init];
 
   _interstitialMock = OCMClassMock([FADInterstitial class]);
-  OCMStub([_interstitialMock alloc]).andDo(^(NSInvocation *invocation) {
-    id mock = self->_interstitialMock;
-    CFRetain((__bridge CFTypeRef)mock);
-    [invocation setReturnValue:&mock];
-  });
-  OCMStub([_interstitialMock initWithSlotId:kTestSlotID]).andReturn(_interstitialMock);
 }
 
 - (void)tearDown {
@@ -71,13 +65,16 @@ static NSString *const kTestApplicationID = @"123";
     loadInterstitialAdWithExtra:(nullable GADMediationAdapterLineExtras *)extras
              expectSoundEnabled:(BOOL)soundEnabled {
   // Mock FiveAd SDK.
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_interstitialMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
-  OCMExpect([_interstitialMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAdDidLoad:self->_interstitialMock];
-  });
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:kTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+
+  OCMExpect([_interstitialMock
+      setEventListener:[OCMArg checkWithBlock:^BOOL(id obj) {
+        return [obj conformsToProtocol:@protocol(FADInterstitialEventListener)];
+      }]]);
   OCMExpect([_interstitialMock enableSound:soundEnabled]);
 
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -87,7 +84,16 @@ static NSString *const kTestApplicationID = @"123";
                                                  [config.appId isEqualToString:kTestApplicationID]);
                                              return YES;
                                            }]
-                                                    outError:[OCMArg anyObjectRef]]));
+                                                    outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadInterstitialAdWithConfig:slotConfigMock
+                                           withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(
+            FADInterstitial *_Nullable interstitialAd, NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(self->_interstitialMock, nil);
+      });
 
   // Test loading an interstitial ad.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -103,7 +109,9 @@ static NSString *const kTestApplicationID = @"123";
       AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_interstitialMock);
+  OCMVerifyAll(slotConfigMock);
   OCMVerifyAll(adLoaderClassMock);
+  [slotConfigMock stopMocking];
   [adLoaderClassMock stopMocking];
 
   return delegate;
@@ -150,10 +158,12 @@ static NSString *const kTestApplicationID = @"123";
 }
 
 - (void)testLoadInterstitialAdFailureForMissingSlotID {
-  OCMReject([_interstitialMock loadAdAsync]);
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMReject([adLoaderClassMock loadInterstitialAdWithConfig:OCMOCK_ANY
+                                           withLoadCallback:OCMOCK_ANY]);
 
   // Test missing slot ID by omitting slot id from credential settings.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -168,22 +178,26 @@ static NSString *const kTestApplicationID = @"123";
                                  code:GADMediationAdapterLineErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
-  OCMVerifyAll(_interstitialMock);
+  OCMVerifyAll(adLoaderClassMock);
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testLoadInterstitialAdFailureForFiveAdSDKFailedToReceiveAd {
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_interstitialMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
   FADErrorCode code = kFADErrorCodeNoAd;
-  OCMExpect([_interstitialMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAd:self->_interstitialMock didFailedToReceiveAdWithError:code];
-  });
+  NSError *fiveAdError = [NSError errorWithDomain:@"com.five_corp.ad.error" code:code userInfo:nil];
+
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadInterstitialAdWithConfig:OCMOCK_ANY
+                                           withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(
+            FADInterstitial *_Nullable interstitialAd, NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil, fiveAdError);
+      });
 
   // Test fail to receive ad from FiveAd SDK.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -198,7 +212,7 @@ static NSString *const kTestApplicationID = @"123";
                                                       code:code
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
-  OCMVerifyAll(_interstitialMock);
+  OCMVerifyAll(adLoaderClassMock);
   [adLoaderClassMock stopMocking];
 }
 

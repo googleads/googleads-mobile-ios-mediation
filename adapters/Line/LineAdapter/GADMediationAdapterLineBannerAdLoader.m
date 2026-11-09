@@ -91,20 +91,58 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
 }
 
 - (void)loadWaterfallAd {
-  NSError *error;
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
-  if (error) {
+  NSError *error = nil;
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  if (error || !adLoader) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];
     return;
   }
 
-  _bannerAd = [[FADAdViewCustomLayout alloc] initWithSlotId:slotID
-                                                      width:_requestedBannerSize.size.width];
-  [_bannerAd setLoadDelegate:self];
-  [_bannerAd setEventListener:self];
-  [_bannerAd enableSound:GADMediationAdapterLineShouldEnableAudio(_adConfiguration.extras)];
+  FADAdSlotConfig *slotConfig =
+      GADMediationAdapterLineSlotConfig(_adConfiguration.credentials, &error);
+  if (error || !slotConfig) {
+    [self callCompletionHandlerIfNeededWithAd:nil error:error];
+    return;
+  }
+
   GADMediationAdapterLineLog(@"Start loading a banner ad from FiveAd SDK.");
-  [_bannerAd loadAdAsync];
+  GADMediationAdapterLineBannerAdLoader *__weak weakSelf = self;
+  [adLoader
+      loadBannerAdWithConfig:slotConfig
+            withInitialWidth:_requestedBannerSize.size.width
+            withLoadCallback:^(FADAdViewCustomLayout *_Nullable customLayout,
+                               NSError *_Nullable adLoadError) {
+              GADMediationAdapterLineBannerAdLoader *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
+
+              if (adLoadError) {
+                GADMediationAdapterLineLog(
+                    @"FiveAd SDK failed to load a banner ad. The FiveAd error code: %ld.",
+                    adLoadError.code);
+                NSError *loadError =
+                    GADMediationAdapterLineErrorWithFiveAdErrorCode(adLoadError.code);
+                [strongSelf callCompletionHandlerIfNeededWithAd:nil error:loadError];
+                return;
+              }
+
+              // Since the FiveAd SDK does not allow the caller to specify the height at the request
+              // point, the loaded banner's size must be verified against the requested ad size.
+              NSError *verifyError = GADMediationAdapterLineVerifyLoadedBannerSize(
+                  customLayout, strongSelf->_requestedBannerSize);
+              if (verifyError) {
+                [strongSelf callCompletionHandlerIfNeededWithAd:nil error:verifyError];
+                return;
+              }
+
+              [customLayout setEventListener:strongSelf];
+              [customLayout enableSound:GADMediationAdapterLineShouldEnableAudio(
+                                            strongSelf->_adConfiguration.extras)];
+              strongSelf->_bannerAd = customLayout;
+              GADMediationAdapterLineLog(@"FiveAd SDK loaded a banner ad.");
+              [strongSelf callCompletionHandlerIfNeededWithAd:strongSelf error:nil];
+            }];
 }
 
 - (void)loadBiddingAd {
@@ -179,31 +217,6 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
 
 - (UIView *)view {
   return _bannerAd;
-}
-
-#pragma mark - FADLoadDelegate (for waterfall banner ad)
-
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad {
-  if (!_isBiddingAd) {
-    // Since the FiveAd SDK does not allow the caller to specify the height at the request point,
-    // the loaded banner's size must be verified against the requested ad size.
-    FADAdViewCustomLayout *bannerAd = (FADAdViewCustomLayout *)ad;
-    NSError *error = GADMediationAdapterLineVerifyLoadedBannerSize(bannerAd, _requestedBannerSize);
-    if (error) {
-      [self callCompletionHandlerIfNeededWithAd:nil error:error];
-      return;
-    }
-  }
-
-  GADMediationAdapterLineLog(@"FiveAd SDK loaded a banner ad.");
-  [self callCompletionHandlerIfNeededWithAd:self error:nil];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode {
-  GADMediationAdapterLineLog(@"FiveAd SDK failed to load a banner ad. The FiveAd error code: %ld.",
-                             errorCode);
-  NSError *error = GADMediationAdapterLineErrorWithFiveAdErrorCode(errorCode);
-  [self callCompletionHandlerIfNeededWithAd:nil error:error];
 }
 
 #pragma mark - FADCustomLayoutEventListener

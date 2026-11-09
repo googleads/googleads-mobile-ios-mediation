@@ -117,21 +117,47 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
 }
 
 - (void)loadWaterfallAdWithSoundEnabled:(BOOL)soundEnabled {
-  NSError *error;
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
-  if (error) {
+  NSError *error = nil;
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  if (error || !adLoader) {
+    [self callCompletionHandlerIfNeededWithAd:nil error:error];
+    return;
+  }
+
+  FADAdSlotConfig *slotConfig =
+      GADMediationAdapterLineSlotConfig(_adConfiguration.credentials, &error);
+  if (error || !slotConfig) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];
     return;
   }
 
   GADMediationAdapterLineExtras *extras = (GADMediationAdapterLineExtras *)_adConfiguration.extras;
-  _nativeAd = [[FADNative alloc] initWithSlotId:slotID videoViewWidth:extras.nativeAdVideoWidth];
-  [_nativeAd setLoadDelegate:self];
-  [_nativeAd setEventListener:self];
-  [_nativeAd enableSound:soundEnabled];
-
+  GADMediationAdapterLineNativeAdLoader *__weak weakSelf = self;
   GADMediationAdapterLineLog(@"Start loading a native ad from FiveAd SDK.");
-  [_nativeAd loadAdAsync];
+  [adLoader
+      loadNativeAdWithConfig:slotConfig
+            withInitialWidth:extras.nativeAdVideoWidth
+            withLoadCallback:^(FADNative *_Nullable nativeAd, NSError *_Nullable adLoadError) {
+              GADMediationAdapterLineNativeAdLoader *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
+
+              if (adLoadError) {
+                GADMediationAdapterLineLog(
+                    @"FiveAd SDK failed to load a native ad. The FiveAd error code: %ld.",
+                    adLoadError.code);
+                NSError *loadError =
+                    GADMediationAdapterLineErrorWithFiveAdErrorCode(adLoadError.code);
+                [strongSelf callCompletionHandlerIfNeededWithAd:nil error:loadError];
+                return;
+              }
+
+              [nativeAd setEventListener:strongSelf];
+              [nativeAd enableSound:soundEnabled];
+              strongSelf->_nativeAd = nativeAd;
+              [strongSelf handleLoadedNativeAd];
+            }];
 }
 
 - (void)loadBiddingAdWithSoundEnabled:(BOOL)soundEnabled {
@@ -179,7 +205,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
                [nativeAd setEventListener:strongSelf];
                [nativeAd enableSound:soundEnabled];
                strongSelf->_nativeAd = nativeAd;
-               [strongSelf fiveAdDidLoad:strongSelf->_nativeAd];
+               [strongSelf handleLoadedNativeAd];
              }];
 }
 
@@ -288,9 +314,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
   _nativeAdLoadCompletionHandler = nil;
 }
 
-#pragma mark - FADLoadDelegate
-
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad {
+- (void)handleLoadedNativeAd {
   GADMediationAdapterLineLog(@"FiveAd SDK loaded a native ad.");
 
   if (_shouldLoadAdImages) {
@@ -301,13 +325,6 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
   }
 
   [self callCompletionHandlerIfNeededWithAd:self error:nil];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode {
-  GADMediationAdapterLineLog(@"FiveAd SDK failed to load a native ad. The FiveAd error code: %ld.",
-                             errorCode);
-  NSError *error = GADMediationAdapterLineErrorWithFiveAdErrorCode(errorCode);
-  [self callCompletionHandlerIfNeededWithAd:nil error:error];
 }
 
 #pragma mark - GADMediationNativeAd

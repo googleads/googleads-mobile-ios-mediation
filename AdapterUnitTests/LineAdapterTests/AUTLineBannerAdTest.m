@@ -49,11 +49,6 @@ static NSString *const AUTLineTestApplicationID = @"123";
   _adapter = [[GADMediationAdapterLine alloc] init];
 
   _bannerMock = OCMClassMock([FADAdViewCustomLayout class]);
-  OCMStub([_bannerMock alloc]).andDo(^(NSInvocation *invocation) {
-    id mock = self->_bannerMock;
-    CFRetain((__bridge CFTypeRef)mock);
-    [invocation setReturnValue:&mock];
-  });
 }
 
 - (void)tearDown {
@@ -70,17 +65,17 @@ static NSString *const AUTLineTestApplicationID = @"123";
     loadBannerAdWithSize:(GADAdSize)adSize
                    extra:(nullable GADMediationAdapterLineExtras *)extras
       expectSoundEnabled:(BOOL)soundEnabled {
-  OCMStub([_bannerMock initWithSlotId:AUTLineTestSlotID width:adSize.size.width])
-      .andReturn(_bannerMock);
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_bannerMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-    XCTAssertTrue([loadDelegate conformsToProtocol:@protocol(FADLoadDelegate)]);
-  });
-  OCMExpect([_bannerMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAdDidLoad:self->_bannerMock];
-  });
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+
   OCMStub([_bannerMock frame]).andReturn(CGRectMake(0, 0, adSize.size.width, adSize.size.height));
+  OCMExpect([_bannerMock
+      setEventListener:[OCMArg checkWithBlock:^BOOL(id obj) {
+        return [obj conformsToProtocol:@protocol(FADCustomLayoutEventListener)];
+      }]]);
   OCMExpect([_bannerMock enableSound:soundEnabled]);
 
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -90,7 +85,17 @@ static NSString *const AUTLineTestApplicationID = @"123";
                                                  isEqualToString:AUTLineTestApplicationID]);
                                              return YES;
                                            }]
-                                                    outError:[OCMArg anyObjectRef]]));
+                                                    outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadBannerAdWithConfig:slotConfigMock
+                                     withInitialWidth:adSize.size.width
+                                     withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADAdViewCustomLayout *_Nullable customLayout,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(self->_bannerMock, nil);
+      });
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
@@ -106,7 +111,9 @@ static NSString *const AUTLineTestApplicationID = @"123";
       AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_bannerMock);
+  OCMVerifyAll(slotConfigMock);
   OCMVerifyAll(adLoaderClassMock);
+  [slotConfigMock stopMocking];
   [adLoaderClassMock stopMocking];
 
   return delegate;
@@ -281,10 +288,13 @@ static NSString *const AUTLineTestApplicationID = @"123";
 }
 
 - (void)testLoadBannerAdFailureForMissingSlotID {
-  OCMReject([_bannerMock loadAdAsync]);
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMReject([[adLoaderClassMock ignoringNonObjectArgs] loadBannerAdWithConfig:OCMOCK_ANY
+                                                             withInitialWidth:0
+                                                             withLoadCallback:OCMOCK_ANY]);
 
   // Test banner ad load failure by omitting slot id from credential settings.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -298,26 +308,28 @@ static NSString *const AUTLineTestApplicationID = @"123";
                                  code:GADMediationAdapterLineErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
-  OCMVerifyAll(_bannerMock);
+  OCMVerifyAll(adLoaderClassMock);
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testLoadWaterfallBannerAdFailureForLoadedBannerSizeMismatch {
   // Mock FiveAd SDK.
-  OCMStub([_bannerMock initWithSlotId:AUTLineTestSlotID width:GADAdSizeBanner.size.width])
-      .andReturn(_bannerMock);
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_bannerMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
-  OCMExpect([_bannerMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    id loadedBannerAd = OCMClassMock([FADAdViewCustomLayout class]);
-    OCMStub([loadedBannerAd frame]).andReturn(CGRectMake(0, 0, 123, 123));
-    [loadDelegate fiveAdDidLoad:loadedBannerAd];
-  });
+  id loadedBannerAd = OCMClassMock([FADAdViewCustomLayout class]);
+  OCMStub([loadedBannerAd frame]).andReturn(CGRectMake(0, 0, 123, 123));
+
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadBannerAdWithConfig:OCMOCK_ANY
+                                     withInitialWidth:GADAdSizeBanner.size.width
+                                     withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADAdViewCustomLayout *_Nullable customLayout,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(loadedBannerAd, nil);
+      });
 
   // Test banner ad load failure by returning a mocked banner ad with a size that does not match the
   // requested ad size.
@@ -335,27 +347,31 @@ static NSString *const AUTLineTestApplicationID = @"123";
                                  code:GADMediationAdapterLineErrorLoadedBannerSizeMismatch
                              userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
-  OCMVerifyAll(_bannerMock);
+  OCMVerifyAll(adLoaderClassMock);
+  [loadedBannerAd stopMocking];
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testLoadBannerAdFailureForFiveAdSDKFailedToReceiveAd {
   // Mock FiveAd SDK.
-  OCMStub([_bannerMock initWithSlotId:AUTLineTestSlotID width:GADAdSizeBanner.size.width])
-      .andReturn(_bannerMock);
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_bannerMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
   FADErrorCode code = kFADErrorCodeNoAd;
-  OCMExpect([_bannerMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAd:self->_bannerMock didFailedToReceiveAdWithError:code];
-  });
+  NSError *fiveAdError = [NSError errorWithDomain:@"com.five_corp.ad.error" code:code userInfo:nil];
+
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadBannerAdWithConfig:OCMOCK_ANY
+                                     withInitialWidth:GADAdSizeBanner.size.width
+                                     withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADAdViewCustomLayout *_Nullable customLayout,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(nil, fiveAdError);
+      });
 
-  // Test ad load failure by mocking FiveAd SDK to call the ad load failure delegate method.
+  // Test ad load failure by mocking FiveAd SDK to call the ad load failure callback.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
     GADMediationAdapterLineCredentialKeyApplicationID : AUTLineTestApplicationID,
@@ -369,27 +385,28 @@ static NSString *const AUTLineTestApplicationID = @"123";
                                                       code:code
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
-  OCMVerifyAll(_bannerMock);
+  OCMVerifyAll(adLoaderClassMock);
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testMediationBannerAdView {
   // Mock FiveAd SDK.
-  OCMStub([_bannerMock initWithSlotId:AUTLineTestSlotID width:GADAdSizeBanner.size.width])
-      .andReturn(_bannerMock);
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_bannerMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
   GADAdSize requestedAdSize = GADAdSizeBanner;
-  OCMStub([_bannerMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAdDidLoad:self->_bannerMock];
-  });
   OCMStub([_bannerMock frame])
       .andReturn(CGRectMake(0, 0, requestedAdSize.size.width, requestedAdSize.size.height));
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMStub([adLoaderClassMock loadBannerAdWithConfig:OCMOCK_ANY
+                                   withInitialWidth:requestedAdSize.size.width
+                                   withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADAdViewCustomLayout *_Nullable customLayout,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(self->_bannerMock, nil);
+      });
 
   // Test that GADMediationBannerAd view property is actually the loaded banner ad view.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];

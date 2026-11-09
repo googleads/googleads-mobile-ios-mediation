@@ -71,6 +71,8 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
   // Initialize FiveAd SDK.
   GADMobileAds *mobileAds = GADMobileAds.sharedInstance;
   FADConfig *config = [[FADConfig alloc] initWithAppId:applicationID];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [config enableSoundByDefault:!mobileAds.applicationMuted];
   [config setIsTest:GADMediationAdapterLine.testMode];
 
@@ -84,6 +86,7 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
   } else if ([childDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     [config setNeedChildDirectedTreatment:kFADNeedChildDirectedTreatmentFalse];
   }
+#pragma clang diagnostic pop
 
   FADAdLoader *adLoader = [FADAdLoader adLoaderForConfig:config outError:&error];
   if (error) {
@@ -157,7 +160,7 @@ void GADMediationAdapterLineMutableSetAddObject(NSMutableSet *_Nullable set,
 NSString *_Nullable GADMediationAdapterLineSlotID(GADMediationCredentials *_Nonnull credentials,
                                                   NSError *_Nullable *_Nonnull errorPtr) {
   NSString *slotID = credentials.settings[GADMediationAdapterLineCredentialKeyAdUnit];
-  if (!slotID) {
+  if (!slotID.length) {
     NSString *errorDescription = [NSString
         stringWithFormat:@"Invalid slot ID was received from the ad configuration. Please verify "
                          @"the ad unit mapping from the AdMob UI. Slot ID: %@.",
@@ -167,6 +170,31 @@ NSString *_Nullable GADMediationAdapterLineSlotID(GADMediationCredentials *_Nonn
     return nil;
   }
   return slotID;
+}
+
+FADAdSlotConfig *_Nullable GADMediationAdapterLineSlotConfig(
+    GADMediationCredentials *_Nonnull credentials, NSError *_Nullable *_Nonnull errorPtr) {
+  NSString *slotID = GADMediationAdapterLineSlotID(credentials, errorPtr);
+  if (!slotID.length) {
+    return nil;
+  }
+
+  FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId:slotID];
+  [slotConfig setMediationName:GADMediationAdapterLineMediationName
+                       version:GADMediationAdapterLineVersion];
+  [slotConfig setAdTestModeEnabled:GADMediationAdapterLine.testMode];
+
+  GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
+  if ([requestConfiguration.tagForChildDirectedTreatment isEqual:@YES] ||
+      [requestConfiguration.tagForUnderAgeOfConsent isEqual:@YES] ||
+      requestConfiguration.ageRestrictedTreatment == GADAgeRestrictedTreatmentChild) {
+    [slotConfig setChildDirected:kFADNeedChildDirectedTreatmentTrue];
+  } else if ([requestConfiguration.tagForChildDirectedTreatment isEqual:@NO] ||
+             [requestConfiguration.tagForUnderAgeOfConsent isEqual:@NO]) {
+    [slotConfig setChildDirected:kFADNeedChildDirectedTreatmentFalse];
+  }
+
+  return slotConfig;
 }
 
 BOOL GADMediationAdapterLineShouldEnableAudio(GADExtras *_Nullable extras) {

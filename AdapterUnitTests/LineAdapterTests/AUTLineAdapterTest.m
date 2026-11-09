@@ -825,4 +825,203 @@ static NSString *const AUTLineTestSlotID = @"67890";
   [adLoaderClassMock stopMocking];
 }
 
+- (void)testSlotConfigSetsMediationNameAndTestModeEnabled {
+  [GADMediationAdapterLine setTestMode:YES];
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setAdTestModeEnabled:YES]);
+  OCMReject([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentTrue]);
+  OCMReject([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentFalse]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigTestModeDisabled {
+  [GADMediationAdapterLine setTestMode:NO];
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setAdTestModeEnabled:NO]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigWithChildTreatmentTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentTrue]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigWithChildTreatmentFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentFalse]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigWithUnderAgeOfConsentTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentTrue]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigWithUnderAgeOfConsentFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentFalse]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigWithAgeRestrictedTreatmentChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMExpect([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentTrue]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigWithAgeRestrictedTreatmentTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+  OCMReject([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentTrue]);
+  OCMReject([slotConfigMock setChildDirected:kFADNeedChildDirectedTreatmentFalse]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : AUTLineTestSlotID};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNotNil(config);
+  XCTAssertNil(error);
+  OCMVerifyAll(slotConfigMock);
+  [slotConfigMock stopMocking];
+}
+
+- (void)testSlotConfigFailureForMissingSlotID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNil(config);
+  XCTAssertNotNil(error);
+  XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+  XCTAssertEqual(error.code, GADMediationAdapterLineErrorInvalidServerParameters);
+}
+
+- (void)testSlotConfigFailureForEmptySlotID {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyAdUnit : @""};
+
+  NSError *error = nil;
+  FADAdSlotConfig *config = GADMediationAdapterLineSlotConfig(credentials, &error);
+
+  XCTAssertNil(config);
+  XCTAssertNotNil(error);
+  XCTAssertEqualObjects(error.domain, GADMediationAdapterLineErrorDomain);
+  XCTAssertEqual(error.code, GADMediationAdapterLineErrorInvalidServerParameters);
+}
+
 @end
