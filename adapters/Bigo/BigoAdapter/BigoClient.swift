@@ -47,6 +47,9 @@ protocol BigoClient: NSObject {
   /// Initializes the BigoADS SDK.
   func initialize(with applicationId: String, testMode: Bool, completion: @escaping () -> Void)
 
+  /// Returns whether the BigoADS SDK has been initialized.
+  func isInitialized() -> Bool
+
   /// Gets a bidder token from BigoADS.
   func getBidderToken() -> String?
 
@@ -126,6 +129,10 @@ final class BigoClientImpl: NSObject, BigoClient {
     BigoAdSdk.sharedInstance().initializeSdk(with: adConfig) {
       completion()
     }
+  }
+
+  func isInitialized() -> Bool {
+    return BigoAdSdk.sharedInstance().isInitialized()
   }
 
   func getBidderToken() -> String? {
