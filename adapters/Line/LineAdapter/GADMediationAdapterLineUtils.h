@@ -39,6 +39,10 @@ void GADMediationAdapterLineMutableSetAddObject(NSMutableSet *_Nullable set,
 NSString *_Nullable GADMediationAdapterLineSlotID(GADMediationCredentials *_Nonnull credentials,
                                                   NSError *_Nullable *_Nonnull errorPtr);
 
+/// Returns a configured FADAdSlotConfig for waterfall requests, or nil if credentials are invalid.
+FADAdSlotConfig *_Nullable GADMediationAdapterLineSlotConfig(
+    GADMediationCredentials *_Nonnull credentials, NSError *_Nullable *_Nonnull errorPtr);
+
 /// Registers Five Ad SDK with the credentials array. If it was previously registered, then it will
 /// just return.
 NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(

@@ -18,7 +18,7 @@
 
 /// A loader that loads a native ad from FiveAd SDK.
 @interface GADMediationAdapterLineNativeAdLoader
-    : NSObject <GADMediationNativeAd, FADLoadDelegate, FADNativeEventListener>
+    : NSObject <GADMediationNativeAd, FADNativeEventListener>
 
 - (nonnull instancetype)init NS_UNAVAILABLE;
 

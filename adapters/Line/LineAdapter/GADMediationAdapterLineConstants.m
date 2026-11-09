@@ -16,6 +16,8 @@
 
 NSString *const GADMediationAdapterLineVersion = @"3.1.1.0";
 
+NSString *const GADMediationAdapterLineMediationName = @"AdMob";
+
 NSString *const GADMediationAdapterLineCredentialKeyApplicationID = @"application_id";
 
 NSString *const GADMediationAdapterLineCredentialKeyAdUnit = @"slot_id";
