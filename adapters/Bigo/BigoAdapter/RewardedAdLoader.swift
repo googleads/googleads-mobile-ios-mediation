@@ -50,13 +50,17 @@ final class RewardedAdLoader: NSObject {
   }
 
   func loadAd() {
+    let slotId: String
+    do {
+      slotId = try Util.slotId(from: adConfiguration)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+      return
+    }
+
+    // Waterfall ad configurations don't have a bid response.
     guard let bidResponse = adConfiguration.bidResponse else {
-      handleLoadedAd(
-        nil,
-        error: BigoAdapterError(
-          errorCode: .invalidAdConfiguration,
-          description: "The ad configuration is missing bid response."
-        ).toNSError())
+      loadWaterfallAd(slotId: slotId)
       return
     }
 
@@ -70,12 +74,20 @@ final class RewardedAdLoader: NSObject {
       return
     }
 
-    do {
-      let slotId = try Util.slotId(from: adConfiguration)
-      client.loadRTBRewardVideoAd(
-        for: slotId, bidPayLoad: bidResponse, watermark: watermark, delegate: self)
-    } catch {
-      handleLoadedAd(nil, error: error.toNSError())
+    client.loadRTBRewardVideoAd(
+      for: slotId, bidPayLoad: bidResponse, watermark: watermark, delegate: self)
+  }
+
+  /// Loads a waterfall ad. Waterfall ad requests only need the slot ID.
+  private func loadWaterfallAd(slotId: String) {
+    Util.prepareBigoSdkForWaterfallAdLoad(adConfiguration: adConfiguration, client: client) {
+      [weak self] error in
+      guard let self else { return }
+      if let error {
+        self.handleLoadedAd(nil, error: error)
+        return
+      }
+      self.client.loadRewardVideoAd(for: slotId, delegate: self)
     }
   }
 
