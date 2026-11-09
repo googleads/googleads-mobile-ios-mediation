@@ -28,6 +28,9 @@ final class FakeBigoClient: NSObject, BigoClient {
   var applicationId: String?
   var testMode: Bool?
 
+  /// Whether the fake BigoADS SDK reports itself as initialized.
+  var isSdkInitialized: Bool = true
+
   func initialize(
     with applicationId: String,
     testMode: Bool,
@@ -35,7 +38,12 @@ final class FakeBigoClient: NSObject, BigoClient {
   ) {
     self.applicationId = applicationId
     self.testMode = testMode
+    isSdkInitialized = true
     completion()
+  }
+
+  func isInitialized() -> Bool {
+    return isSdkInitialized
   }
 
   func getBidderToken() -> String? {
@@ -176,7 +184,6 @@ final class FakeBigoClient: NSObject, BigoClient {
     // old, and a value of "NO" indicates that the user is a child under 13
     // years old.
     if ageRestrictedTreatment == .child || isChild == true || isUnderAge == true {
-      BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: false)
       bigoConsentOptionsCOPPA = false
     } else if isChild == false || isUnderAge == false {
       bigoConsentOptionsCOPPA = true
