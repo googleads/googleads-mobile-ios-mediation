@@ -17,6 +17,10 @@ import GoogleMobileAds
 
 final class Util {
 
+  /// Error domain for errors reported by the AdSurge SDK, as opposed to errors raised by the
+  /// adapter itself (`AdSurgeAdapterError.domain`).
+  static let sdkErrorDomain = "com.adsurge.adn"
+
   private enum MediationConfigurationSettingKey: String {
     case applicationId = "application_id"
     case adUnitId = "ad_unit_id"
