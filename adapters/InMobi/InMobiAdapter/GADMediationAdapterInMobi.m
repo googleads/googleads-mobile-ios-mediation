@@ -75,6 +75,8 @@
     keywords = extras.keywords;
   }
 
+  [IMSdk setMute:GADMobileAds.sharedInstance.isApplicationMuted];
+
   NSString *token = [IMSdk getTokenWithExtras:requestParameters andKeywords:keywords];
 
   if (!token.length) {
