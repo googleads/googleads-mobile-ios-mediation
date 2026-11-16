@@ -98,59 +98,58 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   // MARK: - Interstitial
 
-  var loadInterstitialShouldSucceed: Bool = true
+  /// The error the interstitial ad reports after `loadInterstitialAd` returns, or `nil` to report a
+  /// successful load.
+  var interstitialLoadError: AdSurgeSDKError?
   var loadedInterstitialAdUnitId: String?
   var loadedInterstitialBidPayload: String?
   weak var interstitialDelegate: (any FullScreenAdClientDelegate)?
-  var showInterstitialCount: Int = 0
+  var interstitialAdReady = true
+  var showInterstitialCount = 0
   var lastPresentedViewController: UIViewController?
-  var showInterstitialError: AdSurgeAdapterError?
 
   func loadInterstitialAd(
-    for adUnitId: String,
+    adUnitId: String,
     bidPayload: String,
     delegate: any FullScreenAdClientDelegate
   ) {
     loadedInterstitialAdUnitId = adUnitId
     loadedInterstitialBidPayload = bidPayload
     interstitialDelegate = delegate
-    if loadInterstitialShouldSucceed {
-      delegate.interstitialDidLoad()
-    } else {
-      let error = AdSurgeAdapterError(
-        errorCode: .internalError,
-        description: "Simulated interstitial load failure."
-      ).toNSError()
-      delegate.interstitialDidFailToLoad(with: error)
+    let loadError = interstitialLoadError
+    // Reports the result asynchronously, like the AdSurge SDK.
+    DispatchQueue.main.async { [weak delegate] in
+      if let loadError {
+        delegate?.didFailToLoad(error: loadError)
+      } else {
+        delegate?.didLoad()
+      }
     }
   }
 
-  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
-    if let showInterstitialError {
-      throw showInterstitialError
-    }
+  func isInterstitialAdReady() -> Bool {
+    return interstitialAdReady
+  }
+
+  func showInterstitialAd(from rootViewController: UIViewController) {
     showInterstitialCount += 1
     lastPresentedViewController = rootViewController
   }
 
-  func simulateInterstitialDisplay(error: (any Error)? = nil) {
-    if let error {
-      interstitialDelegate?.interstitialDidFailToDisplay(with: error)
-    } else {
-      interstitialDelegate?.interstitialDidDisplay()
-    }
+  func simulateInterstitialDisplay(error: AdSurgeSDKError? = nil) {
+    interstitialDelegate?.didDisplay(error: error)
   }
 
   func simulateInterstitialClick() {
-    interstitialDelegate?.interstitialDidClick()
+    interstitialDelegate?.didClick()
   }
 
   func simulateInterstitialHide() {
-    interstitialDelegate?.interstitialDidHide()
+    interstitialDelegate?.didHide()
   }
 
   func simulateInterstitialPayRevenue() {
-    interstitialDelegate?.interstitialDidPayRevenue()
+    interstitialDelegate?.didPayRevenue()
   }
 
   // MARK: - Rewarded
@@ -227,11 +226,11 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     loadedBannerViewController = nil
     bannerDelegate = nil
     mockBannerView = nil
-    loadInterstitialShouldSucceed = true
+    interstitialLoadError = nil
     loadedInterstitialAdUnitId = nil
     loadedInterstitialBidPayload = nil
     interstitialDelegate = nil
-    showInterstitialError = nil
+    interstitialAdReady = true
     showInterstitialCount = 0
     lastPresentedViewController = nil
     loadRewardedShouldSucceed = true

@@ -102,14 +102,15 @@ final class AdSurgeInterstitialAdTests {
 
   @Test("Interstitial load fails when AdSurge client fails to load")
   func loadInterstitial_fails_whenClientFailsToLoad() async {
-    fakeClient.loadInterstitialShouldSucceed = false
+    fakeClient.interstitialLoadError = AdSurgeSDKError(code: 1, message: "No fill.")
     let config = createInterstitialConfig()
     await withCheckedContinuation { continuation in
       adapter.loadInterstitial(for: config) { interstitial, error in
         #expect(interstitial == nil)
         let nsError = error as? NSError
-        #expect(nsError != nil)
-        #expect(nsError?.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
+        #expect(nsError?.domain == "com.adsurge.adn")
+        #expect(nsError?.code == 1)
+        #expect(nsError?.localizedDescription == "No fill.")
         continuation.resume()
         return nil
       }
@@ -135,9 +136,7 @@ final class AdSurgeInterstitialAdTests {
 
   @Test("Interstitial ad fails to present when the ad is not ready")
   func interstitialAd_failsToPresent_whenAdNotReady() async throws {
-    fakeClient.showInterstitialError = AdSurgeAdapterError(
-      errorCode: .adNotReadyForPresentation,
-      description: "AdSurge interstitial ad is not ready to be presented.")
+    fakeClient.interstitialAdReady = false
     let config = createInterstitialConfig()
     let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
     var loadedInterstitial: MediationInterstitialAd?
@@ -153,19 +152,10 @@ final class AdSurgeInterstitialAdTests {
     let nsError = eventDelegate.didFailToPresentError as NSError?
     #expect(nsError?.domain == AdSurgeAdapterError.domain)
     #expect(nsError?.code == AdSurgeAdapterError.ErrorCode.adNotReadyForPresentation.rawValue)
+    #expect(
+      nsError?.localizedDescription == "AdSurge interstitial ad is not ready to be presented.")
     #expect(fakeClient.showInterstitialCount == 0)
     #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
-  }
-
-  @Test("AdSurge client throws when showing an interstitial ad before one is loaded")
-  func clientImpl_showInterstitialAd_throws_whenNoAdLoaded() {
-    do {
-      try AdSurgeClientImpl().showInterstitialAd(from: UIViewController())
-      Issue.record("Expected showInterstitialAd to throw.")
-    } catch {
-      #expect(error.errorCode == .adNotReadyForPresentation)
-      #expect(error.toNSError().domain == AdSurgeAdapterError.domain)
-    }
   }
 
   @Test("Interstitial ad reports presentation without impression on display")
@@ -193,12 +183,13 @@ final class AdSurgeInterstitialAdTests {
         return eventDelegate
       }
     }
-    let displayError = AdSurgeAdapterError(
-      errorCode: .internalError,
-      description: "Display failed."
-    ).toNSError()
-    fakeClient.simulateInterstitialDisplay(error: displayError)
-    #expect(eventDelegate.didFailToPresentError != nil)
+    fakeClient.simulateInterstitialDisplay(
+      error: AdSurgeSDKError(code: 6, message: "Consent declined."))
+    let presentError = eventDelegate.didFailToPresentError as NSError?
+    #expect(presentError?.domain == "com.adsurge.adn")
+    #expect(presentError?.code == 6)
+    #expect(presentError?.localizedDescription == "Consent declined.")
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
   }
 
   @Test("Interstitial ad reports click")

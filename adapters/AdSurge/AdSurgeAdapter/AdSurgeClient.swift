@@ -68,30 +68,27 @@ protocol BannerAdClientDelegate: AnyObject, Sendable {
 
 }
 
-/// Delegate protocol for interstitial ad lifecycle events from the AdSurge client.
+/// Receives the events of a full-screen (interstitial or rewarded) ad from the AdSurge client.
 protocol FullScreenAdClientDelegate: AnyObject, Sendable {
 
-  /// Called when an interstitial ad has been successfully loaded.
-  func interstitialDidLoad()
+  /// Called when the ad has been successfully loaded.
+  func didLoad()
 
-  /// Called when an interstitial ad fails to load.
-  func interstitialDidFailToLoad(with error: any Error)
+  /// Called when the ad fails to load.
+  func didFailToLoad(error: AdSurgeSDKError)
 
-  /// Called when an interstitial ad is presented on screen.
-  func interstitialDidDisplay()
+  /// Called when the ad is presented on screen, or fails to be presented (for example, when the
+  /// user declines the AdSurge consent page), in which case `error` is the SDK's error.
+  func didDisplay(error: AdSurgeSDKError?)
 
-  /// Called when an interstitial ad fails to display, for example, when the user declines the
-  /// AdSurge consent page.
-  func interstitialDidFailToDisplay(with error: any Error)
+  /// Called when the ad is clicked.
+  func didClick()
 
-  /// Called when an interstitial ad is clicked.
-  func interstitialDidClick()
+  /// Called when the ad is hidden.
+  func didHide()
 
-  /// Called when an interstitial ad is hidden.
-  func interstitialDidHide()
-
-  /// Called when AdSurge counts an impression for an interstitial ad.
-  func interstitialDidPayRevenue()
+  /// Called when AdSurge counts an impression for the ad.
+  func didPayRevenue()
 
 }
 
@@ -155,17 +152,18 @@ protocol AdSurgeClient: AnyObject, Sendable {
     delegate: any BannerAdClientDelegate
   )
 
-  /// Loads an interstitial ad from AdSurge.
+  /// Loads an interstitial ad from AdSurge. The ad reports its events to `delegate`.
   func loadInterstitialAd(
-    for adUnitId: String,
+    adUnitId: String,
     bidPayload: String,
     delegate: any FullScreenAdClientDelegate
   )
 
+  /// Returns whether the loaded interstitial ad is ready to be shown.
+  func isInterstitialAdReady() -> Bool
+
   /// Shows the loaded interstitial ad.
-  ///
-  /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
-  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
+  func showInterstitialAd(from rootViewController: UIViewController)
 
   /// Loads a rewarded ad from AdSurge.
   func loadRewardedAd(

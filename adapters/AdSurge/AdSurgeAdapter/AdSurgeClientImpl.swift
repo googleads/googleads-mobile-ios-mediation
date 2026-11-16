@@ -17,6 +17,10 @@ import Foundation
 import ObjectiveC
 import UIKit
 
+/// Forwards calls to the AdSurge SDK. Each loader uses its own instance, which keeps the loaded ad.
+///
+/// This class is `@unchecked Sendable` because its stored ads are only accessed from the main
+/// thread and from SDK callbacks.
 final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
 
   func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber) {
@@ -82,7 +86,7 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
   private var rewardedAd: AdSurgeRewardedAd?
 
   func loadInterstitialAd(
-    for adUnitId: String,
+    adUnitId: String,
     bidPayload: String,
     delegate: any FullScreenAdClientDelegate
   ) {
@@ -101,13 +105,12 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
     ad.load(config)
   }
 
-  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
-    guard let interstitialAd, interstitialAd.isValid else {
-      throw AdSurgeAdapterError(
-        errorCode: .adNotReadyForPresentation,
-        description: "AdSurge interstitial ad is not ready to be presented.")
-    }
-    interstitialAd.show(fromRootViewController: rootViewController)
+  func isInterstitialAdReady() -> Bool {
+    return interstitialAd?.isValid ?? false
+  }
+
+  func showInterstitialAd(from rootViewController: UIViewController) {
+    interstitialAd?.show(fromRootViewController: rootViewController)
   }
 
   func loadRewardedAd(
@@ -188,33 +191,29 @@ private final class InterstitialDelegateBridge: NSObject, AdSurgeInterstitialAdD
   }
 
   func didLoad(_ ad: AdSurgeAd) {
-    delegate?.interstitialDidLoad()
+    delegate?.didLoad()
   }
 
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    delegate?.interstitialDidFailToLoad(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
+    delegate?.didFailToLoad(error: AdSurgeSDKError(error))
   }
 
   func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
-    if let error {
-      delegate?.interstitialDidFailToDisplay(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
-    } else {
-      delegate?.interstitialDidDisplay()
-    }
+    delegate?.didDisplay(error: error.map(AdSurgeSDKError.init))
   }
 
   func didHide(_ ad: AdSurgeAd) {
-    delegate?.interstitialDidHide()
+    delegate?.didHide()
   }
 
   func didClick(_ ad: AdSurgeAd) {
-    delegate?.interstitialDidClick()
+    delegate?.didClick()
   }
 
   func didPayRevenue(for ad: AdSurgeAd) {
-    delegate?.interstitialDidPayRevenue()
+    delegate?.didPayRevenue()
   }
 
 }

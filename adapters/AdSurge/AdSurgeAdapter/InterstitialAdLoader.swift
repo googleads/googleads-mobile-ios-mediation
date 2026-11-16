@@ -41,7 +41,7 @@ final class InterstitialAdLoader: NSObject, MediationInterstitialAd, FullScreenA
       let adUnitId = try Util.adUnitID(from: adConfiguration)
       let bidResponse = try Util.bidResponse(from: adConfiguration)
       client.loadInterstitialAd(
-        for: adUnitId,
+        adUnitId: adUnitId,
         bidPayload: bidResponse,
         delegate: self
       )
@@ -52,43 +52,47 @@ final class InterstitialAdLoader: NSObject, MediationInterstitialAd, FullScreenA
   }
 
   func present(from viewController: UIViewController) {
-    do {
-      try client.showInterstitialAd(from: viewController)
-    } catch {
-      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    guard client.isInterstitialAdReady() else {
+      eventDelegate?.didFailToPresentWithError(
+        AdSurgeAdapterError(
+          errorCode: .adNotReadyForPresentation,
+          description: "AdSurge interstitial ad is not ready to be presented."
+        ).toNSError())
+      return
     }
+    client.showInterstitialAd(from: viewController)
   }
 
   // MARK: - FullScreenAdClientDelegate
 
-  func interstitialDidLoad() {
+  func didLoad() {
     eventDelegate = adLoadCompletionHandler?(self, nil)
     adLoadCompletionHandler = nil
   }
 
-  func interstitialDidFailToLoad(with error: any Error) {
-    _ = adLoadCompletionHandler?(nil, error.toNSError())
+  func didFailToLoad(error: AdSurgeSDKError) {
+    _ = adLoadCompletionHandler?(nil, Util.sdkNSError(from: error))
     adLoadCompletionHandler = nil
   }
 
-  func interstitialDidDisplay() {
-    eventDelegate?.willPresentFullScreenView()
+  func didDisplay(error: AdSurgeSDKError?) {
+    if let error {
+      eventDelegate?.didFailToPresentWithError(Util.sdkNSError(from: error))
+    } else {
+      eventDelegate?.willPresentFullScreenView()
+    }
   }
 
-  func interstitialDidFailToDisplay(with error: any Error) {
-    eventDelegate?.didFailToPresentWithError(error.toNSError())
-  }
-
-  func interstitialDidClick() {
+  func didClick() {
     eventDelegate?.reportClick()
   }
 
-  func interstitialDidHide() {
+  func didHide() {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }
 
-  func interstitialDidPayRevenue() {
+  func didPayRevenue() {
     eventDelegate?.reportImpression()
   }
 
