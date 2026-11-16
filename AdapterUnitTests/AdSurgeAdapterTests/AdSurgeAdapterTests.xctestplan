@@ -9,6 +9,15 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/AdSurgeAdapter\/AdSurgeAdapter.xcodeproj",
+          "identifier" : "ADFA849C2C176E2200A501AB",
+          "name" : "Adapter"
+        }
+      ]
+    },
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
