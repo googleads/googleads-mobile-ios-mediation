@@ -21,12 +21,14 @@ import UIKit
 final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   var ageRestrictedUser: NSNumber?
+  var setAgeRestrictedUserCallCount = 0
   var applicationId: String?
   var initializeShouldSucceed: Bool = true
   var bidderTokenToReturn: String? = "mock_bidder_token"
   var sdkVersionString: String = "2.0.1"
 
-  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?) {
+  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber) {
+    setAgeRestrictedUserCallCount += 1
     self.ageRestrictedUser = ageRestrictedUser
   }
 
@@ -218,6 +220,7 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   func reset() {
     ageRestrictedUser = nil
+    setAgeRestrictedUserCallCount = 0
     applicationId = nil
     initializeShouldSucceed = true
     bidderTokenToReturn = "mock_bidder_token"

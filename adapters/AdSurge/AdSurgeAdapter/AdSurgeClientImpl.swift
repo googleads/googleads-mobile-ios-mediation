@@ -19,10 +19,8 @@ import UIKit
 
 final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
 
-  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?) {
-    if let ageRestrictedUser {
-      AdSurgePrivacyConfiguration.configuration().ageRestrictedUser = ageRestrictedUser
-    }
+  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber) {
+    AdSurgePrivacyConfiguration.configuration().ageRestrictedUser = ageRestrictedUser
   }
 
   func initialize(with appId: String) async throws {

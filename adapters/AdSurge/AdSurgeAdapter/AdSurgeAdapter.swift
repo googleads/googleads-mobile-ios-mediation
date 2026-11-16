@@ -44,7 +44,9 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     Task {
       do {
         let client = AdSurgeClientFactory.createClient()
-        client.setAgeRestrictedUser(ageRestricted)
+        if let ageRestricted {
+          client.setAgeRestrictedUser(ageRestricted)
+        }
         try await client.initialize(with: appId)
         completionBox.value(nil)
       } catch {
@@ -106,7 +108,9 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     Task {
       do {
         let client = AdSurgeClientFactory.createClient()
-        client.setAgeRestrictedUser(ageRestricted)
+        if let ageRestricted {
+          client.setAgeRestrictedUser(ageRestricted)
+        }
         let signal = try await client.getBidderToken()
         completionBox.value(signal, nil)
       } catch {

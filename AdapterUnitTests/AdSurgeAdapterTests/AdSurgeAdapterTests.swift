@@ -35,6 +35,7 @@ final class AdSurgeAdapterTests {
   }
 
   deinit {
+    AdSurgeClientFactory.debugClient = nil
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
     MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
     MobileAds.shared.requestConfiguration.ageRestrictedTreatment = .unspecified
@@ -108,6 +109,26 @@ final class AdSurgeAdapterTests {
 
     #expect(fakeClient.applicationId == "test_app_id")
     #expect(fakeClient.ageRestrictedUser == 1)
+  }
+
+  @Test("Set up does not set the age restriction when it is unspecified")
+  func setUp_doesNotSetAgeRestrictedUser_whenUnspecified() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_app_id"]
+    let config = AUTKMediationServerConfiguration()
+    config.credentials = [credentials]
+
+    await confirmation("wait for setUp") { setUpCompleted in
+      await withCheckedContinuation { continuation in
+        AdSurgeAdapter.setUp(with: config) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      setUpCompleted()
+    }
+
+    #expect(fakeClient.setAgeRestrictedUserCallCount == 0)
   }
 
   @Test("Set up fails when missing application ID")
@@ -218,6 +239,54 @@ final class AdSurgeAdapterTests {
       }
       collectionCompleted()
     }
+  }
+
+  @Test("Signal collection forwards the age restriction")
+  func collectSignals_setsAgeRestrictedUser() async {
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let signalConfig = AUTKRTBMediationSignalsConfiguration()
+    signalConfig.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = signalConfig
+
+    let adapter = AdSurgeAdapter()
+    await confirmation("wait for signal collection") { collectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { _, error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      collectionCompleted()
+    }
+
+    #expect(fakeClient.setAgeRestrictedUserCallCount == 1)
+    #expect(fakeClient.ageRestrictedUser == 0)
+  }
+
+  @Test("Signal collection does not set the age restriction when it is unspecified")
+  func collectSignals_doesNotSetAgeRestrictedUser_whenUnspecified() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let signalConfig = AUTKRTBMediationSignalsConfiguration()
+    signalConfig.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = signalConfig
+
+    let adapter = AdSurgeAdapter()
+    await confirmation("wait for signal collection") { collectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { _, error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      collectionCompleted()
+    }
+
+    #expect(fakeClient.setAgeRestrictedUserCallCount == 0)
   }
 
   @Test("The adapter fails signal collection for unsupported native format")

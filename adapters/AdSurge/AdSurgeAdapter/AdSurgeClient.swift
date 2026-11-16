@@ -129,7 +129,7 @@ protocol RewardedAdClientDelegate: AnyObject, Sendable {
 protocol AdSurgeClient: AnyObject, Sendable {
 
   /// Sets user age restriction privacy status.
-  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?)
+  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber)
 
   /// Initializes the AdSurge SDK with an application ID.
   func initialize(with appId: String) async throws
