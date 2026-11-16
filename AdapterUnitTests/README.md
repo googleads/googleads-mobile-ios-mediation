@@ -23,3 +23,16 @@ And then, you can run the unit tests for the adapter from the XCode UI.
 Once you are done, you can clean the project by running:
 
 - `bash pod_deintegrate.sh`
+
+## Only resolving the tested adapter's Swift packages
+
+`AdapterUnitTests.xcodeproj` references every adapter's Xcode project, and Xcode
+resolves the Swift packages of all of them, whichever adapter you test. To only
+resolve the packages of the adapters in `ADAPTER_TARGETS`, run the following
+before `pod install`:
+
+- `ruby scope_unit_test_project.rb`
+
+This removes the other adapters from `AdapterUnitTests.xcodeproj`, so restore
+the project when you are done, for example with
+`git checkout AdapterUnitTests.xcodeproj`.
