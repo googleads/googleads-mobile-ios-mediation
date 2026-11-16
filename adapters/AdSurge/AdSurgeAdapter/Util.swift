@@ -44,6 +44,40 @@ final class Util {
       ])
   }
 
+  /// Converts an error reported by the AdSurge SDK into an `NSError` in the AdSurge SDK error
+  /// domain, keeping the SDK's own error code and message.
+  static func sdkNSError(from sdkError: AdSurgeSDKError) -> NSError {
+    return error(withDomain: sdkErrorDomain, code: sdkError.code, description: sdkError.message)
+  }
+
+  /// Returns the error to report when the AdSurge SDK fails to initialize.
+  ///
+  /// Errors reported by the SDK keep the SDK's error code in the AdSurge SDK error domain. If the
+  /// SDK fails without an error, returns the adapter's internal error.
+  static func initializationError(from sdkError: AdSurgeSDKError?) -> NSError {
+    guard let sdkError else {
+      return AdSurgeAdapterError(
+        errorCode: .internalError,
+        description: "AdSurge SDK failed to initialize."
+      ).toNSError()
+    }
+    return sdkNSError(from: sdkError)
+  }
+
+  /// Returns the error to report when the AdSurge SDK fails to return a bidder token.
+  ///
+  /// Errors reported by the SDK keep the SDK's error code in the AdSurge SDK error domain. If the
+  /// SDK fails without an error, returns the adapter's internal error.
+  static func bidderTokenError(from sdkError: AdSurgeSDKError?) -> NSError {
+    guard let sdkError else {
+      return AdSurgeAdapterError(
+        errorCode: .internalError,
+        description: "Failed to retrieve bidder token."
+      ).toNSError()
+    }
+    return sdkNSError(from: sdkError)
+  }
+
   /// Retrieves an application ID from the provided mediation server configuration.
   ///
   /// - Throws: `AdSurgeAdapterError.serverConfigurationMissingApplicationId` if the configuration

@@ -16,6 +16,18 @@ import Foundation
 import GoogleMobileAds
 import UIKit
 
+/// An error reported by the AdSurge SDK, as plain values so that no SDK types are needed outside
+/// `AdSurgeClientImpl`.
+struct AdSurgeSDKError: Error, Equatable {
+
+  /// The SDK's error code.
+  let code: Int
+
+  /// The SDK's error message.
+  let message: String
+
+}
+
 /// Factory that creates `AdSurgeClient` instances.
 final class AdSurgeClientFactory {
 

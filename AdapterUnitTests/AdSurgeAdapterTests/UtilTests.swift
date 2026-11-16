@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import AdSurgeSDK
 import AdapterUnitTestKit
 import Foundation
 import GoogleMobileAds
@@ -23,6 +22,8 @@ import Testing
 @MainActor
 @Suite("AdSurge adapter utils tests", .serialized)
 final class UtilTests {
+
+  private let sdkError = AdSurgeSDKError(code: 3, message: "SDK error.")
 
   init() {
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
@@ -159,33 +160,9 @@ final class UtilTests {
     #expect(Util.isAgeRestrictedUser() == nil)
   }
 
-}
-
-/// Stands in for `AdSurgeError`, which cannot be created directly in tests.
-@objc private final class FakeAdSurgeError: NSObject {
-  @objc let code: Int
-  @objc let message: String
-
-  init(code: Int, message: String) {
-    self.code = code
-    self.message = message
-  }
-
-  /// Returns this fake as an `AdSurgeError`. Only the Objective-C `code` and `message` properties
-  /// are read by the adapter, so this fake is safe to use in their place.
-  var asAdSurgeError: AdSurgeError {
-    return unsafeBitCast(self, to: AdSurgeError.self)
-  }
-}
-
-@Suite("AdSurge client error tests")
-struct AdSurgeClientErrorTests {
-
-  private let sdkError = FakeAdSurgeError(code: 3, message: "SDK error.")
-
   @Test("SDK errors are reported in the AdSurge SDK error domain with the SDK error code")
-  func toSDKNSError_usesSDKErrorDomainAndCode() {
-    let error = sdkError.asAdSurgeError.toSDKNSError()
+  func sdkNSError_usesSDKErrorDomainAndCode() {
+    let error = Util.sdkNSError(from: sdkError)
 
     #expect(error.domain == "com.adsurge.adn")
     #expect(error.code == 3)
@@ -194,7 +171,7 @@ struct AdSurgeClientErrorTests {
 
   @Test("Initialization failure with an SDK error reports the SDK error")
   func initializationError_reportsSDKError() {
-    let error = AdSurgeClientImpl.initializationError(from: sdkError.asAdSurgeError)
+    let error = Util.initializationError(from: sdkError)
 
     #expect(error.domain == "com.adsurge.adn")
     #expect(error.code == 3)
@@ -202,7 +179,7 @@ struct AdSurgeClientErrorTests {
 
   @Test("Initialization failure without an SDK error reports an internal adapter error")
   func initializationError_reportsInternalError_whenSDKErrorIsMissing() {
-    let error = AdSurgeClientImpl.initializationError(from: nil)
+    let error = Util.initializationError(from: nil)
 
     #expect(error.domain == AdSurgeAdapterError.domain)
     #expect(error.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
@@ -210,7 +187,7 @@ struct AdSurgeClientErrorTests {
 
   @Test("Bidder token failure with an SDK error reports the SDK error")
   func bidderTokenError_reportsSDKError() {
-    let error = AdSurgeClientImpl.bidderTokenError(from: sdkError.asAdSurgeError)
+    let error = Util.bidderTokenError(from: sdkError)
 
     #expect(error.domain == "com.adsurge.adn")
     #expect(error.code == 3)
@@ -218,7 +195,7 @@ struct AdSurgeClientErrorTests {
 
   @Test("Bidder token failure without an SDK error reports an internal adapter error")
   func bidderTokenError_reportsInternalError_whenSDKErrorIsMissing() {
-    let error = AdSurgeClientImpl.bidderTokenError(from: nil)
+    let error = Util.bidderTokenError(from: nil)
 
     #expect(error.domain == AdSurgeAdapterError.domain)
     #expect(error.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)

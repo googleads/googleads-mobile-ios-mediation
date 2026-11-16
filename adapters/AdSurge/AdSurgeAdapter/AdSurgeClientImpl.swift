@@ -34,38 +34,11 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
         if success {
           continuation.resume()
         } else {
-          continuation.resume(throwing: Self.initializationError(from: error))
+          continuation.resume(
+            throwing: Util.initializationError(from: error.map(AdSurgeSDKError.init)))
         }
       }
     }
-  }
-
-  /// Returns the error to report when the AdSurge SDK fails to initialize.
-  ///
-  /// Errors reported by the SDK keep the SDK's error code in the AdSurge SDK error domain. If the
-  /// SDK fails without an error, returns the adapter's internal error.
-  static func initializationError(from sdkError: AdSurgeError?) -> NSError {
-    guard let sdkError else {
-      return AdSurgeAdapterError(
-        errorCode: .internalError,
-        description: "AdSurge SDK failed to initialize."
-      ).toNSError()
-    }
-    return sdkError.toSDKNSError()
-  }
-
-  /// Returns the error to report when the AdSurge SDK fails to return a bidder token.
-  ///
-  /// Errors reported by the SDK keep the SDK's error code in the AdSurge SDK error domain. If the
-  /// SDK fails without an error, returns the adapter's internal error.
-  static func bidderTokenError(from sdkError: AdSurgeError?) -> NSError {
-    guard let sdkError else {
-      return AdSurgeAdapterError(
-        errorCode: .internalError,
-        description: "Failed to retrieve bidder token."
-      ).toNSError()
-    }
-    return sdkError.toSDKNSError()
   }
 
   func getBidderToken() async throws -> String {
@@ -74,7 +47,8 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
         if let token {
           continuation.resume(returning: token)
         } else {
-          continuation.resume(throwing: Self.bidderTokenError(from: error))
+          continuation.resume(
+            throwing: Util.bidderTokenError(from: error.map(AdSurgeSDKError.init)))
         }
       }
     }
@@ -199,7 +173,7 @@ private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @un
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    delegate?.bannerDidFailToLoad(with: error.toSDKNSError())
+    delegate?.bannerDidFailToLoad(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
   }
 
   func didHide(_ ad: AdSurgeAd) {
@@ -233,12 +207,12 @@ private final class InterstitialDelegateBridge: NSObject, AdSurgeInterstitialAdD
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    delegate?.interstitialDidFailToLoad(with: error.toSDKNSError())
+    delegate?.interstitialDidFailToLoad(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
   }
 
   func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
     if let error {
-      delegate?.interstitialDidFailToDisplay(with: error.toSDKNSError())
+      delegate?.interstitialDidFailToDisplay(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
     } else {
       delegate?.interstitialDidDisplay()
     }
@@ -275,12 +249,12 @@ private final class RewardedDelegateBridge: NSObject, AdSurgeRewardedAdDelegate,
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    delegate?.rewardedDidFailToLoad(with: error.toSDKNSError())
+    delegate?.rewardedDidFailToLoad(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
   }
 
   func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
     if let error {
-      delegate?.rewardedDidFailToDisplay(with: error.toSDKNSError())
+      delegate?.rewardedDidFailToDisplay(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
     } else {
       delegate?.rewardedDidDisplay()
     }
@@ -304,12 +278,11 @@ private final class RewardedDelegateBridge: NSObject, AdSurgeRewardedAdDelegate,
 
 }
 
-extension AdSurgeError {
+extension AdSurgeSDKError {
 
-  /// Converts an error reported by the AdSurge SDK into an `NSError` in the AdSurge SDK error
-  /// domain, keeping the SDK's own error code and message.
-  func toSDKNSError() -> NSError {
-    return Util.error(withDomain: Util.sdkErrorDomain, code: code.rawValue, description: message)
+  /// Creates an error with the code and message of an error reported by the AdSurge SDK.
+  fileprivate init(_ sdkError: AdSurgeError) {
+    self.init(code: sdkError.code.rawValue, message: sdkError.message)
   }
 
 }
