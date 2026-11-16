@@ -48,23 +48,23 @@ final class AdSurgeClientFactory {
 
 }
 
-/// Delegate protocol for banner ad lifecycle events from the AdSurge client.
+/// Receives the events of a banner ad from the AdSurge client.
 protocol BannerAdClientDelegate: AnyObject, Sendable {
 
-  /// Called when a banner ad has been successfully loaded.
-  func bannerDidLoad()
+  /// Called when the banner ad has been successfully loaded.
+  func didLoad()
 
-  /// Called when a banner ad fails to load.
-  func bannerDidFailToLoad(with error: any Error)
+  /// Called when the banner ad fails to load.
+  func didFailToLoad(error: AdSurgeSDKError)
 
-  /// Called when a banner ad is clicked.
-  func bannerDidClick()
+  /// Called when the banner ad is clicked.
+  func didClick()
 
-  /// Called when a banner ad is hidden.
-  func bannerDidHide()
+  /// Called when the banner ad is hidden.
+  func didHide()
 
-  /// Called when a banner ad generates revenue (impression).
-  func bannerDidPayRevenue()
+  /// Called when the banner ad generates revenue (impression).
+  func didPayRevenue()
 
 }
 
@@ -119,16 +119,16 @@ protocol AdSurgeClient: AnyObject, Sendable {
   /// Returns the SDK version string.
   func version() -> String
 
-  /// Creates a banner ad view for the given ad unit identifier.
-  @MainActor func createBannerAdView(for adUnitId: String) -> UIView
-
-  /// Loads a banner ad into the provided banner view.
-  @MainActor func loadBannerAd(
-    _ bannerView: UIView,
-    bidPayload: String,
+  /// Creates a banner ad view that reports its events to `delegate`. The ad isn't loaded until
+  /// `loadBannerAd(bidPayload:)` is called.
+  @MainActor func createBannerAdView(
+    adUnitId: String,
     viewController: UIViewController?,
     delegate: any BannerAdClientDelegate
-  )
+  ) -> UIView
+
+  /// Loads the banner ad in the view created by `createBannerAdView`.
+  @MainActor func loadBannerAd(bidPayload: String)
 
   /// Loads an interstitial ad from AdSurge. The ad reports its events to `delegate`.
   func loadInterstitialAd(

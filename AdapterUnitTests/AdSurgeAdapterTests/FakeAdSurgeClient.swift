@@ -52,48 +52,57 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   // MARK: - Banner
 
-  var loadBannerShouldSucceed: Bool = true
+  /// The error the banner ad reports after `loadBannerAd` returns, or `nil` to report a
+  /// successful load.
+  var bannerLoadError: AdSurgeSDKError?
   var createdBannerAdUnitId: String?
+  var bannerViewController: UIViewController?
   var loadedBannerBidPayload: String?
-  var loadedBannerViewController: UIViewController?
   weak var bannerDelegate: (any BannerAdClientDelegate)?
-  var mockBannerView: UIView?
 
-  @MainActor func createBannerAdView(for adUnitId: String) -> UIView {
-    createdBannerAdUnitId = adUnitId
-    return mockBannerView ?? UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-  }
+  /// The view that `createBannerAdView` returned, if any.
+  private(set) var bannerView: UIView?
 
-  @MainActor func loadBannerAd(
-    _ bannerView: UIView,
-    bidPayload: String,
+  /// Called when `loadBannerAd` is called, before it returns.
+  var onBannerLoad: (@MainActor () -> Void)?
+
+  @MainActor func createBannerAdView(
+    adUnitId: String,
     viewController: UIViewController?,
     delegate: any BannerAdClientDelegate
-  ) {
-    loadedBannerBidPayload = bidPayload
-    loadedBannerViewController = viewController
+  ) -> UIView {
+    createdBannerAdUnitId = adUnitId
+    bannerViewController = viewController
     bannerDelegate = delegate
-    if loadBannerShouldSucceed {
-      delegate.bannerDidLoad()
-    } else {
-      let error = AdSurgeAdapterError(
-        errorCode: .internalError,
-        description: "Simulated banner load failure."
-      ).toNSError()
-      delegate.bannerDidFailToLoad(with: error)
+    let view = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+    bannerView = view
+    return view
+  }
+
+  @MainActor func loadBannerAd(bidPayload: String) {
+    loadedBannerBidPayload = bidPayload
+    onBannerLoad?()
+    let loadError = bannerLoadError
+    // Reports the result asynchronously, like the AdSurge SDK.
+    DispatchQueue.main.async { [weak delegate = bannerDelegate] in
+      if let loadError {
+        delegate?.didFailToLoad(error: loadError)
+      } else {
+        delegate?.didLoad()
+      }
     }
   }
 
   func simulateBannerClick() {
-    bannerDelegate?.bannerDidClick()
+    bannerDelegate?.didClick()
   }
 
   func simulateBannerHide() {
-    bannerDelegate?.bannerDidHide()
+    bannerDelegate?.didHide()
   }
 
   func simulateBannerPayRevenue() {
-    bannerDelegate?.bannerDidPayRevenue()
+    bannerDelegate?.didPayRevenue()
   }
 
   // MARK: - Interstitial
@@ -219,12 +228,13 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     initializeResult = (true, nil)
     bidderTokenResult = ("mock_bidder_token", nil)
     sdkVersionString = "2.0.1"
-    loadBannerShouldSucceed = true
+    bannerLoadError = nil
     createdBannerAdUnitId = nil
+    bannerViewController = nil
     loadedBannerBidPayload = nil
-    loadedBannerViewController = nil
     bannerDelegate = nil
-    mockBannerView = nil
+    bannerView = nil
+    onBannerLoad = nil
     interstitialLoadError = nil
     loadedInterstitialAdUnitId = nil
     loadedInterstitialBidPayload = nil

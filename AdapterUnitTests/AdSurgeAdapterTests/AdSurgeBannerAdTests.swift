@@ -58,6 +58,8 @@ final class AdSurgeBannerAdTests {
   @Test("Banner load succeeds when configuration is valid")
   func loadBanner_succeeds_whenConfigurationIsValid() async {
     let config = createBannerConfig()
+    let viewController = UIViewController()
+    config.topViewController = viewController
     await withCheckedContinuation { continuation in
       adapter.loadBanner(for: config) { banner, error in
         #expect(banner != nil)
@@ -69,6 +71,40 @@ final class AdSurgeBannerAdTests {
     }
     #expect(fakeClient.createdBannerAdUnitId == "test_ad_unit_123")
     #expect(fakeClient.loadedBannerBidPayload == "test_bid_response")
+    #expect(fakeClient.bannerViewController === viewController)
+  }
+
+  @Test("Banner load reports the AdSurge banner view")
+  func loadBanner_reportsAdSurgeBannerView() async {
+    let config = createBannerConfig()
+    var loadedView: UIView?
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: config) { banner, _ in
+        loadedView = banner?.view
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
+    }
+    #expect(loadedView != nil)
+    #expect(loadedView === fakeClient.bannerView)
+  }
+
+  @Test("Banner view is set before the banner ad is loaded")
+  func loadBanner_setsViewBeforeLoading() {
+    let loader = BannerAdLoader(
+      adConfiguration: createBannerConfig(),
+      loadCompletionHandler: { _, _ in nil },
+      client: fakeClient)
+    var viewWhenLoading: UIView?
+    fakeClient.onBannerLoad = { [weak loader] in
+      viewWhenLoading = loader?.view
+    }
+
+    loader.loadAd()
+
+    #expect(fakeClient.loadedBannerBidPayload == "test_bid_response")
+    #expect(viewWhenLoading != nil)
+    #expect(viewWhenLoading === fakeClient.bannerView)
   }
 
   @Test("Banner load fails when ad unit ID is missing")
@@ -105,14 +141,15 @@ final class AdSurgeBannerAdTests {
 
   @Test("Banner load fails when AdSurge client fails to load")
   func loadBanner_fails_whenClientFailsToLoad() async {
-    fakeClient.loadBannerShouldSucceed = false
+    fakeClient.bannerLoadError = AdSurgeSDKError(code: 1, message: "No fill.")
     let config = createBannerConfig()
     await withCheckedContinuation { continuation in
       adapter.loadBanner(for: config) { banner, error in
         #expect(banner == nil)
         let nsError = error as? NSError
-        #expect(nsError != nil)
-        #expect(nsError?.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
+        #expect(nsError?.domain == "com.adsurge.adn")
+        #expect(nsError?.code == 1)
+        #expect(nsError?.localizedDescription == "No fill.")
         continuation.resume()
         return nil
       }

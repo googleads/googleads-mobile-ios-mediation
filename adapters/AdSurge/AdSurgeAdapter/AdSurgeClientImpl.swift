@@ -49,37 +49,31 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
     return AdSurgeAdSdkVersion
   }
 
-  @MainActor func createBannerAdView(for adUnitId: String) -> UIView {
-    return AdSurgeBannerAdView(adUnitIdentifier: adUnitId)
-  }
+  @MainActor private var bannerView: AdSurgeBannerAdView?
 
-  @MainActor func loadBannerAd(
-    _ bannerView: UIView,
-    bidPayload: String,
+  @MainActor func createBannerAdView(
+    adUnitId: String,
     viewController: UIViewController?,
     delegate: any BannerAdClientDelegate
-  ) {
-    guard let banner = bannerView as? AdSurgeBannerAdView else {
-      delegate.bannerDidFailToLoad(
-        with: AdSurgeAdapterError(
-          errorCode: .internalError,
-          description: "Invalid banner view type."
-        ).toNSError()
-      )
-      return
-    }
-    banner.viewController = viewController
+  ) -> UIView {
+    let bannerView = AdSurgeBannerAdView(adUnitIdentifier: adUnitId)
+    self.bannerView = bannerView
+    bannerView.viewController = viewController
     let bridge = BannerDelegateBridge(delegate: delegate)
-    banner.delegate = bridge
+    bannerView.delegate = bridge
     objc_setAssociatedObject(
-      banner,
+      bannerView,
       &bannerBridgeAssociatedKey,
       bridge,
       .OBJC_ASSOCIATION_RETAIN_NONATOMIC
     )
+    return bannerView
+  }
+
+  @MainActor func loadBannerAd(bidPayload: String) {
     let config = AdSurgeAdConfig(adFormat: AdSurgeAdFormat.banner)
     config.payload = bidPayload
-    banner.loadAd(config)
+    bannerView?.loadAd(config)
   }
 
   private var interstitialAd: AdSurgeInterstitialAd?
@@ -156,25 +150,25 @@ private final class BannerDelegateBridge: NSObject, AdSurgeBannerAdDelegate, @un
   }
 
   func didLoad(_ ad: AdSurgeAd) {
-    delegate?.bannerDidLoad()
+    delegate?.didLoad()
   }
 
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    delegate?.bannerDidFailToLoad(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
+    delegate?.didFailToLoad(error: AdSurgeSDKError(error))
   }
 
   func didHide(_ ad: AdSurgeAd) {
-    delegate?.bannerDidHide()
+    delegate?.didHide()
   }
 
   func didClick(_ ad: AdSurgeAd) {
-    delegate?.bannerDidClick()
+    delegate?.didClick()
   }
 
   func didPayRevenue(for ad: AdSurgeAd) {
-    delegate?.bannerDidPayRevenue()
+    delegate?.didPayRevenue()
   }
 
 }

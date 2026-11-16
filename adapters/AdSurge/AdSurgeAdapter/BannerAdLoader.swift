@@ -44,14 +44,14 @@ final class BannerAdLoader: NSObject, MediationBannerAd, BannerAdClientDelegate,
     do {
       let adUnitId = try Util.adUnitID(from: adConfiguration)
       let bidResponse = try Util.bidResponse(from: adConfiguration)
-      let bannerView = client.createBannerAdView(for: adUnitId)
-      self.view = bannerView
-      client.loadBannerAd(
-        bannerView,
-        bidPayload: bidResponse,
+      // Set the view before loading so that it is in place if the SDK reports the load result
+      // synchronously.
+      view = client.createBannerAdView(
+        adUnitId: adUnitId,
         viewController: adConfiguration.topViewController,
         delegate: self
       )
+      client.loadBannerAd(bidPayload: bidResponse)
     } catch {
       _ = adLoadCompletionHandler?(nil, error.toNSError())
       adLoadCompletionHandler = nil
@@ -60,26 +60,26 @@ final class BannerAdLoader: NSObject, MediationBannerAd, BannerAdClientDelegate,
 
   // MARK: - BannerAdClientDelegate
 
-  func bannerDidLoad() {
+  func didLoad() {
     eventDelegate = adLoadCompletionHandler?(self, nil)
     adLoadCompletionHandler = nil
   }
 
-  func bannerDidFailToLoad(with error: any Error) {
-    _ = adLoadCompletionHandler?(nil, error.toNSError())
+  func didFailToLoad(error: AdSurgeSDKError) {
+    _ = adLoadCompletionHandler?(nil, Util.sdkNSError(from: error))
     adLoadCompletionHandler = nil
   }
 
-  func bannerDidClick() {
+  func didClick() {
     eventDelegate?.reportClick()
   }
 
-  func bannerDidHide() {
+  func didHide() {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }
 
-  func bannerDidPayRevenue() {
+  func didPayRevenue() {
     eventDelegate?.reportImpression()
   }
 
