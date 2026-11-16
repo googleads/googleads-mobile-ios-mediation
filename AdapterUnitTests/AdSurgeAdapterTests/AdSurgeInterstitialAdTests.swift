@@ -250,4 +250,85 @@ final class AdSurgeInterstitialAdTests {
     #expect(eventDelegate.reportImpressionInvokeCount == 1)
   }
 
+  @Test("Interstitial load reports only the first result when a failure follows a load")
+  func loadInterstitial_ignoresLoadFailure_afterLoadSuccess() async {
+    let recorder = LoadCompletionRecorder()
+    await recorder.waitForFirstCompletion {
+      adapter.loadInterstitial(for: createInterstitialConfig()) { _, error in
+        recorder.record(error)
+        return AUTKMediationInterstitialAdEventDelegate()
+      }
+    }
+
+    fakeClient.simulateInterstitialLoadFailure(AdSurgeSDKError(code: 1, message: "No fill."))
+
+    #expect(recorder.errors == [nil])
+  }
+
+  @Test("Interstitial load reports only the first result when a load follows a failure")
+  func loadInterstitial_ignoresLoadSuccess_afterLoadFailure() async {
+    fakeClient.interstitialLoadError = AdSurgeSDKError(code: 1, message: "No fill.")
+    let recorder = LoadCompletionRecorder()
+    await recorder.waitForFirstCompletion {
+      adapter.loadInterstitial(for: createInterstitialConfig()) { _, error in
+        recorder.record(error)
+        return nil
+      }
+    }
+
+    fakeClient.simulateInterstitialLoadSuccess()
+
+    #expect(recorder.errors.count == 1)
+    #expect(recorder.errors.first??.domain == "com.adsurge.adn")
+    #expect(recorder.errors.first??.code == 1)
+  }
+
+  @Test("Interstitial ad ignores events after the loader is released")
+  func interstitialAd_ignoresEvents_afterLoaderIsReleased() async {
+    var adapter: AdSurgeAdapter? = AdSurgeAdapter()
+    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter?.loadInterstitial(for: createInterstitialConfig()) { _, _ in
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+
+    adapter = nil
+    #expect(fakeClient.interstitialDelegate == nil)
+    fakeClient.simulateInterstitialDisplay()
+    fakeClient.simulateInterstitialDisplay(
+      error: AdSurgeSDKError(code: 6, message: "Consent declined."))
+    fakeClient.simulateInterstitialClick()
+    fakeClient.simulateInterstitialHide()
+    fakeClient.simulateInterstitialPayRevenue()
+
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.didFailToPresentError == nil)
+    #expect(eventDelegate.reportClickInvokeCount == 0)
+    #expect(eventDelegate.willDismissFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.didDismissFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.reportImpressionInvokeCount == 0)
+  }
+
+  @Test("Interstitial ad forwards every presentation to the AdSurge client")
+  func interstitialAd_forwardsEveryPresentation() async throws {
+    var loadedInterstitial: MediationInterstitialAd?
+    await withCheckedContinuation { continuation in
+      adapter.loadInterstitial(for: createInterstitialConfig()) { interstitial, _ in
+        loadedInterstitial = interstitial
+        continuation.resume()
+        return AUTKMediationInterstitialAdEventDelegate()
+      }
+    }
+    let interstitial = try #require(loadedInterstitial)
+    let viewController = UIViewController()
+
+    interstitial.present(from: viewController)
+    interstitial.present(from: viewController)
+
+    #expect(fakeClient.showInterstitialCount == 2)
+    #expect(fakeClient.lastPresentedViewController === viewController)
+  }
+
 }

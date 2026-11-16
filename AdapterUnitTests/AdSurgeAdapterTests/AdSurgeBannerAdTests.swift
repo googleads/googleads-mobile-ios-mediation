@@ -229,4 +229,60 @@ final class AdSurgeBannerAdTests {
     }
   }
 
+  @Test("Banner load reports only the first result when a failure follows a load")
+  func loadBanner_ignoresLoadFailure_afterLoadSuccess() async {
+    let recorder = LoadCompletionRecorder()
+    await recorder.waitForFirstCompletion {
+      adapter.loadBanner(for: createBannerConfig()) { _, error in
+        recorder.record(error)
+        return AUTKMediationBannerAdEventDelegate()
+      }
+    }
+
+    fakeClient.simulateBannerLoadFailure(AdSurgeSDKError(code: 1, message: "No fill."))
+
+    #expect(recorder.errors == [nil])
+  }
+
+  @Test("Banner load reports only the first result when a load follows a failure")
+  func loadBanner_ignoresLoadSuccess_afterLoadFailure() async {
+    fakeClient.bannerLoadError = AdSurgeSDKError(code: 1, message: "No fill.")
+    let recorder = LoadCompletionRecorder()
+    await recorder.waitForFirstCompletion {
+      adapter.loadBanner(for: createBannerConfig()) { _, error in
+        recorder.record(error)
+        return nil
+      }
+    }
+
+    fakeClient.simulateBannerLoadSuccess()
+
+    #expect(recorder.errors.count == 1)
+    #expect(recorder.errors.first??.domain == "com.adsurge.adn")
+    #expect(recorder.errors.first??.code == 1)
+  }
+
+  @Test("Banner ad ignores events after the loader is released")
+  func bannerAd_ignoresEvents_afterLoaderIsReleased() async {
+    var adapter: AdSurgeAdapter? = AdSurgeAdapter()
+    let eventDelegate = AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter?.loadBanner(for: createBannerConfig()) { _, _ in
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+
+    adapter = nil
+    #expect(fakeClient.bannerDelegate == nil)
+    fakeClient.simulateBannerClick()
+    fakeClient.simulateBannerHide()
+    fakeClient.simulateBannerPayRevenue()
+
+    #expect(eventDelegate.reportClickInvokeCount == 0)
+    #expect(eventDelegate.willDismissFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.didDismissFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.reportImpressionInvokeCount == 0)
+  }
+
 }

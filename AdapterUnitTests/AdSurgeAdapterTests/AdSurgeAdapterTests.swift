@@ -59,6 +59,17 @@ final class AdSurgeAdapterTests {
     #expect(version.patchVersion == 1)
   }
 
+  @Test("Ad SDK version is 0.0.0 when the SDK version is not in major.minor.patch format")
+  func adSdkVersion_returnsZero_whenSDKVersionIsMalformed() {
+    fakeClient.sdkVersionString = "2.0"
+
+    let version = AdSurgeAdapter.adSDKVersion()
+
+    #expect(version.majorVersion == 0)
+    #expect(version.minorVersion == 0)
+    #expect(version.patchVersion == 0)
+  }
+
   @Test("Network extras class validation")
   func networkExtrasClass_validates() {
     let extrasClass = AdSurgeAdapter.networkExtrasClass()

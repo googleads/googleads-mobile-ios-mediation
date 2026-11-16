@@ -105,6 +105,16 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     bannerDelegate?.didPayRevenue()
   }
 
+  /// Reports another successful load, as if the SDK called back again.
+  func simulateBannerLoadSuccess() {
+    bannerDelegate?.didLoad()
+  }
+
+  /// Reports a load failure, as if the SDK called back again.
+  func simulateBannerLoadFailure(_ error: AdSurgeSDKError) {
+    bannerDelegate?.didFailToLoad(error: error)
+  }
+
   // MARK: - Interstitial
 
   /// The error the interstitial ad reports after `loadInterstitialAd` returns, or `nil` to report a
@@ -159,6 +169,16 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   func simulateInterstitialPayRevenue() {
     interstitialDelegate?.didPayRevenue()
+  }
+
+  /// Reports another successful load, as if the SDK called back again.
+  func simulateInterstitialLoadSuccess() {
+    interstitialDelegate?.didLoad()
+  }
+
+  /// Reports a load failure, as if the SDK called back again.
+  func simulateInterstitialLoadFailure(_ error: AdSurgeSDKError) {
+    interstitialDelegate?.didFailToLoad(error: error)
   }
 
   // MARK: - Rewarded
@@ -221,6 +241,16 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     rewardedDelegate?.didPayRevenue()
   }
 
+  /// Reports another successful load, as if the SDK called back again.
+  func simulateRewardedLoadSuccess() {
+    rewardedDelegate?.didLoad()
+  }
+
+  /// Reports a load failure, as if the SDK called back again.
+  func simulateRewardedLoadFailure(_ error: AdSurgeSDKError) {
+    rewardedDelegate?.didFailToLoad(error: error)
+  }
+
   func reset() {
     ageRestrictedUser = nil
     setAgeRestrictedUserCallCount = 0
@@ -249,6 +279,32 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     rewardedAdReady = true
     showRewardedCount = 0
     lastPresentedRewardedViewController = nil
+  }
+
+}
+
+/// Records every call to a GMA load completion handler.
+@MainActor
+final class LoadCompletionRecorder {
+
+  /// The errors passed to the completion handler, one per call.
+  private(set) var errors: [NSError?] = []
+
+  private var continuation: CheckedContinuation<Void, Never>?
+
+  /// Records a call to the completion handler.
+  func record(_ error: (any Error)?) {
+    errors.append(error as NSError?)
+    continuation?.resume()
+    continuation = nil
+  }
+
+  /// Runs `load` and waits until the completion handler is called for the first time.
+  func waitForFirstCompletion(after load: () -> Void) async {
+    await withCheckedContinuation { continuation in
+      self.continuation = continuation
+      load()
+    }
   }
 
 }

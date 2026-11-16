@@ -249,4 +249,87 @@ final class AdSurgeRewardedAdTests {
     #expect(eventDelegate.reportImpressionInvokeCount == 1)
   }
 
+  @Test("Rewarded load reports only the first result when a failure follows a load")
+  func loadRewarded_ignoresLoadFailure_afterLoadSuccess() async {
+    let recorder = LoadCompletionRecorder()
+    await recorder.waitForFirstCompletion {
+      adapter.loadRewardedAd(for: createRewardedConfig()) { _, error in
+        recorder.record(error)
+        return AUTKMediationRewardedAdEventDelegate()
+      }
+    }
+
+    fakeClient.simulateRewardedLoadFailure(AdSurgeSDKError(code: 1, message: "No fill."))
+
+    #expect(recorder.errors == [nil])
+  }
+
+  @Test("Rewarded load reports only the first result when a load follows a failure")
+  func loadRewarded_ignoresLoadSuccess_afterLoadFailure() async {
+    fakeClient.rewardedLoadError = AdSurgeSDKError(code: 1, message: "No fill.")
+    let recorder = LoadCompletionRecorder()
+    await recorder.waitForFirstCompletion {
+      adapter.loadRewardedAd(for: createRewardedConfig()) { _, error in
+        recorder.record(error)
+        return nil
+      }
+    }
+
+    fakeClient.simulateRewardedLoadSuccess()
+
+    #expect(recorder.errors.count == 1)
+    #expect(recorder.errors.first??.domain == "com.adsurge.adn")
+    #expect(recorder.errors.first??.code == 1)
+  }
+
+  @Test("Rewarded ad ignores events after the loader is released")
+  func rewardedAd_ignoresEvents_afterLoaderIsReleased() async {
+    var adapter: AdSurgeAdapter? = AdSurgeAdapter()
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter?.loadRewardedAd(for: createRewardedConfig()) { _, _ in
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+
+    adapter = nil
+    #expect(fakeClient.rewardedDelegate == nil)
+    fakeClient.simulateRewardedDisplay()
+    fakeClient.simulateRewardedDisplay(
+      error: AdSurgeSDKError(code: 6, message: "Consent declined."))
+    fakeClient.simulateRewardedClick()
+    fakeClient.simulateRewardedHide()
+    fakeClient.simulateRewardedRewardUser()
+    fakeClient.simulateRewardedPayRevenue()
+
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.didFailToPresentError == nil)
+    #expect(eventDelegate.reportClickInvokeCount == 0)
+    #expect(eventDelegate.willDismissFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.didDismissFullScreenViewInvokeCount == 0)
+    #expect(eventDelegate.didRewardUserInvokeCount == 0)
+    #expect(eventDelegate.reportImpressionInvokeCount == 0)
+  }
+
+  @Test("Rewarded ad forwards every presentation to the AdSurge client")
+  func rewardedAd_forwardsEveryPresentation() async throws {
+    var loadedRewarded: MediationRewardedAd?
+    await withCheckedContinuation { continuation in
+      adapter.loadRewardedAd(for: createRewardedConfig()) { rewarded, _ in
+        loadedRewarded = rewarded
+        continuation.resume()
+        return AUTKMediationRewardedAdEventDelegate()
+      }
+    }
+    let rewarded = try #require(loadedRewarded)
+    let viewController = UIViewController()
+
+    rewarded.present(from: viewController)
+    rewarded.present(from: viewController)
+
+    #expect(fakeClient.showRewardedCount == 2)
+    #expect(fakeClient.lastPresentedRewardedViewController === viewController)
+  }
+
 }
