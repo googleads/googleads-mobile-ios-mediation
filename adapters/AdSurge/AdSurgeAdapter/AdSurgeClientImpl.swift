@@ -114,7 +114,7 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
   }
 
   func loadRewardedAd(
-    for adUnitId: String,
+    adUnitId: String,
     bidPayload: String,
     delegate: any RewardedAdClientDelegate
   ) {
@@ -133,13 +133,12 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
     ad.load(config)
   }
 
-  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
-    guard let rewardedAd, rewardedAd.isValid else {
-      throw AdSurgeAdapterError(
-        errorCode: .adNotReadyForPresentation,
-        description: "AdSurge rewarded ad is not ready to be presented.")
-    }
-    rewardedAd.show(fromRootViewController: rootViewController)
+  func isRewardedAdReady() -> Bool {
+    return rewardedAd?.isValid ?? false
+  }
+
+  func showRewardedAd(from rootViewController: UIViewController) {
+    rewardedAd?.show(fromRootViewController: rootViewController)
   }
 
 }
@@ -229,37 +228,33 @@ private final class RewardedDelegateBridge: NSObject, AdSurgeRewardedAdDelegate,
   }
 
   func didLoad(_ ad: AdSurgeAd) {
-    delegate?.rewardedDidLoad()
+    delegate?.didLoad()
   }
 
   func didFailToLoadAd(
     forAdUnitIdentifier adUnitIdentifier: String, withError error: AdSurgeError
   ) {
-    delegate?.rewardedDidFailToLoad(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
+    delegate?.didFailToLoad(error: AdSurgeSDKError(error))
   }
 
   func didDisplay(_ ad: AdSurgeAd, withError error: AdSurgeError?) {
-    if let error {
-      delegate?.rewardedDidFailToDisplay(with: Util.sdkNSError(from: AdSurgeSDKError(error)))
-    } else {
-      delegate?.rewardedDidDisplay()
-    }
+    delegate?.didDisplay(error: error.map(AdSurgeSDKError.init))
   }
 
   func didHide(_ ad: AdSurgeAd) {
-    delegate?.rewardedDidHide()
+    delegate?.didHide()
   }
 
   func didClick(_ ad: AdSurgeAd) {
-    delegate?.rewardedDidClick()
+    delegate?.didClick()
   }
 
   func didRewardUser(for ad: AdSurgeAd, with reward: AdSurgeReward) {
-    delegate?.rewardedDidRewardUser()
+    delegate?.didRewardUser()
   }
 
   func didPayRevenue(for ad: AdSurgeAd) {
-    delegate?.rewardedDidPayRevenue()
+    delegate?.didPayRevenue()
   }
 
 }

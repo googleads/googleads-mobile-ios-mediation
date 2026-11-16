@@ -154,63 +154,62 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   // MARK: - Rewarded
 
-  var loadRewardedShouldSucceed: Bool = true
+  /// The error the rewarded ad reports after `loadRewardedAd` returns, or `nil` to report a
+  /// successful load.
+  var rewardedLoadError: AdSurgeSDKError?
   var loadedRewardedAdUnitId: String?
   var loadedRewardedBidPayload: String?
   weak var rewardedDelegate: (any RewardedAdClientDelegate)?
-  var showRewardedCount: Int = 0
+  var rewardedAdReady = true
+  var showRewardedCount = 0
   var lastPresentedRewardedViewController: UIViewController?
-  var showRewardedError: AdSurgeAdapterError?
 
   func loadRewardedAd(
-    for adUnitId: String,
+    adUnitId: String,
     bidPayload: String,
     delegate: any RewardedAdClientDelegate
   ) {
     loadedRewardedAdUnitId = adUnitId
     loadedRewardedBidPayload = bidPayload
     rewardedDelegate = delegate
-    if loadRewardedShouldSucceed {
-      delegate.rewardedDidLoad()
-    } else {
-      let error = AdSurgeAdapterError(
-        errorCode: .internalError,
-        description: "Simulated rewarded load failure."
-      ).toNSError()
-      delegate.rewardedDidFailToLoad(with: error)
+    let loadError = rewardedLoadError
+    // Reports the result asynchronously, like the AdSurge SDK.
+    DispatchQueue.main.async { [weak delegate] in
+      if let loadError {
+        delegate?.didFailToLoad(error: loadError)
+      } else {
+        delegate?.didLoad()
+      }
     }
   }
 
-  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError) {
-    if let showRewardedError {
-      throw showRewardedError
-    }
+  func isRewardedAdReady() -> Bool {
+    return rewardedAdReady
+  }
+
+  func showRewardedAd(from rootViewController: UIViewController) {
     showRewardedCount += 1
     lastPresentedRewardedViewController = rootViewController
   }
 
-  func simulateRewardedDisplay(error: (any Error)? = nil) {
-    if let error {
-      rewardedDelegate?.rewardedDidFailToDisplay(with: error)
-    } else {
-      rewardedDelegate?.rewardedDidDisplay()
-    }
+  func simulateRewardedDisplay(error: AdSurgeSDKError? = nil) {
+    rewardedDelegate?.didDisplay(error: error)
   }
 
   func simulateRewardedClick() {
-    rewardedDelegate?.rewardedDidClick()
+    rewardedDelegate?.didClick()
   }
 
   func simulateRewardedHide() {
-    rewardedDelegate?.rewardedDidHide()
+    rewardedDelegate?.didHide()
   }
 
   func simulateRewardedRewardUser() {
-    rewardedDelegate?.rewardedDidRewardUser()
+    rewardedDelegate?.didRewardUser()
   }
 
   func simulateRewardedPayRevenue() {
-    rewardedDelegate?.rewardedDidPayRevenue()
+    rewardedDelegate?.didPayRevenue()
   }
 
   func reset() {
@@ -233,11 +232,11 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     interstitialAdReady = true
     showInterstitialCount = 0
     lastPresentedViewController = nil
-    loadRewardedShouldSucceed = true
+    rewardedLoadError = nil
     loadedRewardedAdUnitId = nil
     loadedRewardedBidPayload = nil
     rewardedDelegate = nil
-    showRewardedError = nil
+    rewardedAdReady = true
     showRewardedCount = 0
     lastPresentedRewardedViewController = nil
   }

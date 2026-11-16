@@ -102,14 +102,15 @@ final class AdSurgeRewardedAdTests {
 
   @Test("Rewarded load fails when AdSurge client fails to load")
   func loadRewarded_fails_whenClientFailsToLoad() async {
-    fakeClient.loadRewardedShouldSucceed = false
+    fakeClient.rewardedLoadError = AdSurgeSDKError(code: 1, message: "No fill.")
     let config = createRewardedConfig()
     await withCheckedContinuation { continuation in
       adapter.loadRewardedAd(for: config) { rewarded, error in
         #expect(rewarded == nil)
         let nsError = error as? NSError
-        #expect(nsError != nil)
-        #expect(nsError?.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
+        #expect(nsError?.domain == "com.adsurge.adn")
+        #expect(nsError?.code == 1)
+        #expect(nsError?.localizedDescription == "No fill.")
         continuation.resume()
         return nil
       }
@@ -135,9 +136,7 @@ final class AdSurgeRewardedAdTests {
 
   @Test("Rewarded ad fails to present when the ad is not ready")
   func rewardedAd_failsToPresent_whenAdNotReady() async throws {
-    fakeClient.showRewardedError = AdSurgeAdapterError(
-      errorCode: .adNotReadyForPresentation,
-      description: "AdSurge rewarded ad is not ready to be presented.")
+    fakeClient.rewardedAdReady = false
     let config = createRewardedConfig()
     let eventDelegate = AUTKMediationRewardedAdEventDelegate()
     var loadedRewarded: MediationRewardedAd?
@@ -153,19 +152,10 @@ final class AdSurgeRewardedAdTests {
     let nsError = eventDelegate.didFailToPresentError as NSError?
     #expect(nsError?.domain == AdSurgeAdapterError.domain)
     #expect(nsError?.code == AdSurgeAdapterError.ErrorCode.adNotReadyForPresentation.rawValue)
+    #expect(
+      nsError?.localizedDescription == "AdSurge rewarded ad is not ready to be presented.")
     #expect(fakeClient.showRewardedCount == 0)
     #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
-  }
-
-  @Test("AdSurge client throws when showing a rewarded ad before one is loaded")
-  func clientImpl_showRewardedAd_throws_whenNoAdLoaded() {
-    do {
-      try AdSurgeClientImpl().showRewardedAd(from: UIViewController())
-      Issue.record("Expected showRewardedAd to throw.")
-    } catch {
-      #expect(error.errorCode == .adNotReadyForPresentation)
-      #expect(error.toNSError().domain == AdSurgeAdapterError.domain)
-    }
   }
 
   @Test("Rewarded ad reports presentation without impression on display")
@@ -193,15 +183,13 @@ final class AdSurgeRewardedAdTests {
         return eventDelegate
       }
     }
-    let displayError = AdSurgeAdapterError(
-      errorCode: .internalError,
-      description: "Display failed."
-    ).toNSError()
-    fakeClient.simulateRewardedDisplay(error: displayError)
+    fakeClient.simulateRewardedDisplay(
+      error: AdSurgeSDKError(code: 6, message: "Consent declined."))
     let presentError = eventDelegate.didFailToPresentError as NSError?
-    #expect(presentError?.domain == AdSurgeAdapterError.domain)
-    #expect(presentError?.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
-    #expect(presentError?.localizedDescription == "Display failed.")
+    #expect(presentError?.domain == "com.adsurge.adn")
+    #expect(presentError?.code == 6)
+    #expect(presentError?.localizedDescription == "Consent declined.")
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
   }
 
   @Test("Rewarded ad reports click")

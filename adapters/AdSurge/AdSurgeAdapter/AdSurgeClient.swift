@@ -92,33 +92,11 @@ protocol FullScreenAdClientDelegate: AnyObject, Sendable {
 
 }
 
-/// Delegate protocol for receiving rewarded ad callbacks from the AdSurge client.
-protocol RewardedAdClientDelegate: AnyObject, Sendable {
+/// Receives the events of a rewarded ad from the AdSurge client.
+protocol RewardedAdClientDelegate: FullScreenAdClientDelegate {
 
-  /// Called when a rewarded ad loads successfully.
-  func rewardedDidLoad()
-
-  /// Called when a rewarded ad fails to load.
-  func rewardedDidFailToLoad(with error: any Error)
-
-  /// Called when a rewarded ad is presented on screen.
-  func rewardedDidDisplay()
-
-  /// Called when a rewarded ad fails to display, for example, when the user declines the AdSurge
-  /// consent page.
-  func rewardedDidFailToDisplay(with error: any Error)
-
-  /// Called when a rewarded ad is clicked.
-  func rewardedDidClick()
-
-  /// Called when a rewarded ad is hidden.
-  func rewardedDidHide()
-
-  /// Called when a rewarded ad grants a reward.
-  func rewardedDidRewardUser()
-
-  /// Called when AdSurge counts an impression for a rewarded ad.
-  func rewardedDidPayRevenue()
+  /// Called when the ad grants a reward.
+  func didRewardUser()
 
 }
 
@@ -165,16 +143,17 @@ protocol AdSurgeClient: AnyObject, Sendable {
   /// Shows the loaded interstitial ad.
   func showInterstitialAd(from rootViewController: UIViewController)
 
-  /// Loads a rewarded ad from AdSurge.
+  /// Loads a rewarded ad from AdSurge. The ad reports its events to `delegate`.
   func loadRewardedAd(
-    for adUnitId: String,
+    adUnitId: String,
     bidPayload: String,
     delegate: any RewardedAdClientDelegate
   )
 
+  /// Returns whether the loaded rewarded ad is ready to be shown.
+  func isRewardedAdReady() -> Bool
+
   /// Shows the loaded rewarded ad.
-  ///
-  /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
-  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
+  func showRewardedAd(from rootViewController: UIViewController)
 
 }

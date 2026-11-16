@@ -41,7 +41,7 @@ final class RewardedAdLoader: NSObject, MediationRewardedAd, RewardedAdClientDel
       let adUnitId = try Util.adUnitID(from: adConfiguration)
       let bidResponse = try Util.bidResponse(from: adConfiguration)
       client.loadRewardedAd(
-        for: adUnitId,
+        adUnitId: adUnitId,
         bidPayload: bidResponse,
         delegate: self
       )
@@ -52,47 +52,51 @@ final class RewardedAdLoader: NSObject, MediationRewardedAd, RewardedAdClientDel
   }
 
   func present(from viewController: UIViewController) {
-    do {
-      try client.showRewardedAd(from: viewController)
-    } catch {
-      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    guard client.isRewardedAdReady() else {
+      eventDelegate?.didFailToPresentWithError(
+        AdSurgeAdapterError(
+          errorCode: .adNotReadyForPresentation,
+          description: "AdSurge rewarded ad is not ready to be presented."
+        ).toNSError())
+      return
     }
+    client.showRewardedAd(from: viewController)
   }
 
   // MARK: - RewardedAdClientDelegate
 
-  func rewardedDidLoad() {
+  func didLoad() {
     eventDelegate = adLoadCompletionHandler?(self, nil)
     adLoadCompletionHandler = nil
   }
 
-  func rewardedDidFailToLoad(with error: any Error) {
-    _ = adLoadCompletionHandler?(nil, error.toNSError())
+  func didFailToLoad(error: AdSurgeSDKError) {
+    _ = adLoadCompletionHandler?(nil, Util.sdkNSError(from: error))
     adLoadCompletionHandler = nil
   }
 
-  func rewardedDidDisplay() {
-    eventDelegate?.willPresentFullScreenView()
+  func didDisplay(error: AdSurgeSDKError?) {
+    if let error {
+      eventDelegate?.didFailToPresentWithError(Util.sdkNSError(from: error))
+    } else {
+      eventDelegate?.willPresentFullScreenView()
+    }
   }
 
-  func rewardedDidFailToDisplay(with error: any Error) {
-    eventDelegate?.didFailToPresentWithError(error.toNSError())
-  }
-
-  func rewardedDidClick() {
+  func didClick() {
     eventDelegate?.reportClick()
   }
 
-  func rewardedDidHide() {
+  func didHide() {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }
 
-  func rewardedDidRewardUser() {
+  func didRewardUser() {
     eventDelegate?.didRewardUser()
   }
 
-  func rewardedDidPayRevenue() {
+  func didPayRevenue() {
     eventDelegate?.reportImpression()
   }
 
