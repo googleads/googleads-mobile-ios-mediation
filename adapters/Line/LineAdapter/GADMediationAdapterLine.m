@@ -106,6 +106,10 @@ static BOOL _isTestMode = NO;
   }
 
   NSString *slotID = GADMediationAdapterLineSlotID(credentials.firstObject, &error);
+  if (error || !slotID) {
+    completionHandler(nil, error);
+    return;
+  }
 
   if (credentials.count > 1) {
     GADMediationAdapterLineLog(@"Multiple slot ID associated with this ad unit found. Selected the "
