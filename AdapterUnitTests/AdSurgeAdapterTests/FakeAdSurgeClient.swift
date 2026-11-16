@@ -23,8 +23,13 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
   var ageRestrictedUser: NSNumber?
   var setAgeRestrictedUserCallCount = 0
   var applicationId: String?
-  var initializeShouldSucceed: Bool = true
-  var bidderTokenToReturn: String? = "mock_bidder_token"
+
+  /// The result `initialize` returns.
+  var initializeResult: (success: Bool, error: AdSurgeSDKError?) = (true, nil)
+
+  /// The result `getBidderToken` returns.
+  var bidderTokenResult: (token: String?, error: AdSurgeSDKError?) = ("mock_bidder_token", nil)
+
   var sdkVersionString: String = "2.0.1"
 
   func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber) {
@@ -32,22 +37,13 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     self.ageRestrictedUser = ageRestrictedUser
   }
 
-  func initialize(with appId: String) async throws {
-    self.applicationId = appId
-    guard initializeShouldSucceed else {
-      throw AdSurgeAdapterError(
-        errorCode: .internalError,
-        description: "Fake initialization failed.")
-    }
+  func initialize(appId: String) async -> (success: Bool, error: AdSurgeSDKError?) {
+    applicationId = appId
+    return initializeResult
   }
 
-  func getBidderToken() async throws -> String {
-    guard let token = bidderTokenToReturn else {
-      throw AdSurgeAdapterError(
-        errorCode: .invalidRTBRequestParameters,
-        description: "Fake bidder token retrieval failed.")
-    }
-    return token
+  func getBidderToken() async -> (token: String?, error: AdSurgeSDKError?) {
+    return bidderTokenResult
   }
 
   func version() -> String {
@@ -222,8 +218,8 @@ final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
     ageRestrictedUser = nil
     setAgeRestrictedUserCallCount = 0
     applicationId = nil
-    initializeShouldSucceed = true
-    bidderTokenToReturn = "mock_bidder_token"
+    initializeResult = (true, nil)
+    bidderTokenResult = ("mock_bidder_token", nil)
     sdkVersionString = "2.0.1"
     loadBannerShouldSucceed = true
     createdBannerAdUnitId = nil

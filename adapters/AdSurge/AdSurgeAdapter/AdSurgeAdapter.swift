@@ -42,16 +42,12 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     let ageRestricted = Util.isAgeRestrictedUser()
     let completionBox = UncheckedSendable(completionHandler)
     Task {
-      do {
-        let client = AdSurgeClientFactory.createClient()
-        if let ageRestricted {
-          client.setAgeRestrictedUser(ageRestricted)
-        }
-        try await client.initialize(with: appId)
-        completionBox.value(nil)
-      } catch {
-        completionBox.value(error.toNSError())
+      let client = AdSurgeClientFactory.createClient()
+      if let ageRestricted {
+        client.setAgeRestrictedUser(ageRestricted)
       }
+      let result = await client.initialize(appId: appId)
+      completionBox.value(result.success ? nil : Util.initializationError(from: result.error))
     }
   }
 
@@ -106,15 +102,15 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     let ageRestricted = Util.isAgeRestrictedUser()
     let completionBox = UncheckedSendable(completionHandler)
     Task {
-      do {
-        let client = AdSurgeClientFactory.createClient()
-        if let ageRestricted {
-          client.setAgeRestrictedUser(ageRestricted)
-        }
-        let signal = try await client.getBidderToken()
-        completionBox.value(signal, nil)
-      } catch {
-        completionBox.value(nil, error.toNSError())
+      let client = AdSurgeClientFactory.createClient()
+      if let ageRestricted {
+        client.setAgeRestrictedUser(ageRestricted)
+      }
+      let result = await client.getBidderToken()
+      if let token = result.token {
+        completionBox.value(token, nil)
+      } else {
+        completionBox.value(nil, Util.bidderTokenError(from: result.error))
       }
     }
   }

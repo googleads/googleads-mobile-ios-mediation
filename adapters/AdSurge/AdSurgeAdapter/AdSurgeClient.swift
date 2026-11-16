@@ -132,10 +132,14 @@ protocol AdSurgeClient: AnyObject, Sendable {
   func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber)
 
   /// Initializes the AdSurge SDK with an application ID.
-  func initialize(with appId: String) async throws
+  ///
+  /// - Returns: Whether initialization succeeded, and the error the SDK reported, if any.
+  func initialize(appId: String) async -> (success: Bool, error: AdSurgeSDKError?)
 
   /// Retrieves a bidder token from the AdSurge SDK.
-  func getBidderToken() async throws -> String
+  ///
+  /// - Returns: The bidder token and the error the SDK reported, either of which may be `nil`.
+  func getBidderToken() async -> (token: String?, error: AdSurgeSDKError?)
 
   /// Returns the SDK version string.
   func version() -> String

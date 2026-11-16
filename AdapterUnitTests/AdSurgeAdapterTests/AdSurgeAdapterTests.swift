@@ -153,24 +153,35 @@ final class AdSurgeAdapterTests {
     }
   }
 
-  @Test("Set up fails when client initialization fails")
-  func setUp_fails_whenClientInitializationFails() async {
-    fakeClient.initializeShouldSucceed = false
+  @Test("Set up fails with the SDK error when initialization fails")
+  func setUp_fails_withSDKError_whenInitializationFails() async {
+    fakeClient.initializeResult = (false, AdSurgeSDKError(code: 2, message: "Network error."))
 
-    let credentials = AUTKMediationCredentials()
-    credentials.settings = ["application_id": "test_app_id"]
-    let config = AUTKMediationServerConfiguration()
-    config.credentials = [credentials]
+    let error = await setUpAdapter()
 
-    await confirmation("wait for setUp failure") { setUpCompleted in
-      await withCheckedContinuation { continuation in
-        AdSurgeAdapter.setUp(with: config) { error in
-          #expect(error != nil)
-          continuation.resume()
-        }
-      }
-      setUpCompleted()
-    }
+    #expect(error?.domain == "com.adsurge.adn")
+    #expect(error?.code == 2)
+    #expect(error?.localizedDescription == "Network error.")
+  }
+
+  @Test("Set up fails with an internal error when initialization fails without an SDK error")
+  func setUp_failsWithInternalError_whenInitializationFailsWithoutSDKError() async {
+    fakeClient.initializeResult = (false, nil)
+
+    let error = await setUpAdapter()
+
+    #expect(error?.domain == AdSurgeAdapterError.domain)
+    #expect(error?.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
+    #expect(error?.localizedDescription == "AdSurge SDK failed to initialize.")
+  }
+
+  @Test("Set up succeeds when the SDK reports success along with an error")
+  func setUp_succeeds_whenSDKReportsSuccessWithError() async {
+    fakeClient.initializeResult = (true, AdSurgeSDKError(code: 2, message: "Network error."))
+
+    let error = await setUpAdapter()
+
+    #expect(error == nil)
   }
 
   // MARK: - Signal Collection
@@ -289,6 +300,40 @@ final class AdSurgeAdapterTests {
     #expect(fakeClient.setAgeRestrictedUserCallCount == 0)
   }
 
+  @Test("Signal collection fails with the SDK error when the SDK returns no token")
+  func collectSignals_fails_withSDKError() async {
+    fakeClient.bidderTokenResult = (nil, AdSurgeSDKError(code: 3, message: "Server error."))
+
+    let (signal, error) = await collectBannerSignals()
+
+    #expect(signal == nil)
+    #expect(error?.domain == "com.adsurge.adn")
+    #expect(error?.code == 3)
+    #expect(error?.localizedDescription == "Server error.")
+  }
+
+  @Test("Signal collection fails with an internal error when the SDK returns no token or error")
+  func collectSignals_failsWithInternalError_whenSDKReturnsNoTokenOrError() async {
+    fakeClient.bidderTokenResult = (nil, nil)
+
+    let (signal, error) = await collectBannerSignals()
+
+    #expect(signal == nil)
+    #expect(error?.domain == AdSurgeAdapterError.domain)
+    #expect(error?.code == AdSurgeAdapterError.ErrorCode.internalError.rawValue)
+    #expect(error?.localizedDescription == "Failed to retrieve bidder token.")
+  }
+
+  @Test("Signal collection returns the token when the SDK returns a token along with an error")
+  func collectSignals_returnsToken_whenSDKReturnsTokenWithError() async {
+    fakeClient.bidderTokenResult = ("token", AdSurgeSDKError(code: 3, message: "Server error."))
+
+    let (signal, error) = await collectBannerSignals()
+
+    #expect(signal == "token")
+    #expect(error == nil)
+  }
+
   @Test("The adapter fails signal collection for unsupported native format")
   func collectSignals_fails_forUnsupportedNativeFormat() async {
     let credentials = AUTKMediationCredentials()
@@ -313,6 +358,37 @@ final class AdSurgeAdapterTests {
         }
       }
       collectionCompleted()
+    }
+  }
+
+  // MARK: - Helpers
+
+  /// Sets up the adapter with an application ID and returns the error it reports, if any.
+  private func setUpAdapter() async -> NSError? {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_app_id"]
+    let config = AUTKMediationServerConfiguration()
+    config.credentials = [credentials]
+    return await withCheckedContinuation { continuation in
+      AdSurgeAdapter.setUp(with: config) { error in
+        continuation.resume(returning: error as NSError?)
+      }
+    }
+  }
+
+  /// Collects banner signals and returns the signal and the error the adapter reports.
+  private func collectBannerSignals() async -> (signal: String?, error: NSError?) {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let signalConfig = AUTKRTBMediationSignalsConfiguration()
+    signalConfig.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = signalConfig
+    let adapter = AdSurgeAdapter()
+    return await withCheckedContinuation { continuation in
+      adapter.collectSignals(for: requestParams) { signal, error in
+        continuation.resume(returning: (signal, error as NSError?))
+      }
     }
   }
 

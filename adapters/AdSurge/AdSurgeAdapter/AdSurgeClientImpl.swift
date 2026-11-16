@@ -23,31 +23,20 @@ final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
     AdSurgePrivacyConfiguration.configuration().ageRestrictedUser = ageRestrictedUser
   }
 
-  func initialize(with appId: String) async throws {
-    try await withCheckedThrowingContinuation {
-      (continuation: CheckedContinuation<Void, any Error>) in
-      let config = AdSurgeSDKConfig()
-      config.appId = appId
+  func initialize(appId: String) async -> (success: Bool, error: AdSurgeSDKError?) {
+    let config = AdSurgeSDKConfig()
+    config.appId = appId
+    return await withCheckedContinuation { continuation in
       AdSurgeAdSdk.shared().initialize(with: config) { success, error in
-        if success {
-          continuation.resume()
-        } else {
-          continuation.resume(
-            throwing: Util.initializationError(from: error.map(AdSurgeSDKError.init)))
-        }
+        continuation.resume(returning: (success, error.map(AdSurgeSDKError.init)))
       }
     }
   }
 
-  func getBidderToken() async throws -> String {
-    return try await withCheckedThrowingContinuation { continuation in
+  func getBidderToken() async -> (token: String?, error: AdSurgeSDKError?) {
+    return await withCheckedContinuation { continuation in
       AdSurgeAdSdk.shared().getBidderToken { token, error in
-        if let token {
-          continuation.resume(returning: token)
-        } else {
-          continuation.resume(
-            throwing: Util.bidderTokenError(from: error.map(AdSurgeSDKError.init)))
-        }
+        continuation.resume(returning: (token, error.map(AdSurgeSDKError.init)))
       }
     }
   }
