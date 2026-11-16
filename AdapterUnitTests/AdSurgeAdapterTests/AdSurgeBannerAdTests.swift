@@ -24,17 +24,17 @@ import UIKit
 @Suite("AdSurge banner ad tests", .serialized)
 final class AdSurgeBannerAdTests {
 
-  private let fakeClient = FakeClient()
+  private let fakeClient = FakeAdSurgeClient()
   private let adapter = AdSurgeAdapter()
 
   init() {
     fakeClient.reset()
-    ClientFactory.debugClient = fakeClient
+    AdSurgeClientFactory.debugClient = fakeClient
   }
 
   deinit {
     fakeClient.reset()
-    ClientFactory.debugClient = nil
+    AdSurgeClientFactory.debugClient = nil
   }
 
   private func createBannerConfig(
@@ -103,7 +103,7 @@ final class AdSurgeBannerAdTests {
     }
   }
 
-  @Test("Banner load fails when partner client fails to load")
+  @Test("Banner load fails when AdSurge client fails to load")
   func loadBanner_fails_whenClientFailsToLoad() async {
     fakeClient.loadBannerShouldSucceed = false
     let config = createBannerConfig()

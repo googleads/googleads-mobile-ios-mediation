@@ -24,17 +24,17 @@ import UIKit
 @Suite("AdSurge rewarded ad tests", .serialized)
 final class AdSurgeRewardedAdTests {
 
-  private let fakeClient = FakeClient()
+  private let fakeClient = FakeAdSurgeClient()
   private let adapter = AdSurgeAdapter()
 
   init() {
     fakeClient.reset()
-    ClientFactory.debugClient = fakeClient
+    AdSurgeClientFactory.debugClient = fakeClient
   }
 
   deinit {
     fakeClient.reset()
-    ClientFactory.debugClient = nil
+    AdSurgeClientFactory.debugClient = nil
   }
 
   private func createRewardedConfig(
@@ -100,7 +100,7 @@ final class AdSurgeRewardedAdTests {
     }
   }
 
-  @Test("Rewarded load fails when partner client fails to load")
+  @Test("Rewarded load fails when AdSurge client fails to load")
   func loadRewarded_fails_whenClientFailsToLoad() async {
     fakeClient.loadRewardedShouldSucceed = false
     let config = createRewardedConfig()
@@ -157,10 +157,10 @@ final class AdSurgeRewardedAdTests {
     #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
   }
 
-  @Test("Client throws when showing a rewarded ad before one is loaded")
+  @Test("AdSurge client throws when showing a rewarded ad before one is loaded")
   func clientImpl_showRewardedAd_throws_whenNoAdLoaded() {
     do {
-      try ClientImpl().showRewardedAd(from: UIViewController())
+      try AdSurgeClientImpl().showRewardedAd(from: UIViewController())
       Issue.record("Expected showRewardedAd to throw.")
     } catch {
       #expect(error.errorCode == .adNotReadyForPresentation)

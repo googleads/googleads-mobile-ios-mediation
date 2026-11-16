@@ -43,7 +43,7 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     let completionBox = UncheckedSendable(completionHandler)
     Task {
       do {
-        let client = ClientFactory.createClient()
+        let client = AdSurgeClientFactory.createClient()
         client.setAgeRestrictedUser(ageRestricted)
         try await client.initialize(with: appId)
         completionBox.value(nil)
@@ -72,7 +72,7 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
   }
 
   @objc static func adSDKVersion() -> VersionNumber {
-    let adSDKVersion = ClientFactory.createClient().version().components(separatedBy: ".")
+    let adSDKVersion = AdSurgeClientFactory.createClient().version().components(separatedBy: ".")
       .compactMap {
         Int($0)
       }
@@ -105,7 +105,7 @@ final class AdSurgeAdapter: NSObject, RTBAdapter {
     let completionBox = UncheckedSendable(completionHandler)
     Task {
       do {
-        let client = ClientFactory.createClient()
+        let client = AdSurgeClientFactory.createClient()
         client.setAgeRestrictedUser(ageRestricted)
         let signal = try await client.getBidderToken()
         completionBox.value(signal, nil)

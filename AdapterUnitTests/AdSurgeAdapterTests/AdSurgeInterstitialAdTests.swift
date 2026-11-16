@@ -24,17 +24,17 @@ import UIKit
 @Suite("AdSurge interstitial ad tests", .serialized)
 final class AdSurgeInterstitialAdTests {
 
-  private let fakeClient = FakeClient()
+  private let fakeClient = FakeAdSurgeClient()
   private let adapter = AdSurgeAdapter()
 
   init() {
     fakeClient.reset()
-    ClientFactory.debugClient = fakeClient
+    AdSurgeClientFactory.debugClient = fakeClient
   }
 
   deinit {
     fakeClient.reset()
-    ClientFactory.debugClient = nil
+    AdSurgeClientFactory.debugClient = nil
   }
 
   private func createInterstitialConfig(
@@ -100,7 +100,7 @@ final class AdSurgeInterstitialAdTests {
     }
   }
 
-  @Test("Interstitial load fails when partner client fails to load")
+  @Test("Interstitial load fails when AdSurge client fails to load")
   func loadInterstitial_fails_whenClientFailsToLoad() async {
     fakeClient.loadInterstitialShouldSucceed = false
     let config = createInterstitialConfig()
@@ -157,10 +157,10 @@ final class AdSurgeInterstitialAdTests {
     #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 0)
   }
 
-  @Test("Client throws when showing an interstitial ad before one is loaded")
+  @Test("AdSurge client throws when showing an interstitial ad before one is loaded")
   func clientImpl_showInterstitialAd_throws_whenNoAdLoaded() {
     do {
-      try ClientImpl().showInterstitialAd(from: UIViewController())
+      try AdSurgeClientImpl().showInterstitialAd(from: UIViewController())
       Issue.record("Expected showInterstitialAd to throw.")
     } catch {
       #expect(error.errorCode == .adNotReadyForPresentation)

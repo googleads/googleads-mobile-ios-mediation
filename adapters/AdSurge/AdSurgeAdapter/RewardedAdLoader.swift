@@ -23,12 +23,12 @@ final class RewardedAdLoader: NSObject, MediationRewardedAd, RewardedAdClientDel
   private let adConfiguration: MediationRewardedAdConfiguration
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
   private weak var eventDelegate: MediationRewardedAdEventDelegate?
-  private let client: any Client
+  private let client: any AdSurgeClient
 
   init(
     adConfiguration: MediationRewardedAdConfiguration,
     loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler,
-    client: any Client = ClientFactory.createClient()
+    client: any AdSurgeClient = AdSurgeClientFactory.createClient()
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler

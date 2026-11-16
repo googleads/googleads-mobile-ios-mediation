@@ -33,7 +33,8 @@
 
 /* Begin PBXBuildFile section */
 		ADA2F7CE2D9DBB7D005D9ECA /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
-		ADA2F7D32D9DBF0C005D9ECA /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* Client.swift */; };
+		ADA2F7D32D9DBF0C005D9ECA /* AdSurgeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* AdSurgeClient.swift */; };
+		ADA2F7D42D9DBF0C005D9ECA /* AdSurgeClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D52D9DBF0A005D9ECA /* AdSurgeClientImpl.swift */; };
 		ADFA84BD2C17704300A501AB /* AdSurgeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* AdSurgeAdapter.swift */; };
 		ADFA84BE2C17704300A501AB /* AdSurgeAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* AdSurgeAdapterError.swift */; };
 		ADFA84C12C17704300A501AB /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
@@ -55,7 +56,8 @@
 
 /* Begin PBXFileReference section */
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		ADA2F7D22D9DBF0A005D9ECA /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		ADA2F7D22D9DBF0A005D9ECA /* AdSurgeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeClient.swift; sourceTree = "<group>"; };
+		ADA2F7D52D9DBF0A005D9ECA /* AdSurgeClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSurgeClientImpl.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libAdSurgeAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdSurgeAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* AdSurgeAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdSurgeAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A62C17704300A501AB /* AdSurgeAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdSurgeAdapterError.swift; sourceTree = "<group>"; };
@@ -115,7 +117,8 @@
 		ADFA84AD2C17704300A501AB /* AdSurgeAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				ADA2F7D22D9DBF0A005D9ECA /* Client.swift */,
+				ADA2F7D22D9DBF0A005D9ECA /* AdSurgeClient.swift */,
+				ADA2F7D52D9DBF0A005D9ECA /* AdSurgeClientImpl.swift */,
 				ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */,
 				ADFA84A52C17704300A501AB /* AdSurgeAdapter.swift */,
 				ADFA84A62C17704300A501AB /* AdSurgeAdapterError.swift */,
@@ -283,7 +286,8 @@
 				ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */,
 				ADFA84BD2C17704300A501AB /* AdSurgeAdapter.swift in Sources */,
 				ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */,
-				ADA2F7D32D9DBF0C005D9ECA /* Client.swift in Sources */,
+				ADA2F7D32D9DBF0C005D9ECA /* AdSurgeClient.swift in Sources */,
+				ADA2F7D42D9DBF0C005D9ECA /* AdSurgeClientImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

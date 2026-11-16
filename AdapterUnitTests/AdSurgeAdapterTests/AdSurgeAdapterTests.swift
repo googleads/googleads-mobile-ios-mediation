@@ -23,12 +23,12 @@ import Testing
 @Suite("AdSurge adapter tests", .serialized)
 final class AdSurgeAdapterTests {
 
-  private let fakeClient: FakeClient
+  private let fakeClient: FakeAdSurgeClient
 
   init() {
-    let client = FakeClient()
+    let client = FakeAdSurgeClient()
     fakeClient = client
-    ClientFactory.debugClient = client
+    AdSurgeClientFactory.debugClient = client
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
     MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
     MobileAds.shared.requestConfiguration.ageRestrictedTreatment = .unspecified

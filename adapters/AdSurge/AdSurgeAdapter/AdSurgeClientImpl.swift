@@ -14,159 +14,10 @@
 
 import AdSurgeSDK
 import Foundation
-import GoogleMobileAds
 import ObjectiveC
 import UIKit
 
-/// Factory that creates Client.
-final class ClientFactory {
-
-  private init() {}
-
-  #if DEBUG
-    /// This property will be returned by |createClient| function if set in Debug mode.
-    nonisolated(unsafe) static var debugClient: (any Client)?
-  #endif
-
-  static func createClient() -> any Client {
-    #if DEBUG
-      return debugClient ?? ClientImpl()
-    #else
-      return ClientImpl()
-    #endif
-  }
-
-}
-
-/// Delegate protocol for banner ad lifecycle events from the AdSurge client.
-protocol BannerAdClientDelegate: AnyObject, Sendable {
-
-  /// Called when a banner ad has been successfully loaded.
-  func bannerDidLoad()
-
-  /// Called when a banner ad fails to load.
-  func bannerDidFailToLoad(with error: any Error)
-
-  /// Called when a banner ad is clicked.
-  func bannerDidClick()
-
-  /// Called when a banner ad is hidden.
-  func bannerDidHide()
-
-  /// Called when a banner ad generates revenue (impression).
-  func bannerDidPayRevenue()
-
-}
-
-/// Delegate protocol for interstitial ad lifecycle events from the AdSurge client.
-protocol InterstitialAdClientDelegate: AnyObject, Sendable {
-
-  /// Called when an interstitial ad has been successfully loaded.
-  func interstitialDidLoad()
-
-  /// Called when an interstitial ad fails to load.
-  func interstitialDidFailToLoad(with error: any Error)
-
-  /// Called when an interstitial ad is presented on screen.
-  func interstitialDidDisplay()
-
-  /// Called when an interstitial ad fails to display, for example, when the user declines the
-  /// AdSurge consent page.
-  func interstitialDidFailToDisplay(with error: any Error)
-
-  /// Called when an interstitial ad is clicked.
-  func interstitialDidClick()
-
-  /// Called when an interstitial ad is hidden.
-  func interstitialDidHide()
-
-  /// Called when AdSurge counts an impression for an interstitial ad.
-  func interstitialDidPayRevenue()
-
-}
-
-/// Delegate protocol for receiving rewarded ad callbacks from Client.
-protocol RewardedAdClientDelegate: AnyObject, Sendable {
-
-  /// Called when a rewarded ad loads successfully.
-  func rewardedDidLoad()
-
-  /// Called when a rewarded ad fails to load.
-  func rewardedDidFailToLoad(with error: any Error)
-
-  /// Called when a rewarded ad is presented on screen.
-  func rewardedDidDisplay()
-
-  /// Called when a rewarded ad fails to display, for example, when the user declines the AdSurge
-  /// consent page.
-  func rewardedDidFailToDisplay(with error: any Error)
-
-  /// Called when a rewarded ad is clicked.
-  func rewardedDidClick()
-
-  /// Called when a rewarded ad is hidden.
-  func rewardedDidHide()
-
-  /// Called when a rewarded ad grants a reward.
-  func rewardedDidRewardUser()
-
-  /// Called when AdSurge counts an impression for a rewarded ad.
-  func rewardedDidPayRevenue()
-
-}
-
-protocol Client: AnyObject, Sendable {
-
-  /// Sets user age restriction privacy status.
-  func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?)
-
-  /// Initializes the AdSurge SDK with an application ID.
-  func initialize(with appId: String) async throws
-
-  /// Retrieves a bidder token from the AdSurge SDK.
-  func getBidderToken() async throws -> String
-
-  /// Returns the SDK version string.
-  func version() -> String
-
-  /// Creates a banner ad view for the given ad unit identifier.
-  @MainActor func createBannerAdView(for adUnitId: String) -> UIView
-
-  /// Loads a banner ad into the provided banner view.
-  @MainActor func loadBannerAd(
-    _ bannerView: UIView,
-    bidPayload: String,
-    viewController: UIViewController?,
-    delegate: any BannerAdClientDelegate
-  )
-
-  /// Loads an interstitial ad from AdSurge.
-  func loadInterstitialAd(
-    for adUnitId: String,
-    bidPayload: String,
-    delegate: any InterstitialAdClientDelegate
-  )
-
-  /// Shows the loaded interstitial ad.
-  ///
-  /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
-  func showInterstitialAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
-
-  /// Loads a rewarded ad from AdSurge.
-  func loadRewardedAd(
-    for adUnitId: String,
-    bidPayload: String,
-    delegate: any RewardedAdClientDelegate
-  )
-
-  /// Shows the loaded rewarded ad.
-  ///
-  /// - Throws: `AdSurgeAdapterError` with `.adNotReadyForPresentation` if no valid ad is loaded.
-  func showRewardedAd(from rootViewController: UIViewController) throws(AdSurgeAdapterError)
-
-}
-
-final class ClientImpl: Client, @unchecked Sendable {
+final class AdSurgeClientImpl: AdSurgeClient, @unchecked Sendable {
 
   func setAgeRestrictedUser(_ ageRestrictedUser: NSNumber?) {
     if let ageRestrictedUser {
@@ -272,7 +123,7 @@ final class ClientImpl: Client, @unchecked Sendable {
   func loadInterstitialAd(
     for adUnitId: String,
     bidPayload: String,
-    delegate: any InterstitialAdClientDelegate
+    delegate: any FullScreenAdClientDelegate
   ) {
     let ad = AdSurgeInterstitialAd(adUnitIdentifier: adUnitId)
     self.interstitialAd = ad
@@ -369,9 +220,9 @@ private final class InterstitialDelegateBridge: NSObject, AdSurgeInterstitialAdD
   @unchecked Sendable
 {
 
-  private weak var delegate: (any InterstitialAdClientDelegate)?
+  private weak var delegate: (any FullScreenAdClientDelegate)?
 
-  init(delegate: any InterstitialAdClientDelegate) {
+  init(delegate: any FullScreenAdClientDelegate) {
     self.delegate = delegate
   }
 

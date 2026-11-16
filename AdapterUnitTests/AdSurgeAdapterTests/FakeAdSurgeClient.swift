@@ -18,7 +18,7 @@ import UIKit
 
 @testable import AdSurgeAdapter
 
-final class FakeClient: NSObject, Client, @unchecked Sendable {
+final class FakeAdSurgeClient: NSObject, AdSurgeClient, @unchecked Sendable {
 
   var ageRestrictedUser: NSNumber?
   var applicationId: String?
@@ -52,7 +52,7 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     return sdkVersionString
   }
 
-  // MARK: - Banner Mock
+  // MARK: - Banner
 
   var loadBannerShouldSucceed: Bool = true
   var createdBannerAdUnitId: String?
@@ -98,12 +98,12 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     bannerDelegate?.bannerDidPayRevenue()
   }
 
-  // MARK: - Interstitial Mock
+  // MARK: - Interstitial
 
   var loadInterstitialShouldSucceed: Bool = true
   var loadedInterstitialAdUnitId: String?
   var loadedInterstitialBidPayload: String?
-  weak var interstitialDelegate: (any InterstitialAdClientDelegate)?
+  weak var interstitialDelegate: (any FullScreenAdClientDelegate)?
   var showInterstitialCount: Int = 0
   var lastPresentedViewController: UIViewController?
   var showInterstitialError: AdSurgeAdapterError?
@@ -111,7 +111,7 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
   func loadInterstitialAd(
     for adUnitId: String,
     bidPayload: String,
-    delegate: any InterstitialAdClientDelegate
+    delegate: any FullScreenAdClientDelegate
   ) {
     loadedInterstitialAdUnitId = adUnitId
     loadedInterstitialBidPayload = bidPayload
@@ -155,7 +155,7 @@ final class FakeClient: NSObject, Client, @unchecked Sendable {
     interstitialDelegate?.interstitialDidPayRevenue()
   }
 
-  // MARK: - Rewarded Mock
+  // MARK: - Rewarded
 
   var loadRewardedShouldSucceed: Bool = true
   var loadedRewardedAdUnitId: String?

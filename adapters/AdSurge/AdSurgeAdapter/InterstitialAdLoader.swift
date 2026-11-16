@@ -16,19 +16,19 @@ import Foundation
 import GoogleMobileAds
 import UIKit
 
-final class InterstitialAdLoader: NSObject, MediationInterstitialAd, InterstitialAdClientDelegate,
+final class InterstitialAdLoader: NSObject, MediationInterstitialAd, FullScreenAdClientDelegate,
   @unchecked Sendable
 {
 
   private let adConfiguration: MediationInterstitialAdConfiguration
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
   private weak var eventDelegate: MediationInterstitialAdEventDelegate?
-  private let client: any Client
+  private let client: any AdSurgeClient
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
     loadCompletionHandler: @escaping GADMediationInterstitialLoadCompletionHandler,
-    client: any Client = ClientFactory.createClient()
+    client: any AdSurgeClient = AdSurgeClientFactory.createClient()
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
@@ -59,7 +59,7 @@ final class InterstitialAdLoader: NSObject, MediationInterstitialAd, Interstitia
     }
   }
 
-  // MARK: - InterstitialAdClientDelegate
+  // MARK: - FullScreenAdClientDelegate
 
   func interstitialDidLoad() {
     eventDelegate = adLoadCompletionHandler?(self, nil)

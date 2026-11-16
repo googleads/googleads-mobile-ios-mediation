@@ -23,14 +23,14 @@ final class BannerAdLoader: NSObject, MediationBannerAd, BannerAdClientDelegate,
   private let adConfiguration: MediationBannerAdConfiguration
   private var adLoadCompletionHandler: GADMediationBannerLoadCompletionHandler?
   private weak var eventDelegate: MediationBannerAdEventDelegate?
-  private let client: any Client
+  private let client: any AdSurgeClient
   var view: UIView
 
   @MainActor
   init(
     adConfiguration: MediationBannerAdConfiguration,
     loadCompletionHandler: @escaping GADMediationBannerLoadCompletionHandler,
-    client: any Client = ClientFactory.createClient()
+    client: any AdSurgeClient = AdSurgeClientFactory.createClient()
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
