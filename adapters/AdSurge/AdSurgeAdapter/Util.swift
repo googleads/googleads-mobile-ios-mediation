@@ -171,12 +171,3 @@ final class UncheckedSendable<T>: @unchecked Sendable {
     self.value = value
   }
 }
-
-extension Error {
-  func toNSError() -> NSError {
-    if let adapterError = self as? AdSurgeAdapterError {
-      return adapterError.toNSError()
-    }
-    return self as NSError
-  }
-}

@@ -332,4 +332,31 @@ final class AdSurgeRewardedAdTests {
     #expect(fakeClient.lastPresentedRewardedViewController === viewController)
   }
 
+  @Test("Rewarded ad keeps reporting events after a second load callback")
+  func rewardedAd_reportsEvents_afterSecondLoadCallback() async throws {
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    var loadedRewarded: MediationRewardedAd?
+    await withCheckedContinuation { continuation in
+      adapter.loadRewardedAd(for: createRewardedConfig()) { rewarded, _ in
+        loadedRewarded = rewarded
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    let rewarded = try #require(loadedRewarded)
+
+    fakeClient.simulateRewardedLoadSuccess()
+    rewarded.present(from: UIViewController())
+    fakeClient.simulateRewardedDisplay()
+    fakeClient.simulateRewardedClick()
+    fakeClient.simulateRewardedRewardUser()
+    fakeClient.simulateRewardedPayRevenue()
+
+    #expect(fakeClient.showRewardedCount == 1)
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 1)
+    #expect(eventDelegate.reportClickInvokeCount == 1)
+    #expect(eventDelegate.didRewardUserInvokeCount == 1)
+    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+  }
+
 }

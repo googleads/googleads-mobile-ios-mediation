@@ -331,4 +331,29 @@ final class AdSurgeInterstitialAdTests {
     #expect(fakeClient.lastPresentedViewController === viewController)
   }
 
+  @Test("Interstitial ad keeps reporting events after a second load callback")
+  func interstitialAd_reportsEvents_afterSecondLoadCallback() async throws {
+    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
+    var loadedInterstitial: MediationInterstitialAd?
+    await withCheckedContinuation { continuation in
+      adapter.loadInterstitial(for: createInterstitialConfig()) { interstitial, _ in
+        loadedInterstitial = interstitial
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    let interstitial = try #require(loadedInterstitial)
+
+    fakeClient.simulateInterstitialLoadSuccess()
+    interstitial.present(from: UIViewController())
+    fakeClient.simulateInterstitialDisplay()
+    fakeClient.simulateInterstitialClick()
+    fakeClient.simulateInterstitialPayRevenue()
+
+    #expect(fakeClient.showInterstitialCount == 1)
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 1)
+    #expect(eventDelegate.reportClickInvokeCount == 1)
+    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+  }
+
 }

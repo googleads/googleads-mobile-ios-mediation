@@ -285,4 +285,25 @@ final class AdSurgeBannerAdTests {
     #expect(eventDelegate.reportImpressionInvokeCount == 0)
   }
 
+  @Test("Banner ad keeps reporting events after a second load callback")
+  func bannerAd_reportsEvents_afterSecondLoadCallback() async {
+    let eventDelegate = AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: createBannerConfig()) { _, _ in
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+
+    fakeClient.simulateBannerLoadSuccess()
+    fakeClient.simulateBannerClick()
+    fakeClient.simulateBannerHide()
+    fakeClient.simulateBannerPayRevenue()
+
+    #expect(eventDelegate.reportClickInvokeCount == 1)
+    #expect(eventDelegate.willDismissFullScreenViewInvokeCount == 1)
+    #expect(eventDelegate.didDismissFullScreenViewInvokeCount == 1)
+    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+  }
+
 }

@@ -61,13 +61,16 @@ final class BannerAdLoader: NSObject, MediationBannerAd, BannerAdClientDelegate,
   // MARK: - BannerAdClientDelegate
 
   func didLoad() {
-    eventDelegate = adLoadCompletionHandler?(self, nil)
-    adLoadCompletionHandler = nil
+    // The SDK may report more than one load result; only the first one completes the load.
+    guard let adLoadCompletionHandler else { return }
+    eventDelegate = adLoadCompletionHandler(self, nil)
+    self.adLoadCompletionHandler = nil
   }
 
   func didFailToLoad(error: AdSurgeSDKError) {
-    _ = adLoadCompletionHandler?(nil, Util.sdkNSError(from: error))
-    adLoadCompletionHandler = nil
+    guard let adLoadCompletionHandler else { return }
+    _ = adLoadCompletionHandler(nil, Util.sdkNSError(from: error))
+    self.adLoadCompletionHandler = nil
   }
 
   func didClick() {
