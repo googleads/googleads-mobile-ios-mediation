@@ -72,7 +72,7 @@
 		ADFA84B72C17704300A501AB /* Script_Framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		ADFA84D42C17738E00A501AB /* AdSurgeAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdSurgeAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA84D42C17738E00A501AB /* AdSurgeAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdSurgeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				ADFA849D2C176E2200A501AB /* libAdSurgeAdapter.a */,
-				ADFA84D42C17738E00A501AB /* AdSurgeAdapterFramework.framework */,
+				ADFA84D42C17738E00A501AB /* AdSurgeAdapter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,9 +169,9 @@
 			productReference = ADFA849D2C176E2200A501AB /* libAdSurgeAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		ADFA84D32C17738E00A501AB /* AdSurgeAdapterFramework */ = {
+		ADFA84D32C17738E00A501AB /* AdSurgeAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "AdSurgeAdapterFramework" */;
+			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "AdSurgeAdapter" */;
 			buildPhases = (
 				ADFA84D02C17738E00A501AB /* Sources */,
 				ADFA84D12C17738E00A501AB /* Frameworks */,
@@ -181,9 +181,9 @@
 			);
 			dependencies = (
 			);
-			name = AdSurgeAdapterFramework;
+			name = AdSurgeAdapter;
 			productName = AdSurgeAdapter;
-			productReference = ADFA84D42C17738E00A501AB /* AdSurgeAdapterFramework.framework */;
+			productReference = ADFA84D42C17738E00A501AB /* AdSurgeAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -223,7 +223,7 @@
 				ADFA849C2C176E2200A501AB /* Adapter */,
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
-				ADFA84D32C17738E00A501AB /* AdSurgeAdapterFramework */,
+				ADFA84D32C17738E00A501AB /* AdSurgeAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -577,6 +577,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_NAME = "$(AD_NETWORK_NAME)Adapter";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -680,6 +681,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_NAME = "$(AD_NETWORK_NAME)Adapter";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -767,7 +769,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "AdSurgeAdapterFramework" */ = {
+		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "AdSurgeAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADFA84D92C17738E00A501AB /* Debug */,
