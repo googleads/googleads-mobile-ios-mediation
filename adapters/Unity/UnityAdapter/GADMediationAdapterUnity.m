@@ -40,6 +40,7 @@ static BOOL _isTestMode = NO;
 // Called on Admob->init
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  [GADMediationAdapterUnity updatePrivacyPreferences];
   NSSet *gameIDs = configuration.gameIds;
   if (!gameIDs.count) {
     completionHandler([NSError noValidGameId]);
@@ -72,6 +73,7 @@ static BOOL _isTestMode = NO;
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  [GADMediationAdapterUnity updatePrivacyPreferences];
   GADAdFormat adFormat = params.configuration.credentials.firstObject.format;
   if (adFormat == GADAdFormatBanner || adFormat == GADAdFormatInterstitial ||
       adFormat == GADAdFormatRewarded || adFormat == GADAdFormatRewardedInterstitial) {
@@ -225,32 +227,35 @@ static BOOL _isTestMode = NO;
 #pragma mark Utility Methods
 
 /// Updates the UADSMetaData's |user.nonbehavioral| based on Google Mobile Ads'
-/// tagForChildDirectedTreatment and tagForUnderAgeOfConsent.
+/// tagForChildDirectedTreatment, tagForUnderAgeOfConsent and ageRestrictedTreatment.
 + (void)updatePrivacyPreferences {
   NSNumber *tagForChildDirectedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  GADAgeRestrictedTreatment ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
   UADSMetaData *userMetaData = [[UADSMetaData alloc] init];
 
   BOOL isChildDirected = [tagForChildDirectedTreatment isEqual:@YES];
+  BOOL isAgeRestrictedTreatmentChild = ageRestrictedTreatment == GADAgeRestrictedTreatmentChild;
   BOOL isUnderAge = [tagForUnderAgeOfConsent isEqual:@YES];
   BOOL isNotChildDirected = [tagForChildDirectedTreatment isEqual:@NO];
+  BOOL isAgeRestrictedTreatmentTeen = ageRestrictedTreatment == GADAgeRestrictedTreatmentTeen;
   BOOL isNotUnderAge = [tagForUnderAgeOfConsent isEqual:@NO];
 
-  // If at least one signal indicates adult, and other api does not signal child, we are adult for
-  // this session
-  if (!isChildDirected && !isUnderAge && (isNotChildDirected || isNotUnderAge)) {
-    [userMetaData set:@"user.nonbehavioral" value:@NO];
-  }
-  // If there is any child signal, conflicts between api's, or both unspecified, we treat them as
-  // a child.
-  else {
+  // If at least one signal indicates child, we set non-behavioral to YES for this session
+  if (isChildDirected || isUnderAge || isAgeRestrictedTreatmentChild) {
     [userMetaData set:@"user.nonbehavioral" value:@YES];
+    [userMetaData commit];
   }
-
-  [userMetaData commit];
+  // If none indicates child but we get explicit non-child signals, we set non-behavioral to NO for
+  // this session
+  else if (isNotChildDirected || isNotUnderAge || isAgeRestrictedTreatmentTeen) {
+    [userMetaData set:@"user.nonbehavioral" value:@NO];
+    [userMetaData commit];
+  }
 }
 
 + (BOOL)testMode {

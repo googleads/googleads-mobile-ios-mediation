@@ -36,6 +36,8 @@
 }
 
 - (void)testAdapterSetUp {
+  id adapterClassMock = OCMClassMock([GADMediationAdapterUnity class]);
+  OCMExpect(OCMClassMethod([adapterClassMock updatePrivacyPreferences]));
   id unityAdClassMock = OCMClassMock([UnityAds class]);
   OCMStub(ClassMethod([unityAdClassMock initialize:AUTUnityGameID
                                           testMode:NO
@@ -51,6 +53,8 @@
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterUnityGameID : AUTUnityGameID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterUnity class], credentials);
+  OCMVerifyAll(adapterClassMock);
+  [adapterClassMock stopMocking];
   [unityAdClassMock stopMocking];
 }
 
@@ -163,6 +167,8 @@
 }
 
 - (void)testSignalCollectionsBanner {
+  id adapterClassMock = OCMClassMock([GADMediationAdapterUnity class]);
+  OCMExpect(OCMClassMethod([adapterClassMock updatePrivacyPreferences]));
   id unityAdsMock = OCMClassMock([UnityAds class]);
   OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
@@ -191,6 +197,8 @@
                          [expectation fulfill];
                        }];
   [self waitForExpectations:@[ expectation ]];
+  OCMVerifyAll(adapterClassMock);
+  [adapterClassMock stopMocking];
 }
 
 - (void)testSignalCollectionsInterstitial {
@@ -472,13 +480,19 @@
   [metaDataMock stopMocking];
 }
 
-- (void)testUpdatePrivacyPreferencesChildDirectedAndUnderAgeOfConsent {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+#pragma mark - Privacy Preferences Tests
+
+- (void)assertPrivacyPreferencesWithChildDirected:(nullable NSNumber *)childDirected
+                                         underAge:(nullable NSNumber *)underAge
+                           ageRestrictedTreatment:(GADAgeRestrictedTreatment)ageRestrictedTreatment
+                            expectedNonBehavioral:(BOOL)expectedNonBehavioral {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = childDirected;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = underAge;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment = ageRestrictedTreatment;
 
   id metaDataMock = OCMClassMock([UADSMetaData class]);
   OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
+  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@(expectedNonBehavioral)]);
   OCMExpect([metaDataMock commit]);
 
   [GADMediationAdapterUnity updatePrivacyPreferences];
@@ -487,64 +501,114 @@
   [metaDataMock stopMocking];
 }
 
-- (void)testUpdatePrivacyPreferencesChildDirectedOnly {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [GADMediationAdapterUnity updatePrivacyPreferences];
-
-  OCMVerifyAll(metaDataMock);
-  [metaDataMock stopMocking];
+- (void)testUpdatePrivacyPreferences_childDirectedTrueAndUnderAgeTrue_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:@YES
+                                         underAge:@YES
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:YES];
 }
 
-- (void)testUpdatePrivacyPreferencesUnderAgeOfConsentOnly {
+- (void)testUpdatePrivacyPreferences_childDirectedTrueAndUnderAgeFalse_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:@YES
+                                         underAge:@NO
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:YES];
+}
+
+- (void)testUpdatePrivacyPreferences_childDirectedTrue_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:@YES
+                                         underAge:nil
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:YES];
+}
+
+- (void)testUpdatePrivacyPreferences_childDirectedFalseAndUnderAgeTrue_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:@NO
+                                         underAge:@YES
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:YES];
+}
+
+- (void)testUpdatePrivacyPreferences_underAgeTrue_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:nil
+                                         underAge:@YES
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:YES];
+}
+
+- (void)testUpdatePrivacyPreferences_childDirectedFalseAndUnderAgeFalse_setsNonBehavioralToNo {
+  [self assertPrivacyPreferencesWithChildDirected:@NO
+                                         underAge:@NO
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:NO];
+}
+
+- (void)
+    testUpdatePrivacyPreferences_childDirectedFalseAndUnderAgeUnspecified_setsNonBehavioralToNo {
+  [self assertPrivacyPreferencesWithChildDirected:@NO
+                                         underAge:nil
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:NO];
+}
+
+- (void)
+    testUpdatePrivacyPreferences_childDirectedUnspecifiedAndUnderAgeFalse_setsNonBehavioralToNo {
+  [self assertPrivacyPreferencesWithChildDirected:nil
+                                         underAge:@NO
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentUnspecified
+                            expectedNonBehavioral:NO];
+}
+
+- (void)testUpdatePrivacyPreferences_ageRestrictedChild_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:nil
+                                         underAge:nil
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentChild
+                            expectedNonBehavioral:YES];
+}
+
+- (void)testUpdatePrivacyPreferences_ageRestrictedTeen_setsNonBehavioralToNo {
+  [self assertPrivacyPreferencesWithChildDirected:nil
+                                         underAge:nil
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentTeen
+                            expectedNonBehavioral:NO];
+}
+
+- (void)testUpdatePrivacyPreferences_allUnspecified_doesNotSetNonBehavioral {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
-
-  [GADMediationAdapterUnity updatePrivacyPreferences];
-
-  OCMVerifyAll(metaDataMock);
-  [metaDataMock stopMocking];
-}
-
-- (void)testUpdatePrivacyPreferencesNeitherChildDirectedNorUnderAge {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
-
-  id metaDataMock = OCMClassMock([UADSMetaData class]);
-  OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@NO]);
-  OCMExpect([metaDataMock commit]);
-
-  [GADMediationAdapterUnity updatePrivacyPreferences];
-
-  OCMVerifyAll(metaDataMock);
-  [metaDataMock stopMocking];
-}
-
-- (void)testUpdatePrivacyPreferencesUnspecified {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
   id metaDataMock = OCMClassMock([UADSMetaData class]);
   OCMStub([metaDataMock alloc]).andReturn(metaDataMock);
-  OCMExpect([metaDataMock set:@"user.nonbehavioral" value:@YES]);
-  OCMExpect([metaDataMock commit]);
+  OCMReject([metaDataMock set:@"user.nonbehavioral" value:OCMOCK_ANY]);
+  OCMReject([metaDataMock commit]);
 
   [GADMediationAdapterUnity updatePrivacyPreferences];
 
   OCMVerifyAll(metaDataMock);
   [metaDataMock stopMocking];
+}
+
+- (void)testUpdatePrivacyPreferences_ageRestrictedChildOverridesLegacyAdult_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:@NO
+                                         underAge:@NO
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentChild
+                            expectedNonBehavioral:YES];
+}
+
+- (void)testUpdatePrivacyPreferences_ageRestrictedTeenWithLegacyAdult_setsNonBehavioralToNo {
+  [self assertPrivacyPreferencesWithChildDirected:@NO
+                                         underAge:@NO
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentTeen
+                            expectedNonBehavioral:NO];
+}
+
+- (void)testUpdatePrivacyPreferences_legacyChildOverridesAgeRestrictedTeen_setsNonBehavioralToYes {
+  [self assertPrivacyPreferencesWithChildDirected:@YES
+                                         underAge:nil
+                           ageRestrictedTreatment:GADAgeRestrictedTreatmentTeen
+                            expectedNonBehavioral:YES];
 }
 
 @end

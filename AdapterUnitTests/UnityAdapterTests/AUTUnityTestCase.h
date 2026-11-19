@@ -2,6 +2,11 @@
 
 #import "GADMediationAdapterUnity.h"
 
+@interface GADMediationAdapterUnity (Test)
++ (void)updatePrivacyPreferences;
+@end
+
+
 /// Game ID to be used for initializing UnityAds.
 static NSString *_Nonnull AUTUnityGameID = @"123";
 
