@@ -24,7 +24,7 @@
   ],
   "requires_arc": true,
   "source": {
-    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/AdSurge/AdSurgeAdapter-2.0.1.0.zip"
+    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/adsurge/AdSurgeAdapter-2.0.1.0.zip"
   },
   "static_framework": true,
   "swift_versions": "5.0"
