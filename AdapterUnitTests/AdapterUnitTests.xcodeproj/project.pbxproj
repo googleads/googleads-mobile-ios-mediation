@@ -324,6 +324,11 @@
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
 		F0F0A7732D820B910004BE2E /* FakeMolocoNativeAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */; };
+		70E0D7B22C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B12C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7B42C47A8AF00241981 /* BidMachine in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B32C47A8AF00241981 /* BidMachine */; };
+		70E0D7B62C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B52C47A8AF00241981 /* OCMock */; };
+		70E0D7B82C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B72C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7BA2C47A8AF00241981 /* BidMachine in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B92C47A8AF00241981 /* BidMachine */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2160,6 +2165,8 @@
 			files = (
 				AD30E0552E207A1700FCEF73 /* GoogleBidMachineAdapter.a in Frameworks */,
 				AD30E0562E207A1700FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7B82C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7BA2C47A8AF00241981 /* BidMachine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2241,6 +2248,9 @@
 			files = (
 				AD6E3B0B2EA16B6600818296 /* GoogleBidMachineAdapter.a in Frameworks */,
 				ADA2FAE42D9F7715005D9ECA /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7B22C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7B42C47A8AF00241981 /* BidMachine in Frameworks */,
+				70E0D7B62C47A8AF00241981 /* OCMock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3678,6 +3688,10 @@
 				AD30E0602E207AA100FCEF73 /* PBXTargetDependency */,
 			);
 			name = BidMachineAdapterLatencyTests;
+			packageProductDependencies = (
+				70E0D7B72C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7B92C47A8AF00241981 /* BidMachine */,
+			);
 			productName = AmazonAdapterTests_dup;
 			productReference = AD30E05B2E207A1700FCEF73 /* BidMachineAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3851,6 +3865,11 @@
 				ADA2FADE2D9F7715005D9ECA /* PBXTargetDependency */,
 			);
 			name = BidMachineAdapterTests;
+			packageProductDependencies = (
+				70E0D7B12C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7B32C47A8AF00241981 /* BidMachine */,
+				70E0D7B52C47A8AF00241981 /* OCMock */,
+			);
 			productName = AmazonAdapterTests_dup;
 			productReference = ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -4225,6 +4244,7 @@
 				70E0D7792C47A8AF00241981 /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */,
 				70E0D7712C47A8AF00241981 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */,
 				70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */,
+				70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */,
 			);
 			productRefGroup = AD6FA0362A16BF4A007335D2 /* Products */;
 			projectDirPath = "";
@@ -9498,6 +9518,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -9569,6 +9593,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -10854,6 +10882,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -10925,6 +10957,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -13116,6 +13152,14 @@
 				revision = fe1661a3efed11831a6452f4b1a0c5e6ddc08c3d;
 			};
 		};
+		70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bidmachine/BidMachine-SPM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.8.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -13158,6 +13202,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */;
 			productName = OCMock;
+		};
+		70E0D7B12C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7B32C47A8AF00241981 /* BidMachine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */;
+			productName = BidMachine;
+		};
+		70E0D7B52C47A8AF00241981 /* OCMock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */;
+			productName = OCMock;
+		};
+		70E0D7B72C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7B92C47A8AF00241981 /* BidMachine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */;
+			productName = BidMachine;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

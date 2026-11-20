@@ -62,6 +62,8 @@
 		ADFB2A882DC346AF005EBC7F /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
 		ADFB2A892DC346AF005EBC7F /* BidMachineAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* BidMachineAdapterExtras.swift */; };
 		ADFB2A8A2DC346AF005EBC7F /* BidMachineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* BidMachineClient.swift */; };
+		AD7000042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD7000032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD7000062F2ADD17003E5D77 /* BidMachine in Frameworks */ = {isa = PBXBuildFile; productRef = AD7000052F2ADD17003E5D77 /* BidMachine */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
 			remoteInfo = ValidateSourceCode;
+		};
+		AD7000172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD7000102F2ADD17003E5D77;
+			remoteInfo = BidMachineAdapterSPMDependencies;
+		};
+		AD7000192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD7000102F2ADD17003E5D77;
+			remoteInfo = BidMachineAdapterSPMDependencies;
+		};
+		AD70001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD7000102F2ADD17003E5D77;
+			remoteInfo = BidMachineAdapterSPMDependencies;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -127,6 +150,7 @@
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFB2A902DC346AF005EBC7F /* StaticGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = StaticGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD7000132F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = BidMachineAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +158,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD7000122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD7000042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD7000062F2ADD17003E5D77 /* BidMachine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,8 +202,16 @@
 				ADFA84AD2C17704300A501AB /* BidMachineAdapter */,
 				ADFA84B92C17704300A501AB /* BuildScript */,
 				ADFA84B52C17704300A501AB /* Configuration */,
+				AD70000F2F2ADD17003E5D77 /* Frameworks */,
 				ADFA849E2C176E2200A501AB /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AD70000F2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		ADFA849E2C176E2200A501AB /* Products */ = {
@@ -180,6 +221,7 @@
 				ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */,
 				ADFB2A902DC346AF005EBC7F /* StaticGoogleBidMachineAdapter.a */,
 				AD6E3A1B2EA167F700818296 /* GoogleBidMachineAdapter.a */,
+				AD7000132F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -235,10 +277,31 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD70001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
 			productReference = AD6E3A1B2EA167F700818296 /* GoogleBidMachineAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AD7000102F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD7000142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "BidMachineAdapterSPMDependencies" */;
+			buildPhases = (
+				AD7000112F2ADD17003E5D77 /* Sources */,
+				AD7000122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BidMachineAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD7000032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD7000052F2ADD17003E5D77 /* BidMachine */,
+			);
+			productName = BidMachineAdapterSPMDependencies;
+			productReference = AD7000132F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -253,6 +316,7 @@
 			);
 			dependencies = (
 				AD6E3A052EA167F000818296 /* PBXTargetDependency */,
+				AD7000182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -287,6 +351,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD70001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticGoogleBidMachineAdapter;
 			productName = Adapter;
@@ -323,6 +388,10 @@
 				Base,
 			);
 			mainGroup = AD23672D2C176DB300997FF7;
+			packageReferences = (
+				AD7000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				AD7000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */,
+			);
 			productRefGroup = ADFA849E2C176E2200A501AB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -333,6 +402,7 @@
 				ADFA84D32C17738E00A501AB /* GoogleBidMachineAdapter */,
 				ADFB2A7F2DC346AF005EBC7F /* StaticGoogleBidMachineAdapter */,
 				AD6E3A082EA167F700818296 /* AdapterWithoutValidationScript */,
+				AD7000102F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -402,6 +472,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD7000112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADFA84992C176E2200A501AB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +528,21 @@
 			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
 			targetProxy = AD6E3A042EA167F000818296 /* PBXContainerItemProxy */;
 		};
+		AD7000182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD7000102F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies */;
+			targetProxy = AD7000172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD70001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD7000102F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies */;
+			targetProxy = AD7000192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD70001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD7000102F2ADD17003E5D77 /* BidMachineAdapterSPMDependencies */;
+			targetProxy = AD70001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -458,8 +550,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = GoogleBidMachineAdapter;
 				SWIFT_VERSION = 6.0;
 			};
@@ -469,8 +570,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = GoogleBidMachineAdapter;
 				SWIFT_VERSION = 6.0;
 			};
@@ -541,12 +651,21 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -620,11 +739,20 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -636,6 +764,38 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AD7000152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AD7000162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -704,12 +864,21 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -783,11 +952,20 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -1118,12 +1296,21 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1196,11 +1383,20 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1232,6 +1428,15 @@
 			buildConfigurations = (
 				AD6E3A192EA167F700818296 /* Debug */,
 				AD6E3A1A2EA167F700818296 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD7000142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "BidMachineAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD7000152F2ADD17003E5D77 /* Debug */,
+				AD7000162F2ADD17003E5D77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1282,6 +1487,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD7000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD7000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bidmachine/BidMachine-SPM.git";
+			requirement = {
+				kind = exactVersion;
+				version = 3.8.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD7000032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD7000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD7000052F2ADD17003E5D77 /* BidMachine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD7000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */;
+			productName = BidMachine;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD23672E2C176DB300997FF7 /* Project object */;
 }
