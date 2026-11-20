@@ -51,6 +51,11 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
 NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfiguration);
 
+/// Returns the credential for |key| in |settings|, trimmed of surrounding whitespace, or nil if the
+/// value is absent or not a string. Used so the init and load paths trim credentials identically.
+NSString *_Nullable GADMAdapterChartboostTrimmedCredential(
+    NSDictionary<NSString *, id> *_Nullable settings, NSString *_Nonnull key);
+
 /// Creates and returns a Chartboost mediation object.
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
 
@@ -80,3 +85,13 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
 /// Set Chartboost COPPA configuration using
 /// GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.
 void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void);
+
+/// Reads the IAB US Privacy String written by the app's consent management platform (CMP) to
+/// |userDefaults| under `IABUSPrivacy_String` and maps its opt-out-of-sale character to a
+/// Chartboost CCPA consent. For more details, see the [IAB US Privacy String
+/// spec](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md).
+///
+/// Returns nil (no consent signal) if the string is absent, is not a 4-character string on spec
+/// version 1, or its opt-out-of-sale character is not `Y` or `N`.
+CHBCCPADataUseConsent *_Nullable GADMAdapterChartboostUSPrivacyConsent(
+    NSUserDefaults *_Nonnull userDefaults);

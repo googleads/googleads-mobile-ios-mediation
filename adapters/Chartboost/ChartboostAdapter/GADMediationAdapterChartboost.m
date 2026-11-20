@@ -63,11 +63,21 @@
     [Chartboost addDataUseConsent:[CHBGDPRDataUseConsent gdprConsent:CHBGDPRConsentNonBehavioral]];
   }
 
+  // Applied on every start, not just the first, so a consent change made mid session is picked up
+  // on the next ad load.
+  CHBCCPADataUseConsent *usPrivacyConsent =
+      GADMAdapterChartboostUSPrivacyConsent(NSUserDefaults.standardUserDefaults);
+  if (usPrivacyConsent) {
+    [Chartboost addDataUseConsent:usPrivacyConsent];
+  }
+
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in credentialsArray) {
-    NSString *appID = cred.settings[[GADMAdapterChartboostConstants appID]];
-    NSString *appSignature = cred.settings[[GADMAdapterChartboostConstants appSignature]];
+    NSString *appID =
+        GADMAdapterChartboostTrimmedCredential(cred.settings, [GADMAdapterChartboostConstants appID]);
+    NSString *appSignature = GADMAdapterChartboostTrimmedCredential(
+        cred.settings, [GADMAdapterChartboostConstants appSignature]);
 
     if (appID.length && appSignature.length) {
       GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
@@ -92,8 +102,7 @@
 
   NSString *appID = credentials.allKeys.firstObject;
   NSString *appSignature = credentials[appID];
-  NSLog(@"Initializing Chartboost SDK with the app ID: '%@' and app signature: '%@'", appID,
-        appSignature);
+  NSLog(@"Initializing Chartboost SDK with the app ID: '%@'", appID);
 
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
@@ -114,7 +123,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -150,6 +159,11 @@
       return;
     }
 
+    if (error) {
+      completionHandler(nil, error);
+      return;
+    }
+
     strongSelf->_rewardedAd = [[GADMAdapterChartboostRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                                  completionHandler:completionHandler];
     [strongSelf->_rewardedAd loadRewardedAd];
@@ -162,6 +176,11 @@
   [GADMediationAdapterChartboost startChartBoostWithCredentialsArray:@[adConfiguration.credentials] completionHandler:^(NSError * _Nullable error) {
     GADMediationAdapterChartboost *strongSelf = weakSelf;
     if(!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      completionHandler(nil, error);
       return;
     }
 
@@ -181,6 +200,11 @@
   [GADMediationAdapterChartboost startChartBoostWithCredentialsArray:@[adConfiguration.credentials] completionHandler:^(NSError * _Nullable error) {
     GADMediationAdapterChartboost *strongSelf = weakSelf;
     if(!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      completionHandler(nil, error);
       return;
     }
 
