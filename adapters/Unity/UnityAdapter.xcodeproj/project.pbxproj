@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -54,6 +54,8 @@
 		419E44D6251BFD60004DD07C /* GADMediationAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */; };
 		419E44D8251BFD60004DD07C /* GADMediationAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */; };
 		7DA782681DDA681E000C088E /* UnityAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA7825A1DDA681E000C088E /* UnityAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD5000042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD5000032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD5000062F2ADD17003E5D77 /* UnityAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD5000052F2ADD17003E5D77 /* UnityAds */; };
 		AD6E38582EA165F600818296 /* GADMUnityRewardedMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397666027725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.m */; };
 		AD6E38592EA165F600818296 /* GADUnityRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 236B3F6A276AC52300337A5E /* GADUnityRouter.m */; };
 		AD6E385A2EA165F600818296 /* GADMediationConfigurationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665227725BCA00B6E431 /* GADMediationConfigurationSettings.m */; };
@@ -107,6 +109,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 00DD269422F10D0C0039C1D4;
 			remoteInfo = ValidateSourceCode;
+		};
+		AD5000172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD5000102F2ADD17003E5D77;
+			remoteInfo = UnityAdapterSPMDependencies;
+		};
+		AD5000192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD5000102F2ADD17003E5D77;
+			remoteInfo = UnityAdapterSPMDependencies;
+		};
+		AD50001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD5000102F2ADD17003E5D77;
+			remoteInfo = UnityAdapterSPMDependencies;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -174,6 +197,7 @@
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnityAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD5000132F2ADD17003E5D77 /* libUnityAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnityAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E38742EA165F600818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BABB2CF1471F009C8FDA /* libStaticUnityAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticUnityAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -190,6 +214,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD5000122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD5000042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD5000062F2ADD17003E5D77 /* UnityAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,8 +333,16 @@
 				7DA782571DDA681E000C088E /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
+				AD50000F2F2ADD17003E5D77 /* Frameworks */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AD50000F2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7DFABB1E1DA8682C00322E02 /* Products */ = {
@@ -311,6 +352,7 @@
 				AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */,
 				ADA6BABB2CF1471F009C8FDA /* libStaticUnityAdapter.a */,
 				AD6E38742EA165F600818296 /* libAdapter.a */,
+				AD5000132F2ADD17003E5D77 /* libUnityAdapterSPMDependencies.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -398,6 +440,7 @@
 			);
 			dependencies = (
 				00DD269A22F10D270039C1D4 /* PBXTargetDependency */,
+				AD5000182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -422,6 +465,26 @@
 			productReference = AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD5000102F2ADD17003E5D77 /* UnityAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD5000142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "UnityAdapterSPMDependencies" */;
+			buildPhases = (
+				AD5000112F2ADD17003E5D77 /* Sources */,
+				AD5000122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnityAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD5000032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD5000052F2ADD17003E5D77 /* UnityAds */,
+			);
+			productName = UnityAdapterSPMDependencies;
+			productReference = AD5000132F2ADD17003E5D77 /* libUnityAdapterSPMDependencies.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		AD6E38542EA165F600818296 /* AdapterWithoutValidationScript */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6E38712EA165F600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
@@ -434,6 +497,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD50001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
@@ -452,6 +516,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD50001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticUnityAdapter;
 			productName = Adapter;
@@ -488,6 +553,10 @@
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
+			packageReferences = (
+				AD5000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "Unity-Ads-Swift-Package" */,
+				AD5000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			productRefGroup = 7DFABB1E1DA8682C00322E02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -498,6 +567,7 @@
 				AD00C4AC2B87E8B3007C85F3 /* UnityAdapter */,
 				ADA6BA9B2CF1471F009C8FDA /* StaticUnityAdapter */,
 				AD6E38542EA165F600818296 /* AdapterWithoutValidationScript */,
+				AD5000102F2ADD17003E5D77 /* UnityAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -568,6 +638,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD5000112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD6E38572EA165F600818296 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -609,6 +686,21 @@
 			isa = PBXTargetDependency;
 			target = 00DD269422F10D0C0039C1D4 /* ValidateSourceCode */;
 			targetProxy = 00DD269922F10D270039C1D4 /* PBXContainerItemProxy */;
+		};
+		AD5000182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD5000102F2ADD17003E5D77 /* UnityAdapterSPMDependencies */;
+			targetProxy = AD5000172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD50001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD5000102F2ADD17003E5D77 /* UnityAdapterSPMDependencies */;
+			targetProxy = AD5000192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD50001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD5000102F2ADD17003E5D77 /* UnityAdapterSPMDependencies */;
+			targetProxy = AD50001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -677,7 +769,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -713,7 +817,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -721,14 +836,28 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -846,35 +975,93 @@
 			};
 			name = Release;
 		};
+		AD5000152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AD5000162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		AD6E38722EA165F600818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		AD6E38732EA165F600818296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		ADA6BAB92CF1471F009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		ADA6BABA2CF1471F009C8FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -926,6 +1113,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AD5000142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "UnityAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD5000152F2ADD17003E5D77 /* Debug */,
+				AD5000162F2ADD17003E5D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AD6E38712EA165F600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -945,6 +1141,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD5000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD5000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "Unity-Ads-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Unity-Technologies/Unity-Ads-Swift-Package.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.21.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD5000032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD5000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD5000052F2ADD17003E5D77 /* UnityAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD5000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "Unity-Ads-Swift-Package" */;
+			productName = UnityAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7DFABB151DA8682C00322E02 /* Project object */;
 }
