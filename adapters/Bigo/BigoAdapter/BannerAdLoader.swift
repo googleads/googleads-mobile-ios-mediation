@@ -76,7 +76,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
     do {
       let slotId = try Util.slotId(from: adConfiguration)
-      let bannerAdSize = try Util.adSize(for: adConfiguration.adSize)
+      let bannerAdSize = Util.adSize(for: adConfiguration.adSize)
       client.loadRTBBannerAd(
         for: slotId, bidPayLoad: bidResponse, adSize: bannerAdSize, watermark: watermark,
         delegate: self)
