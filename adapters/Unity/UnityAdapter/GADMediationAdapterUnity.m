@@ -82,6 +82,7 @@ static BOOL _isTestMode = NO;
       format = UnityAdsAdFormatRewarded;
     }
     UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat:format];
+    GADMAdapterUnityConfigureMediationService();
     [UnityAds getTokenWith:config
                 completion:^(NSString *_Nullable token) {
                   if (token.length == 0) {

@@ -18,8 +18,9 @@
 void GADMAdapterUnityConfigureMediationService(void) {
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:GADMAdapterUnityMediationNetworkName];
-  [mediationMetaData setVersion:GADMAdapterUnityVersion];
-  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
+  [mediationMetaData
+      setVersion:GADGetStringFromVersionNumber(GADMobileAds.sharedInstance.versionNumber)];
+  [mediationMetaData set:@"adapter_version" value:GADMAdapterUnityVersion];
   [mediationMetaData commit];
 }
 

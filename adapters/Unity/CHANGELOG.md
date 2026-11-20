@@ -1,5 +1,9 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next Version
+
+- Updated the adapter to write mediation metadata before collecting bidding signals and report the Google Mobile Ads SDK version and adapter version in `UADSMediationMetaData`.
+
 #### [Version 4.21.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.21.0.0.zip)
 - Verified compatibility with Unity Ads SDK 4.21.0.
 
