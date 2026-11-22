@@ -1,0 +1,10 @@
+# proto-file: learning/gemini/_agents/cl_review_agent/agentic_review.proto
+# proto-message: learning.gemini.agents.cl_review_agent.AgenticReview
+
+conditional_capability_groups {
+  path_expression: ".../CHANGELOG.md"
+  path_expression: ".../*.podspec"
+  path_expression: ".../*.podspec.json"
+  review_capability_skills: "ads/devrel/mobileads/_agents/skills/review/mediation_adapters_general_release_notes/SKILL.md"
+  review_capability_skills: "ads/devrel/mobileads/_agents/skills/review/mediation_adapters_ios_release/SKILL.md"
+}
