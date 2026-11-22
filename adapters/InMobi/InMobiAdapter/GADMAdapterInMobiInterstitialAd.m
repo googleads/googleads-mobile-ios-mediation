@@ -103,6 +103,8 @@
   if (extras && extras.keywords) {
     [_interstitialAd setKeywords:extras.keywords];
   }
+    
+  [IMSdk setMute:GADMobileAds.sharedInstance.isApplicationMuted];
 
   if (_interstitialAdConfig.watermark != nil) {
     IMWatermark *watermark =
