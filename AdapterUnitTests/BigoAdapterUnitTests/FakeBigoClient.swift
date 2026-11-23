@@ -28,6 +28,15 @@ final class FakeBigoClient: NSObject, BigoClient {
   var applicationId: String?
   var testMode: Bool?
 
+  /// Whether the fake BigoADS SDK reports itself as initialized.
+  var isSdkInitialized: Bool = true
+
+  /// Whether the last ad load used a waterfall (`true`) or bidding (`false`) request.
+  var lastLoadWasWaterfall: Bool?
+
+  /// The slot ID of the last ad load.
+  var lastLoadSlotId: String?
+
   func initialize(
     with applicationId: String,
     testMode: Bool,
@@ -35,7 +44,12 @@ final class FakeBigoClient: NSObject, BigoClient {
   ) {
     self.applicationId = applicationId
     self.testMode = testMode
+    isSdkInitialized = true
     completion()
+  }
+
+  func isInitialized() -> Bool {
+    return isSdkInitialized
   }
 
   func getBidderToken() -> String? {
@@ -48,6 +62,19 @@ final class FakeBigoClient: NSObject, BigoClient {
     watermark: Data,
     delegate: any BigoInterstitialAdLoaderDelegate
   ) {
+    lastLoadWasWaterfall = false
+    lastLoadSlotId = slotId
+    if shouldAdLoadSucceed {
+      delegate.onInterstitialAdLoaded(BigoInterstitialAd())
+    } else {
+      delegate.onInterstitialAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
+  func loadInterstitialAd(for slotId: String, delegate: any BigoInterstitialAdLoaderDelegate) {
+    lastLoadWasWaterfall = true
+    lastLoadSlotId = slotId
     if shouldAdLoadSucceed {
       delegate.onInterstitialAdLoaded(BigoInterstitialAd())
     } else {
@@ -78,6 +105,19 @@ final class FakeBigoClient: NSObject, BigoClient {
     watermark: Data,
     delegate: any BigoRewardVideoAdLoaderDelegate
   ) {
+    lastLoadWasWaterfall = false
+    lastLoadSlotId = slotId
+    if shouldAdLoadSucceed {
+      delegate.onRewardVideoAdLoaded(BigoRewardVideoAd())
+    } else {
+      delegate.onRewardVideoAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
+  func loadRewardVideoAd(for slotId: String, delegate: any BigoRewardVideoAdLoaderDelegate) {
+    lastLoadWasWaterfall = true
+    lastLoadSlotId = slotId
     if shouldAdLoadSucceed {
       delegate.onRewardVideoAdLoaded(BigoRewardVideoAd())
     } else {
@@ -142,11 +182,29 @@ final class FakeBigoClient: NSObject, BigoClient {
     watermark: Data,
     delegate: any BigoBannerAdLoaderDelegate
   ) {
+    lastLoadWasWaterfall = false
+    lastLoadSlotId = slotId
     if shouldAdLoadSucceed {
       delegate.onBannerAdLoaded(BigoBannerAd())
     } else {
       delegate.onBannerAdLoadError?(
         BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
+  func loadBannerAd(
+    for slotId: String,
+    adSize: BigoAdSize,
+    delegate: any BigoBannerAdLoaderDelegate
+  ) {
+    lastLoadWasWaterfall = true
+    lastLoadSlotId = slotId
+    if shouldAdLoadSucceed {
+      delegate.onBannerAdLoaded(BigoBannerAd())
+    } else {
+      delegate.onBannerAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load.")
+      )
     }
   }
 
@@ -176,7 +234,6 @@ final class FakeBigoClient: NSObject, BigoClient {
     // old, and a value of "NO" indicates that the user is a child under 13
     // years old.
     if ageRestrictedTreatment == .child || isChild == true || isUnderAge == true {
-      BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: false)
       bigoConsentOptionsCOPPA = false
     } else if isChild == false || isUnderAge == false {
       bigoConsentOptionsCOPPA = true

@@ -1,5 +1,8 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
+#### Version 6.2.0.1 (In progress)
+- Added waterfall support for banner, interstitial, rewarded, and rewarded interstitial ads.
+
 #### [Version 6.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-6.2.0.0.zip)
 - Verified compatibility with BIGO Ads SDK version 6.2.0.
 
