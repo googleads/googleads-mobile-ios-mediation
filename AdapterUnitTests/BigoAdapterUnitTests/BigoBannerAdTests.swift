@@ -105,41 +105,67 @@ final class BigoBannerAdTests: XCTestCase {
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
 
-  func testAdSize_mapping() throws {
-    let bannerSize = try Util.adSize(for: AdSizeBanner)
+  func testAdSize_mapping() {
+    let bannerSize = Util.adSize(for: AdSizeBanner)
     XCTAssertEqual(bannerSize.width, BigoAdSize.banner().width)
     XCTAssertEqual(bannerSize.height, BigoAdSize.banner().height)
 
-    let mediumRectangleSize = try Util.adSize(for: AdSizeMediumRectangle)
+    let mediumRectangleSize = Util.adSize(for: AdSizeMediumRectangle)
     XCTAssertEqual(mediumRectangleSize.width, BigoAdSize.medium_RECTANGLE().width)
     XCTAssertEqual(mediumRectangleSize.height, BigoAdSize.medium_RECTANGLE().height)
 
-    let largeBannerSize = try Util.adSize(for: AdSizeLargeBanner)
+    let largeBannerSize = Util.adSize(for: AdSizeLargeBanner)
     XCTAssertEqual(largeBannerSize.width, BigoAdSize.mobile_LARGE_LEADERBOARD().width)
     XCTAssertEqual(largeBannerSize.height, BigoAdSize.mobile_LARGE_LEADERBOARD().height)
 
-    let leaderboardSize = try Util.adSize(for: AdSizeLeaderboard)
+    let leaderboardSize = Util.adSize(for: AdSizeLeaderboard)
     XCTAssertEqual(leaderboardSize.width, BigoAdSize.leaderboard().width)
     XCTAssertEqual(leaderboardSize.height, BigoAdSize.leaderboard().height)
 
-    let anchoredAdaptiveSize = try Util.adSize(
+    let anchoredAdaptiveSize = Util.adSize(
       for: currentOrientationAnchoredAdaptiveBanner(width: 375))
     XCTAssertEqual(anchoredAdaptiveSize.width, BigoAdSize.banner().width)
     XCTAssertEqual(anchoredAdaptiveSize.height, BigoAdSize.banner().height)
 
-    let leaderboardAdaptiveSize = try Util.adSize(
+    let leaderboardAdaptiveSize = Util.adSize(
       for: currentOrientationAnchoredAdaptiveBanner(width: 728))
     XCTAssertEqual(leaderboardAdaptiveSize.width, BigoAdSize.leaderboard().width)
     XCTAssertEqual(leaderboardAdaptiveSize.height, BigoAdSize.leaderboard().height)
 
-    let inlineAdaptiveSize = try Util.adSize(
+    let inlineAdaptiveSize = Util.adSize(
       for: currentOrientationInlineAdaptiveBanner(width: 320))
     XCTAssertEqual(inlineAdaptiveSize.width, BigoAdSize.getAdaptiveAdSize(withWidth: 320).width)
     XCTAssertEqual(inlineAdaptiveSize.height, BigoAdSize.getAdaptiveAdSize(withWidth: 320).height)
 
-    let customSize = try Util.adSize(for: adSizeFor(cgSize: CGSize(width: 250, height: 50)))
+    let customSize = Util.adSize(for: adSizeFor(cgSize: CGSize(width: 250, height: 50)))
     XCTAssertEqual(customSize.width, BigoAdSize.getAdaptiveAdSize(withWidth: 250).width)
     XCTAssertEqual(customSize.height, BigoAdSize.getAdaptiveAdSize(withWidth: 250).height)
+  }
+
+  func testWaterfallAdSize_mapsStandardSizes() throws {
+    let bannerSize = try Util.waterfallAdSize(for: AdSizeBanner)
+    XCTAssertEqual(bannerSize.width, BigoAdSize.banner().width)
+    XCTAssertEqual(bannerSize.height, BigoAdSize.banner().height)
+
+    let mediumRectangleSize = try Util.waterfallAdSize(for: AdSizeMediumRectangle)
+    XCTAssertEqual(mediumRectangleSize.width, BigoAdSize.medium_RECTANGLE().width)
+    XCTAssertEqual(mediumRectangleSize.height, BigoAdSize.medium_RECTANGLE().height)
+
+    let largeBannerSize = try Util.waterfallAdSize(for: AdSizeLargeBanner)
+    XCTAssertEqual(largeBannerSize.width, BigoAdSize.mobile_LARGE_LEADERBOARD().width)
+    XCTAssertEqual(largeBannerSize.height, BigoAdSize.mobile_LARGE_LEADERBOARD().height)
+
+    let leaderboardSize = try Util.waterfallAdSize(for: AdSizeLeaderboard)
+    XCTAssertEqual(leaderboardSize.width, BigoAdSize.leaderboard().width)
+    XCTAssertEqual(leaderboardSize.height, BigoAdSize.leaderboard().height)
+  }
+
+  func testWaterfallAdSize_throws_whenSizeIsNotCloseToSupportedSize() {
+    XCTAssertThrowsError(
+      try Util.waterfallAdSize(for: adSizeFor(cgSize: CGSize(width: 250, height: 50)))
+    ) { error in
+      XCTAssertEqual((error as? BigoAdapterError)?.errorCode, .unsupportedBannerSize)
+    }
   }
 
   func testLoadBannerAd_fails_whenMissingBidResposne() {
