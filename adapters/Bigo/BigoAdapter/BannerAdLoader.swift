@@ -54,13 +54,17 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   }
 
   func loadAd() {
+    let slotId: String
+    do {
+      slotId = try Util.slotId(from: adConfiguration)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+      return
+    }
+
+    // Waterfall ad configurations don't have a bid response.
     guard let bidResponse = adConfiguration.bidResponse else {
-      handleLoadedAd(
-        nil,
-        error: BigoAdapterError(
-          errorCode: .invalidAdConfiguration,
-          description: "The ad configuration is missing bid response."
-        ).toNSError())
+      loadWaterfallAd(slotId: slotId)
       return
     }
 
@@ -74,14 +78,30 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       return
     }
 
+    let bannerAdSize = Util.adSize(for: adConfiguration.adSize)
+    client.loadRTBBannerAd(
+      for: slotId, bidPayLoad: bidResponse, adSize: bannerAdSize, watermark: watermark,
+      delegate: self)
+  }
+
+  /// Loads a waterfall banner ad. Waterfall ad requests only need the slot ID.
+  private func loadWaterfallAd(slotId: String) {
+    let bannerAdSize: BigoAdSize
     do {
-      let slotId = try Util.slotId(from: adConfiguration)
-      let bannerAdSize = try Util.adSize(for: adConfiguration.adSize)
-      client.loadRTBBannerAd(
-        for: slotId, bidPayLoad: bidResponse, adSize: bannerAdSize, watermark: watermark,
-        delegate: self)
+      bannerAdSize = try Util.waterfallAdSize(for: adConfiguration.adSize)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
+      return
+    }
+
+    Util.prepareBigoSdkForWaterfallAdLoad(adConfiguration: adConfiguration, client: client) {
+      [weak self] error in
+      guard let self else { return }
+      if let error {
+        self.handleLoadedAd(nil, error: error)
+        return
+      }
+      self.client.loadBannerAd(for: slotId, adSize: bannerAdSize, delegate: self)
     }
   }
 
