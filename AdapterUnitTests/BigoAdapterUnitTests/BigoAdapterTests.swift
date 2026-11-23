@@ -301,4 +301,74 @@ final class BigoAdapterTest: XCTestCase {
     wait(for: [expectation], timeout: 10)
   }
 
+  // MARK: - Waterfall helpers
+
+  func testApplicationIdFromAdConfiguration_returnsApplicationId() throws {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let config = AUTKMediationInterstitialAdConfiguration()
+    config.credentials = credentials
+
+    XCTAssertEqual(try Util.applicationId(from: config), "test_id")
+  }
+
+  func testPrepareBigoSdkForWaterfallAdLoad_whenInitialized_doesNotInitialize() {
+    fakeClient.isSdkInitialized = true
+    let config = AUTKMediationInterstitialAdConfiguration()
+    config.credentials = AUTKMediationCredentials()
+    var completionError: NSError? = NSError(domain: "unset", code: 0)
+
+    Util.prepareBigoSdkForWaterfallAdLoad(adConfiguration: config, client: fakeClient) { error in
+      completionError = error
+    }
+
+    XCTAssertNil(completionError)
+    XCTAssertNil(fakeClient.applicationId)
+  }
+
+  func testPrepareBigoSdkForWaterfallAdLoad_whenNotInitialized_initializesWithApplicationId() {
+    fakeClient.isSdkInitialized = false
+    BigoAdapterExtras.testMode = true
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let config = AUTKMediationInterstitialAdConfiguration()
+    config.credentials = credentials
+    var completionError: NSError? = NSError(domain: "unset", code: 0)
+
+    Util.prepareBigoSdkForWaterfallAdLoad(adConfiguration: config, client: fakeClient) { error in
+      completionError = error
+    }
+
+    XCTAssertNil(completionError)
+    XCTAssertEqual(fakeClient.applicationId, "test_id")
+    XCTAssertEqual(fakeClient.testMode, true)
+  }
+
+  func testPrepareBigoSdkForWaterfallAdLoad_whenNotInitializedAndMissingAppId_fails() {
+    fakeClient.isSdkInitialized = false
+    let config = AUTKMediationInterstitialAdConfiguration()
+    config.credentials = AUTKMediationCredentials()
+    var completionError: NSError?
+
+    Util.prepareBigoSdkForWaterfallAdLoad(adConfiguration: config, client: fakeClient) { error in
+      completionError = error
+    }
+
+    XCTAssertEqual(completionError?.domain, BigoAdapterError.domain)
+    XCTAssertEqual(
+      completionError?.code,
+      BigoAdapterError.ErrorCode.serverConfigurationMissingApplicationID.rawValue)
+    XCTAssertNil(fakeClient.applicationId)
+  }
+
+  func testPrepareBigoSdkForWaterfallAdLoad_appliesPrivacySettings() {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    let config = AUTKMediationInterstitialAdConfiguration()
+    config.credentials = AUTKMediationCredentials()
+
+    Util.prepareBigoSdkForWaterfallAdLoad(adConfiguration: config, client: fakeClient) { _ in }
+
+    XCTAssertEqual(fakeClient.bigoConsentOptionsCOPPA, false)
+  }
+
 }

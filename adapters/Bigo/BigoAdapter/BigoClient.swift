@@ -47,6 +47,9 @@ protocol BigoClient: NSObject {
   /// Initializes the BigoADS SDK.
   func initialize(with applicationId: String, testMode: Bool, completion: @escaping () -> Void)
 
+  /// Returns whether the BigoADS SDK has been initialized.
+  func isInitialized() -> Bool
+
   /// Gets a bidder token from BigoADS.
   func getBidderToken() -> String?
 
@@ -84,6 +87,10 @@ protocol BigoClient: NSObject {
     for slotId: String, bidPayLoad: String, adSize: BigoAdSize, watermark: Data,
     delegate: BigoBannerAdLoaderDelegate
   )
+
+  /// Loads a waterfall banner ad from BigoADS.
+  func loadBannerAd(
+    for slotId: String, adSize: BigoAdSize, delegate: BigoBannerAdLoaderDelegate)
 
   /// Loads a RTB native ad from BigoADS.
   func loadRTBNativeAd(
@@ -126,6 +133,10 @@ final class BigoClientImpl: NSObject, BigoClient {
     BigoAdSdk.sharedInstance().initializeSdk(with: adConfig) {
       completion()
     }
+  }
+
+  func isInitialized() -> Bool {
+    return BigoAdSdk.sharedInstance().isInitialized()
   }
 
   func getBidderToken() -> String? {
@@ -210,6 +221,17 @@ final class BigoClientImpl: NSObject, BigoClient {
     let request = BigoBannerAdRequest(slotId: slotId, adSizes: [adSize])
     request.setServerBidPayload(bidPayLoad)
     request.encodedImageData = watermark
+    bannerAdLoader = BigoBannerAdLoader(bannerAdLoaderDelegate: delegate)
+    bannerAdLoader?.ext = Self.extString
+    bannerAdLoader?.loadAd(request)
+  }
+
+  func loadBannerAd(
+    for slotId: String,
+    adSize: BigoAdSize,
+    delegate: any BigoBannerAdLoaderDelegate
+  ) {
+    let request = BigoBannerAdRequest(slotId: slotId, adSizes: [adSize])
     bannerAdLoader = BigoBannerAdLoader(bannerAdLoaderDelegate: delegate)
     bannerAdLoader?.ext = Self.extString
     bannerAdLoader?.loadAd(request)
