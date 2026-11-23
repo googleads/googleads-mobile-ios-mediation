@@ -58,16 +58,29 @@ final class BigoRewardedAdTests: XCTestCase {
     AUTKWaitAndAssertLoadRewardedAdFailure(adapter, config, expectedError)
   }
 
-  func testLoadRtbRewardedAd_fails_whenBidResponseIsMissing() {
+  func testLoadWaterfallRewardedAd_succeeds_withoutBidResponse() {
     let credentials = AUTKMediationCredentials()
-    credentials.settings = ["slot_id": "test"]
+    credentials.settings = ["slot_id": "test", "application_id": "test_id"]
     let config = AUTKMediationRewardedAdConfiguration()
     config.credentials = credentials
-    config.watermark = Data(repeating: 1, count: 1)
-    let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
-      .toNSError()
+
+    AUTKWaitAndAssertLoadRewardedAd(adapter, config)
+
+    XCTAssertEqual(fakeClient.lastLoadWasWaterfall, true)
+    XCTAssertEqual(fakeClient.lastLoadSlotId, "test")
+    XCTAssertNil(fakeClient.applicationId)
+  }
+
+  func testLoadWaterfallRewardedAd_fails_whenBigoADSFailsToLoad() {
+    fakeClient.shouldAdLoadSucceed = false
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test", "application_id": "test_id"]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let expectedError = NSError(domain: "com.google.mediation.bigo", code: 12345, userInfo: [:])
 
     AUTKWaitAndAssertLoadRewardedAdFailure(adapter, config, expectedError)
+    XCTAssertEqual(fakeClient.lastLoadWasWaterfall, true)
   }
 
   func testLoadRtbRewardedAd_fails_whenWatermarkIsMissing() {
