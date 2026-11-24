@@ -21,28 +21,29 @@ public final class BidMachineAdapterError: Error {
     case serverConfigurationMissingPublisherId = 101
 
     /// The bidding signal collection request failed because the RTB parameters do not contains ad format
-    /// or specified format is not supported.
+    /// or specified format is not supported. No longer used.
     case invalidRTBRequestParameters = 102
 
     /// Invalid ad configuration for loading an ad.
     case invalidAdConfiguration = 103
 
-    /// Bid Machine SDK returned non-banner ad to the banner ad's BidMachineAdProtocol didLoadAd
-    /// delegate method. Should never happen.
+    /// BidMachine SDK returned a non-banner ad for a banner ad request. No longer used.
     case bidMachineReturnedNonBannerAd = 104
 
     /// Fullscreen ad is not ready for presentation.
     case adNotReadyForPresentation = 105
 
-    /// Bid Machine SDK returned non-native ad to the native ad's BidMachineAdProtocol didLoadAd
-    /// delegate method. Should never happen.
+    /// BidMachine SDK returned a non-native ad for a native ad request. No longer used.
     case bidMachineReturnedNonNativeAd = 106
 
-    /// Failed to load one of the native ad image sources.
+    /// Failed to load one of the native ad image sources. No longer used.
     case failedToLoadNativeAdImageSource = 107
 
     /// BidMachine does not support this banner ad size.
     case unsupportedBannerSize = 108
+
+    /// BidMachine SDK is not initialized.
+    case bidMachineSDKNotInitialized = 109
   }
 
   public static let domain = "com.google.mediation.bidmachine"

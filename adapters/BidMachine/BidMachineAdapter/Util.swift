@@ -78,38 +78,21 @@ final class Util {
       as? String
   }
 
-  /// Retrieves a placement ID from the provided RTB parameters.
+  /// Retrieves the placement IDs from the provided RTB parameters.
   ///
-  /// Uses the first credential found. The ad unit may have multiple mediation groups, each with a
-  /// different BidMachine placement ID, and the actual mediation group is resolved only after
-  /// signal collection is completed. So the credentials may contain multiple different placement
-  /// IDs at this point.
-  ///
-  // TODO: Update the API to take a list of placement IDs during signal collection once the
-  // BidMachine SDK supports it.
-  /// - Returns: A placement ID from the parameters, or nil if the parameters contain none.
-  static func placementId(from params: RTBRequestParameters) -> String? {
-    return params.configuration.credentials.first?.settings[
-      MediationConfigurationSettingKey.placementId.rawValue] as? String
-  }
-
-  /// Retrieves an ad format from the provided RTB parameters.
-  ///
-  /// - Throws: BidMachineAdapterError.invalidRTBRequestParameters if the parameters contain no ad format.
-  /// - Returns: An ad format from the configuration.
-  static func adFormat(
-    from params: RTBRequestParameters
-  ) throws(BidMachineAdapterError) -> AdFormat {
-    // Returns the first ad format found because the other crendentials should
-    // have the same ad format.
-    guard let adFormat = params.configuration.credentials.first?.format else {
-      throw BidMachineAdapterError(
-        errorCode: .invalidRTBRequestParameters,
-        description:
-          "Failed to collect signals because the configuration is missing the crendentials.")
+  /// - Returns: The unique placement IDs of all the credentials, or an empty array if the
+  /// parameters contain none.
+  static func placementIds(from params: RTBRequestParameters) -> [String] {
+    var placementIds = [String]()
+    for credential in params.configuration.credentials {
+      guard
+        let placementId = credential.settings[MediationConfigurationSettingKey.placementId.rawValue]
+          as? String,
+        !placementIds.contains(placementId)
+      else { continue }
+      placementIds.append(placementId)
     }
-
-    return adFormat
+    return placementIds
   }
 
   /// Retrieves the root view controller of the current key window. If it is not available, returns

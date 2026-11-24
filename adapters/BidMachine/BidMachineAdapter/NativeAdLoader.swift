@@ -56,13 +56,11 @@ final class NativeAdLoader: NSObject {
       try client.loadWaterfallNativeAd(
         delegate: self, placementId: Util.placementId(from: adConfiguration)
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] nativeAd, error in
+        self?.handleLoadedNative(nativeAd, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error as NSError)
     }
@@ -81,19 +79,26 @@ final class NativeAdLoader: NSObject {
 
     do {
       try client.loadRTBNativeAd(
-        with: bidResponse, delegate: self, placementId: Util.placementId(from: adConfiguration),
-        watermark: watermark
+        with: bidResponse, delegate: self, watermark: watermark
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] nativeAd, error in
+        self?.handleLoadedNative(nativeAd, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error as NSError)
     }
+  }
+
+  /// Creates a proxy for the loaded native ad and reports the load result.
+  private func handleLoadedNative(_ nativeAd: BidMachine.NativeAd?, error: NSError?) {
+    guard let nativeAd else {
+      handleLoadedAd(nil, error: error)
+      return
+    }
+    nativeAdProxy = NativeAdProxyFactory.createProxy(with: nativeAd)
+    handleLoadedAd(nativeAdProxy, error: nil)
   }
 
   private func handleLoadedAd(_ ad: MediationNativeAd?, error: NSError?) {
@@ -104,44 +109,30 @@ final class NativeAdLoader: NSObject {
 
 }
 
-// MARK: - BidMachineAdDelegate
+// MARK: - NativeAdDelegate
 
-extension NativeAdLoader: BidMachineAdDelegate {
+extension NativeAdLoader: BidMachine.NativeAdDelegate {
 
-  func didLoadAd(_ ad: any BidMachineAdProtocol) {
-    do {
-      nativeAdProxy = try NativeAdProxyFactory.createProxy(with: ad)
-      handleLoadedAd(nativeAdProxy, error: nil)
-    } catch {
-      handleLoadedAd(nil, error: error.toNSError())
-    }
+  func didPresent(_ ad: BidMachine.NativeAd) {
   }
 
-  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
-    handleLoadedAd(nil, error: error as NSError)
-  }
-
-  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.reportImpression()
-  }
-
-  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
-    // Is called only on first click. If you need to track every click use didUserInteraction instead
-  }
-
-  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.reportClick()
-  }
-
-  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+  func didFailPresent(_ ad: BidMachine.NativeAd, error: BidMachineError) {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
-  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+  func didTrackImpression(_ ad: BidMachine.NativeAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func didClick(_ ad: BidMachine.NativeAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func willPresentScreen(_ ad: BidMachine.NativeAd) {
     eventDelegate?.willPresentFullScreenView()
   }
 
-  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
+  func didDismissScreen(_ ad: BidMachine.NativeAd) {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }
