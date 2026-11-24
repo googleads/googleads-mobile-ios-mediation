@@ -17,6 +17,9 @@
 /// The version of the LINE mediation adapter.
 extern NSString *const GADMediationAdapterLineVersion;
 
+/// The mediation platform name reported to the FiveAd SDK.
+extern NSString *const GADMediationAdapterLineMediationName;
+
 /// The credential key for the application level ID.
 extern NSString *const GADMediationAdapterLineCredentialKeyApplicationID;
 

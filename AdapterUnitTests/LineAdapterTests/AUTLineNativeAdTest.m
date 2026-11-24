@@ -50,11 +50,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
   _adapter = [[GADMediationAdapterLine alloc] init];
 
   _nativeMock = OCMClassMock([FADNative class]);
-  OCMStub([_nativeMock alloc]).andDo(^(NSInvocation *invocation) {
-    id mock = self->_nativeMock;
-    CFRetain((__bridge CFTypeRef)mock);
-    [invocation setReturnValue:&mock];
-  });
 }
 
 - (void)tearDown {
@@ -65,23 +60,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
   _adsMock = nil;
   GADMobileAds.sharedInstance.applicationMuted = NO;
   [super tearDown];
-}
-
-- (void)mockFiveAdNativeAdLoadWithVideoWidth:(CGFloat)width {
-  OCMStub([_nativeMock initWithSlotId:AUTLineTestSlotID videoViewWidth:width])
-      .andReturn(_nativeMock);
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_nativeMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
-  OCMStub([_nativeMock setEventListener:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    id<FADNativeEventListener> eventListener = nil;
-    [invocation getArgument:&eventListener atIndex:2];
-    XCTAssertTrue([eventListener conformsToProtocol:@protocol(FADNativeEventListener)]);
-  });
-  OCMStub([_nativeMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAdDidLoad:self->_nativeMock];
-  });
 }
 
 - (void)mockFiveAdImageAssetsLoadWithIconImage:(nullable UIImage *)iconImage
@@ -104,6 +82,12 @@ static CGFloat const AUTLineTestVideoWidth = 123;
          shouldLoadImageAssets:(BOOL)shouldLoadImageAssets
                         extras:(nullable GADMediationAdapterLineExtras *)extras
             expectSoundEnabled:(BOOL)soundEnabled {
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
@@ -111,7 +95,17 @@ static CGFloat const AUTLineTestVideoWidth = 123;
                                                  isEqualToString:AUTLineTestApplicationID]);
                                              return YES;
                                            }]
-                                                    outError:[OCMArg anyObjectRef]]));
+                                                    outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadNativeAdWithConfig:slotConfigMock
+                                     withInitialWidth:videoWidth
+                                     withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADNative *_Nullable nativeAd,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(self->_nativeMock, nil);
+      });
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
@@ -134,13 +128,18 @@ static CGFloat const AUTLineTestVideoWidth = 123;
     [options addObject:imageOptions];
   }
   configuration.options = [options copy];
+  OCMExpect([_nativeMock setEventListener:[OCMArg checkWithBlock:^BOOL(id obj) {
+                           return [obj conformsToProtocol:@protocol(FADNativeEventListener)];
+                         }]]);
   OCMExpect([_nativeMock enableSound:soundEnabled]);
 
   id<GADMediationNativeAdEventDelegate> delegate =
       AUTKWaitAndAssertLoadNativeAd(_adapter, configuration);
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_nativeMock);
+  OCMVerifyAll(slotConfigMock);
   OCMVerifyAll(adLoaderClassMock);
+  [slotConfigMock stopMocking];
   [adLoaderClassMock stopMocking];
   return delegate;
 }
@@ -149,6 +148,12 @@ static CGFloat const AUTLineTestVideoWidth = 123;
                                                       shouldLoadImageAssets:
                                                           (BOOL)shouldLoadImageAssets
                                                            shouldStartMuted:(BOOL)shouldStartMuted {
+  id slotConfigMock = OCMClassMock([FADAdSlotConfig class]);
+  OCMExpect(ClassMethod([slotConfigMock configWithSlotId:AUTLineTestSlotID]))
+      .andReturn(slotConfigMock);
+  OCMExpect([slotConfigMock setMediationName:GADMediationAdapterLineMediationName
+                                     version:GADMediationAdapterLineVersion]);
+
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
                                              FADConfig *config = (FADConfig *)obj;
@@ -156,7 +161,17 @@ static CGFloat const AUTLineTestVideoWidth = 123;
                                                  isEqualToString:AUTLineTestApplicationID]);
                                              return YES;
                                            }]
-                                                    outError:[OCMArg anyObjectRef]]));
+                                                    outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadNativeAdWithConfig:slotConfigMock
+                                     withInitialWidth:videoWidth
+                                     withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADNative *_Nullable nativeAd,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(self->_nativeMock, nil);
+      });
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
@@ -180,19 +195,23 @@ static CGFloat const AUTLineTestVideoWidth = 123;
   videoOptions.startMuted = shouldStartMuted;
   [options addObject:videoOptions];
   configuration.options = [options copy];
+  OCMExpect([_nativeMock setEventListener:[OCMArg checkWithBlock:^BOOL(id obj) {
+                           return [obj conformsToProtocol:@protocol(FADNativeEventListener)];
+                         }]]);
   OCMExpect([_nativeMock enableSound:!shouldStartMuted]);
 
   id<GADMediationNativeAdEventDelegate> delegate =
       AUTKWaitAndAssertLoadNativeAd(_adapter, configuration);
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_nativeMock);
+  OCMVerifyAll(slotConfigMock);
   OCMVerifyAll(adLoaderClassMock);
+  [slotConfigMock stopMocking];
   [adLoaderClassMock stopMocking];
   return delegate;
 }
 
 - (void)testLoadNativeAdWithImages {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   [self loadNativeAdWithVideoWidth:AUTLineTestVideoWidth
@@ -201,14 +220,12 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testLoadNativeAdWithoutImages {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self loadNativeAdWithVideoWidth:AUTLineTestVideoWidth
              shouldLoadImageAssets:NO
                   shouldStartMuted:YES];
 }
 
 - (void)testLoadNativeAdWithUnmuted {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self loadNativeAdWithVideoWidth:AUTLineTestVideoWidth
              shouldLoadImageAssets:NO
                   shouldStartMuted:NO];
@@ -217,7 +234,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 - (void)testLoadNativeAdAudioDefaultMuted {
   _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
   OCMStub([_adsMock isApplicationMuted]).andReturn(YES);
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self loadNativeAdWithVideoWidth:AUTLineTestVideoWidth
              shouldLoadImageAssets:NO
                             extras:nil
@@ -229,7 +245,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 - (void)testLoadNativeAdAudioDefaultUnmuted {
   _adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
   OCMStub([_adsMock isApplicationMuted]).andReturn(NO);
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self loadNativeAdWithVideoWidth:AUTLineTestVideoWidth
              shouldLoadImageAssets:NO
                             extras:nil
@@ -333,12 +348,13 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testLoadNativeAdFailureForMissingSlotID {
-  OCMStub([_nativeMock initWithSlotId:AUTLineTestSlotID videoViewWidth:AUTLineTestVideoWidth])
-      .andReturn(_nativeMock);
-  OCMReject([_nativeMock loadAdAsync]);
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMReject([[adLoaderClassMock ignoringNonObjectArgs] loadNativeAdWithConfig:OCMOCK_ANY
+                                                             withInitialWidth:0
+                                                             withLoadCallback:OCMOCK_ANY]);
 
   // Test missing slot ID by omitting slot id from credential settings.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -356,24 +372,27 @@ static CGFloat const AUTLineTestVideoWidth = 123;
                                  code:GADMediationAdapterLineErrorInvalidServerParameters
                              userInfo:nil];
   AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
-  OCMVerifyAll(_nativeMock);
+  OCMVerifyAll(adLoaderClassMock);
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testLoadNativeAdFailureForFiveAdSDKFailedToReceiveAd {
-  OCMStub([_nativeMock initWithSlotId:AUTLineTestSlotID videoViewWidth:AUTLineTestVideoWidth])
-      .andReturn(_nativeMock);
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_nativeMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
   FADErrorCode code = kFADErrorCodeNoAd;
-  OCMStub([_nativeMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAd:self->_nativeMock didFailedToReceiveAdWithError:code];
-  });
+  NSError *fiveAdError = [NSError errorWithDomain:@"com.five_corp.ad.error" code:code userInfo:nil];
+
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMExpect([adLoaderClassMock loadNativeAdWithConfig:OCMOCK_ANY
+                                     withInitialWidth:AUTLineTestVideoWidth
+                                     withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADNative *_Nullable nativeAd,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(nil, fiveAdError);
+      });
 
   // Test fail to receive an ad from FiveAd SDK.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -391,15 +410,28 @@ static CGFloat const AUTLineTestVideoWidth = 123;
                                                       code:code
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
+  OCMVerifyAll(adLoaderClassMock);
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testInformationIconImageLoadFailure {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
+  OCMExpect([_nativeMock setEventListener:[OCMArg checkWithBlock:^BOOL(id obj) {
+                           return [obj conformsToProtocol:@protocol(FADNativeEventListener)];
+                         }]]);
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init] informationIconImage:nil];
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
   OCMStub(ClassMethod([adLoaderClassMock adLoaderForConfig:OCMOCK_ANY
-                                                  outError:[OCMArg anyObjectRef]]));
+                                                  outError:[OCMArg anyObjectRef]]))
+      .andReturn(adLoaderClassMock);
+  OCMStub([adLoaderClassMock loadNativeAdWithConfig:OCMOCK_ANY
+                                   withInitialWidth:AUTLineTestVideoWidth
+                                   withLoadCallback:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(FADNative *_Nullable nativeAd,
+                                                      NSError *_Nullable adLoadError);
+        [invocation getArgument:&completionHandler atIndex:4];
+        completionHandler(self->_nativeMock, nil);
+      });
 
   // Test GADMediationAdapterLineErrorInformationIconLoadFailure.
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -418,11 +450,11 @@ static CGFloat const AUTLineTestVideoWidth = 123;
                                  code:GADMediationAdapterLineErrorInformationIconLoadFailure
                              userInfo:nil];
   AUTKWaitAndAssertLoadNativeAdFailure(_adapter, configuration, expectedError);
+  OCMVerifyAll(_nativeMock);
   [adLoaderClassMock stopMocking];
 }
 
 - (void)testNativeAdUIsWithImageAssets {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   UIImage *expectedIconImage = [[UIImage alloc] init];
 
   // Create a 100x50 mock image for the information icon.
@@ -471,7 +503,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testNativeAdAssetsWithoutImageAssets {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   // In addition to mocking the FiveAd loading methods, mock other native ad assets.
@@ -508,7 +539,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testDidRenderInView {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
 
@@ -533,7 +563,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testAdImpression {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
@@ -548,7 +577,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testAdClick {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
@@ -563,7 +591,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testAdDidPlay {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
@@ -577,7 +604,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testAdDidEnd {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
@@ -591,7 +617,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testAdDidPause {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
@@ -605,7 +630,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 }
 
 - (void)testFailToShowAd {
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
@@ -626,7 +650,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 - (void)testUnhandledEvents {
   // Following events are not handled by the GoogleMobileAds's native event delegate, but
   // checking invoking them does not crash the running app.
-  [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   [self mockFiveAdImageAssetsLoadWithIconImage:[[UIImage alloc] init]
                           informationIconImage:[[UIImage alloc] init]];
   AUTKMediationNativeAdEventDelegate *delegate =
