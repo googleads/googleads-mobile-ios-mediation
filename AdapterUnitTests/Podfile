@@ -12,8 +12,16 @@ project 'AdapterUnitTests.xcodeproj'
 use_frameworks!
 workspace 'AdapterUnitTests'
 
+def uses_spm?(xcodeproj_path)
+  return false unless xcodeproj_path
+
+  pbxproj_path = File.join(xcodeproj_path, 'project.pbxproj')
+  File.exist?(pbxproj_path) && File.read(pbxproj_path).include?('XCRemoteSwiftPackageReference')
+end
+
 ADAPTER_PROJECTS = Dir.glob(File.expand_path('../adapters/**/*.xcodeproj', __dir__)).each_with_object({}) do |xcodeproj_path, map|
   next if xcodeproj_path.include?('/NewAdapterSkeleton/') || xcodeproj_path.include?('/CommonAdapter/')
+  next if uses_spm?(xcodeproj_path)
 
   adapter_name = File.basename(xcodeproj_path, '.xcodeproj')
   map[adapter_name] = xcodeproj_path
@@ -24,6 +32,8 @@ ADAPTER_PODSPECS = Dir.glob(File.expand_path('../adapters/**/CocoaPods/*.podspec
 
   adapter_dir = File.expand_path('../../', path)
   xcodeproj_path = Dir.glob(File.join(adapter_dir, '*.xcodeproj')).first
+  next if uses_spm?(xcodeproj_path)
+
   adapter_name = xcodeproj_path ? File.basename(xcodeproj_path, '.xcodeproj') : File.basename(adapter_dir)
   map[adapter_name] = path
 end.freeze

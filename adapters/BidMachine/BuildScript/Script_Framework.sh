@@ -2,9 +2,18 @@
 # Combine iOS Device and Simulator libraries for the various architectures
 # into a single dynamic framework.
 
+set -eo pipefail
+
+# Required for new build system
+OBJROOT="${OBJROOT}/DependentBuilds"
+
 # Remove build directories if exist.
 if [ -d "${BUILT_PRODUCTS_DIR}" ]; then
   rm -rf "${BUILT_PRODUCTS_DIR}"
+fi
+if [ -n "${BUILD_DIR}" ] && [ -n "${CONFIGURATION}" ]; then
+  rm -rf "${BUILD_DIR}/${CONFIGURATION}-iphoneos" \
+    "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator"
 fi
 
 # Remove framework if exists.
@@ -22,8 +31,7 @@ createFramework() {
   TEMP_FRAMEWORK_LOCATION="${BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework"
   mkdir -p "${TEMP_FRAMEWORK_LOCATION}"
 
-  xcodebuild -target Adapter \
-  -xcconfig Configuration/Adapter.xcconfig \
+  xcodebuild -scheme Adapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
   ARCHS="${2}" \
@@ -32,7 +40,7 @@ createFramework() {
   OBJROOT="${OBJROOT}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${SYMROOT}" \
-  "${ACTION}"
+  "build"
 
   # Create framework using lipo.
   lipo -create "${BUILD_DIR}/${CONFIGURATION}-$1/${LIB_NAME}.a" -output "${TEMP_FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"
@@ -59,7 +67,7 @@ createFramework() {
   mkdir -p "${TEMP_FRAMEWORK_OBJROOT_DIR}"
   mkdir -p "${TEMP_FRAMEWORK_SYMROOT_DIR}"
 
-  xcodebuild -target GoogleBidMachineAdapter \
+  xcodebuild -scheme GoogleBidMachineAdapter \
   -xcconfig Configuration/Adapter.xcconfig \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
@@ -77,21 +85,23 @@ createFramework() {
 # Separate the framework based on platforms.
 # Copy all the iphoneos frameworks to iphoneos sub directory.
 # Copy all the iphonesimulator frameworks to iphonesimulator sub directory.
-rm -r "./Drop_Framework_And_Headers/iphoneos"
-rm -r "./Drop_Framework_And_Headers/iphonesimulator"
-mkdir -p "./Drop_Framework_And_Headers/iphoneos"
-mkdir -p "./Drop_Framework_And_Headers/iphonesimulator"
-find "./Drop_Framework_And_Headers" \
-  -path "./Drop_Framework_And_Headers/iphoneos" -prune -o \
-  -path "./Drop_Framework_And_Headers/iphonesimulator" -prune -o \
-  -name "*ios-arm64_x86_64-simulator*" \
-  -exec cp -R {} "./Drop_Framework_And_Headers/iphonesimulator/" \;
-find "./Drop_Framework_And_Headers" \
-  -path "./Drop_Framework_And_Headers/iphoneos" -prune -o \
-  -path "./Drop_Framework_And_Headers/iphonesimulator" -prune -o \
-  -name "*ios-arm64*" \
-  -not -name "*ios-arm64_x86_64-simulator*" \
-  -exec cp -R {} "./Drop_Framework_And_Headers/iphoneos/" \;
+if [ -d "./Drop_Framework_And_Headers" ]; then
+  rm -rf "./Drop_Framework_And_Headers/iphoneos"
+  rm -rf "./Drop_Framework_And_Headers/iphonesimulator"
+  mkdir -p "./Drop_Framework_And_Headers/iphoneos"
+  mkdir -p "./Drop_Framework_And_Headers/iphonesimulator"
+  find "./Drop_Framework_And_Headers" \
+    -path "./Drop_Framework_And_Headers/iphoneos" -prune -o \
+    -path "./Drop_Framework_And_Headers/iphonesimulator" -prune -o \
+    -name "*ios-arm64_x86_64-simulator*" \
+    -exec cp -R {} "./Drop_Framework_And_Headers/iphonesimulator/" \;
+  find "./Drop_Framework_And_Headers" \
+    -path "./Drop_Framework_And_Headers/iphoneos" -prune -o \
+    -path "./Drop_Framework_And_Headers/iphonesimulator" -prune -o \
+    -name "*ios-arm64*" \
+    -not -name "*ios-arm64_x86_64-simulator*" \
+    -exec cp -R {} "./Drop_Framework_And_Headers/iphoneos/" \;
+fi
 
 createFramework "iphoneos" "arm64"
 createFramework "iphonesimulator" "arm64 x86_64"
