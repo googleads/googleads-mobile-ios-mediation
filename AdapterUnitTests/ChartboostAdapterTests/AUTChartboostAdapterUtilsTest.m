@@ -27,15 +27,23 @@
 
 @implementation AUTChartboostAdapterUtilsTests {
   NSUserDefaults *_userDefaults;
+
+  /// A defaults suite only these tests use. Test classes run in parallel processes that share the
+  /// host app's standard defaults, so another class could change IABUSPrivacy_String mid test.
+  NSUserDefaults *_usPrivacyUserDefaults;
 }
 
 - (void)setUp {
   _userDefaults = NSUserDefaults.standardUserDefaults;
+  _usPrivacyUserDefaults =
+      [[NSUserDefaults alloc] initWithSuiteName:@"AUTChartboostAdapterUtilsTests.USPrivacy"];
+  [_usPrivacyUserDefaults removeObjectForKey:@"IABUSPrivacy_String"];
 }
 
 - (void)tearDown {
   [_userDefaults removeObjectForKey:@"IABTCF_gdprApplies"];
   [_userDefaults removeObjectForKey:@"IABTCF_AddtlConsent"];
+  [_usPrivacyUserDefaults removeObjectForKey:@"IABUSPrivacy_String"];
 }
 
 - (void)testACConsentResultNegativeGDPRApplies {
@@ -203,6 +211,94 @@
   XCTAssertEqual(consentResult, GADMAdapterChartboostConsentResultFalse);
 }
 
+#pragma mark - US Privacy Consent Tests
+
+- (void)testUSPrivacyConsentOptedOutOfSale {
+  [_usPrivacyUserDefaults setObject:@"1YYN" forKey:@"IABUSPrivacy_String"];
+
+  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults);
+  XCTAssertNotNil(consent);
+  XCTAssertEqual(consent.consent, CHBCCPAConsentOptOutSale);
+}
+
+- (void)testUSPrivacyConsentDidNotOptOutOfSale {
+  [_usPrivacyUserDefaults setObject:@"1YNN" forKey:@"IABUSPrivacy_String"];
+
+  CHBCCPADataUseConsent *consent = GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults);
+  XCTAssertNotNil(consent);
+  XCTAssertEqual(consent.consent, CHBCCPAConsentOptInSale);
+}
+
+- (void)testUSPrivacyConsentNotApplicable {
+  [_usPrivacyUserDefaults setObject:@"1---" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
+}
+
+- (void)testUSPrivacyConsentMissing {
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
+}
+
+- (void)testUSPrivacyConsentEmpty {
+  [_usPrivacyUserDefaults setObject:@"" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
+}
+
+- (void)testUSPrivacyConsentWrongLength {
+  [_usPrivacyUserDefaults setObject:@"1YY" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
+}
+
+- (void)testUSPrivacyConsentUnsupportedVersion {
+  [_usPrivacyUserDefaults setObject:@"2YYN" forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
+}
+
+- (void)testUSPrivacyConsentNonStringValue {
+  [_usPrivacyUserDefaults setObject:@1 forKey:@"IABUSPrivacy_String"];
+
+  XCTAssertNil(GADMAdapterChartboostUSPrivacyConsent(_usPrivacyUserDefaults));
+}
+
+#pragma mark - Trimmed Credential Tests
+
+- (void)testTrimmedCredentialTrimsSurroundingWhitespace {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appSignature] : @"  signature  "};
+  NSString *value = GADMAdapterChartboostTrimmedCredential(
+      settings, [GADMAdapterChartboostConstants appSignature]);
+  XCTAssertEqualObjects(value, @"signature");
+}
+
+- (void)testTrimmedCredentialLeavesCleanValueUnchanged {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appID] : @"app-id"};
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(settings, [GADMAdapterChartboostConstants appID]);
+  XCTAssertEqualObjects(value, @"app-id");
+}
+
+- (void)testTrimmedCredentialMissingKeyReturnsNil {
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(@{}, [GADMAdapterChartboostConstants appID]);
+  XCTAssertNil(value);
+}
+
+- (void)testTrimmedCredentialWhitespaceOnlyTrimsToEmpty {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appID] : @"   "};
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(settings, [GADMAdapterChartboostConstants appID]);
+  XCTAssertEqualObjects(value, @"");
+}
+
+- (void)testTrimmedCredentialNonStringValueReturnsNil {
+  NSDictionary *settings = @{[GADMAdapterChartboostConstants appID] : @123};
+  NSString *value =
+      GADMAdapterChartboostTrimmedCredential(settings, [GADMAdapterChartboostConstants appID]);
+  XCTAssertNil(value);
+}
+
 #pragma mark - Banner Size Tests
 
 - (void)testBannerSizeFromAdSizeBanner {
@@ -227,6 +323,15 @@
   XCTAssertNil(error);
   XCTAssertEqual(size.width, CHBBannerSizeLeaderboard.width);
   XCTAssertEqual(size.height, CHBBannerSizeLeaderboard.height);
+}
+
+- (void)testBannerSizeFromAdSizeHalfPage {
+  NSError *error = nil;
+  CHBBannerSize size =
+      GADMAdapterChartboostBannerSizeFromAdSize(GADAdSizeFromCGSize(CGSizeMake(300, 600)), &error);
+  XCTAssertNil(error);
+  XCTAssertEqual(size.width, CHBBannerSizeHalfPage.width);
+  XCTAssertEqual(size.height, CHBBannerSizeHalfPage.height);
 }
 
 - (void)testBannerSizeFromAdSizeInvalid {

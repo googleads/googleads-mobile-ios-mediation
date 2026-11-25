@@ -1,4 +1,5 @@
 #import "GADMediationAdapterChartboost.h"
+#import "GADMediationAdapterChartboostInterstitialAd.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationInterstitialAdLoadAssertions.h>
@@ -111,6 +112,35 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   [self loadAdWithLocation:@"ad_location"];
 }
 
+- (void)testLoadStartsChartboostOnce {
+  [self mockSuccessfulAppStart];
+  [self loadAdWithLocation:@"ad_location"];
+
+  OCMVerify(OCMTimes(1), ClassMethod([_mockChartboost startWithAppID:@"app_id"
+                                                        appSignature:@"signature"
+                                                          completion:OCMOCK_ANY]));
+}
+
+- (void)testDeallocClearsChartboostCache {
+  // Build the wrapper directly and inject the mock, because OCMock retains the delegate passed to
+  // the stubbed initializer, which would keep a loaded wrapper alive for the whole test.
+  @autoreleasepool {
+    AUTKMediationInterstitialAdConfiguration *configuration =
+        [[AUTKMediationInterstitialAdConfiguration alloc] init];
+    GADMediationAdapterChartboostInterstitialAd *ad =
+        [[GADMediationAdapterChartboostInterstitialAd alloc]
+            initWithAdConfiguration:configuration
+                  completionHandler:^id<GADMediationInterstitialAdEventDelegate>(
+                      id<GADMediationInterstitialAd> _Nullable loadedAd, NSError *_Nullable error) {
+                    return nil;
+                  }];
+    // Fails as an assertion, rather than an exception, if the ivar is renamed.
+    XCTAssertNoThrow([ad setValue:_interstitialAdMock forKey:@"_interstitial"]);
+  }
+
+  OCMVerify([_interstitialAdMock clearCache]);
+}
+
 - (void)testLocation {
   [self mockSuccessfulAppStart];
   [self loadAdWithLocation:@"ad_location"];
@@ -152,7 +182,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testPresentation {
   [self mockSuccessfulAppStart];
-  OCMStub([_interstitialAdMock isCached]).andReturn(YES);
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_interstitialAdMock showFromViewController:controller])
       .andDo(^(NSInvocation *invocation) {
@@ -174,7 +203,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testDismiss {
   [self mockSuccessfulAppStart];
-  OCMStub([_interstitialAdMock isCached]).andReturn(YES);
 
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_interstitialAdMock showFromViewController:controller])
@@ -192,7 +220,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testClick {
   [self mockSuccessfulAppStart];
-  OCMStub([_interstitialAdMock isCached]).andReturn(YES);
 
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_interstitialAdMock showFromViewController:controller])
@@ -209,7 +236,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 - (void)testClickWithError {
   [self mockSuccessfulAppStart];
-  OCMStub([_interstitialAdMock isCached]).andReturn(YES);
 
   UIViewController *controller = [[UIViewController alloc] init];
   OCMStub([_interstitialAdMock showFromViewController:controller])
@@ -222,12 +248,11 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   CHBClickError *clickError = [[CHBClickError alloc] initWithDomain:@"domain" code:1 userInfo:nil];
   [_interstitialDelegate didClickAd:[[CHBClickEvent alloc] init] error:clickError];
 
-  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
 }
 
 - (void)testPresentationError {
   [self mockSuccessfulAppStart];
-  OCMStub([_interstitialAdMock isCached]).andReturn(YES);
   AUTKMediationInterstitialAdEventDelegate *eventDelegate =
       [self loadAdWithLocation:@"ad_location"];
   UIViewController *controller = [[UIViewController alloc] init];
@@ -247,21 +272,6 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
 }
 
-- (void)testNotCachedError {
-  [self mockSuccessfulAppStart];
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
-      [self loadAdWithLocation:@"ad_location"];
-  UIViewController *controller = [[UIViewController alloc] init];
-  [_interstitialDelegate presentFromViewController:controller];
-
-  XCTAssertNotNil(eventDelegate.didFailToPresentError);
-  XCTAssertEqual(eventDelegate.didFailToPresentError.code, GADMAdapterChartboostErrorAdNotCached);
-
-  // Must not trigger any presentation callbacks.
-  XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
-  XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
-}
-
 - (void)testLoadAdFailsWhenStartFails {
   [self mockFailedAppStart];
 
@@ -275,7 +285,10 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
       [[AUTKMediationInterstitialAdConfiguration alloc] init];
   configuration.credentials = credentials;
 
-  NSError *expectedError = [[NSError alloc] initWithDomain:@"test_domain" code:1 userInfo:nil];
+  NSError *expectedError =
+      [[NSError alloc] initWithDomain:[GADMAdapterChartboostConstants errorDomain]
+                                 code:GADMAdapterChartboostErrorInitializationFailure
+                             userInfo:nil];
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, expectedError);
 }
 
