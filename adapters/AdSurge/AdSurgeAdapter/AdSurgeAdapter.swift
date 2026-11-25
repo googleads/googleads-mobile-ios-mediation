@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterAdSurge)
 final class AdSurgeAdapter: NSObject, RTBAdapter {
 
-  static let adapterVersionString = "2.0.1.0"
+  static let adapterVersionString = "2.0.2.0"
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
