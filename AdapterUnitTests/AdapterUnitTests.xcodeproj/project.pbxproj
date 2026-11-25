@@ -329,6 +329,11 @@
 		70E0D7B62C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B52C47A8AF00241981 /* OCMock */; };
 		70E0D7B82C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B72C47A8AF00241981 /* GoogleMobileAds */; };
 		70E0D7BA2C47A8AF00241981 /* BidMachine in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7B92C47A8AF00241981 /* BidMachine */; };
+		70E0D7A22C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7A12C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7A42C47A8AF00241981 /* AdsGlobalPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7A32C47A8AF00241981 /* AdsGlobalPackage */; };
+		70E0D7A62C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7A52C47A8AF00241981 /* OCMock */; };
+		70E0D7A82C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7A72C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7AA2C47A8AF00241981 /* AdsGlobalPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7A92C47A8AF00241981 /* AdsGlobalPackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1983,6 +1988,9 @@
 			files = (
 				AD6E3B342EA16CFD00818296 /* libAdapter.a in Frameworks */,
 				701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7A22C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7A42C47A8AF00241981 /* AdsGlobalPackage in Frameworks */,
+				70E0D7A62C47A8AF00241981 /* OCMock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2138,6 +2146,8 @@
 			files = (
 				AD30DB6E2E206ABB00FCEF73 /* libAdapter.a in Frameworks */,
 				AD30DB6F2E206ABB00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7A82C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7AA2C47A8AF00241981 /* AdsGlobalPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3304,6 +3314,11 @@
 				701E23852AAD8C9200BAB0B3 /* PBXTargetDependency */,
 			);
 			name = PangleAdapterTests;
+			packageProductDependencies = (
+				70E0D7A12C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7A32C47A8AF00241981 /* AdsGlobalPackage */,
+				70E0D7A52C47A8AF00241981 /* OCMock */,
+			);
 			productName = PangleAdapterTests;
 			productReference = 701E23692AAD8ADD00BAB0B3 /* PangleAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3628,6 +3643,10 @@
 				AD30DBF02E206C2000FCEF73 /* PBXTargetDependency */,
 			);
 			name = PangleAdapterLatencyTests;
+			packageProductDependencies = (
+				70E0D7A72C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7A92C47A8AF00241981 /* AdsGlobalPackage */,
+			);
 			productName = PangleAdapterTests;
 			productReference = AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -4245,6 +4264,7 @@
 				70E0D7712C47A8AF00241981 /* XCRemoteSwiftPackageReference "moloco-sdk-ios-spm" */,
 				70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */,
 				70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */,
+				70E0D7A02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */,
 			);
 			productRefGroup = AD6FA0362A16BF4A007335D2 /* Products */;
 			projectDirPath = "";
@@ -6454,6 +6474,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PangleAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -6541,6 +6565,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PangleAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -9056,6 +9084,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PangleAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -9142,6 +9174,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.PangleAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -13125,7 +13161,7 @@
 			repositoryURL = "https://github.com/moloco/moloco-sdk-ios-spm.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.12.0;
+				exactVersion = 4.12.0;
 			};
 		};
 		70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
@@ -13141,7 +13177,7 @@
 			repositoryURL = "https://github.com/facebook/FBAudienceNetwork";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.22.1;
+				exactVersion = 6.22.1;
 			};
 		};
 		70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */ = {
@@ -13157,7 +13193,15 @@
 			repositoryURL = "https://github.com/bidmachine/BidMachine-SPM.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.8.2;
+				exactVersion = 3.8.2;
+			};
+		};
+		70E0D7A02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bytedance/AdsGlobalPackage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				exactVersion = "8.4.0-release.8";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -13227,6 +13271,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */;
 			productName = BidMachine;
+		};
+		70E0D7A12C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7A32C47A8AF00241981 /* AdsGlobalPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7A02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */;
+			productName = AdsGlobalPackage;
+		};
+		70E0D7A52C47A8AF00241981 /* OCMock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */;
+			productName = OCMock;
+		};
+		70E0D7A72C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7A92C47A8AF00241981 /* AdsGlobalPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7A02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */;
+			productName = AdsGlobalPackage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

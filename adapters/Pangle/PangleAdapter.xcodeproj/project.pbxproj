@@ -89,6 +89,8 @@
 		ADD347D72D2B43CA0019419D /* PangleAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; };
 		ADD347D82D2B43CA0019419D /* GADMediationAdapterPangle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */; };
 		ADD347D92D2B43CA0019419D /* GADPangleNetworkExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBF274A28B34599005D689F /* GADPangleNetworkExtras.h */; };
+		AD6000042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD6000032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD6000062F2ADD17003E5D77 /* AdsGlobalPackage in Frameworks */ = {isa = PBXBuildFile; productRef = AD6000052F2ADD17003E5D77 /* AdsGlobalPackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2BF5FE5E279B0218001EFB81;
 			remoteInfo = ValidateSourceCode;
+		};
+		AD6000172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B3B8D0A277A77AA005BB25B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6000102F2ADD17003E5D77;
+			remoteInfo = PangleAdapterSPMDependencies;
+		};
+		AD6000192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B3B8D0A277A77AA005BB25B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6000102F2ADD17003E5D77;
+			remoteInfo = PangleAdapterSPMDependencies;
+		};
+		AD60001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B3B8D0A277A77AA005BB25B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6000102F2ADD17003E5D77;
+			remoteInfo = PangleAdapterSPMDependencies;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -166,6 +189,7 @@
 		AD00C4952B87E246007C85F3 /* PangleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PangleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E38B22EA1665B00818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BA9A2CF14715009C8FDA /* libStaticPangleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPangleAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6000132F2ADD17003E5D77 /* libPangleAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPangleAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +204,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6000122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6000042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD6000062F2ADD17003E5D77 /* AdsGlobalPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +243,7 @@
 				2B3B8D31277A796F005BB25B /* Configuration */,
 				2B3B8D2E277A7870005BB25B /* BuildScript */,
 				2B3B8D13277A77AA005BB25B /* Products */,
+				AD60000F2F2ADD17003E5D77 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,8 +254,16 @@
 				AD00C4952B87E246007C85F3 /* PangleAdapter.framework */,
 				ADA6BA9A2CF14715009C8FDA /* libStaticPangleAdapter.a */,
 				AD6E38B22EA1665B00818296 /* libAdapter.a */,
+				AD6000132F2ADD17003E5D77 /* libPangleAdapterSPMDependencies.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AD60000F2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2B3B8D14277A77AA005BB25B /* PangleAdapter */ = {
@@ -370,6 +412,7 @@
 			);
 			dependencies = (
 				236ED88127DAC5C20049657C /* PBXTargetDependency */,
+				AD6000182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -394,6 +437,26 @@
 			productReference = AD00C4952B87E246007C85F3 /* PangleAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD6000102F2ADD17003E5D77 /* PangleAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6000142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "PangleAdapterSPMDependencies" */;
+			buildPhases = (
+				AD6000112F2ADD17003E5D77 /* Sources */,
+				AD6000122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PangleAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD6000032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD6000052F2ADD17003E5D77 /* AdsGlobalPackage */,
+			);
+			productName = PangleAdapterSPMDependencies;
+			productReference = AD6000132F2ADD17003E5D77 /* libPangleAdapterSPMDependencies.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		AD6E38962EA1665B00818296 /* AdapterWithoutValidationScript */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6E38AF2EA1665B00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
@@ -406,6 +469,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD60001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
@@ -424,6 +488,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD60001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticPangleAdapter;
 			productName = Adapter;
@@ -462,6 +527,10 @@
 				Base,
 			);
 			mainGroup = 2B3B8D09277A77AA005BB25B;
+			packageReferences = (
+				AD6000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				AD6000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */,
+			);
 			productRefGroup = 2B3B8D13277A77AA005BB25B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -472,6 +541,7 @@
 				AD00C4942B87E246007C85F3 /* PangleAdapter */,
 				ADA6BA7E2CF14715009C8FDA /* StaticPangleAdapter */,
 				AD6E38962EA1665B00818296 /* AdapterWithoutValidationScript */,
+				AD6000102F2ADD17003E5D77 /* PangleAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -548,6 +618,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6000112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD6E38A42EA1665B00818296 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -585,6 +662,21 @@
 			isa = PBXTargetDependency;
 			target = 2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */;
 			targetProxy = 236ED88027DAC5C20049657C /* PBXContainerItemProxy */;
+		};
+		AD6000182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6000102F2ADD17003E5D77 /* PangleAdapterSPMDependencies */;
+			targetProxy = AD6000172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD60001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6000102F2ADD17003E5D77 /* PangleAdapterSPMDependencies */;
+			targetProxy = AD6000192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD60001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6000102F2ADD17003E5D77 /* PangleAdapterSPMDependencies */;
+			targetProxy = AD60001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -641,10 +733,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -694,9 +797,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -706,9 +820,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -718,9 +842,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -845,14 +979,54 @@
 			};
 			name = Release;
 		};
+		AD6000152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AD6000162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		AD6E38B02EA1665B00818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -862,9 +1036,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -874,9 +1058,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -886,9 +1080,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -941,6 +1145,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AD6000142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "PangleAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6000152F2ADD17003E5D77 /* Debug */,
+				AD6000162F2ADD17003E5D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AD6E38AF2EA1665B00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -960,6 +1173,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD6000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.6.0;
+			};
+		};
+		AD6000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bytedance/AdsGlobalPackage.git";
+			requirement = {
+				kind = exactVersion;
+				version = "8.4.0-release.8";
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD6000032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD6000012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD6000052F2ADD17003E5D77 /* AdsGlobalPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD6000022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */;
+			productName = AdsGlobalPackage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2B3B8D0A277A77AA005BB25B /* Project object */;
 }
