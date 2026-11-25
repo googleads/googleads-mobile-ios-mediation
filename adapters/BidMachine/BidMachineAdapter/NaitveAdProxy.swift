@@ -151,6 +151,13 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy {
     }
   }
 
+  func didUntrackView(_ view: UIView?) {
+    let nativeAd = nativeAd
+    Task { @MainActor in
+      nativeAd.unbind()
+    }
+  }
+
   // MARK: - NativeAdProxy
 
   @MainActor

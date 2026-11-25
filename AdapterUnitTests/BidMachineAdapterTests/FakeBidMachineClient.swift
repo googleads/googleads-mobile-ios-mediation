@@ -21,7 +21,7 @@ import UIKit
 @MainActor
 final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
-  let bannerAd = OCMockObject.mock(for: BidMachine.BannerView.self) as! BidMachine.BannerView
+  let bannerAd = OCMockObject.niceMock(for: BidMachine.BannerView.self) as! BidMachine.BannerView
   let interstitialAd =
     OCMockObject.mock(for: BidMachine.InterstitialAd.self) as! BidMachine.InterstitialAd
   let rewardedAd = OCMockObject.mock(for: BidMachine.RewardedAd.self) as! BidMachine.RewardedAd

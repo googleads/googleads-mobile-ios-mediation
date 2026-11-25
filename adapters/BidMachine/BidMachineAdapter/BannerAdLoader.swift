@@ -97,6 +97,11 @@ final class BannerAdLoader {
       handleLoadedAd(nil, error: error)
       return
     }
+    var size = adConfiguration.adSize.size
+    if size.width <= 0 || size.height <= 0 {
+      size = banner.adSize.cgSize
+    }
+    banner.frame = CGRect(origin: .zero, size: size)
     let bannerAd = BannerAd(bannerView: banner)
     self.bannerAd = bannerAd
     handleLoadedAd(bannerAd, error: nil)
