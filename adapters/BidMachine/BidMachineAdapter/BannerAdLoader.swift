@@ -56,17 +56,13 @@ final class BannerAdLoader {
         size: adConfiguration.adSize, delegate: self,
         placementId: Util.placementId(from: adConfiguration)
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] banner, error in
+        self?.handleLoadedBanner(banner, error: error)
       }
     } catch let error as BidMachineAdapterError {
       handleLoadedAd(nil, error: error.toNSError())
     } catch {
-      handleLoadedAd(nil, error: error)
+      handleLoadedAd(nil, error: error as NSError)
     }
   }
 
@@ -83,22 +79,35 @@ final class BannerAdLoader {
 
     do {
       try client.loadRTBBannerAd(
-        with: bidResponse, size: adConfiguration.adSize, delegate: self,
-        placementId: Util.placementId(from: adConfiguration), watermark: watermark
+        with: bidResponse, size: adConfiguration.adSize, delegate: self, watermark: watermark
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] banner, error in
+        self?.handleLoadedBanner(banner, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
-      handleLoadedAd(nil, error: error)
+      handleLoadedAd(nil, error: error as NSError)
     }
   }
 
-  private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
+  /// Wraps the loaded banner into a mediation banner ad and reports the load result.
+  private func handleLoadedBanner(_ banner: BidMachine.BannerView?, error: NSError?) {
+    guard let banner else {
+      handleLoadedAd(nil, error: error)
+      return
+    }
+    var size = adConfiguration.adSize.size
+    if size.width <= 0 || size.height <= 0 {
+      size = banner.adSize.cgSize
+    }
+    banner.frame = CGRect(origin: .zero, size: size)
+    let bannerAd = BannerAd(bannerView: banner)
+    self.bannerAd = bannerAd
+    handleLoadedAd(bannerAd, error: nil)
+  }
+
+  private func handleLoadedAd(_ ad: MediationBannerAd?, error: NSError?) {
     guard let adLoadCompletionHandler else { return }
     eventDelegate = adLoadCompletionHandler(ad, error)
     self.adLoadCompletionHandler = nil
@@ -106,51 +115,30 @@ final class BannerAdLoader {
 
 }
 
-// MARK: - BidMachineAdDelegate
+// MARK: - BannerViewDelegate
 
-extension BannerAdLoader: BidMachineAdDelegate {
+extension BannerAdLoader: BidMachine.BannerViewDelegate {
 
-  func didLoadAd(_ ad: any BidMachineAdProtocol) {
-    guard let bidMachineBannerAd = ad as? UIView else {
-      // Technically, should never get here.
-      handleLoadedAd(
-        nil,
-        error: BidMachineAdapterError(
-          errorCode: .bidMachineReturnedNonBannerAd,
-          description: "Received non-banner ad in the banner's didLoadAd delegate method."))
-      return
-    }
-
-    let bannerAd = BannerAd(bannerView: bidMachineBannerAd)
-    self.bannerAd = bannerAd
-    handleLoadedAd(bannerAd, error: nil)
+  func didPresent(_ ad: BidMachine.BannerView) {
   }
 
-  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
-    handleLoadedAd(nil, error: error)
-  }
-
-  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.reportImpression()
-  }
-
-  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
-    // Is called only on first click. If you need to track every click use didUserInteraction instead
-  }
-
-  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.reportClick()
-  }
-
-  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+  func didFailPresent(_ ad: BidMachine.BannerView, error: BidMachineError) {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
-  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+  func didTrackImpression(_ ad: BidMachine.BannerView) {
+    eventDelegate?.reportImpression()
+  }
+
+  func didClick(_ ad: BidMachine.BannerView) {
+    eventDelegate?.reportClick()
+  }
+
+  func willPresentScreen(_ ad: BidMachine.BannerView) {
     eventDelegate?.willPresentFullScreenView()
   }
 
-  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
+  func didDismissScreen(_ ad: BidMachine.BannerView) {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }

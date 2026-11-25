@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterBidMachine)
 final class BidMachineAdapter: NSObject, RTBAdapter {
 
-  private static let adapterVersionString = "3.8.2.0"
+  static let adapterVersionString = "4.0.0.0"
 
   private static let supportedFormats: [AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
@@ -102,25 +102,11 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
     Task {
-      do {
-        let format = try Util.adFormat(from: params)
-        let adSize: AdSize? = isAdSizeValid(size: params.adSize) ? params.adSize : nil
-        let placementId = Util.placementId(from: params)
-        try BidMachineClientFactory.createClient().collectSignals(
-          for: format, size: adSize, placementId: placementId
-        ) {
-          signals in
-          Task { @MainActor in
-            completionHandler(signals, nil)
-          }
-        }
-      } catch let error as BidMachineAdapterError {
+      let placementIds = Util.placementIds(from: params)
+      BidMachineClientFactory.createClient().collectSignals(placementIds: placementIds) {
+        signals, error in
         Task { @MainActor in
-          completionHandler(nil, error.toNSError())
-        }
-      } catch {
-        Task { @MainActor in
-          completionHandler(nil, error as NSError)
+          completionHandler(signals, error)
         }
       }
     }

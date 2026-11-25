@@ -63,26 +63,6 @@ final class BidMachineRTBBannerAdTests {
     AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
-  @Test("RTB banner ad load forwards the placement ID from the ad configuration")
-  func load_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
-    BidMachineClientFactory.debugClient = client
-    let credentials = AUTKMediationCredentials()
-    credentials.settings = ["placement_id": "test_placement_id"]
-    let adConfig = AUTKMediationBannerAdConfiguration()
-    adConfig.credentials = credentials
-    adConfig.bidResponse = "test response"
-    adConfig.watermark = "test watermark".data(using: .utf8)
-    adConfig.adSize = AdSizeBanner
-    let adapter = BidMachineAdapter()
-
-    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
-    // The adapter dispatches the load in a main actor task. Yield until the task runs.
-    for _ in 0..<100 where client.placementId == nil {
-      await Task.yield()
-    }
-    #expect(client.placementId == "test_placement_id")
-  }
-
   @Test("RTB banner ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -132,8 +112,8 @@ final class BidMachineRTBBannerAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.bannerAd)
-    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-    adDelegate?.didTrackImpression?(client.mockView)
+    let adDelegate: BidMachine.BannerViewDelegate? = adapter.bannerAdLoader
+    adDelegate?.didTrackImpression(client.bannerAd)
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
@@ -147,8 +127,8 @@ final class BidMachineRTBBannerAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.bannerAd)
-    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-    adDelegate?.didUserInteraction?(client.mockView)
+    let adDelegate: BidMachine.BannerViewDelegate? = adapter.bannerAdLoader
+    adDelegate?.didClick(client.bannerAd)
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
@@ -232,19 +212,6 @@ final class BidMachineWaterfallBannerAdTests {
       adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
-  @Test("Waterfall banner ad load fails for unsupported size")
-  func load_fails_whenSizeIsNotSupported() async {
-    let adConfig = AUTKMediationBannerAdConfiguration()
-    adConfig.adSize = AdSizeSkyscraper
-    let adapter = BidMachineAdapter()
-
-    let expectedError = BidMachineAdapterError(
-      errorCode: .unsupportedBannerSize,
-      description: "Unsupported banner size."
-    ).toNSError()
-    AUTKWaitAndAssertLoadBannerAdFailure(adapter, adConfig, expectedError)
-  }
-
   @Test("Impression count")
   func impression_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
@@ -253,8 +220,8 @@ final class BidMachineWaterfallBannerAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.bannerAd)
-    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-    adDelegate?.didTrackImpression?(client.mockView)
+    let adDelegate: BidMachine.BannerViewDelegate? = adapter.bannerAdLoader
+    adDelegate?.didTrackImpression(client.bannerAd)
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
@@ -266,8 +233,8 @@ final class BidMachineWaterfallBannerAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.bannerAd)
-    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-    adDelegate?.didUserInteraction?(client.mockView)
+    let adDelegate: BidMachine.BannerViewDelegate? = adapter.bannerAdLoader
+    adDelegate?.didClick(client.bannerAd)
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 

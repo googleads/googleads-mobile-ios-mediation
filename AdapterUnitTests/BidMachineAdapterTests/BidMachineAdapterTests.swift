@@ -482,7 +482,7 @@ final class BidMachineAdapterSignalsCollectionTests {
       }
       signalsCollectionCompleted()
     }
-    #expect(client.placementId == "test_placement_id")
+    #expect(client.placementIds == ["test_placement_id"])
   }
 
   @Test(
@@ -508,29 +508,7 @@ final class BidMachineAdapterSignalsCollectionTests {
       }
       signalsCollectionCompleted()
     }
-    #expect(client.placementId == nil)
-  }
-
-  @Test("The adapter fails to collect signals for an app open ad request.")
-  func signalCollection_fails_whenRequestFormatIsAppOpen() async {
-    let credentials = AUTKMediationCredentials()
-    credentials.format = .appOpen
-    let configurations = AUTKRTBMediationSignalsConfiguration()
-    configurations.credentials = [credentials]
-    let requestParams = AUTKRTBRequestParameters()
-    requestParams.configuration = configurations
-
-    let adapter = BidMachineAdapter()
-    await confirmation("wait for the adapter collect signals") { signalsCollectionCompleted in
-      await withCheckedContinuation { continuation in
-        adapter.collectSignals(for: requestParams) { signals, error in
-          #expect(error != nil)
-          #expect(signals == nil)
-          continuation.resume()
-        }
-      }
-      signalsCollectionCompleted()
-    }
+    #expect(client.placementIds == [])
   }
 
 }

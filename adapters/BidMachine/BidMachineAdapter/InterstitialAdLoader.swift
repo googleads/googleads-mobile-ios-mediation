@@ -31,7 +31,7 @@ final class InterstitialAdLoader: NSObject {
 
   private let client: BidMachineClient
 
-  private var interstitialAd: BidMachineInterstitial?
+  private var interstitialAd: BidMachine.InterstitialAd?
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
@@ -56,13 +56,11 @@ final class InterstitialAdLoader: NSObject {
       try client.loadWaterfallInterstitialAd(
         delegate: self, placementId: Util.placementId(from: adConfiguration)
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] interstitialAd, error in
+        self?.handleLoadedInterstitial(interstitialAd, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error as NSError)
     }
@@ -81,19 +79,28 @@ final class InterstitialAdLoader: NSObject {
 
     do {
       try client.loadRTBInterstitialAd(
-        with: bidResponse, delegate: self, placementId: Util.placementId(from: adConfiguration),
-        watermark: watermark
+        with: bidResponse, delegate: self, watermark: watermark
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] interstitialAd, error in
+        self?.handleLoadedInterstitial(interstitialAd, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error as NSError)
     }
+  }
+
+  /// Stores the loaded interstitial ad and reports the load result.
+  private func handleLoadedInterstitial(
+    _ interstitialAd: BidMachine.InterstitialAd?, error: NSError?
+  ) {
+    guard let interstitialAd else {
+      handleLoadedAd(nil, error: error)
+      return
+    }
+    self.interstitialAd = interstitialAd
+    handleLoadedAd(self, error: nil)
   }
 
   private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
@@ -118,49 +125,28 @@ extension InterstitialAdLoader: MediationInterstitialAd {
 
 }
 
-// MARK: - BidMachineAdDelegate
+// MARK: - InterstitialAdDelegate
 
-extension InterstitialAdLoader: BidMachineAdDelegate {
+extension InterstitialAdLoader: BidMachine.InterstitialAdDelegate {
 
-  func didLoadAd(_ ad: any BidMachineAdProtocol) {
-    interstitialAd = ad as? BidMachineInterstitial
-    handleLoadedAd(self, error: nil)
-  }
-
-  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
-    handleLoadedAd(nil, error: error as NSError)
-  }
-
-  func didPresentAd(_ ad: any BidMachineAdProtocol) {
+  func didPresent(_ ad: BidMachine.InterstitialAd) {
     eventDelegate?.willPresentFullScreenView()
   }
 
-  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+  func didFailPresent(_ ad: BidMachine.InterstitialAd, error: BidMachineError) {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
-  func didDismissAd(_ ad: any BidMachineAdProtocol) {
+  func didDismiss(_ ad: BidMachine.InterstitialAd) {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }
 
-  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
-    // NO-OP
-  }
-
-  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
-    // NO-OP
-  }
-
-  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
+  func didClick(_ ad: BidMachine.InterstitialAd) {
     eventDelegate?.reportClick()
   }
 
-  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
-    // Is called only on first click. If you need to track every click use didUserInteraction instead
-  }
-
-  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+  func didTrackImpression(_ ad: BidMachine.InterstitialAd) {
     eventDelegate?.reportImpression()
   }
 }

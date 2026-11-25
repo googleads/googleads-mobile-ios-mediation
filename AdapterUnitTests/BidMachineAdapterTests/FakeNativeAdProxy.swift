@@ -20,18 +20,6 @@ import UIKit
 
 final class FakeNativeAdProxy: NSObject, NativeAdProxy {
 
-  var titleLabel: UILabel?
-
-  var callToActionLabel: UILabel?
-
-  var descriptionLabel: UILabel?
-
-  var iconView: UIImageView?
-
-  var mediaContainerView: UIView?
-
-  var adChoiceView: UIView?
-
   var headline: String?
 
   var images: [NativeAdImage]?

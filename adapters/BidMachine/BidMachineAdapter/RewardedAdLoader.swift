@@ -31,7 +31,7 @@ final class RewardedAdLoader: NSObject {
 
   private let client: BidMachineClient
 
-  private var rewardedAd: BidMachineRewarded?
+  private var rewardedAd: BidMachine.RewardedAd?
 
   init(
     adConfiguration: MediationRewardedAdConfiguration,
@@ -56,13 +56,11 @@ final class RewardedAdLoader: NSObject {
       try client.loadWaterfallRewardedAd(
         delegate: self, placementId: Util.placementId(from: adConfiguration)
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] rewardedAd, error in
+        self?.handleLoadedRewarded(rewardedAd, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error as NSError)
     }
@@ -81,22 +79,29 @@ final class RewardedAdLoader: NSObject {
 
     do {
       try client.loadRTBRewardedAd(
-        with: bidResponse, delegate: self, placementId: Util.placementId(from: adConfiguration),
-        watermark: watermark
+        with: bidResponse, delegate: self, watermark: watermark
       ) {
-        [weak self] error in
-        guard let self else { return }
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error)
-          return
-        }
+        [weak self] rewardedAd, error in
+        self?.handleLoadedRewarded(rewardedAd, error: error)
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error as NSError)
     }
   }
 
-  private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
+  /// Stores the loaded rewarded ad and reports the load result.
+  private func handleLoadedRewarded(_ rewardedAd: BidMachine.RewardedAd?, error: NSError?) {
+    guard let rewardedAd else {
+      handleLoadedAd(nil, error: error)
+      return
+    }
+    self.rewardedAd = rewardedAd
+    handleLoadedAd(self, error: nil)
+  }
+
+  private func handleLoadedAd(_ ad: MediationRewardedAd?, error: NSError?) {
     guard let adLoadCompletionHandler else { return }
     eventDelegate = adLoadCompletionHandler(ad, error)
     self.adLoadCompletionHandler = nil
@@ -118,53 +123,32 @@ extension RewardedAdLoader: MediationRewardedAd {
 
 }
 
-// MARK: - BidMachineAdDelegate
+// MARK: - RewardedAdDelegate
 
-extension RewardedAdLoader: BidMachineAdDelegate {
-  func didLoadAd(_ ad: any BidMachineAdProtocol) {
-    rewardedAd = ad as? BidMachineRewarded
-    handleLoadedAd(self, error: nil)
-  }
+extension RewardedAdLoader: BidMachine.RewardedAdDelegate {
 
-  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
-    handleLoadedAd(nil, error: error as NSError)
-  }
-
-  func didPresentAd(_ ad: any BidMachineAdProtocol) {
+  func didPresent(_ ad: BidMachine.RewardedAd) {
     eventDelegate?.willPresentFullScreenView()
   }
 
-  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+  func didFailPresent(_ ad: BidMachine.RewardedAd, error: BidMachineError) {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
-  func didDismissAd(_ ad: any BidMachineAdProtocol) {
+  func didDismiss(_ ad: BidMachine.RewardedAd) {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
   }
 
-  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
-    // NO-OP
-  }
-
-  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
-    // NO-OP
-  }
-
-  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
+  func didClick(_ ad: BidMachine.RewardedAd) {
     eventDelegate?.reportClick()
   }
 
-  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
-    // Is called only on first click. If you need to track every click use didUserInteraction instead
-  }
-
-  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+  func didTrackImpression(_ ad: BidMachine.RewardedAd) {
     eventDelegate?.reportImpression()
   }
 
-  func didReceiveReward(_ ad: any BidMachineAdProtocol) {
+  func didReceiveReward(_ ad: BidMachine.RewardedAd) {
     eventDelegate?.didRewardUser()
   }
-
 }

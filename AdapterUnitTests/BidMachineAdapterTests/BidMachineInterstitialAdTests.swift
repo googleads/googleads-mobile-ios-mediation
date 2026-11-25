@@ -40,25 +40,6 @@ final class BidMachineRTBInterstitialAdTests {
     AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
   }
 
-  @Test("RTB interstitial ad load forwards the placement ID from the ad configuration")
-  func loadInterstitial_forwardsPlacementId_whenAdConfigurationContainsPlacementId() async {
-    BidMachineClientFactory.debugClient = client
-    let credentials = AUTKMediationCredentials()
-    credentials.settings = ["placement_id": "test_placement_id"]
-    let adConfig = AUTKMediationInterstitialAdConfiguration()
-    adConfig.credentials = credentials
-    adConfig.bidResponse = "test response"
-    adConfig.watermark = "test watermark".data(using: .utf8)
-    let adapter = BidMachineAdapter()
-
-    AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
-    // The adapter dispatches the load in a main actor task. Yield until the task runs.
-    for _ in 0..<100 where client.placementId == nil {
-      await Task.yield()
-    }
-    #expect(client.placementId == "test_placement_id")
-  }
-
   @Test("RTB interstitial ad load fails for failing to create a request config")
   func loadInterstiital_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -121,8 +102,8 @@ final class BidMachineRTBInterstitialAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.interstitialAd)
-    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
-    adDelegate?.didTrackImpression?(client.mockView)
+    let adDelegate: BidMachine.InterstitialAdDelegate? = adapter.interstitialAdLoader
+    adDelegate?.didTrackImpression(client.interstitialAd)
 
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
@@ -136,8 +117,8 @@ final class BidMachineRTBInterstitialAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.interstitialAd)
-    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
-    adDelegate?.didUserInteraction?(client.mockView)
+    let adDelegate: BidMachine.InterstitialAdDelegate? = adapter.interstitialAdLoader
+    adDelegate?.didClick(client.interstitialAd)
 
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
@@ -234,8 +215,8 @@ final class BidMachineWaterfallInterstitialAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.interstitialAd)
-    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
-    adDelegate?.didTrackImpression?(client.mockView)
+    let adDelegate: BidMachine.InterstitialAdDelegate? = adapter.interstitialAdLoader
+    adDelegate?.didTrackImpression(client.interstitialAd)
 
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
 
@@ -248,8 +229,8 @@ final class BidMachineWaterfallInterstitialAdTests {
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
     XCTAssertNotNil(eventDelegate.interstitialAd)
-    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
-    adDelegate?.didUserInteraction?(client.mockView)
+    let adDelegate: BidMachine.InterstitialAdDelegate? = adapter.interstitialAdLoader
+    adDelegate?.didClick(client.interstitialAd)
 
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }

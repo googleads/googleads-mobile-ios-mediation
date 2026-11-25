@@ -26,76 +26,86 @@ final class NativeAdProxyFactory {
     nonisolated(unsafe) static var debugProxy: NativeAdProxy?
   #endif
 
-  static func createProxy(
-    with ad: BidMachineAdProtocol
-  ) throws(BidMachineAdapterError) -> NativeAdProxy {
+  @MainActor
+  static func createProxy(with ad: BidMachine.NativeAd) -> NativeAdProxy {
     #if DEBUG
       if let debugProxy {
         return debugProxy
       }
-      return try NativeAdProxyImpl(nativeAd: ad)
+      return NativeAdProxyImpl(nativeAd: ad)
     #else
-      return try NativeAdProxyImpl(nativeAd: ad)
+      return NativeAdProxyImpl(nativeAd: ad)
     #endif
   }
 
 }
 
 /// A proxy object that translates BidMachineNative properties to MediationNativeAd properties.
-/// It also handles downloading images from string URLs because BidMachineNative does not provide
-/// images as UIImage.
-protocol NativeAdProxy: NSObject, MediationNativeAd, BidMachineNativeAdRendering {
+protocol NativeAdProxy: NSObject, MediationNativeAd {
 }
 
 final class NativeAdProxyImpl: NSObject, NativeAdProxy {
 
-  private let nativeAd: BidMachineNative
-  private let imageLoadDispatchGroup: DispatchGroup
+  /// The native ad data provided to the Google Mobile Ads SDK.
+  private struct Assets {
 
-  // MARK: - BidMachineNativeAdRendering
+    let headline: String?
+    let body: String?
+    let callToAction: String?
+    let icon: NativeAdImage?
+    let images: [NativeAdImage]?
+    let starRating: NSDecimalNumber?
+    let advertiser: String?
+    let mediaView: UIView
+    let adChoicesView: UIView
+    let hasVideoContent: Bool
 
-  var titleLabel: UILabel?
+    @MainActor
+    init(nativeAd: BidMachine.NativeAd) {
+      headline = nativeAd.title
+      body = nativeAd.body
+      callToAction = nativeAd.callToAction
+      icon = Self.nativeAdImage(from: nativeAd.icon)
+      images = Self.nativeAdImage(from: nativeAd.mainImage).map { [$0] }
+      starRating = nativeAd.starRating.map { NSDecimalNumber(decimal: $0.decimalValue) }
+      advertiser = nativeAd.advertiser
+      mediaView = nativeAd.mediaView
+      adChoicesView = nativeAd.adChoice
+      hasVideoContent = nativeAd.hasVideoContent
+    }
 
-  var callToActionLabel: UILabel?
+    /// Returns the preloaded image of the asset, or its URL if the image is not available.
+    private static func nativeAdImage(from image: BidMachine.NativeAd.Image?) -> NativeAdImage? {
+      if let preloadedImage = image?.image {
+        return NativeAdImage(image: preloadedImage)
+      }
+      if let url = image?.url {
+        return NativeAdImage(url: url, scale: 1.0)
+      }
+      return nil
+    }
 
-  var descriptionLabel: UILabel?
+  }
 
-  var iconView: UIImageView?
-
-  var mediaContainerView: UIView?
-
-  var adChoiceView: UIView?
+  private let nativeAd: BidMachine.NativeAd
+  private let assets: Assets
 
   // MARK: -  GADMediationNativeAd
 
-  var headline: String? { nativeAd.title }
-  var body: String? { nativeAd.body }
-  var callToAction: String? { nativeAd.cta }
-  var icon: NativeAdImage? {
-    guard let urlString = nativeAd.icon,
-      let url = URL(string: urlString)
-    else {
-      return nil
-    }
-    return NativeAdImage(url: url, scale: 1.0)
-  }
-
-  var images: [NativeAdImage]? {
-    guard let urlString = nativeAd.main,
-      let url = URL(string: urlString)
-    else {
-      return nil
-    }
-    return [NativeAdImage(url: url, scale: 1.0)]
-  }
-
-  var starRating: NSDecimalNumber?  // Not supported by BidMachine
-  var advertiser: String?  // Not supported by BidMachine
+  var headline: String? { assets.headline }
+  var body: String? { assets.body }
+  var callToAction: String? { assets.callToAction }
+  var icon: NativeAdImage? { assets.icon }
+  var images: [NativeAdImage]? { assets.images }
+  var starRating: NSDecimalNumber? { assets.starRating }
+  var advertiser: String? { assets.advertiser }
   var store: String?  // Not supported by BidMachine
   var price: String?  // Not supported by BidMachine
   var extraAssets: [String: Any]?  // Not supported by BidMachine
 
-  var hasVideoContent: Bool { nativeAd.isVideo }
+  var mediaView: UIView? { assets.mediaView }
+  var adChoicesView: UIView? { assets.adChoicesView }
+  var hasVideoContent: Bool { assets.hasVideoContent }
 
   func handlesUserClicks() -> Bool {
     return true
@@ -111,78 +121,49 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy {
     nonclickableAssetViews: [GADNativeAssetIdentifier: UIView],
     viewController: UIViewController
   ) {
-    nativeAd.controller = viewController
-
-    var interactableAssetTypes = [BidMachineNativeAdRenderingAssetType]()
+    var clickables = [BidMachine.NativeAd.Entry]()
     for (assetIdentifier, clickableView) in clickableAssetViews {
       switch assetIdentifier {
       case .headlineAsset:
-        interactableAssetTypes.append(.titleLabel)
-        titleLabel = clickableView as? UILabel
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .title))
       case .bodyAsset:
-        interactableAssetTypes.append(.descriptionLabel)
-        descriptionLabel = clickableView as? UILabel
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .body))
       case .callToActionAsset:
-        interactableAssetTypes.append(.callToActionLabel)
-        callToActionLabel = clickableView as? UILabel
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .callToAction))
       case .iconAsset:
-        interactableAssetTypes.append(.iconView)
-        iconView = clickableView as? UIImageView
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .icon))
       case .imageAsset:
-        interactableAssetTypes.append(.mediaContainerView)
-        mediaContainerView = clickableView
-      case .mediaViewAsset:
-        interactableAssetTypes.append(.mediaContainerView)
-        mediaContainerView = clickableView
-      case .adChoicesViewAsset:
-        interactableAssetTypes.append(.adChoiceView)
-        adChoiceView = clickableView
-      default:
-        // Non translatable view.
-        continue
-      }
-    }
-    nativeAd.registerAssetsForInteraction(interactableAssetTypes.map { $0.rawValue })
-
-    for (assetIdentifier, nonclickableView) in nonclickableAssetViews {
-      switch assetIdentifier {
-      case .headlineAsset:
-        titleLabel = nonclickableView as? UILabel
-      case .bodyAsset:
-        descriptionLabel = nonclickableView as? UILabel
-      case .callToActionAsset:
-        callToActionLabel = nonclickableView as? UILabel
-      case .iconAsset:
-        iconView = nonclickableView as? UIImageView
-      case .imageAsset:
-        mediaContainerView = nonclickableView
-      case .mediaViewAsset:
-        mediaContainerView = nonclickableView
-      case .adChoicesViewAsset:
-        adChoiceView = nonclickableView
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .mainImage))
+      case .advertiserAsset:
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .advertiser))
+      case .starRatingAsset:
+        clickables.append(BidMachine.NativeAd.Entry(clickableView, as: .starRating))
       default:
         // Non translatable view.
         continue
       }
     }
 
-    do {
-      try nativeAd.presentAd(view, self)
-    } catch {
-      Util.log("Failed to present native ad with error: \(error)")
+    let nativeAd = nativeAd
+    Task { @MainActor in
+      nativeAd.rootViewController = viewController
+      nativeAd.bind(view, clickables: clickables)
+    }
+  }
+
+  func didUntrackView(_ view: UIView?) {
+    let nativeAd = nativeAd
+    Task { @MainActor in
+      nativeAd.unbind()
     }
   }
 
   // MARK: - NativeAdProxy
 
-  fileprivate init(nativeAd: BidMachineAdProtocol) throws(BidMachineAdapterError) {
-    guard let nativeAd = nativeAd as? BidMachineNative else {
-      throw BidMachineAdapterError(
-        errorCode: .bidMachineReturnedNonNativeAd,
-        description: "Received non-native ad in the native's didLoadAd delegate method.")
-    }
-    imageLoadDispatchGroup = DispatchGroup()
+  @MainActor
+  fileprivate init(nativeAd: BidMachine.NativeAd) {
     self.nativeAd = nativeAd
+    self.assets = Assets(nativeAd: nativeAd)
   }
 
 }

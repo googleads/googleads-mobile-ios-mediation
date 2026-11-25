@@ -21,16 +21,18 @@ import UIKit
 @MainActor
 final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
-  nonisolated private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
-    .banner, .interstitial, .rewarded, .native,
-  ]
+  let bannerAd = OCMockObject.niceMock(for: BidMachine.BannerView.self) as! BidMachine.BannerView
+  let interstitialAd =
+    OCMockObject.mock(for: BidMachine.InterstitialAd.self) as! BidMachine.InterstitialAd
+  let rewardedAd = OCMockObject.mock(for: BidMachine.RewardedAd.self) as! BidMachine.RewardedAd
+  let nativeAd = OCMockObject.mock(for: BidMachine.NativeAd.self) as! BidMachine.NativeAd
 
-  let mockView = MockView()
-
-  var delegate: BidMachineAdDelegate?
+  var interstitialDelegate: BidMachine.InterstitialAdDelegate?
+  var rewardedDelegate: BidMachine.RewardedAdDelegate?
   var sourceId: String?
   var isCOPPA: Bool?
   nonisolated(unsafe) var placementId: String?
+  nonisolated(unsafe) var placementIds: [String]?
   var shouldBidMachineSucceedCreatingRequestConfig = true
   var shouldBidMachineSucceedCreatingAd = true
   var shouldBidMachineSucceedLoadingAd = true
@@ -46,319 +48,128 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   }
 
   nonisolated func collectSignals(
-    for adFormat: GoogleMobileAds.AdFormat,
-    size: AdSize?,
-    placementId: String?,
-    completionHandler: @escaping (String?) -> Void
-  )
-    throws
-  {
-    self.placementId = placementId
-    if !FakeBidMachineClient.supportedFormats.contains(adFormat) {
-      throw BidMachineAdapterError(
-        errorCode: .invalidRTBRequestParameters, description: "test description.")
-    }
-    if adFormat == .banner {
-      guard size != nil else {
-        throw BidMachineAdapterError(
-          errorCode: .invalidRTBRequestParameters,
-          description: "Banner ad format requires ad size.")
-      }
-    }
-    completionHandler("Test signals")
+    placementIds: [String],
+    completionHandler: @escaping (String?, NSError?) -> Void
+  ) {
+    self.placementIds = placementIds
+    completionHandler("Test signals", nil)
   }
 
   func loadWaterfallBannerAd(
-    size: AdSize, delegate: any BidMachineAdDelegate, placementId: String?,
-    completionHandler: @escaping (NSError?) -> Void
+    size: AdSize, delegate: any BidMachine.BannerViewDelegate, placementId: String?,
+    completionHandler: @escaping (BidMachine.BannerView?, NSError?) -> Void
   ) throws {
     self.placementId = placementId
-    let closestAdSize = closestValidSizeForAdSizes(
-      original: size,
-      possibleAdSizes: [
-        nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
-        nsValue(for: AdSizeLeaderboard),
-      ])
-    if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeInvalid) {
-      throw BidMachineAdapterError(
-        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
-    }
-
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    completionHandler(nil)
-    if shouldBidMachineSucceedLoadingAd {
-      self.delegate = delegate
-      delegate.didLoadAd(self.mockView)
-    } else {
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    try completeLoad(with: bannerAd, completionHandler: completionHandler)
   }
 
   func loadRTBBannerAd(
     with bidResponse: String,
     size: AdSize,
-    delegate: any BidMachineAdDelegate,
-    placementId: String?,
+    delegate: any BidMachine.BannerViewDelegate,
     watermark: String,
-    completionHandler: @escaping (NSError?) -> Void
+    completionHandler: @escaping (BidMachine.BannerView?, NSError?) -> Void
   ) throws {
-    self.placementId = placementId
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    completionHandler(nil)
-    if shouldBidMachineSucceedLoadingAd {
-      self.delegate = delegate
-      delegate.didLoadAd(self.mockView)
-    } else {
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    try completeLoad(with: bannerAd, completionHandler: completionHandler)
   }
 
   func loadWaterfallInterstitialAd(
-    delegate: any BidMachine.BidMachineAdDelegate, placementId: String?,
-    completionHandler: @escaping (NSError?) -> Void
+    delegate: any BidMachine.InterstitialAdDelegate, placementId: String?,
+    completionHandler: @escaping (BidMachine.InterstitialAd?, NSError?) -> Void
   ) throws {
     self.placementId = placementId
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    let fakeInterstitialAd =
-      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    completionHandler(nil)
-    if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(fakeInterstitialAd)
-      self.delegate = delegate
-    } else {
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    interstitialDelegate = delegate
+    try completeLoad(with: interstitialAd, completionHandler: completionHandler)
   }
 
   func loadRTBInterstitialAd(
     with bidResponse: String,
-    delegate: any BidMachine.BidMachineAdDelegate,
-    placementId: String?,
+    delegate: any BidMachine.InterstitialAdDelegate,
     watermark: String,
-    completionHandler: @escaping (NSError?) -> Void
+    completionHandler: @escaping (BidMachine.InterstitialAd?, NSError?) -> Void
   ) throws {
-    self.placementId = placementId
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    let fakeInterstitialAd =
-      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    completionHandler(nil)
-    if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(fakeInterstitialAd)
-      self.delegate = delegate
-    } else {
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    interstitialDelegate = delegate
+    try completeLoad(with: interstitialAd, completionHandler: completionHandler)
   }
 
-  func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
+  func present(_ interstitialAd: BidMachine.InterstitialAd?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
   {
-    let fakeAd = OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial
     if shouldBidMachineSucceedPresenting {
-      delegate?.willPresentScreen?(fakeAd)
-      delegate?.didDismissAd?(fakeAd)
+      interstitialDelegate?.didPresent(self.interstitialAd)
+      interstitialDelegate?.didDismiss(self.interstitialAd)
     } else {
-      delegate?.didFailPresentAd?(fakeAd, NSError(domain: "com.test.domain", code: 12345))
+      interstitialDelegate?.didFailPresent(self.interstitialAd, error: Self.fakePresentError())
     }
   }
 
   func loadWaterfallRewardedAd(
-    delegate: any BidMachineAdDelegate,
+    delegate: any BidMachine.RewardedAdDelegate,
     placementId: String?,
-    completionHandler: @escaping (NSError?) -> Void
+    completionHandler: @escaping (BidMachine.RewardedAd?, NSError?) -> Void
   ) throws {
     self.placementId = placementId
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    if shouldBidMachineSucceedLoadingAd {
-      completionHandler(nil)
-      delegate.didLoadAd(OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
-      self.delegate = delegate
-    } else {
-      completionHandler(nil)
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    rewardedDelegate = delegate
+    try completeLoad(with: rewardedAd, completionHandler: completionHandler)
   }
 
   func loadRTBRewardedAd(
     with bidResponse: String,
-    delegate: any BidMachine.BidMachineAdDelegate,
-    placementId: String?,
+    delegate: any BidMachine.RewardedAdDelegate,
     watermark: String,
-    completionHandler: @escaping (NSError?) -> Void
+    completionHandler: @escaping (BidMachine.RewardedAd?, NSError?) -> Void
   ) throws {
-    self.placementId = placementId
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    if shouldBidMachineSucceedLoadingAd {
-      completionHandler(nil)
-      delegate.didLoadAd(OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
-      self.delegate = delegate
-    } else {
-      completionHandler(nil)
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    rewardedDelegate = delegate
+    try completeLoad(with: rewardedAd, completionHandler: completionHandler)
   }
 
-  func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
+  func present(_ rewardedAd: BidMachine.RewardedAd?, from viewController: UIViewController)
     throws(GoogleBidMachineAdapter.BidMachineAdapterError)
   {
-    let fakeAd = OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded
     if shouldBidMachineSucceedPresenting {
-      delegate?.didPresentAd?(fakeAd)
-      delegate?.didDismissAd?(fakeAd)
+      rewardedDelegate?.didPresent(self.rewardedAd)
+      rewardedDelegate?.didDismiss(self.rewardedAd)
     } else {
-      delegate?.didFailPresentAd?(fakeAd, NSError(domain: "com.test.domain", code: 12345))
+      rewardedDelegate?.didFailPresent(self.rewardedAd, error: Self.fakePresentError())
     }
   }
 
   func loadRTBNativeAd(
     with bidResponse: String,
-    delegate: any BidMachine.BidMachineAdDelegate,
-    placementId: String?,
+    delegate: any BidMachine.NativeAdDelegate,
     watermark: String,
-    completionHandler: @escaping (NSError?) -> Void
+    completionHandler: @escaping (BidMachine.NativeAd?, NSError?) -> Void
   ) throws {
-    self.placementId = placementId
-    if !shouldBidMachineSucceedCreatingRequestConfig {
-      throw NSError(domain: "com.test.domain", code: 12345)
-    }
-
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    if shouldBidMachineSucceedLoadingAd {
-      completionHandler(nil)
-      delegate.didLoadAd(OCMockObject.mock(for: BidMachineNative.self) as! BidMachineNative)
-      self.delegate = delegate
-    } else {
-      completionHandler(nil)
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
-        NSError(domain: "com.test.domain", code: 12345))
-    }
+    try completeLoad(with: nativeAd, completionHandler: completionHandler)
   }
 
   func loadWaterfallNativeAd(
-    delegate: any BidMachine.BidMachineAdDelegate,
+    delegate: any BidMachine.NativeAdDelegate,
     placementId: String?,
-    completionHandler: @escaping (NSError?) -> Void
+    completionHandler: @escaping (BidMachine.NativeAd?, NSError?) -> Void
   ) throws {
     self.placementId = placementId
+    try completeLoad(with: nativeAd, completionHandler: completionHandler)
+  }
+
+  /// Completes a load with the ad or with the failure the test asked for.
+  private func completeLoad<Ad>(
+    with ad: Ad,
+    completionHandler: (Ad?, NSError?) -> Void
+  ) throws {
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
 
-    if !shouldBidMachineSucceedCreatingAd {
-      completionHandler(NSError(domain: "com.test.domain", code: 12345))
-      return
-    }
-
-    if shouldBidMachineSucceedLoadingAd {
-      completionHandler(nil)
-      delegate.didLoadAd(OCMockObject.mock(for: BidMachineNative.self) as! BidMachineNative)
-      self.delegate = delegate
+    if shouldBidMachineSucceedCreatingAd && shouldBidMachineSucceedLoadingAd {
+      completionHandler(ad, nil)
     } else {
-      completionHandler(nil)
-      delegate.didFailLoadAd(
-        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
-        NSError(domain: "com.test.domain", code: 12345))
+      completionHandler(nil, NSError(domain: "com.test.domain", code: 12345))
     }
   }
 
-}
-
-@MainActor
-final class MockView: UIView, @preconcurrency BidMachineAdProtocol {
-
-  var rendererConfiguration: BidMachine.BidMachineRendererConfiguration
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  private static func fakePresentError() -> BidMachineError {
+    return OCMockObject.mock(for: BidMachineError.self) as! BidMachineError
   }
 
-  init() {
-    rendererConfiguration =
-      OCMockObject.mock(for: BidMachineRendererConfiguration.self)
-      as! BidMachineRendererConfiguration
-    super.init(frame: .zero)
-  }
-
-  var auctionInfo: any BidMachine.BidMachineAuctionResponseProtocol {
-    return OCMockObject.mock(for: BidMachineAuctionResponseProtocol.self)
-      as! BidMachineAuctionResponseProtocol
-  }
-  var auctionRequest: BidMachine.BidMachineAuctionRequest {
-    return OCMockObject.mock(for: BidMachineAuctionRequest.self) as! BidMachineAuctionRequest
-  }
-  var requestInfo: BidMachine.BidMachineAuctionRequest {
-    return OCMockObject.mock(for: BidMachineAuctionRequest.self) as! BidMachineAuctionRequest
-  }
-  var controller: UIViewController?
-  var delegate: (any BidMachine.BidMachineAdDelegate)?
-  var canShow: Bool = true
-  func loadAd() {
-  }
 }
