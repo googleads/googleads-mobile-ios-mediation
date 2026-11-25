@@ -39,7 +39,7 @@ public final class BidMachineAdapterError: Error {
     /// Failed to load one of the native ad image sources. No longer used.
     case failedToLoadNativeAdImageSource = 107
 
-    /// BidMachine does not support this banner ad size.
+    /// BidMachine does not support this banner ad size. No longer used.
     case unsupportedBannerSize = 108
 
     /// BidMachine SDK is not initialized.

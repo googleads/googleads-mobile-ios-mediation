@@ -163,7 +163,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   ) throws {
     let instance = try Self.initializedInstance()
     let placement = placementId.map { BidMachine.Placement(id: $0) }
-    instance.loadBanner(placement: placement, size: try size.toBannerSize()) {
+    instance.loadBanner(placement: placement, size: size.toBannerSize()) {
       banner, error in
       Self.handleLoadedBanner(
         banner, error: error, delegate: delegate, watermark: nil,
@@ -179,7 +179,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     completionHandler: @escaping (BidMachine.BannerView?, NSError?) -> Void
   ) throws {
     let instance = try Self.initializedInstance()
-    instance.loadBanner(payload: bidResponse, size: try size.toBannerSize()) { banner, error in
+    instance.loadBanner(payload: bidResponse, size: size.toBannerSize()) { banner, error in
       Self.handleLoadedBanner(
         banner, error: error, delegate: delegate, watermark: watermark,
         completionHandler: completionHandler)
@@ -384,8 +384,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 extension GoogleMobileAds.AdSize {
 
   /// Maps an ad size to a BidMachine banner size. The fixed sizes BidMachine serves are requested
-  /// as is, any other size is requested as an adaptive banner.
-  fileprivate func toBannerSize() throws(BidMachineAdapterError) -> BannerSize {
+  /// as is, any other size is requested as an adaptive banner. A size without a width is
+  /// requested at the screen width.
+  fileprivate func toBannerSize() -> BannerSize {
     if isAdSizeEqualToSize(size1: self, size2: AdSizeBanner) {
       return .banner
     } else if isAdSizeEqualToSize(size1: self, size2: AdSizeMediumRectangle) {
@@ -393,11 +394,8 @@ extension GoogleMobileAds.AdSize {
     } else if isAdSizeEqualToSize(size1: self, size2: AdSizeLeaderboard) {
       return .leaderboard
     }
-    guard size.width > 0 else {
-      throw BidMachineAdapterError(
-        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
-    }
-    return .adaptive(width: UInt32(size.width), maxHeight: UInt32(max(0, size.height)))
+    let width = size.width > 0 ? size.width : UIScreen.main.bounds.width
+    return .adaptive(width: UInt32(width), maxHeight: UInt32(max(0, size.height)))
   }
 }
 
