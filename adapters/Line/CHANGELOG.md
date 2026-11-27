@@ -1,6 +1,6 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 3.1.2.1 (In progress)
 - Updated waterfall ad requests to set mediation name and adapter version on `FADAdSlotConfig`.
 
 #### [Version 3.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.1.2.0.zip)

@@ -14,7 +14,7 @@
 
 #import "GADMediationAdapterLineConstants.h"
 
-NSString *const GADMediationAdapterLineVersion = @"3.1.2.0";
+NSString *const GADMediationAdapterLineVersion = @"3.1.2.1";
 
 NSString *const GADMediationAdapterLineMediationName = @"AdMob";
 
