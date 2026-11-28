@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -72,6 +72,8 @@
 		B705843B0000000000000012 /* GADMChartboostError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705843B0000000000000010 /* GADMChartboostError.swift */; };
 		B705843B0000000000000013 /* GADMChartboostError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705843B0000000000000010 /* GADMChartboostError.swift */; };
 		B705843B0000000000000014 /* GADMChartboostError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705843B0000000000000010 /* GADMChartboostError.swift */; };
+		AD9200042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD9200032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD9200062F2ADD17003E5D77 /* ChartboostSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AD9200052F2ADD17003E5D77 /* ChartboostSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 00DD262322F107B10039C1D4;
 			remoteInfo = ValidateSourceCode;
+		};
+		AD9200172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9200102F2ADD17003E5D77;
+			remoteInfo = ChartboostAdapterSPMDependencies;
+		};
+		AD9200192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9200102F2ADD17003E5D77;
+			remoteInfo = ChartboostAdapterSPMDependencies;
+		};
+		AD92001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9200102F2ADD17003E5D77;
+			remoteInfo = ChartboostAdapterSPMDependencies;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -135,6 +158,7 @@
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD00C4112B871596007C85F3 /* ChartboostAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChartboostAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E39EB2EA167D100818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD9200132F2ADD17003E5D77 /* libChartboostAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libChartboostAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA1AF502B2A359600CA4FC8 /* GADMediationAdapterChartboostInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterChartboostInterstitialAd.h; sourceTree = "<group>"; };
 		ADA1AF512B2A35EE00CA4FC8 /* GADMediationAdapterChartboostInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterChartboostInterstitialAd.m; sourceTree = "<group>"; };
 		ADA1AF982B2A46DF00CA4FC8 /* GADMediationAdapterChartboostBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterChartboostBannerAd.h; sourceTree = "<group>"; };
@@ -164,6 +188,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD9200122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD9200042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD9200062F2ADD17003E5D77 /* ChartboostSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +276,7 @@
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D386A551DDA4BD500744A5F /* ChartboostAdapter */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
+				AD92000F2F2ADD17003E5D77 /* Frameworks */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
 				7D386A611DDA4BD500744A5F /* Public */,
 			);
@@ -255,8 +289,16 @@
 				AD00C4112B871596007C85F3 /* ChartboostAdapter.framework */,
 				ADA6B92D2CF14610009C8FDA /* libStaticChartboostAdapter.a */,
 				AD6E39EB2EA167D100818296 /* libAdapter.a */,
+				AD9200132F2ADD17003E5D77 /* libChartboostAdapterSPMDependencies.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AD92000F2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +363,7 @@
 			);
 			dependencies = (
 				00DD262922F107EE0039C1D4 /* PBXTargetDependency */,
+				AD9200182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -357,10 +400,31 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD92001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
 			productReference = AD6E39EB2EA167D100818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AD9200102F2ADD17003E5D77 /* ChartboostAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD9200142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "ChartboostAdapterSPMDependencies" */;
+			buildPhases = (
+				AD9200112F2ADD17003E5D77 /* Sources */,
+				AD9200122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChartboostAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD9200032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD9200052F2ADD17003E5D77 /* ChartboostSDK */,
+			);
+			productName = ChartboostAdapterSPMDependencies;
+			productReference = AD9200132F2ADD17003E5D77 /* libChartboostAdapterSPMDependencies.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADA6B9152CF14610009C8FDA /* StaticChartboostAdapter */ = {
@@ -375,6 +439,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD92001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticChartboostAdapter;
 			productName = Adapter;
@@ -411,6 +476,10 @@
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
+			packageReferences = (
+				AD9200012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				AD9200022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */,
+			);
 			productRefGroup = 7DFABB1E1DA8682C00322E02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -421,6 +490,7 @@
 				AD00C4102B871596007C85F3 /* ChartboostAdapter */,
 				ADA6B9152CF14610009C8FDA /* StaticChartboostAdapter */,
 				AD6E39D32EA167D100818296 /* AdapterWithoutValidationScript */,
+				AD9200102F2ADD17003E5D77 /* ChartboostAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -505,6 +575,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD9200112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6B9182CF14610009C8FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -527,6 +604,21 @@
 			isa = PBXTargetDependency;
 			target = 00DD262322F107B10039C1D4 /* ValidateSourceCode */;
 			targetProxy = 00DD262822F107EE0039C1D4 /* PBXContainerItemProxy */;
+		};
+		AD9200182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9200102F2ADD17003E5D77 /* ChartboostAdapterSPMDependencies */;
+			targetProxy = AD9200172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD92001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9200102F2ADD17003E5D77 /* ChartboostAdapterSPMDependencies */;
+			targetProxy = AD9200192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD92001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9200102F2ADD17003E5D77 /* ChartboostAdapterSPMDependencies */;
+			targetProxy = AD92001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -596,7 +688,18 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 			};
 			name = Debug;
 		};
@@ -633,7 +736,17 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -641,6 +754,12 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -648,6 +767,12 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -704,6 +829,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -760,6 +886,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -769,6 +896,12 @@
 		AD6E39E92EA167D100818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
@@ -777,14 +910,63 @@
 		AD6E39EA2EA167D100818296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		AD9200152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Debug;
+		};
+		AD9200162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.10;
 			};
 			name = Release;
 		};
 		ADA6B92B2CF14610009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -793,6 +975,12 @@
 		ADA6B92C2CF14610009C8FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -855,6 +1043,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AD9200142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "ChartboostAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD9200152F2ADD17003E5D77 /* Debug */,
+				AD9200162F2ADD17003E5D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ADA6B92A2CF14610009C8FDA /* Build configuration list for PBXNativeTarget "StaticChartboostAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -865,6 +1062,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD9200012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD9200022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartBoost/chartboost-monetization-ios-sdk.git";
+			requirement = {
+				kind = exactVersion;
+				version = 9.14.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD9200032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9200012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD9200052F2ADD17003E5D77 /* ChartboostSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9200022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */;
+			productName = ChartboostSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7DFABB151DA8682C00322E02 /* Project object */;
 }
