@@ -62,6 +62,8 @@
 		ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
 		ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
 		ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		AD9100042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD9100032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD9100062F2ADD17003E5D77 /* BigoADS in Frameworks */ = {isa = PBXBuildFile; productRef = AD9100052F2ADD17003E5D77 /* BigoADS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
 			remoteInfo = ValidateSourceCode;
+		};
+		AD9100172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9100102F2ADD17003E5D77;
+			remoteInfo = BigoAdapterSPMDependencies;
+		};
+		AD9100192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9100102F2ADD17003E5D77;
+			remoteInfo = BigoAdapterSPMDependencies;
+		};
+		AD91001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9100102F2ADD17003E5D77;
+			remoteInfo = BigoAdapterSPMDependencies;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -127,6 +150,7 @@
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* BigoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD9100132F2ADD17003E5D77 /* BigoAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = BigoAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +165,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD9100122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD9100042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD9100062F2ADD17003E5D77 /* BigoADS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,8 +202,16 @@
 				ADFA84AD2C17704300A501AB /* BigoAdapter */,
 				ADFA84B92C17704300A501AB /* BuildScript */,
 				ADFA84B52C17704300A501AB /* Configuration */,
+				AD91000F2F2ADD17003E5D77 /* Frameworks */,
 				ADFA849E2C176E2200A501AB /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AD91000F2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		ADFA849E2C176E2200A501AB /* Products */ = {
@@ -180,6 +221,7 @@
 				ADFA84D42C17738E00A501AB /* BigoAdapter.framework */,
 				AD3623EE2E7B5B4A00E442E6 /* StaticBigoAdapter.a */,
 				AD6E3A032EA167E600818296 /* BigoAdapter.a */,
+				AD9100132F2ADD17003E5D77 /* BigoAdapterSPMDependencies.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -235,6 +277,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD91001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticBigoAdapter;
 			productName = Adapter;
@@ -252,10 +295,31 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD91001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
 			productReference = AD6E3A032EA167E600818296 /* BigoAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AD9100102F2ADD17003E5D77 /* BigoAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD9100142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "BigoAdapterSPMDependencies" */;
+			buildPhases = (
+				AD9100112F2ADD17003E5D77 /* Sources */,
+				AD9100122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BigoAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD9100032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD9100052F2ADD17003E5D77 /* BigoADS */,
+			);
+			productName = BigoAdapterSPMDependencies;
+			productReference = AD9100132F2ADD17003E5D77 /* BigoAdapterSPMDependencies.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -270,6 +334,7 @@
 			);
 			dependencies = (
 				AD6E39ED2EA167DD00818296 /* PBXTargetDependency */,
+				AD9100182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -323,6 +388,10 @@
 				Base,
 			);
 			mainGroup = AD23672D2C176DB300997FF7;
+			packageReferences = (
+				AD9100012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				AD9100022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "BigoADS-Swift-Package" */,
+			);
 			productRefGroup = ADFA849E2C176E2200A501AB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -333,6 +402,7 @@
 				ADFA84D32C17738E00A501AB /* BigoAdapter */,
 				AD3623DD2E7B5B4A00E442E6 /* StaticBigoAdapter */,
 				AD6E39F02EA167E600818296 /* AdapterWithoutValidationScript */,
+				AD9100102F2ADD17003E5D77 /* BigoAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -419,6 +489,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD9100112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADFA84992C176E2200A501AB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +528,21 @@
 			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
 			targetProxy = AD6E39EC2EA167DD00818296 /* PBXContainerItemProxy */;
 		};
+		AD9100182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9100102F2ADD17003E5D77 /* BigoAdapterSPMDependencies */;
+			targetProxy = AD9100172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD91001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9100102F2ADD17003E5D77 /* BigoAdapterSPMDependencies */;
+			targetProxy = AD9100192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD91001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9100102F2ADD17003E5D77 /* BigoAdapterSPMDependencies */;
+			targetProxy = AD91001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -458,7 +550,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -466,7 +569,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -532,12 +646,21 @@
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -608,11 +731,20 @@
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -699,12 +831,21 @@
 					"\"$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**\"",
 				);
 				LIB_NAME = "${PRODUCT_NAME}";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -777,11 +918,20 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = 13.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = 13.0;
 				LIB_NAME = "${PRODUCT_NAME}";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -793,6 +943,39 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AD9100152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AD9100162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -858,12 +1041,21 @@
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIB_NAME = "${PRODUCT_NAME}";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -934,11 +1126,20 @@
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIB_NAME = "${PRODUCT_NAME}";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "${PRODUCT_NAME}";
@@ -1236,6 +1437,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AD9100142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "BigoAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD9100152F2ADD17003E5D77 /* Debug */,
+				AD9100162F2ADD17003E5D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ADFA84A42C176E2200A501AB /* Build configuration list for PBXNativeTarget "Adapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1273,6 +1483,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD9100012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD9100022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "BigoADS-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bigo-ads/BigoADS-Swift-Package.git";
+			requirement = {
+				kind = exactVersion;
+				version = 6.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD9100032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9100012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD9100052F2ADD17003E5D77 /* BigoADS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9100022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "BigoADS-Swift-Package" */;
+			productName = BigoADS;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD23672E2C176DB300997FF7 /* Project object */;
 }
