@@ -339,6 +339,26 @@
 		70E0D7962C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7952C47A8AF00241981 /* OCMock */; };
 		70E0D7982C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7972C47A8AF00241981 /* GoogleMobileAds */; };
 		70E0D79A2C47A8AF00241981 /* UnityAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7992C47A8AF00241981 /* UnityAds */; };
+		70E0D7C22C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7C12C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7C42C47A8AF00241981 /* DTExchangeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7C32C47A8AF00241981 /* DTExchangeSDK */; };
+		70E0D7C62C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7C52C47A8AF00241981 /* OCMock */; };
+		70E0D7C82C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7C72C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7CA2C47A8AF00241981 /* DTExchangeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7C92C47A8AF00241981 /* DTExchangeSDK */; };
+		70E0D7CB2C47A8AF00241981 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8568F22F7B443F00200808 /* placeholder.swift */; };
+		70E0D7D22C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7D12C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7D42C47A8AF00241981 /* AppLovinSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7D32C47A8AF00241981 /* AppLovinSDK */; };
+		70E0D7D62C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7D52C47A8AF00241981 /* OCMock */; };
+		70E0D7D82C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7D72C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7DA2C47A8AF00241981 /* AppLovinSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7D92C47A8AF00241981 /* AppLovinSDK */; };
+		70E0D7DB2C47A8AF00241981 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8568F22F7B443F00200808 /* placeholder.swift */; };
+		70E0D7E22C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7E12C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7E42C47A8AF00241981 /* BigoADS in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7E32C47A8AF00241981 /* BigoADS */; };
+		70E0D7F22C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7F12C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7F42C47A8AF00241981 /* ChartboostSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7F32C47A8AF00241981 /* ChartboostSDK */; };
+		70E0D7F62C47A8AF00241981 /* OCMock in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7F52C47A8AF00241981 /* OCMock */; };
+		70E0D7F82C47A8AF00241981 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7F72C47A8AF00241981 /* GoogleMobileAds */; };
+		70E0D7FA2C47A8AF00241981 /* ChartboostSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 70E0D7F92C47A8AF00241981 /* ChartboostSDK */; };
+		70E0D7FB2C47A8AF00241981 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BB5522F84595400F64FDA /* placeholder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1984,6 +2004,9 @@
 				CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */,
 				AD6E3B082EA16B4500818296 /* libAdapter.a in Frameworks */,
 				44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7D22C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7D42C47A8AF00241981 /* AppLovinSDK in Frameworks */,
+				70E0D7D62C47A8AF00241981 /* OCMock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2036,6 +2059,9 @@
 				006BB5A72F845AAF00F64FDA /* libc++.tbd in Frameworks */,
 				AD6E3B112EA16B9600818296 /* libAdapter.a in Frameworks */,
 				AD0D6E242AF56C66002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7F22C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7F42C47A8AF00241981 /* ChartboostSDK in Frameworks */,
+				70E0D7F62C47A8AF00241981 /* OCMock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2104,6 +2130,8 @@
 			files = (
 				AD1708A62E12FFC400A64F30 /* libAdapter.a in Frameworks */,
 				AD1708A72E12FFC400A64F30 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7F82C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7FA2C47A8AF00241981 /* ChartboostSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2113,6 +2141,8 @@
 			files = (
 				AD170BD22E13277700A64F30 /* libAdapter.a in Frameworks */,
 				AD170BD32E13277700A64F30 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7C82C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7CA2C47A8AF00241981 /* DTExchangeSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2192,6 +2222,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6E3B0E2EA16B7700818296 /* BigoAdapter.a in Frameworks */,
+				70E0D7E22C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7E42C47A8AF00241981 /* BigoADS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2214,6 +2246,8 @@
 			files = (
 				AD5A4EE72E0F331D0078AFC1 /* AdapterUnitTestKit.framework in Frameworks */,
 				AD5A4EE82E0F331D0078AFC1 /* libAdapter.a in Frameworks */,
+				70E0D7D82C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7DA2C47A8AF00241981 /* AppLovinSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2320,6 +2354,9 @@
 				CD85689F2F7B443400200808 /* libc++.tbd in Frameworks */,
 				AD6E3B142EA16BA500818296 /* libAdapter.a in Frameworks */,
 				ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */,
+				70E0D7C22C47A8AF00241981 /* GoogleMobileAds in Frameworks */,
+				70E0D7C42C47A8AF00241981 /* DTExchangeSDK in Frameworks */,
+				70E0D7C62C47A8AF00241981 /* OCMock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3305,6 +3342,11 @@
 				44ACFB1C2AB12A6500035A73 /* PBXTargetDependency */,
 			);
 			name = AppLovinAdapterTests;
+			packageProductDependencies = (
+				70E0D7D12C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7D32C47A8AF00241981 /* AppLovinSDK */,
+				70E0D7D52C47A8AF00241981 /* OCMock */,
+			);
 			productName = AppLovinAdapterTests;
 			productReference = 44ACFB122AB129D000035A73 /* AppLovinAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3413,6 +3455,11 @@
 				AD0D6E212AF56C5A002C0B60 /* PBXTargetDependency */,
 			);
 			name = ChartboostAdapterTests;
+			packageProductDependencies = (
+				70E0D7F12C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7F32C47A8AF00241981 /* ChartboostSDK */,
+				70E0D7F52C47A8AF00241981 /* OCMock */,
+			);
 			productName = ChartboostAdapterTests;
 			productReference = AD0D6E192AF56C4D002C0B60 /* ChartboostAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3549,6 +3596,10 @@
 				AD1708B02E13003100A64F30 /* PBXTargetDependency */,
 			);
 			name = ChartboostAdapterLatencyTests;
+			packageProductDependencies = (
+				70E0D7F72C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7F92C47A8AF00241981 /* ChartboostSDK */,
+			);
 			productName = ChartboostAdapterTests;
 			productReference = AD1708AD2E12FFC400A64F30 /* ChartboostAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3569,6 +3620,10 @@
 				AD170BDE2E1328D400A64F30 /* PBXTargetDependency */,
 			);
 			name = DTExchangeAdapterLatencyTests;
+			packageProductDependencies = (
+				70E0D7C72C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7C92C47A8AF00241981 /* DTExchangeSDK */,
+			);
 			productName = DTExchangeAdapterTests;
 			productReference = AD170BD82E13277700A64F30 /* DTExchangeAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3743,6 +3798,10 @@
 				AD3623B92E7B5AD700E442E6 /* PBXTargetDependency */,
 			);
 			name = BigoAdapterTests;
+			packageProductDependencies = (
+				70E0D7E12C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7E32C47A8AF00241981 /* BigoADS */,
+			);
 			productName = AmazonAdapterTests_dup;
 			productReference = AD3623CC2E7B5AD700E442E6 /* BigoAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -3788,6 +3847,10 @@
 				AD1707BA2E12F82300A64F30 /* PBXTargetDependency */,
 			);
 			name = AppLovinAdapterLatencyTests;
+			packageProductDependencies = (
+				70E0D7D72C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7D92C47A8AF00241981 /* AppLovinSDK */,
+			);
 			productName = AppLovinAdapterTests;
 			productReference = AD5A4EF12E0F331D0078AFC1 /* AppLovinAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -4006,6 +4069,11 @@
 				ADF28D682A4F7C820073F909 /* PBXTargetDependency */,
 			);
 			name = DTExchangeAdapterTests;
+			packageProductDependencies = (
+				70E0D7C12C47A8AF00241981 /* GoogleMobileAds */,
+				70E0D7C32C47A8AF00241981 /* DTExchangeSDK */,
+				70E0D7C52C47A8AF00241981 /* OCMock */,
+			);
 			productName = DTExchangeAdapterTests;
 			productReference = ADF28D5E2A4F7C6B0073F909 /* DTExchangeAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -4285,6 +4353,10 @@
 				70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */,
 				70E0D7B02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BidMachine-SPM" */,
 				70E0D7A02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AdsGlobalPackage" */,
+				70E0D7C02C47A8AF00241981 /* XCRemoteSwiftPackageReference "DTExchangeSDK-iOS-SPM" */,
+				70E0D7D02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */,
+				70E0D7E02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BigoADS-Swift-Package" */,
+				70E0D7F02C47A8AF00241981 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */,
 			);
 			productRefGroup = AD6FA0362A16BF4A007335D2 /* Products */;
 			projectDirPath = "";
@@ -5485,6 +5557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD1708B52E1300FA00A64F30 /* AUTChartboostAdapterLatencyTests.m in Sources */,
+				70E0D7FB2C47A8AF00241981 /* placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5493,6 +5566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD170BDC2E13287400A64F30 /* AUTDTExchangeAdapterLatencyTests.m in Sources */,
+				70E0D7CB2C47A8AF00241981 /* placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5587,6 +5661,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD5A4EE32E0F331D0078AFC1 /* AUTAppLovinLatencyTests.m in Sources */,
+				70E0D7DB2C47A8AF00241981 /* placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6328,6 +6403,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.AppLovinAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -6400,6 +6479,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.AppLovinAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -7139,6 +7222,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.ChartboostAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -7209,6 +7296,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.ChartboostAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -8339,6 +8430,11 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.ChartboostAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -8346,6 +8442,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 			};
@@ -8407,6 +8505,11 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.ChartboostAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -8414,6 +8517,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
@@ -8484,6 +8588,11 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.DTExchangeAdapterLatencyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -8491,6 +8600,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 			};
@@ -8553,6 +8664,11 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.DTExchangeAdapterLatencyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -8560,6 +8676,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
@@ -9738,6 +9855,11 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.BigoAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -9809,6 +9931,11 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.BigoAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -10042,6 +10169,11 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.AppLovinAdapterTests.personal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -10049,6 +10181,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 			};
@@ -10111,6 +10245,11 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.AppLovinAdapterTests.personal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -10118,6 +10257,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
@@ -11818,6 +11958,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.DTExchangeAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -11888,6 +12032,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.DTExchangeAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -13248,6 +13396,38 @@
 				minimumVersion = 4.21.0;
 			};
 		};
+		70E0D7C02C47A8AF00241981 /* XCRemoteSwiftPackageReference "DTExchangeSDK-iOS-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DigitalTurbine/DTExchangeSDK-iOS-SPM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.2;
+			};
+		};
+		70E0D7D02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppLovin/AppLovin-MAX-Swift-Package.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.7.0;
+			};
+		};
+		70E0D7E02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BigoADS-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bigo-ads/BigoADS-Swift-Package.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.2.0;
+			};
+		};
+		70E0D7F02C47A8AF00241981 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartBoost/chartboost-monetization-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.14.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -13365,6 +13545,91 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 70E0D7902C47A8AF00241981 /* XCRemoteSwiftPackageReference "Unity-Ads-Swift-Package" */;
 			productName = UnityAds;
+		};
+		70E0D7C12C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7C32C47A8AF00241981 /* DTExchangeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7C02C47A8AF00241981 /* XCRemoteSwiftPackageReference "DTExchangeSDK-iOS-SPM" */;
+			productName = DTExchangeSDK;
+		};
+		70E0D7C52C47A8AF00241981 /* OCMock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */;
+			productName = OCMock;
+		};
+		70E0D7C72C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7C92C47A8AF00241981 /* DTExchangeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7C02C47A8AF00241981 /* XCRemoteSwiftPackageReference "DTExchangeSDK-iOS-SPM" */;
+			productName = DTExchangeSDK;
+		};
+		70E0D7D12C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7D32C47A8AF00241981 /* AppLovinSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7D02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */;
+			productName = AppLovinSDK;
+		};
+		70E0D7D52C47A8AF00241981 /* OCMock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */;
+			productName = OCMock;
+		};
+		70E0D7D72C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7D92C47A8AF00241981 /* AppLovinSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7D02C47A8AF00241981 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */;
+			productName = AppLovinSDK;
+		};
+		70E0D7E12C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7E32C47A8AF00241981 /* BigoADS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7E02C47A8AF00241981 /* XCRemoteSwiftPackageReference "BigoADS-Swift-Package" */;
+			productName = BigoADS;
+		};
+		70E0D7F12C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7F32C47A8AF00241981 /* ChartboostSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7F02C47A8AF00241981 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */;
+			productName = ChartboostSDK;
+		};
+		70E0D7F52C47A8AF00241981 /* OCMock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7842C47A8AF00241981 /* XCRemoteSwiftPackageReference "ocmock" */;
+			productName = OCMock;
+		};
+		70E0D7F72C47A8AF00241981 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7782C47A8AF00241981 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		70E0D7F92C47A8AF00241981 /* ChartboostSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70E0D7F02C47A8AF00241981 /* XCRemoteSwiftPackageReference "chartboost-monetization-ios-sdk" */;
+			productName = ChartboostSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
