@@ -119,6 +119,8 @@
 		ADD347D12D2B43420019419D /* MintegralAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
 		ADD347D22D2B43420019419D /* GADMediationAdapterMintegral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; };
 		ADD347D32D2B43420019419D /* GADMAdapterMintegralExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; };
+		AD9800042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD9800032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD9800062F2ADD17003E5D77 /* MintegralAdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AD9800052F2ADD17003E5D77 /* MintegralAdSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +130,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2B60DF1527618CCE00AB5537;
 			remoteInfo = ValidateSourceCode;
+		};
+		AD9800172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9800102F2ADD17003E5D77;
+			remoteInfo = MintegralAdapterSPMDependencies;
+		};
+		AD9800192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9800102F2ADD17003E5D77;
+			remoteInfo = MintegralAdapterSPMDependencies;
+		};
+		AD98001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9800102F2ADD17003E5D77;
+			remoteInfo = MintegralAdapterSPMDependencies;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -199,6 +222,7 @@
 		AD1E88262AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRTBAppOpenAdLoader.m; sourceTree = "<group>"; };
 		AD1E88272AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRTBAppOpenAdLoader.h; sourceTree = "<group>"; };
 		AD6E39192EA1670400818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD9800132F2ADD17003E5D77 /* libMintegralAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMintegralAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BA462CF146F0009C8FDA /* libStaticMintegralAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticMintegralAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegralConstants.h; sourceTree = "<group>"; };
 		ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMintegral.m; sourceTree = "<group>"; };
@@ -227,6 +251,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD9800122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD9800042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD9800062F2ADD17003E5D77 /* MintegralAdSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +317,7 @@
 				2B338D8B26D96B0600192709 /* Public */,
 				2B338D9126D96B0600192709 /* README.md */,
 				2B338D4226D95DDF00192709 /* Products */,
+				AD98000F2F2ADD17003E5D77 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -294,8 +328,16 @@
 				AD00C4712B87D924007C85F3 /* MintegralAdapter.framework */,
 				ADA6BA462CF146F0009C8FDA /* libStaticMintegralAdapter.a */,
 				AD6E39192EA1670400818296 /* libAdapter.a */,
+				AD9800132F2ADD17003E5D77 /* libMintegralAdapterSPMDependencies.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AD98000F2F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2B338D8426D96B0600192709 /* BuildScript */ = {
@@ -443,6 +485,7 @@
 			);
 			dependencies = (
 				AD2B54E32EC7D3E000572B87 /* PBXTargetDependency */,
+				AD9800182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = MintegralAdapter;
@@ -479,10 +522,31 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD98001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = MintegralAdapter;
 			productReference = AD6E39192EA1670400818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AD9800102F2ADD17003E5D77 /* MintegralAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD9800142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "MintegralAdapterSPMDependencies" */;
+			buildPhases = (
+				AD9800112F2ADD17003E5D77 /* Sources */,
+				AD9800122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MintegralAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD9800032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD9800052F2ADD17003E5D77 /* MintegralAdSDK */,
+			);
+			productName = MintegralAdapterSPMDependencies;
+			productReference = AD9800132F2ADD17003E5D77 /* libMintegralAdapterSPMDependencies.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADA6BA202CF146F0009C8FDA /* StaticMintegralAdapter */ = {
@@ -497,6 +561,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD98001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticMintegralAdapter;
 			productName = MintegralAdapter;
@@ -535,6 +600,10 @@
 				en,
 			);
 			mainGroup = 2B338D3826D95DDF00192709;
+			packageReferences = (
+				AD9800012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				AD9800022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "MintegralAdSDK-Swift-Package" */,
+			);
 			productRefGroup = 2B338D4226D95DDF00192709 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -545,6 +614,7 @@
 				AD00C4702B87D924007C85F3 /* MintegralAdapter */,
 				ADA6BA202CF146F0009C8FDA /* StaticMintegralAdapter */,
 				AD6E38F32EA1670400818296 /* AdapterWithoutValidationScript */,
+				AD9800102F2ADD17003E5D77 /* MintegralAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -664,6 +734,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD9800112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -671,6 +748,21 @@
 			isa = PBXTargetDependency;
 			target = 2B60DF1527618CCE00AB5537 /* ValidateSourceCode */;
 			targetProxy = AD2B54E22EC7D3E000572B87 /* PBXContainerItemProxy */;
+		};
+		AD9800182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9800102F2ADD17003E5D77 /* MintegralAdapterSPMDependencies */;
+			targetProxy = AD9800172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD98001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9800102F2ADD17003E5D77 /* MintegralAdapterSPMDependencies */;
+			targetProxy = AD9800192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD98001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9800102F2ADD17003E5D77 /* MintegralAdapterSPMDependencies */;
+			targetProxy = AD98001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -728,10 +820,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -782,9 +885,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -797,17 +911,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_NAME = MintegralAdapter;
 				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
@@ -821,17 +941,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_NAME = MintegralAdapter;
 				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
@@ -953,16 +1079,63 @@
 		AD6E39172EA1670400818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		AD6E39182EA1670400818296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AD9800152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AD9800162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -974,17 +1147,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_NAME = MintegralAdapter;
 				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
@@ -998,17 +1177,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_NAME = MintegralAdapter;
 				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 10;
-				MIN_OS_MAJOR_VERSION_64_BIT = 10;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
@@ -1071,6 +1256,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AD9800142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "MintegralAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD9800152F2ADD17003E5D77 /* Debug */,
+				AD9800162F2ADD17003E5D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ADA6BA432CF146F0009C8FDA /* Build configuration list for PBXNativeTarget "StaticMintegralAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1081,6 +1275,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD9800012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD9800022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "MintegralAdSDK-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Mintegral-official/MintegralAdSDK-Swift-Package.git";
+			requirement = {
+				kind = exactVersion;
+				version = 8.1.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD9800032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9800012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD9800052F2ADD17003E5D77 /* MintegralAdSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9800022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "MintegralAdSDK-Swift-Package" */;
+			productName = MintegralAdSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2B338D3926D95DDF00192709 /* Project object */;
 }

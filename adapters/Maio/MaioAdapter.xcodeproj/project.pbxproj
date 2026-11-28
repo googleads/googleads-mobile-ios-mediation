@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -77,9 +77,32 @@
 		E2751CA32EE9649D0097EE41 /* GADMAdapterMaioBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = E2751C9F2EE9649D0097EE41 /* GADMAdapterMaioBannerAd.m */; };
 		E2751CA42EE9649D0097EE41 /* GADMAdapterMaioBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = E2751C9F2EE9649D0097EE41 /* GADMAdapterMaioBannerAd.m */; };
 		E2751CA52EE9649D0097EE41 /* GADMAdapterMaioBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = E2751C9E2EE9649D0097EE41 /* GADMAdapterMaioBannerAd.h */; };
+		AD9700042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = AD9700032F2ADD17003E5D77 /* GoogleMobileAds */; };
+		AD9700062F2ADD17003E5D77 /* MaioSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AD9700052F2ADD17003E5D77 /* MaioSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AD9700172F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9700102F2ADD17003E5D77;
+			remoteInfo = MaioAdapterSPMDependencies;
+		};
+		AD9700192F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9700102F2ADD17003E5D77;
+			remoteInfo = MaioAdapterSPMDependencies;
+		};
+		AD97001B2F2ADD17003E5D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD9700102F2ADD17003E5D77;
+			remoteInfo = MaioAdapterSPMDependencies;
+		};
 		ADA6B9E92CF146D9009C8FDA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
@@ -140,6 +163,7 @@
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD00C4592B87D3FC007C85F3 /* MaioAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MaioAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E39352EA1670F00818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD9700132F2ADD17003E5D77 /* libMaioAdapterSPMDependencies.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMaioAdapterSPMDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA1B0922B2BC4ED00CA4FC8 /* GADMAdapterMaioInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMaioInterstitialAd.h; sourceTree = "<group>"; };
 		ADA1B0932B2BC52E00CA4FC8 /* GADMAdapterMaioInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMaioInterstitialAd.m; sourceTree = "<group>"; };
 		ADA6BA022CF146D9009C8FDA /* libStaticMaioAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticMaioAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +195,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD9700122F2ADD17003E5D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD9700042F2ADD17003E5D77 /* GoogleMobileAds in Frameworks */,
+				AD9700062F2ADD17003E5D77 /* MaioSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +305,7 @@
 				AD00C4592B87D3FC007C85F3 /* MaioAdapter.framework */,
 				ADA6BA022CF146D9009C8FDA /* libStaticMaioAdapter.a */,
 				AD6E39352EA1670F00818296 /* libAdapter.a */,
+				AD9700132F2ADD17003E5D77 /* libMaioAdapterSPMDependencies.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -346,6 +380,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD9700182F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -382,10 +417,31 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD97001A2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
 			productReference = AD6E39352EA1670F00818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AD9700102F2ADD17003E5D77 /* MaioAdapterSPMDependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD9700142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "MaioAdapterSPMDependencies" */;
+			buildPhases = (
+				AD9700112F2ADD17003E5D77 /* Sources */,
+				AD9700122F2ADD17003E5D77 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MaioAdapterSPMDependencies;
+			packageProductDependencies = (
+				AD9700032F2ADD17003E5D77 /* GoogleMobileAds */,
+				AD9700052F2ADD17003E5D77 /* MaioSDK */,
+			);
+			productName = MaioAdapterSPMDependencies;
+			productReference = AD9700132F2ADD17003E5D77 /* libMaioAdapterSPMDependencies.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADA6B9E72CF146D9009C8FDA /* StaticMaioAdapter */ = {
@@ -401,6 +457,7 @@
 			);
 			dependencies = (
 				ADA6B9E82CF146D9009C8FDA /* PBXTargetDependency */,
+				AD97001C2F2ADD17003E5D77 /* PBXTargetDependency */,
 			);
 			name = StaticMaioAdapter;
 			productName = Adapter;
@@ -437,6 +494,10 @@
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
+			packageReferences = (
+				AD9700012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				AD9700022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "MaioSDK-v2-iOS" */,
+			);
 			productRefGroup = 7DFABB1E1DA8682C00322E02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -447,6 +508,7 @@
 				AD00C4582B87D3FC007C85F3 /* MaioAdapter */,
 				ADA6B9E72CF146D9009C8FDA /* StaticMaioAdapter */,
 				AD6E391A2EA1670F00818296 /* AdapterWithoutValidationScript */,
+				AD9700102F2ADD17003E5D77 /* MaioAdapterSPMDependencies */,
 			);
 		};
 /* End PBXProject section */
@@ -542,9 +604,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD9700112F2ADD17003E5D77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AD9700182F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9700102F2ADD17003E5D77 /* MaioAdapterSPMDependencies */;
+			targetProxy = AD9700172F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD97001A2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9700102F2ADD17003E5D77 /* MaioAdapterSPMDependencies */;
+			targetProxy = AD9700192F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
+		AD97001C2F2ADD17003E5D77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD9700102F2ADD17003E5D77 /* MaioAdapterSPMDependencies */;
+			targetProxy = AD97001B2F2ADD17003E5D77 /* PBXContainerItemProxy */;
+		};
 		ADA6B9E82CF146D9009C8FDA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00DD266C22F10B0D0039C1D4 /* ValidateSourceCode */;
@@ -618,7 +702,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -655,7 +751,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -663,7 +770,14 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -671,7 +785,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -792,8 +913,15 @@
 		AD6E39332EA1670F00818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -801,24 +929,78 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AD9700152F2ADD17003E5D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AD9700162F2ADD17003E5D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		ADA6BA002CF146D9009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		ADA6BA012CF146D9009C8FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -879,6 +1061,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		AD9700142F2ADD17003E5D77 /* Build configuration list for PBXNativeTarget "MaioAdapterSPMDependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD9700152F2ADD17003E5D77 /* Debug */,
+				AD9700162F2ADD17003E5D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ADA6B9FF2CF146D9009C8FDA /* Build configuration list for PBXNativeTarget "StaticMaioAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -889,6 +1080,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD9700012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.3.0;
+			};
+		};
+		AD9700022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "MaioSDK-v2-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/imobile/MaioSDK-v2-iOS.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD9700032F2ADD17003E5D77 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9700012F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		AD9700052F2ADD17003E5D77 /* MaioSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD9700022F2ADD17003E5D77 /* XCRemoteSwiftPackageReference "MaioSDK-v2-iOS" */;
+			productName = MaioSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7DFABB151DA8682C00322E02 /* Project object */;
 }
