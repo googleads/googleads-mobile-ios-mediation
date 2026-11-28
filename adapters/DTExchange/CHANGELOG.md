@@ -1,5 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the DT Exchange iOS SDK Swift Package Manager repository URL to `https://github.com/DigitalTurbine/DTExchangeSDK-iOS-SPM.git`.
+
 #### [Version 8.5.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.5.2.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.5.2.
 
